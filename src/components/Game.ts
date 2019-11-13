@@ -1,0 +1,103 @@
+// import { Howl } from '../node_modules/howler/dist/howler.min.js'
+import { Template } from '../../lib/Types'
+import Component from '../../lib/Component'
+import Coordinates from '../../lib/helpers/Coordinates'
+import PropsContext from '../../lib/PropsContext'
+
+import Background from './Background'
+import Character from './Character'
+import CharacterStore from '../store/CharacterStore'
+import Grid from './Grid'
+import GridStore from '../store/GridStore'
+import menuSoundtrack from '../assets/soundtrack/menu.mp3'
+import ScoreCounter from './ScoreCounter'
+import ScoreStore from '../store/ScoreStore'
+import ScreensStore, { Screens } from '../store/ScreensStore'
+import StartScreen from '../screens/StartScreen'
+import GameScreen from '../screens/GameScreen'
+import GameOverScreen from '../screens/GameOverScreen'
+import HelpScreen from '../screens/HelpScreen'
+
+
+declare const Howl: Howl
+
+class Game extends Component<{}> {
+   activeScreen: Screens
+
+   protected onInit(): void {
+      new Howl({
+         src: [menuSoundtrack],
+         autoplay: true,
+         loop: true
+      })
+   }
+
+   constructor() {
+      super()
+
+      this.activeScreen = Screens.Start
+
+      const characterStore = new CharacterStore()
+      this.registerStore(characterStore)
+
+      const gridStore = new GridStore()
+      this.registerStore(gridStore)
+
+      const scoreStore = new ScoreStore()
+      this.registerStore(scoreStore)
+
+      const screensStore = new ScreensStore()
+      this.registerStore(screensStore)
+   }
+
+   protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
+      const screensStore = this.stores.screens as ScreensStore
+      this.activeScreen = screensStore.content.active
+
+      const gridStore = this.stores.grid as GridStore
+
+      const scoreStore = this.stores.score as ScoreStore
+      if(gridStore.friendlyPlants === 0) {
+         fetch('https://garden-defense.firebaseio.com/highscores.json', {
+            method: 'POST',
+            body: JSON.stringify({
+               score: scoreStore.content.score,
+            }),
+         })
+
+         gridStore.reset()
+
+         screensStore.setScreen(Screens.GameOver)
+      }
+   }
+
+   template: Template = [
+      {
+         component: new Background(),
+         position: (): Coordinates => new Coordinates(0, 0),
+      },
+      {
+         component: new GameScreen(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         show: (): boolean => this.activeScreen === Screens.Game
+      },
+      {
+         component: new StartScreen(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         show: (): boolean => this.activeScreen === Screens.Start
+      },
+      {
+         component: new GameOverScreen(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         show: (): boolean => this.activeScreen === Screens.GameOver
+      },
+      {
+         component: new HelpScreen(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         show: (): boolean => this.activeScreen === Screens.Help
+      },
+   ]
+}
+
+
+export default Game

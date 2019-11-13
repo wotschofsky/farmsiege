@@ -1,0 +1,49 @@
+{
+   "name": "garden-defense",
+   "version": "1.0.0",
+   "description": "A browser score-chaser about defending your garden",
+   "main": "index.js",
+   "author": "Felix Wotschofsky <hello@felisk.io>",
+   "license": "MIT",
+   "scripts": {
+      "dev": "rollup --config --watch",
+      "build": "rm -rf dist/ && rollup --config --environment PRODUCTION",
+      "lint": "eslint **/*.ts"
+   },
+   "dependencies": {
+      "@types/core-js": "^2.5.2",
+      "@types/defaults": "^1.0.2",
+      "@types/eases": "^1.0.0",
+      "@types/howler": "2.1.0",
+      "@types/js-cookie": "^2.2.4",
+      "@types/lodash": "^4.14.144",
+      "core-js": "^3.3.5",
+      "defaults": "^1.0.3",
+      "eases": "^1.0.8",
+      "howler": "2.1.0",
+      "js-cookie": "^2.2.1",
+      "lodash": "^4.17.15",
+      "rollup-plugin-babel": "^4.3.3",
+      "rollup-plugin-commonjs": "^10.1.0"
+   },
+   "devDependencies": {
+      "@babel/core": "^7.6.4",
+      "@babel/preset-env": "^7.6.3",
+      "@typescript-eslint/eslint-plugin": "^2.5.0",
+      "@typescript-eslint/parser": "^2.5.0",
+      "babel-plugin-lodash": "^3.3.4",
+      "rollup": "^1.24.0",
+      "rollup-plugin-eslint": "^7.0.0",
+      "rollup-plugin-generate-html-template": "^1.5.0",
+      "rollup-plugin-img": "^1.1.0",
+      "rollup-plugin-livereload": "^1.0.4",
+      "rollup-plugin-node-resolve": "^5.2.0",
+      "rollup-plugin-serve": "^1.0.1",
+      "rollup-plugin-terser": "^5.1.2",
+      "rollup-plugin-typescript": "^1.0.1",
+      "rollup-plugin-typescript2": "^0.24.3",
+      "rollup-plugin-url": "^3.0.0",
+      "rollup-plugin-visualizer": "^2.6.0",
+      "typescript": "^3.6.4"
+   }
+}

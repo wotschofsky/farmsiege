@@ -1,0 +1,1 @@
+"native" Components sind Komponenten, die nicht aus anderen Komponenten bestehen sondern die Pixel mithilfe von Canvas-Methoden zeichnen

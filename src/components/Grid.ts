@@ -1,0 +1,68 @@
+import { Template } from '../../lib/Types'
+import Component from '../../lib/Component'
+import GridRow from './GridRow'
+import Coordinates from '../../lib/helpers/Coordinates'
+
+
+export type GridProps = {}
+
+export default class Grid extends Component<GridProps> {
+   template: Template = [
+      {
+         component: new GridRow(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         props: () => ({
+            index: 0
+         })
+      },
+      {
+         component: new GridRow(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         props: () => ({
+            index: 1
+         })
+      },
+      {
+         component: new GridRow(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         props: () => ({
+            index: 2
+         })
+      },
+      {
+         component: new GridRow(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         props: () => ({
+            index: 3
+         })
+      },
+      {
+         component: new GridRow(),
+         position: () => new Coordinates(0, 0),
+         props: () => ({
+            index: 4
+         })
+      },
+      {
+         component: new GridRow(),
+         position: () => new Coordinates(0, 0),
+         props: () => ({
+            index: 5
+         })
+      },
+      {
+         component: new GridRow(),
+         position: () => new Coordinates(0, 0),
+         props: () => ({
+            index: 6
+         })
+      },
+      {
+         component: new GridRow(),
+         position: () => new Coordinates(0, 0),
+         props: () => ({
+            index: 7
+         })
+      },
+   ]
+}

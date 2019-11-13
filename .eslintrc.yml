@@ -1,0 +1,23 @@
+env:
+  browser: true
+  es6: true
+parser: '@typescript-eslint/parser'
+extends:
+    - eslint:recommended
+    - plugin:@typescript-eslint/recommended
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+rules:
+  indent:
+    - error
+    - 3
+  linebreak-style:
+    - error
+    - windows
+  quotes:
+    - error
+    - single
+  semi:
+    - error
+    - never
