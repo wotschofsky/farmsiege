@@ -12,7 +12,16 @@ type TileData = {
 
 type RowData = [TileData, TileData, TileData, TileData, TileData, TileData, TileData, TileData]
 
-type GridStoreContent = [RowData, RowData, RowData, RowData, RowData, RowData, RowData, RowData]
+export type GridStoreContent = [
+   RowData,
+   RowData,
+   RowData,
+   RowData,
+   RowData,
+   RowData,
+   RowData,
+   RowData
+]
 
 const initialTile: TileData = {
    type: TileContents.Empty,

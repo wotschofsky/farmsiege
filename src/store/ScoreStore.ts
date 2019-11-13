@@ -2,7 +2,7 @@ import cloneDeep from 'lodash/cloneDeep'
 import Store from '../../lib/store/Store'
 
 
-type ScoreStoreContent = {
+export type ScoreStoreContent = {
    score: number
 }
 

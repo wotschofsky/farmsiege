@@ -4,7 +4,7 @@ import { Directions } from '../../lib/Enums'
 
 // Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
 
-type CharacterStoreContent = {
+export type CharacterStoreContent = {
    posX: number,
    posY: number,
    direction: Directions,
