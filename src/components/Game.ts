@@ -17,6 +17,7 @@ import StartScreen from '../screens/StartScreen'
 import GameScreen from '../screens/GameScreen'
 import GameOverScreen from '../screens/GameOverScreen'
 import HelpScreen from '../screens/HelpScreen'
+import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
 
 
 declare const Howl: Howl
@@ -25,10 +26,19 @@ class Game extends Component<{}> {
    activeScreen: Screens
 
    protected onInit(): void {
-      new Howl({
+
+      const settingsStore = new SettingsStore()
+      this.registerStore(settingsStore)
+
+      const musicPlayer = new Howl({
          src: [menuSoundtrack],
          autoplay: true,
-         loop: true
+         loop: true,
+         volume: settingsStore.content.music ? 0.8 : 0
+      })
+
+      settingsStore.subscribe((state: SettingsStoreContent) => {
+         musicPlayer.volume(state.music ? 0.8 : 0)
       })
    }
 
@@ -48,6 +58,9 @@ class Game extends Component<{}> {
 
       const screensStore = new ScreensStore()
       this.registerStore(screensStore)
+
+      const settingsStore = new SettingsStore()
+      this.registerStore(settingsStore)
    }
 
    protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
