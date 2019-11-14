@@ -14,6 +14,7 @@ export default class EventListener extends Component<EventListenerProps> {
    private clickListener: (position: Coordinates) => void | null
    private componentPosition: Coordinates
    private componentSize: Dimensions
+   private renderContext: RenderingContext
 
    constructor() {
       super()
@@ -23,10 +24,10 @@ export default class EventListener extends Component<EventListenerProps> {
 
    public propagateEvent(type: EventTypes, position: Coordinates): void {
       if(
-         position.x < this.componentPosition.x + this.componentSize.width &&
-         position.y < this.componentPosition.y + this.componentSize.height &&
-         position.x > this.componentPosition.x &&
-         position.y > this.componentPosition.y
+         position.x < this.componentPosition.x + this.componentSize.width + this.renderContext.parentX &&
+         position.y < this.componentPosition.y + this.componentSize.height + this.renderContext.parentY &&
+         position.x > this.componentPosition.x + this.renderContext.parentX &&
+         position.y > this.componentPosition.y + this.renderContext.parentY
       ) {
          if(type === EventTypes.Click && this.clickListener) {
             this.clickListener(position)
@@ -38,5 +39,6 @@ export default class EventListener extends Component<EventListenerProps> {
       this.clickListener = props.onClick || null
       this.componentPosition = position
       this.componentSize = props.size
+      this.renderContext = context
    }
 }
