@@ -6,7 +6,7 @@ import Text, { TextProps } from '../../lib/components/native/Text'
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener'
 import Dimensions from '../../lib/helpers/Dimensions'
 import ScreensStore from '../store/ScreensStore'
-import Sprite from '../../lib/components/native/Sprite'
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 import backButtonSprite from '../assets/ui/retry.png'
 
@@ -90,7 +90,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(650, 900),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: backButtonSprite,
             width: 300,
             height: 200,

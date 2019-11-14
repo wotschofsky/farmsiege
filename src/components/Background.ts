@@ -1,8 +1,8 @@
-import Component from '../../lib/Component'
-import Sprite from '../../lib/components/native/Sprite'
 import { Template } from '../../lib/Types'
+import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
-import Pattern from '../../lib/components/native/Pattern'
+import Pattern, { PatternProps } from '../../lib/components/native/Pattern'
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 import tree1 from '../assets/trees/tree_1.png'
 import tree2 from '../assets/trees/tree_2.png'
@@ -19,7 +19,7 @@ export default class Background extends Component<BackgroundProps> {
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: sky,
             width: 1600,
             height: 800,
@@ -28,7 +28,7 @@ export default class Background extends Component<BackgroundProps> {
       {
          component: new Pattern(),
          position: (): Coordinates => new Coordinates(0, 176),
-         props: () => ({
+         props: (): PatternProps => ({
             source: grass,
             width: 1600,
             height: 1024,
@@ -41,7 +41,7 @@ export default class Background extends Component<BackgroundProps> {
             20,
             40,
          ),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: tree1,
             width: 300,
             height: 300,
@@ -53,7 +53,7 @@ export default class Background extends Component<BackgroundProps> {
             420,
             40,
          ),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: tree2,
             width: 300,
             height: 300,
@@ -65,7 +65,7 @@ export default class Background extends Component<BackgroundProps> {
             820,
             40,
          ),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: tree3,
             width: 100,
             height: 100,

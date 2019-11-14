@@ -139,6 +139,7 @@ export default class GridStore extends Store<GridStoreContent> {
             clonedState[row][col].type = TileContents.Mole
             clonedState[molePosition.y][molePosition.x].type = TileContents.Molehill
          }
+
          return clonedState
       })
 
@@ -223,6 +224,7 @@ export default class GridStore extends Store<GridStoreContent> {
       }, Math.random() * 4000 + 1000)
    }
 
+   // Gibt ein Array mit allen Feldern zurück
    private get allTiles(): TileData[] {
       let result: TileData[] = []
       this.content.forEach((row) => {
@@ -231,6 +233,7 @@ export default class GridStore extends Store<GridStoreContent> {
       return cloneDeep(result)
    }
 
+   // Gibt die Anzahl der selbst platzierten Pflanzen an
    public get friendlyPlants(): number {
       let amount = 0
       this.allTiles.forEach((tile) => {

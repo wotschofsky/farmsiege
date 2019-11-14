@@ -5,7 +5,7 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import Dimensions from '../../lib/helpers/Dimensions'
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener'
-import Sprite from '../../lib/components/native/Sprite'
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
@@ -56,7 +56,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(444, 150),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: logo,
             width: 712,
             height: 296,
@@ -65,7 +65,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       {
          component: new EventListener(),
          position: (): Coordinates => new Coordinates(650, 500),
-         props: () => ({
+         props: (): EventListenerProps => ({
             size: new Dimensions(300, 200),
             onClick: this.startGame,
          })
@@ -73,7 +73,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(650, 500),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: playButtonSprite,
             width: 300,
             height: 200,
@@ -82,7 +82,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       {
          component: new EventListener(),
          position: (): Coordinates => new Coordinates(650, 700),
-         props: () => ({
+         props: (): EventListenerProps => ({
             size: new Dimensions(300, 200),
             onClick: this.showHelp,
          })
@@ -90,7 +90,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(650, 700),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: helpButtonSprite,
             width: 300,
             height: 200,

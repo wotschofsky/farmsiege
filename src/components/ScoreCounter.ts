@@ -1,7 +1,7 @@
 import { Template } from '../../lib/Types'
 import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
-import Rectangle from '../../lib/components/native/Rectangle'
+import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
 import Text, { TextProps } from '../../lib/components/native/Text'
 import ScoreStore from '../store/ScoreStore'
 
@@ -12,6 +12,7 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
    score = 0
 
    protected onTick() {
+      // Score aus ScoreStore übertragen
       const scoreStore = this.stores.score as ScoreStore
       this.score = scoreStore.content.score
    }
@@ -20,7 +21,7 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
       {
          component: new Rectangle(),
          position: (): Coordinates => new Coordinates(-50, 0),
-         props: () =>({
+         props: (): RectangleProps =>({
             width: 100,
             height: 50,
             color: 'rgba(0, 0, 0, 0.5)',

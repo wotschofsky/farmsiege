@@ -1,6 +1,6 @@
 import Component from '../../lib/Component'
 import { Template } from '../../lib/Types'
-import Sprite from '../../lib/components/native/Sprite'
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 import PropsContext from '../../lib/PropsContext'
 import Coordinates from '../../lib/helpers/Coordinates'
 
@@ -29,7 +29,7 @@ export default class Clouds extends Component<CloudProps> {
             this.pos3,
             10,
          ),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: cloud3,
             width: 435,
             height: 140,
@@ -41,7 +41,7 @@ export default class Clouds extends Component<CloudProps> {
             this.pos1,
             80,
          ),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: cloud1,
             width: 610 / 1.5,
             height: 300 / 1.5,
@@ -53,7 +53,7 @@ export default class Clouds extends Component<CloudProps> {
             this.pos2,
             70,
          ),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: cloud2,
             width: 580 / 1.5,
             height: 290 / 1.5,

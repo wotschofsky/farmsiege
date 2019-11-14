@@ -6,12 +6,12 @@ import EventListener, { EventListenerProps } from '../../lib/components/logical/
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 import CharacterStore from '../store/CharacterStore'
+import Dialog, { DialogProps } from '../components/Dialog'
 import GridStore from '../store/GridStore'
 import logo from '../assets/logo.png'
 import retryButtonSprite from '../assets/ui/retry.png'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
-import Dialog, { DialogProps } from '../components/Dialog'
 import Text, { TextProps } from '../../lib/components/native/Text'
 
 
@@ -32,11 +32,13 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       scoreStore.reset()
    }
 
+   // https://garden-defense.firebaseio.com/highscores.json?orderBy=%22score%22&limitToLast=10
+
    template: Template = [
       // {
       //    component: new Sprite(),
       //    position: (): Coordinates => new Coordinates(444, 150),
-      //    props: () => ({
+      //    props: (): SpriteProps => ({
       //       source: logo,
       //       width: 712,
       //       height: 296,

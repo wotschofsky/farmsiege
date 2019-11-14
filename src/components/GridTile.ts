@@ -4,21 +4,21 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import PropsContext from '../../lib/PropsContext'
 import Rectangle from '../../lib/components/native/Rectangle'
-import Sprite from '../../lib/components/native/Sprite'
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
 import TileContents from '../TileContents'
 
 import grass from '../assets/grass.png'
+import lightning from '../assets/lightning.png'
+import mole from '../assets/mole.png'
+import molehill from '../assets/molehill.png'
 import tomato0 from '../assets/plants/tomato_0.png'
 import tomato1 from '../assets/plants/tomato_1.png'
 import tomato2 from '../assets/plants/tomato_2.png'
 import tomato3 from '../assets/plants/tomato_3.png'
 import weed from '../assets/plants/weed.png'
-import molehill from '../assets/molehill.png'
-import mole from '../assets/mole.png'
-import lightning from '../assets/lightning.png'
 
 
 export type GridTileProps = {
@@ -44,7 +44,7 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.row * this.tileSize,
             ctx.props.column * this.tileSize,
          ),
-         props: () => ({
+         props: (): SpriteProps => ({
             source: grass,
             width: this.tileSize,
             height: this.tileSize
@@ -71,7 +71,7 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.row * this.tileSize,
             ctx.props.column * this.tileSize,
          ),
-         props: () => {
+         props: (): SpriteProps => {
             let child
             switch(this.content) {
                case(TileContents.Mole):
@@ -95,9 +95,7 @@ export default class GridTile extends Component<GridTileProps> {
             }
 
             return {
-               // source: this.content === 'plant' ? tomato : null,
                source: child,
-               // source: tomato,
                width: this.tileSize,
                height: this.tileSize
             }
@@ -126,13 +124,13 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.column * this.tileSize,
          ),
          props: (ctx: PropsContext<GridTileProps>) => {
-            // const isActive = (ctx.props.row + ctx.props.column) % 2 === 1
             const characterStore = this.stores.character as CharacterStore
 
             let isActive = false
             if(ctx.props.row == characterStore.content.fieldX && ctx.props.column == characterStore.content.fieldY) {
                isActive = true
             }
+
             return {
                width: this.tileSize,
                height: this.tileSize,
