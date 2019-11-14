@@ -1,10 +1,9 @@
-import Component from '../../lib/Component'
 import { Template } from '../../lib/Types'
-import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener'
+import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import Dimensions from '../../lib/helpers/Dimensions'
+import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener'
 import SettingsStore from '../store/SettingsStore'
-
 
 export type MuteButtonProps = {}
 
