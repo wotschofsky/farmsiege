@@ -14,6 +14,7 @@ import GameScreen from '../screens/GameScreen'
 import GameOverScreen from '../screens/GameOverScreen'
 import HelpScreen from '../screens/HelpScreen'
 import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
+import MuteButton from './MuteButton'
 
 
 declare const Howl: Howl
@@ -105,6 +106,10 @@ class Game extends Component<{}> {
          position: (): Coordinates => new Coordinates(0, 0),
          show: (): boolean => this.activeScreen === Screens.Help
       },
+      {
+         component: new MuteButton(),
+         position: (): Coordinates => new Coordinates(10, 10),
+      }
    ]
 }
 

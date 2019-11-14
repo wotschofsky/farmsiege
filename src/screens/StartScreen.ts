@@ -14,7 +14,6 @@ import ScreensStore, { Screens } from '../store/ScreensStore'
 import logo from '../assets/logo.png'
 import playButtonSprite from '../assets/ui/play.png'
 import helpButtonSprite from '../assets/ui/help.png'
-import SettingsStore from '../store/SettingsStore'
 
 
 export type StartScreenProps = {}
@@ -45,11 +44,6 @@ export default class StartScreen extends Component<StartScreenProps> {
       const screensStore = this.stores.screens as ScreensStore
       screensStore.setScreen(Screens.Help)
       screensStore.setReturnScreen(Screens.Start)
-   }
-
-   private toggleMusic(): void {
-      const settingsStore = this.stores.settings as SettingsStore
-      settingsStore.toggleMusic()
    }
 
    template: Template = [
@@ -96,14 +90,5 @@ export default class StartScreen extends Component<StartScreenProps> {
             height: 200,
          }),
       },
-
-      {
-         component: new EventListener(),
-         position: (): Coordinates => new Coordinates(10, 10),
-         props: (): EventListenerProps => ({
-            size: new Dimensions(20, 20),
-            onClick: this.toggleMusic
-         })
-      }
    ]
 }
