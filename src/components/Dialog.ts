@@ -24,11 +24,11 @@ export default class Dialog extends Component<DialogProps> {
    template: Template = [
       {
          component: new Sprite(),
-         position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(
+         position: (): Coordinates => new Coordinates(
             0,
             0,
          ),
-         props: (ctx: PropsContext<DialogProps>): SpriteProps => ({
+         props: (): SpriteProps => ({
             source: spriteCornerTopLeft,
             width: 16,
             height: 16,
@@ -36,7 +36,7 @@ export default class Dialog extends Component<DialogProps> {
       },
       {
          component: new Sprite(),
-         position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(
+         position: (): Coordinates => new Coordinates(
             16,
             0,
          ),
@@ -52,7 +52,7 @@ export default class Dialog extends Component<DialogProps> {
             ctx.props.width - 16,
             0,
          ),
-         props: (ctx: PropsContext<DialogProps>): SpriteProps => ({
+         props: (): SpriteProps => ({
             source: spriteCornerTopRight,
             width: 16,
             height: 16,
@@ -60,7 +60,7 @@ export default class Dialog extends Component<DialogProps> {
       },
       {
          component: new Sprite(),
-         position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(
+         position: (): Coordinates => new Coordinates(
             0,
             16,
          ),
@@ -88,7 +88,7 @@ export default class Dialog extends Component<DialogProps> {
             0,
             ctx.props.height - 16,
          ),
-         props: (ctx: PropsContext<DialogProps>): SpriteProps => ({
+         props: (): SpriteProps => ({
             source: spriteCornerBottomLeft,
             width: 16,
             height: 16,
@@ -112,7 +112,7 @@ export default class Dialog extends Component<DialogProps> {
             ctx.props.width - 16,
             ctx.props.height - 16,
          ),
-         props: (ctx: PropsContext<DialogProps>): SpriteProps => ({
+         props: (): SpriteProps => ({
             source: spriteCornerBottomRight,
             width: 16,
             height: 16,
@@ -120,7 +120,7 @@ export default class Dialog extends Component<DialogProps> {
       },
       {
          component: new Sprite(),
-         position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(
+         position: (): Coordinates => new Coordinates(
             16,
             16,
          ),

@@ -11,7 +11,7 @@ export type ScoreCounterProps = {}
 export default class ScoreCounter extends Component<ScoreCounterProps> {
    score = 0
 
-   protected onTick() {
+   protected onTick(): void {
       // Score aus ScoreStore übertragen
       const scoreStore = this.stores.score as ScoreStore
       this.score = scoreStore.content.score

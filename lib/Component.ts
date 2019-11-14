@@ -52,14 +52,14 @@ export default class Component<P> {
    //    this._state = value
    // }
 
-   public registerStore(store: Store<any>) {
+   public registerStore(store: Store<any>): void {
       this._stores[store.name] = store
       this._template.forEach((el) => {
          el.component.registerStore(store)
       })
    }
 
-   public propagateEvent(type: EventTypes, position: Coordinates) {
+   public propagateEvent(type: EventTypes, position: Coordinates): void {
       this._template.forEach((el) => {
          if(typeof(el.show) === 'function' && !el.show()) return
          el.component.propagateEvent(type, position)

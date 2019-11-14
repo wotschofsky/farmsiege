@@ -8,7 +8,6 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 import CharacterStore from '../store/CharacterStore'
 import Dialog, { DialogProps } from '../components/Dialog'
 import GridStore from '../store/GridStore'
-import logo from '../assets/logo.png'
 import retryButtonSprite from '../assets/ui/retry.png'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
@@ -35,15 +34,6 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
    // https://garden-defense.firebaseio.com/highscores.json?orderBy=%22score%22&limitToLast=10
 
    template: Template = [
-      // {
-      //    component: new Sprite(),
-      //    position: (): Coordinates => new Coordinates(444, 150),
-      //    props: (): SpriteProps => ({
-      //       source: logo,
-      //       width: 712,
-      //       height: 296,
-      //    }),
-      // },
       {
          component: new Dialog(),
          position: (): Coordinates => new Coordinates(500, 400),

@@ -1,4 +1,4 @@
-export default enum GamepadButtons {
+enum GamepadButtons {
    buttonA = 'gamepad.buttons.0',
    buttonB = 'gamepad.buttons.1',
    buttonX = 'gamepad.buttons.2',
@@ -25,3 +25,6 @@ export default enum GamepadButtons {
    stickRightUp = 'gamepad.axes.3',
    stickRightDown = 'gamepad.axes.3'
 }
+
+
+export default GamepadButtons

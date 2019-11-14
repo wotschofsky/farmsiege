@@ -3,7 +3,7 @@ import AnimatedSprite, { AnimatedSpriteProps } from '../../lib/components/native
 import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import PropsContext from '../../lib/PropsContext'
-import Rectangle from '../../lib/components/native/Rectangle'
+import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 import CharacterStore from '../store/CharacterStore'
@@ -56,7 +56,7 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.row * this.tileSize,
             ctx.props.column * this.tileSize,
          ),
-         props: (ctx: PropsContext<GridTileProps>) => {
+         props: (ctx: PropsContext<GridTileProps>): RectangleProps => {
             const isDark = (ctx.props.row + ctx.props.column) % 2 === 1
             return {
                width: this.tileSize,
@@ -123,7 +123,7 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.row * this.tileSize,
             ctx.props.column * this.tileSize,
          ),
-         props: (ctx: PropsContext<GridTileProps>) => {
+         props: (ctx: PropsContext<GridTileProps>): RectangleProps => {
             const characterStore = this.stores.character as CharacterStore
 
             let isActive = false

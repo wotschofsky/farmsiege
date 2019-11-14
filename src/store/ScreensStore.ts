@@ -21,14 +21,14 @@ export default class ScreensStore extends Store<ScreensStoreContent> {
       })
    }
 
-   public setScreen(newScreen: Screens) {
+   public setScreen(newScreen: Screens): void {
       this.update((oldState: ScreensStoreContent) => ({
          ...oldState,
          active: newScreen,
       }))
    }
 
-   public setReturnScreen(newScreen: Screens | null) {
+   public setReturnScreen(newScreen: Screens | null): void {
       this.update((oldState: ScreensStoreContent) => ({
          ...oldState,
          returnScreen: newScreen,

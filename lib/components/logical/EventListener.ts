@@ -18,10 +18,10 @@ export default class EventListener extends Component<EventListenerProps> {
    constructor() {
       super()
 
-      this.clickListener = () => {}
+      this.clickListener = (): void => {}
    }
 
-   public propagateEvent(type: EventTypes, position: Coordinates) {
+   public propagateEvent(type: EventTypes, position: Coordinates): void {
       if(
          position.x < this.componentPosition.x + this.componentSize.width &&
          position.y < this.componentPosition.y + this.componentSize.height &&

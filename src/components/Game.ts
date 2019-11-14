@@ -2,15 +2,11 @@
 import { Template } from '../../lib/Types'
 import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
-import PropsContext from '../../lib/PropsContext'
 
 import Background from './Background'
-import Character from './Character'
 import CharacterStore from '../store/CharacterStore'
-import Grid from './Grid'
 import GridStore from '../store/GridStore'
 import menuSoundtrack from '../assets/soundtrack/menu.mp3'
-import ScoreCounter from './ScoreCounter'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
 import StartScreen from '../screens/StartScreen'
@@ -63,7 +59,7 @@ class Game extends Component<{}> {
       this.registerStore(settingsStore)
    }
 
-   protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
+   protected onTick(): void {
       const screensStore = this.stores.screens as ScreensStore
       this.activeScreen = screensStore.content.active
 

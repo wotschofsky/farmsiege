@@ -38,28 +38,28 @@ export default class Grid extends Component<GridProps> {
       },
       {
          component: new GridRow(),
-         position: () => new Coordinates(0, 0),
+         position: (): Coordinates => new Coordinates(0, 0),
          props: (): GridRowProps => ({
             index: 4
          })
       },
       {
          component: new GridRow(),
-         position: () => new Coordinates(0, 0),
+         position: (): Coordinates => new Coordinates(0, 0),
          props: (): GridRowProps => ({
             index: 5
          })
       },
       {
          component: new GridRow(),
-         position: () => new Coordinates(0, 0),
+         position: (): Coordinates => new Coordinates(0, 0),
          props: (): GridRowProps => ({
             index: 6
          })
       },
       {
          component: new GridRow(),
-         position: () => new Coordinates(0, 0),
+         position: (): Coordinates => new Coordinates(0, 0),
          props: (): GridRowProps => ({
             index: 7
          })

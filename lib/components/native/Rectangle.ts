@@ -1,6 +1,6 @@
-import RenderingContext from '../../RenderingContext';
+import RenderingContext from '../../RenderingContext'
 import Component from '../../Component'
-import Coordinates from '../../helpers/Coordinates';
+import Coordinates from '../../helpers/Coordinates'
 
 
 export type RectangleProps = {
@@ -14,7 +14,7 @@ export type RectangleProps = {
 export default class Rectangle extends Component<RectangleProps> {
    public render(context: RenderingContext, position: Coordinates, props: RectangleProps): void {
       context.renderContext.beginPath()
-      context.renderContext.fillStyle = props.color;
+      context.renderContext.fillStyle = props.color
       context.renderContext.rect(
          (position.x + context.parentX) * context.scaleFactor,
          (position.y + context.parentY) * context.scaleFactor,

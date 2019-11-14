@@ -1,6 +1,6 @@
 import Component from '../../lib/Component'
 import { Template } from '../../lib/Types'
-import GridTile from './GridTile'
+import GridTile, { GridTileProps } from './GridTile'
 import PropsContext from '../../lib/PropsContext'
 import Coordinates from '../../lib/helpers/Coordinates'
 
@@ -14,7 +14,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 0
          })
@@ -22,7 +22,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 1
          })
@@ -30,7 +30,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 2
          })
@@ -38,7 +38,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 3
          })
@@ -46,7 +46,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 4
          })
@@ -54,7 +54,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 5
          })
@@ -62,7 +62,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 6
          })
@@ -70,7 +70,7 @@ export default class GridRow extends Component<GridRowProps> {
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),
-         props: (ctx: PropsContext<GridRowProps>) => ({
+         props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
             row: ctx.props.index,
             column: 7
          })

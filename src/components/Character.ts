@@ -24,7 +24,7 @@ export default class Character extends Component<CharacterProps> {
 
    private hasMoved = false
 
-   protected onInit() {
+   protected onInit(): void {
       this.inputMap = new InputMap({
          up: ['KeyW', 'ArrowUp'],
          left: ['KeyA', 'ArrowLeft'],
@@ -32,10 +32,10 @@ export default class Character extends Component<CharacterProps> {
          right: ['KeyD', 'ArrowRight'],
          use: ['Space'],
          place: ['KeyV']
-      });
+      })
    }
 
-   protected onTick(_, timeDifference: number) {
+   protected onTick(_, timeDifference: number): void {
       const characterStore = this.stores.character as CharacterStore
       const gridStore = this.stores.grid as GridStore
       const scoreStore = this.stores.score as ScoreStore
@@ -83,14 +83,16 @@ export default class Character extends Component<CharacterProps> {
       // }
 
       // if(characterStore.content.direction === Directions.Right) {
-         switch(characterStore.content.direction) {
-            case(Directions.Left):
-               return spriteIdleLeft
-               // return this.hasMoved ? spriteRunningLeft : spriteIdleLeft
-            case(Directions.Right):
-               return spriteIdleRight
-               // return this.hasMoved ? spriteRunningRight : spriteIdleRight
-         }
+      switch(characterStore.content.direction) {
+         case(Directions.Left):
+            return spriteIdleLeft
+            // return this.hasMoved ? spriteRunningLeft : spriteIdleLeft
+         case(Directions.Right):
+            return spriteIdleRight
+            // return this.hasMoved ? spriteRunningRight : spriteIdleRight
+      }
+
+      return spriteIdleRight
 
       //    if(this.hasMoved) {
       //       return spriteRunningRight
@@ -118,7 +120,7 @@ export default class Character extends Component<CharacterProps> {
    template: Template = [
       {
          component: new AnimatedSprite(),
-         position: () => new Coordinates(
+         position: (): Coordinates => new Coordinates(
             this.stores.character.content.posX - 64,
             this.stores.character.content.posY - 128,
          ),

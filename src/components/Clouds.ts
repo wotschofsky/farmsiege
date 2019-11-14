@@ -1,7 +1,6 @@
 import Component from '../../lib/Component'
 import { Template } from '../../lib/Types'
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
-import PropsContext from '../../lib/PropsContext'
 import Coordinates from '../../lib/helpers/Coordinates'
 
 import cloud1 from '../assets/clouds/cloud_1.png'

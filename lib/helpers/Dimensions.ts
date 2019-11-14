@@ -19,11 +19,11 @@ class Dimensions {
    }
 
    public get height(): number {
-      return this._height;
+      return this._height
    }
 
    public set height(v: number) {
-      this._height = v;
+      this._height = v
    }
 
    public get orientation(): Orientations {

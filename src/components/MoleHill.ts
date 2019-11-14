@@ -12,7 +12,7 @@ export default class MoleHill extends Component<MoleHillProps> {
    protected template: Template = [
       {
          component: new Sprite(),
-         position: () => new Coordinates(0, 0),
+         position: (): Coordinates => new Coordinates(0, 0),
          props: (): SpriteProps => ({
 
          }),

@@ -145,7 +145,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       setTimeout(() => {
          this.updateMole()
-      }, Math.random() * 4000 + 1000);
+      }, Math.random() * 4000 + 1000)
    }
 
    private updateWeed(): void {
