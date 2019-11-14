@@ -108,7 +108,7 @@ class Game extends Component<{}> {
       },
       {
          component: new MuteButton(),
-         position: (): Coordinates => new Coordinates(10, 10),
+         position: (): Coordinates => new Coordinates(12, 8),
       }
    ]
 }
