@@ -68,17 +68,18 @@ class Canvas {
          this.root.propagateEvent(
             EventTypes.Click,
             new Coordinates(
-               event.clientX / rect.width * this.grid.width,
-               event.clientY / rect.height * this.grid.height,
+               (event.clientX - rect.left) / rect.width * this.grid.width,
+               (event.clientY - rect.top) / rect.height * this.grid.height,
             ),
          )
       })
    }
 
    private adjustToScreen(): void {
-      this.canvas.width = this.width = window.innerWidth * window.devicePixelRatio
-      this.canvas.height = this.height = window.innerWidth * (1 / this.aspectRatio) * window.devicePixelRatio
-      this.scaleFactor = (window.innerWidth / this.grid.width) * window.devicePixelRatio
+      const rect = this.canvas.getBoundingClientRect()
+      this.canvas.width = this.width = rect.width * window.devicePixelRatio
+      this.canvas.height = this.height = rect.width * (1 / this.aspectRatio) * window.devicePixelRatio
+      this.scaleFactor = (rect.width / this.grid.width) * window.devicePixelRatio
    }
 
    private render(): void {
