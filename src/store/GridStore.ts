@@ -164,7 +164,6 @@ export default class GridStore extends Store<GridStoreContent> {
    }
 
    private updateWeed(): void {
-      console.log('update weed')
       this.update((oldState: GridStoreContent): GridStoreContent => {
          const clonedState = cloneDeep(oldState)
 
