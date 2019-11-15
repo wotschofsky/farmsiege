@@ -76,6 +76,7 @@ class Game extends Component<{}> {
          })
 
          gridStore.reset()
+         gridStore.stop()
 
          screensStore.setScreen(Screens.GameOver)
       }

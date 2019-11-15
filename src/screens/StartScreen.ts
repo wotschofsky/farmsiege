@@ -32,12 +32,14 @@ export default class StartScreen extends Component<StartScreenProps> {
 
       const gridStore = this.stores.grid as GridStore
       gridStore.reset()
+      gridStore.start()
 
       const characterStore = this.stores.character as CharacterStore
       characterStore.reset()
 
       const scoreStore = this.stores.score as ScoreStore
       scoreStore.reset()
+
    }
 
    private showHelp(): void {

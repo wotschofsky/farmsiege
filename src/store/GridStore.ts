@@ -29,6 +29,8 @@ const initialTile: TileData = {
 }
 
 export default class GridStore extends Store<GridStoreContent> {
+   timers: number[] = []
+
    constructor() {
       const initialGrid: GridStoreContent = []
       for(let i = 0; i < 8; i++) {
@@ -56,16 +58,27 @@ export default class GridStore extends Store<GridStoreContent> {
       }
 
       super('grid', initialGrid)
+   }
 
+   public start(): void {
       this.updateMole()
       this.growPlants()
       this.updateWeed()
       this.updateLightning()
    }
 
+   public stop(): void {
+      this.timers.forEach((timer) => {
+         clearTimeout(timer)
+      })
+   }
+
    public removeContent(x: number, y: number): void {
       this.update((oldState: GridStoreContent): GridStoreContent => {
          const clonedState = cloneDeep(oldState)
+
+         if(clonedState[x][y].type === TileContents.Lightning) return clonedState
+
          clonedState[x][y].type = TileContents.Empty
          return clonedState
       })
@@ -99,9 +112,10 @@ export default class GridStore extends Store<GridStoreContent> {
          return clonedState
       })
 
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
          this.growPlants()
       }, 100)
+      this.timers.push(timeout)
    }
 
    private updateMole(): void {
@@ -143,12 +157,14 @@ export default class GridStore extends Store<GridStoreContent> {
          return clonedState
       })
 
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
          this.updateMole()
       }, Math.random() * 4000 + 1000)
+      this.timers.push(timeout)
    }
 
    private updateWeed(): void {
+      console.log('update weed')
       this.update((oldState: GridStoreContent): GridStoreContent => {
          const clonedState = cloneDeep(oldState)
 
@@ -185,9 +201,10 @@ export default class GridStore extends Store<GridStoreContent> {
          return clonedState
       })
 
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
          this.updateWeed()
       }, Math.random() * 4000 + 1000)
+      this.timers.push(timeout)
    }
 
    private updateLightning(): void {
@@ -211,17 +228,19 @@ export default class GridStore extends Store<GridStoreContent> {
          return clonedState
       })
 
-      setTimeout(() => {
+      const clearTimeout = setTimeout(() => {
          this.update((oldState: GridStoreContent): GridStoreContent => {
             const clonedState = cloneDeep(oldState)
             clonedState[randomRow][randomCol].type = TileContents.Empty
             return clonedState
          })
       }, 1400)
+      this.timers.push(clearTimeout)
 
-      setTimeout(() => {
+      const repeatTimeout = setTimeout(() => {
          this.updateLightning()
       }, Math.random() * 4000 + 1000)
+      this.timers.push(repeatTimeout)
    }
 
    // Gibt ein Array mit allen Feldern zurück
