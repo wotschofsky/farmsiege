@@ -12,12 +12,6 @@ export default class Component<P> {
    private initialized = false
    private _stores: { [key: string]: Store<any> } = {}
 
-   // constructor() {
-   //    this.template.forEach((el) => {
-   //       el.component.registerStore()
-   //    })
-   // }
-
    protected onTick(ctx: PropsContext<P>, timeDifference: number): void {
       return
    }
@@ -28,29 +22,6 @@ export default class Component<P> {
    protected set template(tmp: Template) {
       this._template = tmp
    }
-
-   // protected setState(arg: Object | ((oldState: S) => {})): S {
-   //    if(typeof(arg) === 'function') {
-   //       this._state = {
-   //          ...this._state,
-   //          ...arg(this._state)
-   //       }
-   //       return this._state
-   //    }
-   //    this._state = {
-   //       ...arg,
-   //       ...this._state
-   //    }
-   //    return this._state
-   // }
-
-   // protected get state(): S {
-   //    return this._state
-   // }
-
-   // protected set state(value: S) {
-   //    this._state = value
-   // }
 
    public registerStore(store: Store<any>): void {
       this._stores[store.name] = store
@@ -81,22 +52,6 @@ export default class Component<P> {
       this.onTick(propsContext, context.timeDifference)
 
       this._template.forEach((el): void => {
-         // if(typeof(el.show) === 'function' && !el.show(propsContext)) return
-
-         // el.component.render(
-         //    new RenderingContext(
-         //       context.frame,
-         //       context.parentX + (position.x),
-         //       context.parentY + (position.y),
-         //       context.canvas,
-         //       context.renderContext,
-         //       context.scaleFactor,
-         //       context.timeDifference,
-         //       context.frameStart,
-         //    ),
-         //    el.position(propsContext),
-         //    typeof(el.props) === 'function' ? el.props(propsContext) : {}
-         // )
          RenderUtils.renderTemplateItem(el, context, position, propsContext)
       })
    }
