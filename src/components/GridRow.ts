@@ -6,7 +6,7 @@ import Coordinates from '../../lib/helpers/Coordinates'
 
 
 export type GridRowProps = {
-   index: number
+   index: number,
 }
 
 export default class GridRow extends Component<GridRowProps> {

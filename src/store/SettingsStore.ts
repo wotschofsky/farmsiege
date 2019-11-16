@@ -3,7 +3,7 @@ import Store from '../../lib/store/Store'
 
 
 export type SettingsStoreContent = {
-   music: boolean
+   music: boolean,
 }
 
 export default class SettingsStore extends Store<SettingsStoreContent> {

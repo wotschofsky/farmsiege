@@ -14,6 +14,9 @@ import ScreensStore, { Screens } from '../store/ScreensStore'
 import logo from '../assets/logo.png'
 import playButtonSprite from '../assets/ui/play.png'
 import helpButtonSprite from '../assets/ui/help.png'
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
+import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
+import Rabbits from '../overlays/Rabbits'
 
 
 export type StartScreenProps = {}

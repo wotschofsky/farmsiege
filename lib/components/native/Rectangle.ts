@@ -8,7 +8,7 @@ export type RectangleProps = {
    height: number,
    borderWidth?: number,
    borderColor?: string,
-   color: string
+   color: string,
 }
 
 export default class Rectangle extends Component<RectangleProps> {

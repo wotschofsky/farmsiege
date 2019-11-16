@@ -16,8 +16,8 @@ import PropsContext from '../../lib/PropsContext'
 
 
 export type DialogProps = {
-   width: number
-   height: number
+   width: number,
+   height: number,
 }
 
 export default class Dialog extends Component<DialogProps> {

@@ -8,12 +8,12 @@ import { EventTypes } from './Enums'
 
 
 type CanvasConfig = {
-   el: HTMLCanvasElement
-   aspectRatio: number
-   width: number
-   grid: Dimensions
-   root: Component<any>
-   showFPS: boolean
+   el: HTMLCanvasElement,
+   aspectRatio: number,
+   width: number,
+   grid: Dimensions,
+   root: Component<any>,
+   showFPS: boolean,
 }
 
 class Canvas {

@@ -10,7 +10,7 @@ export enum Screens {
 
 type ScreensStoreContent = {
    active: Screens,
-   returnScreen: Screens | null
+   returnScreen: Screens | null,
 }
 
 export default class ScreensStore extends Store<ScreensStoreContent> {

@@ -4,12 +4,12 @@ import Coordinates from '../../helpers/Coordinates'
 
 
 export type AnimatedSpriteProps = {
-   source: string
-   spriteWidth: number
-   spriteHeight: number
-   width: number
-   height: number
-   interval: number
+   source: string,
+   spriteWidth: number,
+   spriteHeight: number,
+   width: number,
+   height: number,
+   interval: number,
 }
 
 export default class AnimatedSprite extends Component<AnimatedSpriteProps> {

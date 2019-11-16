@@ -5,7 +5,7 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 
 export type MoleHillProps = {
-   moleVisible: boolean
+   moleVisible: boolean,
 }
 
 export default class MoleHill extends Component<MoleHillProps> {

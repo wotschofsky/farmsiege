@@ -4,10 +4,10 @@ import Coordinates from '../../helpers/Coordinates'
 
 
 export type PatternProps = {
-   source: string
-   width: number
-   height: number
-   mode: 'repeat' | 'repeat-x' | 'repeat-y'
+   source: string,
+   width: number,
+   height: number,
+   mode: 'repeat' | 'repeat-x' | 'repeat-y',
 }
 
 export default class Pattern extends Component<PatternProps> {

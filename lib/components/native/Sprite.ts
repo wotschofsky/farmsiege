@@ -4,9 +4,9 @@ import Coordinates from '../../helpers/Coordinates'
 
 
 export type SpriteProps = {
-   source: string
-   width: number
-   height: number
+   source: string,
+   width: number,
+   height: number,
 }
 
 export default class Sprite extends Component<SpriteProps> {

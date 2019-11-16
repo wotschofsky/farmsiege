@@ -7,7 +7,7 @@ import TileContents from '../TileContents'
 
 type TileData = {
    type: TileContents,
-   data: Record<string, any>
+   data: Record<string, any>,
 }
 
 type RowData = [TileData, TileData, TileData, TileData, TileData, TileData, TileData, TileData]
@@ -20,12 +20,12 @@ export type GridStoreContent = [
    RowData,
    RowData,
    RowData,
-   RowData
+   RowData,
 ]
 
 const initialTile: TileData = {
    type: TileContents.Empty,
-   data: {}
+   data: {},
 }
 
 export default class GridStore extends Store<GridStoreContent> {
@@ -42,7 +42,7 @@ export default class GridStore extends Store<GridStoreContent> {
             cloneDeep(initialTile),
             cloneDeep(initialTile),
             cloneDeep(initialTile),
-            cloneDeep(initialTile)
+            cloneDeep(initialTile),
          ]
          initialGrid.push(initialRow)
       }

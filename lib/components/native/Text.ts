@@ -4,10 +4,10 @@ import Coordinates from '../../helpers/Coordinates'
 
 
 export type TextProps = {
-   text: string
-   color?: string
-   font?: string
-   size?: number
+   text: string,
+   color?: string,
+   font?: string,
+   size?: number,
 }
 
 export default class Text extends Component<TextProps> {

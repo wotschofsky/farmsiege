@@ -3,7 +3,7 @@ import Store from '../../lib/store/Store'
 
 
 export type ScoreStoreContent = {
-   score: number
+   score: number,
 }
 
 export default class ScoreStore extends Store<ScoreStoreContent> {

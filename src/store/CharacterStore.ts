@@ -9,7 +9,7 @@ export type CharacterStoreContent = {
    posY: number,
    direction: Directions,
    fieldX: number,
-   fieldY: number
+   fieldY: number,
 }
 
 export default class CharacterStore extends Store<CharacterStoreContent> {
