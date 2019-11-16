@@ -16,7 +16,7 @@ export default class Repeating extends Component<RepeatingProps> {
       props.list.forEach((data) => {
          const propsContext = new PropsContext(props.props(data))
          RenderUtils.renderTemplateItem({
-            component: new props.component,
+            component: props.component,
             position: () => props.position(data),
             props: () => props.props(data),
          }, context, position, propsContext)
