@@ -1,6 +1,6 @@
 import Component from './Component'
-import PropsContext from './PropsContext'
 import Coordinates from './helpers/Coordinates'
+import PropsContext from './PropsContext'
 
 
 export type TemplateItem = {

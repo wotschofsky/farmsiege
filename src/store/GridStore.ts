@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
-import Store from '../../lib/store/Store'
 import Coordinates from '../../lib/helpers/Coordinates'
+import Store from '../../lib/store/Store'
 
 import TileContents from '../TileContents'
 
