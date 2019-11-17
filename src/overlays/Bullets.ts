@@ -29,8 +29,8 @@ export default class Bullets extends Component<BulletsProps> {
                },
                props: (data: BulletData): RectangleProps => ({
                   color: '#000',
-                  width: 8,
-                  height: 8,
+                  width: 12,
+                  height: 12,
                })
             }
          }
