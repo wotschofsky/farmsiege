@@ -1,9 +1,10 @@
-import Component from '../../lib/Component'
+import { Howl, Howler } from 'howler'
+import { Directions } from '../../lib/Enums'
 import { Template } from '../../lib/Types'
 import AnimatedSprite, { AnimatedSpriteProps } from '../../lib/components/native/AnimatedSprite'
+import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import InputMap from '../../lib/InputMap'
-import { Directions } from '../../lib/Enums'
 
 import CharacterStore from './store/CharacterStore'
 import GridStore from '../store/GridStore'
@@ -13,16 +14,18 @@ import spriteIdleRight from '../assets/finn_idle_right.png'
 import spriteRunningLeft from '../assets/finn_running_left.png'
 import spriteRunningRight from '../assets/finn_running_right.png'
 import TileContents from '../TileContents'
+import shotgunSound from '../assets/sounds/shotgun.mp3'
 
 
 export type CharacterProps = {}
 
 export default class Character extends Component<CharacterProps> {
    private inputMap: InputMap
-   private positionX: number = (1024 - 128) / 2
-   private positionY: number = (1024) / 2
+   private positionX = (1024 - 128) / 2
+   private positionY = (1024) / 2
 
    private hasMoved = false
+   private nextShotAvailable = 0
 
    protected onInit(): void {
       this.inputMap = new InputMap({
@@ -31,7 +34,8 @@ export default class Character extends Component<CharacterProps> {
          down: ['KeyS', 'ArrowDown'],
          right: ['KeyD', 'ArrowRight'],
          use: ['Space'],
-         place: ['KeyV']
+         place: ['KeyV'],
+         fire: ['KeyC'],
       })
    }
 
@@ -66,6 +70,21 @@ export default class Character extends Component<CharacterProps> {
       if(inputs.place) {
          gridStore.placePlant(characterStore.content.fieldX, characterStore.content.fieldY)
          this.inputMap.removeActiveKey('KeyV')
+      }
+
+      if(inputs.fire) {
+         if(this.nextShotAvailable <= Date.now()) {
+            const characterStore = this.stores.character as CharacterStore
+            characterStore.fireGun()
+            this.inputMap.removeActiveKey('KeyC')
+
+            new Howl({
+               src: shotgunSound,
+               autoplay: true,
+            })
+
+            this.nextShotAvailable = Date.now() + 1200
+         }
       }
    }
 

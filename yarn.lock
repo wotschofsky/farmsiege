@@ -675,10 +675,10 @@
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-0.0.39.tgz#e177e699ee1b8c22d23174caaa7422644389509f"
   integrity sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==
 
-"@types/howler@2.1.0":
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/@types/howler/-/howler-2.1.0.tgz#a525727788dd941aaab0dfde937e374c0f37cf95"
-  integrity sha512-FQiZRxGbBoOEe35dg1BOIQ+YHEYO3SldrnaPuKJJVuaxJJ/7NwEah87tyWxoTgunLlj6p4kkDKYcQH0aAXliQw==
+"@types/howler@^2.1.2":
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/@types/howler/-/howler-2.1.2.tgz#318a9cac65eeb8ed7d453dd70c9367067d35137b"
+  integrity sha512-gK7snhJcWVvTdiE6cCBAjeZ9od9Q8LmB5lEyB/3n6jMJOLn7EQ8Zvmkz8XPhnN5xB+b7QzCiqxJY3YiHrM3Jpg==
 
 "@types/js-cookie@^2.2.4":
   version "2.2.4"
@@ -1654,10 +1654,10 @@ has-values@^1.0.0:
     is-number "^3.0.0"
     kind-of "^4.0.0"
 
-howler@2.1.0:
-  version "2.1.0"
-  resolved "https://registry.yarnpkg.com/howler/-/howler-2.1.0.tgz#1834f663915a0ef245698d9baaeb9363ff505048"
-  integrity sha512-/HK8g6bLRNtzNG+HKUEWR/9DguRkgE2IpbIoyyAPTP/jhTJJR/2x4ovAp8pFyJSnpkeXZ6366Gi7LYaXnn2hJw==
+howler@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/howler/-/howler-2.1.2.tgz#8433a09d8fe84132a3e726e05cb2bd352ef8bd49"
+  integrity sha512-oKrTFaVXsDRoB/jik7cEpWKTj7VieoiuzMYJ7E/EU5ayvmpRhumCv3YQ3823zi9VTJkSWAhbryHnlZAionGAJg==
 
 iconv-lite@^0.4.24, iconv-lite@^0.4.4:
   version "0.4.24"
