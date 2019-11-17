@@ -2,10 +2,11 @@ import { Template } from '../../lib/Types'
 import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 
+import Bullets from '../overlays/Bullets'
 import Character from '../components/Character'
 import Grid from '../components/Grid'
+import Rabbits from '../overlays/Rabbits'
 import ScoreCounter from '../components/ScoreCounter'
-import Bullets from '../overlays/Bullets'
 
 
 export type GameScreenProps = {}
@@ -27,6 +28,10 @@ export default class GameScreen extends Component<GameScreenProps> {
       {
          component: new Bullets(),
          position: () => new Coordinates(0, 0),
-      }
+      },
+      {
+         component: new Rabbits(),
+         position: () => new Coordinates(0, 0),
+      },
    ]
 }
