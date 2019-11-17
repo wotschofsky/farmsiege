@@ -12,11 +12,19 @@ import retryButtonSprite from '../assets/ui/retry.png'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
 import Text, { TextProps } from '../../lib/components/native/Text'
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
 
+
+type ScoreData = {
+   score: number,
+   name: string,
+}
 
 export type GameOverScreenProps = {}
 
 export default class GameOverScreen extends Component<GameOverScreenProps> {
+   private highscores: ScoreData[] = []
+
    private startGame(): void {
       const screensStore = this.stores.screens as ScreensStore
       screensStore.setScreen(Screens.Game)
@@ -32,37 +40,56 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       scoreStore.reset()
    }
 
-   // https://garden-defense.firebaseio.com/highscores.json?orderBy=%22score%22&limitToLast=10
+   protected onInit() {
+      fetch('https://garden-defense.firebaseio.com/highscores.json?orderBy=%22score%22&limitToLast=10').then((res) => {
+         return res.json()
+      }).then((json) => {
+         let scores: ScoreData[] = []
+         for(let score in json) {
+            scores.push(json[score])
+         }
+         this.highscores = scores
+      })
+   }
 
    template: Template = [
       {
          component: new Dialog(),
-         position: (): Coordinates => new Coordinates(500, 400),
+         position: (): Coordinates => new Coordinates(500, 200),
          props: (): DialogProps => ({
             width: 600,
-            height: 400,
+            height: 600,
          }),
       },
       {
          component: new Text(),
-         position: (): Coordinates => new Coordinates(500 + 50, 400 + 150),
-         props: (): TextProps => ({
-            text: 'YOUR SCORE:',
-            color: '#fff',
-            size: 36,
-         }),
-      },
-      {
-         component: new Text(),
-         position: (): Coordinates => new Coordinates(500 + 50, 400 + 250),
+         position: (): Coordinates => new Coordinates(500 + 50, 200 + 150),
          props: (): TextProps => {
             const scoreStore = this.stores.score as ScoreStore
             return {
-               text: scoreStore.content.score.toString(),
+               text: `YOUR SCORE: ${scoreStore.content.score}`,
                color: '#fff',
                size: 36,
             }
          },
+      },
+
+      {
+         component: new Repeating(),
+         position: (): Coordinates => new Coordinates(500 + 50, 200 + 220),
+         props: (): RepeatingProps => ({
+            list: this.highscores,
+            component: new Text(),
+            position: (data: ScoreData, index: number): Coordinates => {
+               return new Coordinates(0, index * 30)
+            },
+            props: (data: ScoreData, index: number): TextProps => {
+               return {
+                  text: `#${index + 1} ${data.name}: ${data.score}`,
+                  color: '#fff',
+               }
+            }
+         })
       },
 
       {

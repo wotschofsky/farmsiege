@@ -72,6 +72,7 @@ class Game extends Component<{}> {
             method: 'POST',
             body: JSON.stringify({
                score: scoreStore.content.score,
+               name: 'Felix'
             }),
          })
 
