@@ -14,7 +14,7 @@ export type RepeatingProps = {
 export default class Repeating extends Component<RepeatingProps> {
    public render(context: RenderingContext, position: Coordinates, props: RepeatingProps): void {
       props.list.forEach((data, index) => {
-         const propsContext = new PropsContext(props.props(data))
+         const propsContext = new PropsContext(props.props(data, index))
          RenderUtils.renderTemplateItem({
             component: props.component,
             position: () => props.position(data, index),
