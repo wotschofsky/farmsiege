@@ -20,7 +20,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       for(let i = 0; i < rabbitAmount; i++) {
          rabbits.push({
             x: 0,
-            y: Math.random() * 500,
+            y: Math.round(Math.random() * 8) * 128 - 64,
             direction: Math.PI * 1.5,
             movingTimeLeft: 400
          })

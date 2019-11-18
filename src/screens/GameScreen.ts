@@ -31,7 +31,7 @@ export default class GameScreen extends Component<GameScreenProps> {
       },
       {
          component: new Rabbits(),
-         position: () => new Coordinates(0, 0),
+         position: () => new Coordinates(0, 176),
       },
    ]
 }
