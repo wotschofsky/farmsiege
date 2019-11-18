@@ -3,13 +3,13 @@ import cloneDeep from 'lodash/cloneDeep'
 
 // Stores sind globale Speicher, welche für eine Komponente und deren Unterkomponenten initialisiert wird und von denen aus zugänglich ist
 
-type ListenerCallback = (state: S) => void
+type ListenerCallback<S> = (state: S) => void
 
 export default abstract class Store<S> {
    private _content: S
    private _name: string
    private _initialState: S
-   private _listeners: (ListenerCallback | null)[]
+   private _listeners: (ListenerCallback<S> | null)[]
 
    constructor(name: string, initialState: S) {
       this._name = name
@@ -31,15 +31,11 @@ export default abstract class Store<S> {
    }
 
    protected update(mutator: (oldState: S) => S): void {
-      // this._content = {
-      //    ...this._content,
-      //    ...mutator(this._content)
-      // }
       this._content = mutator(this._content)
       this.callListeners()
    }
 
-   public subscribe(callback: ListenerCallback): number {
+   public subscribe(callback: ListenerCallback<S>): number {
       const id = this._listeners.length
       this._listeners[id] = callback
       return id
