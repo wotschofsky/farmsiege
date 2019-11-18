@@ -15,6 +15,7 @@ import GameOverScreen from '../screens/GameOverScreen'
 import HelpScreen from '../screens/HelpScreen'
 import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
 import MuteButton from './MuteButton'
+import MovablesStore from '../store/MovablesStore'
 
 
 declare const Howl: Howl
@@ -49,6 +50,9 @@ class Game extends Component<{}> {
 
       const gridStore = new GridStore()
       this.registerStore(gridStore)
+
+      const movablesStore = new MovablesStore()
+      this.registerStore(movablesStore)
 
       const scoreStore = new ScoreStore()
       this.registerStore(scoreStore)
