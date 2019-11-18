@@ -1,7 +1,6 @@
+import { Directions } from '../../lib/Enums'
 import cloneDeep from 'lodash/cloneDeep'
 import Store from '../../lib/store/Store'
-import { Directions } from '../../lib/Enums'
-import Coordinates from '../../lib/helpers/Coordinates'
 
 
 export type BulletData = {
