@@ -16,18 +16,22 @@ type MovablesStoreContent = {
 export default class MovablesStore extends Store<MovablesStoreContent> {
    constructor() {
       const rabbitAmount = Math.ceil(Math.random() * 5) + 2
-      const rabbits: RabbitData[] = []
+      const rabbitRows: number[] = []
       for(let i = 0; i < rabbitAmount; i++) {
-         rabbits.push({
-            x: 0,
-            y: Math.round(Math.random() * 8) * 128 - 64,
-            direction: Math.PI * 1.5,
-            movingTimeLeft: 400
-         })
+         let row = Math.round(Math.random() * 8)
+         while(rabbitRows.includes(row)) {
+            row = Math.round(Math.random() * 8)
+         }
+         rabbitRows.push(row)
       }
 
       super('movables', {
-         rabbits
+         rabbits: rabbitRows.map((row) => ({
+            x: 1600,
+            y: row * 128 - 64,
+            direction: Math.PI * 1.5,
+            movingTimeLeft: Math.random() * 2000 + 2250,
+         })),
       })
    }
 
@@ -36,7 +40,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          const clonedState = cloneDeep(oldState)
 
          clonedState.rabbits = clonedState.rabbits.map((data): RabbitData => {
-            let x = data.movingTimeLeft > 0 ? data.x - 1 : data.x
+            let x = data.movingTimeLeft > 0 ? data.x - timeDifference * 0.2 : data.x
             let movingTimeLeft = Math.max(data.movingTimeLeft - timeDifference, 0)
 
             return {
