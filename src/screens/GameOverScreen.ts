@@ -4,15 +4,16 @@ import Coordinates from '../../lib/helpers/Coordinates'
 import Dimensions from '../../lib/helpers/Dimensions'
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener'
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
+import Text, { TextProps } from '../../lib/components/native/Text'
 
 import CharacterStore from '../store/CharacterStore'
 import Dialog, { DialogProps } from '../components/Dialog'
 import GridStore from '../store/GridStore'
+import MovablesStore from '../store/MovablesStore'
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
 import retryButtonSprite from '../assets/ui/retry.png'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
-import Text, { TextProps } from '../../lib/components/native/Text'
-import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
 
 
 type ScoreData = {
@@ -32,6 +33,9 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       const gridStore = this.stores.grid as GridStore
       gridStore.reset()
       gridStore.start()
+
+      const movablesStore = this.stores.movables as MovablesStore
+      movablesStore.reset()
 
       const characterStore = this.stores.character as CharacterStore
       characterStore.reset()

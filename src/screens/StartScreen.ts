@@ -9,14 +9,14 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 
 import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
+import helpButtonSprite from '../assets/ui/help.png'
+import logo from '../assets/logo.png'
+import MovablesStore from '../store/MovablesStore'
+import playButtonSprite from '../assets/ui/play.png'
+import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
-import logo from '../assets/logo.png'
-import playButtonSprite from '../assets/ui/play.png'
-import helpButtonSprite from '../assets/ui/help.png'
-import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
-import Rabbits from '../overlays/Rabbits'
 
 
 export type StartScreenProps = {}
@@ -36,6 +36,9 @@ export default class StartScreen extends Component<StartScreenProps> {
       const gridStore = this.stores.grid as GridStore
       gridStore.reset()
       gridStore.start()
+
+      const movablesStore = this.stores.movables as MovablesStore
+      movablesStore.reset()
 
       const characterStore = this.stores.character as CharacterStore
       characterStore.reset()
