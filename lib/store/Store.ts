@@ -23,11 +23,11 @@ export default abstract class Store<S> {
    }
 
    public get content(): S {
-      return this._content
+      return cloneDeep(this._content)
    }
 
    public reset(): void {
-      this._content = this._initialState
+      this._content = cloneDeep(this._initialState)
    }
 
    protected update(mutator: (oldState: S) => S): void {
