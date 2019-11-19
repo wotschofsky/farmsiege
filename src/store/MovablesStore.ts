@@ -1,5 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep'
 import Store from '../../lib/store/Store'
+import { BulletData } from './CharacterStore'
 
 
 export type RabbitData = {
@@ -48,6 +49,24 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
                x,
                movingTimeLeft
             }
+         })
+
+         return clonedState
+      })
+   }
+
+   public detectHit(bullets: BulletData[]): void {
+      this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
+         const clonedState = cloneDeep(oldState)
+
+         clonedState.rabbits = clonedState.rabbits.filter((rabbit) => {
+            let rabbitHit = false
+            bullets.forEach((bullet) => {
+               if(Math.abs((rabbit.x + 128) - bullet.x) < 50 && Math.abs((rabbit.y + 128) - bullet.y) < 50) {
+                  rabbitHit = true
+               }
+            })
+            return !rabbitHit
          })
 
          return clonedState
