@@ -41,8 +41,7 @@ export default {
          file: 'dist/bundle.js',
          format: 'iife',
          // sourcemap: 'inline'
-         // sourcemap: !process.env.PRODUCTION
-         sourcemap: true
+         sourcemap: !process.env.PRODUCTION
       }
    ],
    plugins: [
