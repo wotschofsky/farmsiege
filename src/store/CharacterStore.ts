@@ -90,7 +90,7 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
       this.update((oldState: CharacterStoreContent): CharacterStoreContent => {
          const clonedState = cloneDeep(oldState)
 
-         clonedState.bullets = clonedState.bullets.filter((data: BulletData): boolean => data.age <= 200)
+         clonedState.bullets = clonedState.bullets.filter((data: BulletData): boolean => data.age <= 150)
          clonedState.bullets = clonedState.bullets.map((data: BulletData): BulletData => {
             return {
                ...data,
