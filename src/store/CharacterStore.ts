@@ -1,6 +1,8 @@
 import { Directions } from '../../lib/Enums'
 import cloneDeep from 'lodash/cloneDeep'
 import Store from '../../lib/store/Store'
+import GridUtils from '../utils/Grid'
+import Coordinates from '../../lib/helpers/Coordinates'
 
 
 export type BulletData = {
@@ -51,13 +53,18 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
             newY = 1024 - 96
          }
 
+         const gridPosition = GridUtils.coordsToField(new Coordinates(
+            newX,
+            newY
+         ))
+
          return {
             ...oldState,
             posX: newX,
             posY: newY,
             direction: x < 0 ? Directions.Left : x > 0 ? Directions.Right : oldState.direction,
-            fieldX: Math.round(newX / 128),
-            fieldY: Math.round(newY / 128),
+            fieldX: gridPosition.x,
+            fieldY: gridPosition.y,
          }
       })
    }
