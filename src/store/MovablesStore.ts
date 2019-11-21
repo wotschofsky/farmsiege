@@ -49,7 +49,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
          const clonedState = cloneDeep(oldState)
 
-         const rabbitAmount = Math.ceil(Math.random() * 5) + 2
+         const rabbitAmount = Math.ceil(Math.random() * 4) + 3
          const rabbitRows: number[] = []
          for(let i = 0; i < rabbitAmount; i++) {
             let row = Math.round(Math.random() * 8)
@@ -60,12 +60,15 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          }
 
          const direction = Math.random() > 0.5 ? Directions.Left : Directions.Right
-         const mappedRabbits: RabbitData[] = rabbitRows.map((row) => ({
-            x: direction === Directions.Left ? 1600 : -128,
-            y: row * 128 - 96,
-            direction: direction,
-            movingTimeLeft: Math.random() * 2000 + 2250,
-         }))
+         const mappedRabbits: RabbitData[] = rabbitRows.map((row) => {
+            const offset = Math.random() * 256
+            return {
+               x: direction === Directions.Left ? 1600 + offset : -128 - offset,
+               y: row * 128 - 96,
+               direction: direction,
+               movingTimeLeft: Math.random() * 1500 + 3000,
+            }
+         })
 
          clonedState.rabbits = clonedState.rabbits.concat(mappedRabbits)
 
@@ -84,7 +87,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          clonedState.rabbits = clonedState.rabbits.filter((rabbit) => {
             let rabbitHit = false
             bullets.forEach((bullet) => {
-               if(Math.abs((rabbit.x + 128) - bullet.x) < 50 && Math.abs((rabbit.y + 128) - bullet.y) < 50) {
+               if(Math.abs((rabbit.x + 128) - bullet.x) < 50 && Math.abs((rabbit.y + 256) - bullet.y) < 50) {
                   rabbitHit = true
                }
             })
