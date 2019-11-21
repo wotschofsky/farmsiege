@@ -35,7 +35,8 @@ export default class Rabbits extends Component<RabbitsProps> {
                   return new Coordinates(data.x, data.y)
                },
                props: (data: RabbitData): RabbitProps => ({
-                  direction: data.direction
+                  direction: data.direction,
+                  moving: data.movingTimeLeft > 0
                })
             }
          }

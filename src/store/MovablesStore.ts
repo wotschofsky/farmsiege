@@ -85,10 +85,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
          const direction = Math.random() > 0.5 ? Directions.Left : Directions.Right
          const mappedRabbits: RabbitData[] = rabbitRows.map((row): RabbitData => {
-            const offset = Math.random() * 256
+            const offset = Math.random() * 252
             return {
-               x: direction === Directions.Left ? 1600 + offset : -128 - offset,
-               y: row * 128 - 96,
+               x: direction === Directions.Left ? 1600 + offset : -126 - offset,
+               y: row * 126 - 96,
                direction: direction,
                movingTimeLeft: Math.random() * 1500 + 3000,
                timeBeforeMove: Math.random() * 2000 + 1000
