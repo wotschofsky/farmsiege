@@ -83,7 +83,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
          position: (): Coordinates => new Coordinates(500 + 50, 200 + 220),
          props: (): RepeatingProps => ({
             list: this.highscores,
-            component: new Text(),
+            component: () => new Text(),
             position: (data: ScoreData, index: number): Coordinates => {
                return new Coordinates(0, index * 30)
             },

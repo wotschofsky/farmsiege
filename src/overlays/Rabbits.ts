@@ -30,7 +30,7 @@ export default class Rabbits extends Component<RabbitsProps> {
 
             return {
                list: movablesStore.content.rabbits,
-               component: new Rabbit(),
+               component: () => new Rabbit(),
                position: (data: RabbitData): Coordinates => {
                   return new Coordinates(data.x, data.y)
                },

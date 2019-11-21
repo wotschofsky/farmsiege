@@ -23,7 +23,7 @@ export default class Bullets extends Component<BulletsProps> {
             const characterStore = this.stores.character as CharacterStore
             return {
                list: characterStore.content.bullets,
-               component: new Rectangle(),
+               component: () => new Rectangle(),
                position: (data: BulletData): Coordinates => {
                   return new Coordinates(data.x, data.y)
                },
