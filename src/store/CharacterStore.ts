@@ -69,9 +69,9 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
          for(let i = 0; i < 20; i++) {
             let direction: number
             if(oldState.direction === Directions.Right) {
-               direction = Math.PI * -0.15 + Math.random() * Math.PI * 0.3
+               direction = Math.PI * -0.1 + Math.random() * Math.PI * 0.2
             } else {
-               direction = Math.PI * 0.85 + Math.random() * Math.PI * 0.3
+               direction = Math.PI * 0.9 + Math.random() * Math.PI * 0.2
             }
 
             clonedState.bullets.push({
