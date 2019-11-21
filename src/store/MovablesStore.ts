@@ -62,7 +62,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          const direction = Math.random() > 0.5 ? Directions.Left : Directions.Right
          const mappedRabbits: RabbitData[] = rabbitRows.map((row) => ({
             x: direction === Directions.Left ? 1600 : -128,
-            y: row * 128 - 64,
+            y: row * 128 - 96,
             direction: direction,
             movingTimeLeft: Math.random() * 2000 + 2250,
          }))
