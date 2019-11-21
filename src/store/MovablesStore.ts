@@ -1,13 +1,14 @@
+import { Directions } from '../../lib/Enums'
 import cloneDeep from 'lodash/cloneDeep'
 import Store from '../../lib/store/Store'
+
 import { BulletData } from './CharacterStore'
-import { Directions } from '../../lib/Enums'
 
 
 export type RabbitData = {
    x: number,
    y: number,
-   direction: number,
+   direction: Directions,
    movingTimeLeft: number,
 }
 
