@@ -30,6 +30,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
          const clonedState = cloneDeep(oldState)
 
+         // Nicht mehr sichtbare Hasen entfernen
          clonedState.rabbits = clonedState.rabbits.filter((data) => {
             let outsideScreen = false
             if(data.direction === Directions.Left && data.x <= -256) {
@@ -54,7 +55,6 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
                movingTimeLeft = Math.random() * 1500 + 3000
                timeBeforeMove = Math.random() * 2000 + 1000
             }
-
 
             return {
                ...data,
