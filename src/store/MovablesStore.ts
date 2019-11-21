@@ -29,6 +29,17 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
    public updateRabbits(timeDifference: number): void {
       this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
          const clonedState = cloneDeep(oldState)
+         console.log(clonedState.rabbits.length)
+
+         clonedState.rabbits = clonedState.rabbits.filter((data) => {
+            let outsideScreen = false
+            if(data.direction === Directions.Left && data.x <= -256) {
+               outsideScreen = true
+            } else if(data.direction === Directions.Right && data.x >= 1600) {
+               outsideScreen = true
+            }
+            return !outsideScreen
+         })
 
          clonedState.rabbits = clonedState.rabbits.map((data): RabbitData => {
             const speed = data.direction === Directions.Left ? 0.2 : -0.2
