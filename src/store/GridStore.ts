@@ -29,7 +29,7 @@ const initialTile: TileData = {
 }
 
 export default class GridStore extends Store<GridStoreContent> {
-   timers: number[] = []
+   timers: number[]
 
    constructor() {
       const initialGrid: GridStoreContent = []
@@ -58,6 +58,8 @@ export default class GridStore extends Store<GridStoreContent> {
       }
 
       super('grid', initialGrid)
+
+      this.timers = []
    }
 
    public start(): void {
@@ -74,6 +76,7 @@ export default class GridStore extends Store<GridStoreContent> {
    }
 
    public removeContent(x: number, y: number): void {
+      if(!this.isValidField(x, y)) return
       this.update((oldState: GridStoreContent): GridStoreContent => {
          const clonedState = cloneDeep(oldState)
 
@@ -84,7 +87,20 @@ export default class GridStore extends Store<GridStoreContent> {
       })
    }
 
+   public removePlant(x: number, y: number): void {
+      if(!this.isValidField(x, y)) return
+      this.update((oldState: GridStoreContent): GridStoreContent => {
+         const clonedState = cloneDeep(oldState)
+
+         if(clonedState[x][y].type !== TileContents.Plant) return clonedState
+         clonedState[x][y].type = TileContents.Empty
+
+         return clonedState
+      })
+   }
+
    public placePlant(x: number, y: number): void {
+      if(!this.isValidField(x, y)) return
       this.update((oldState: GridStoreContent): GridStoreContent => {
          if(oldState[x][y].type !== TileContents.Empty) return oldState
 
@@ -139,7 +155,6 @@ export default class GridStore extends Store<GridStoreContent> {
 
          if(!moleActive) {
             // Mit 5% Wahrscheinlichkeit Maulwurf an zufälliger Stelle erscheinen lassen
-
             if(Math.random() > 0.05) return oldState
 
             const row = Math.floor(Math.random() * 8)
@@ -240,6 +255,14 @@ export default class GridStore extends Store<GridStoreContent> {
          this.updateLightning()
       }, Math.random() * 4000 + 1000)
       this.timers.push(repeatTimeout)
+   }
+
+   public isValidField(x: number, y: number): boolean {
+      if(x < 0) return false
+      if(x > 7) return false
+      if(y < 0) return false
+      if(y > 7) return false
+      return true
    }
 
    // Gibt ein Array mit allen Feldern zurück

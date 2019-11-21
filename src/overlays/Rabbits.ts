@@ -6,6 +6,8 @@ import Rabbit, { RabbitProps } from '../components/animals/Rabbit'
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
 import MovablesStore, { RabbitData } from '../store/MovablesStore'
 import CharacterStore from '../store/CharacterStore'
+import GridStore from '../store/GridStore'
+import GridUtils from '../utils/Grid'
 
 
 export type RabbitsProps = {}
@@ -19,6 +21,16 @@ export default class Rabbits extends Component<RabbitsProps> {
 
       const characterStore = this.stores.character as CharacterStore
       movablesStore.detectHit(characterStore.content.bullets)
+
+      const gridStore = this.stores.grid as GridStore
+
+      movablesStore.stillRabbits.forEach((rabbit) => {
+         const coords = GridUtils.coordsToField(new Coordinates(
+            rabbit.x - 288,
+            rabbit.y + 108,
+         ))
+         gridStore.removePlant(coords.x, coords.y)
+      })
    }
 
    template: Template = [

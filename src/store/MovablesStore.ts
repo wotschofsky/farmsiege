@@ -121,4 +121,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          return clonedState
       })
    }
+
+   public get stillRabbits(): RabbitData[] {
+      return this.content.rabbits.filter((rabbit) => {
+         return rabbit.movingTimeLeft === 0
+      })
+   }
 }
