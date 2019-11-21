@@ -18,20 +18,20 @@ export default class GameScreen extends Component<GameScreenProps> {
          position: (): Coordinates => new Coordinates(288, 176),
       },
       {
-         component: new Character(),
-         position: (): Coordinates => new Coordinates(288, 176),
-      },
-      {
          component: new ScoreCounter(),
          position: (): Coordinates => new Coordinates(800, 0),
       },
       {
-         component: new Bullets(),
-         position: () => new Coordinates(0, 0),
-      },
-      {
          component: new Rabbits(),
          position: () => new Coordinates(0, 176),
+      },
+      {
+         component: new Character(),
+         position: (): Coordinates => new Coordinates(288, 176),
+      },
+      {
+         component: new Bullets(),
+         position: () => new Coordinates(0, 0),
       },
    ]
 }
