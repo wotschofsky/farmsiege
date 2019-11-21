@@ -66,7 +66,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
             movingTimeLeft: Math.random() * 2000 + 2250,
          }))
 
-         clonedState.rabbits = mappedRabbits.concat(clonedState.rabbits, mappedRabbits)
+         clonedState.rabbits = clonedState.rabbits.concat(mappedRabbits)
 
          return clonedState
       })
