@@ -29,7 +29,6 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
    public updateRabbits(timeDifference: number): void {
       this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
          const clonedState = cloneDeep(oldState)
-         console.log(clonedState.rabbits.length)
 
          clonedState.rabbits = clonedState.rabbits.filter((data) => {
             let outsideScreen = false
