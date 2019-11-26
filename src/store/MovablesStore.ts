@@ -101,7 +101,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
       setTimeout(() => {
          this.spawnRabbits()
-      }, Math.random() * 5000 + 5000)
+      }, Math.random() * 12000 + 8000)
    }
 
    public detectHit(bullets: BulletData[]): void {
