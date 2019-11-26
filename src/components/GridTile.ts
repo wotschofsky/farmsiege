@@ -10,7 +10,7 @@ import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
 import TileContents from '../TileContents'
 
-import grass from '../assets/grass.png'
+import dirt from '../assets/dirt.png'
 import lightning from '../assets/lightning.png'
 import mole from '../assets/mole.png'
 import molehill from '../assets/molehill.png'
@@ -45,7 +45,7 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.column * this.tileSize,
          ),
          props: (): SpriteProps => ({
-            source: grass,
+            source: dirt,
             width: this.tileSize,
             height: this.tileSize
          })
