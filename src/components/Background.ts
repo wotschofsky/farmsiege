@@ -30,6 +30,8 @@ export default class Background extends Component<BackgroundProps> {
          position: (): Coordinates => new Coordinates(0, 176),
          props: (): PatternProps => ({
             source: grass,
+            tileWidth: 128,
+            tileHeight: 128,
             width: 1600,
             height: 1024,
             mode: 'repeat',
