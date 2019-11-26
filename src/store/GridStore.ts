@@ -253,7 +253,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       const repeatTimeout = setTimeout(() => {
          this.updateLightning()
-      }, Math.random() * 4000 + 1000)
+      }, Math.random() * 15000 + 5000)
       this.timers.push(repeatTimeout)
    }
 
