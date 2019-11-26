@@ -73,13 +73,15 @@ class Game extends Component<{}> {
       const scoreStore = this.stores.score as ScoreStore
       if(gridStore.friendlyPlants === 0) {
          const name = prompt('Please enter your name')
-         fetch('https://garden-defense.firebaseio.com/highscores.json', {
-            method: 'POST',
-            body: JSON.stringify({
-               score: scoreStore.content.score,
-               name
-            }),
-         })
+         if(!!name && name.length >= 1) {
+            fetch('https://garden-defense.firebaseio.com/highscores.json', {
+               method: 'POST',
+               body: JSON.stringify({
+                  score: scoreStore.content.score,
+                  name
+               }),
+            })
+         }
 
          gridStore.reset()
          gridStore.stop()
