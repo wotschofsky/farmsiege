@@ -5,6 +5,8 @@ import Coordinates from '../../helpers/Coordinates'
 
 export type PatternProps = {
    source: string,
+   tileWidth: number,
+   tileHeight: number,
    width: number,
    height: number,
    mode: 'repeat' | 'repeat-x' | 'repeat-y',
@@ -27,17 +29,21 @@ export default class Pattern extends Component<PatternProps> {
 
       this.lastSource = props.source
 
-      // context.drawImage(this.imageElement, props.x, props.y, props.width, props.height, 10, 10, 50, 60);
       context.renderContext.imageSmoothingEnabled = false
 
-      const pattern = context.renderContext.createPattern(this.imageElement as HTMLImageElement, props.mode) as CanvasPattern
-      context.renderContext.rect(
-         (position.x + context.parentX) * context.scaleFactor,
-         (position.y + context.parentY) * context.scaleFactor,
-         props.width * context.scaleFactor,
-         props.height * context.scaleFactor
-      )
-      context.renderContext.fillStyle = pattern
-      context.renderContext.fill()
+      for(let row = 0; row < Math.ceil(props.height / props.tileHeight); row++) {
+         for(let col = 0; col < Math.ceil(props.width / props.tileWidth); col++) {
+            const offsetX = props.tileWidth * col
+            const offsetY = props.tileWidth * row
+
+            context.renderContext.drawImage(
+               this.imageElement as HTMLImageElement,
+               (position.x + context.parentX + offsetX) * context.scaleFactor,
+               (position.y + context.parentY + offsetY) * context.scaleFactor,
+               props.tileWidth * context.scaleFactor,
+               props.tileHeight * context.scaleFactor
+            )
+         }
+      }
    }
 }
