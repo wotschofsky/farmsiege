@@ -1,7 +1,4 @@
-https://opengameart.org/content/trees-bushes
-https://opengameart.org/content/farming-crops-16x16
 https://opengameart.org/content/forest-tiles
-https://opengameart.org/content/clouds
 https://opengameart.org/content/bunny-sprite
 
 
@@ -12,9 +9,7 @@ https://yaru.itch.io/retro-sound-effect-pack-1
 https://catastic.itch.io/weapon-sound-pack-shotgun-spas-12
 https://henrysoftware.itch.io/pixel-food
 https://asgaard42.itch.io/rifle-and-shotgun-sprites
-https://finalbossblues.itch.io/tf-jungle-tileset
 https://elthen.itch.io/2d-pixel-art-npc-pack
-https://lhteam.itch.io/finn-sprite
 https://winlu.itch.io/pixelart-grass-seamless
 
 https://www.dafont.com/de/8bit-wonder.font
@@ -25,4 +20,3 @@ https://leviedaudio.itch.io/ocean-sfx
 
 https://freemusicarchive.org/genre/Chip_Music
 https://files.freemusicarchive.org/storage-freemusicarchive-org/music/no_curator/sawsquarenoise/Towel_Defence_OST/sawsquarenoise_-_10_-_Towel_Defence_Ending.mp3
-http://soundbible.com/2095-Mossberg-500-Pump-Shotgun.html
