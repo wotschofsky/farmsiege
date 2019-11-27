@@ -1,0 +1,49 @@
+import Component from '../../lib/Component'
+import { Template } from '../../lib/Types'
+import Coordinates from '../../lib/helpers/Coordinates'
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
+import Text, { TextProps } from '../../lib/components/native/Text'
+
+
+type ScoreData = {
+   score: number,
+   name: string,
+}
+
+type HighscoresProps = {}
+
+export default class Highscores extends Component<HighscoresProps> {
+   private scores: ScoreData[] = []
+
+   protected onInit() {
+      fetch('https://garden-defense.firebaseio.com/highscores.json?orderBy=%22score%22&limitToLast=10').then((res) => {
+         return res.json()
+      }).then((json) => {
+         let scores: ScoreData[] = []
+         for(let score in json) {
+            scores.push(json[score])
+         }
+         this.scores = scores
+      })
+   }
+
+   template: Template = [
+      {
+         component: new Repeating(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         props: (): RepeatingProps => ({
+            list: this.scores,
+            component: () => new Text(),
+            position: (data: ScoreData, index: number): Coordinates => {
+               return new Coordinates(0, index * 30)
+            },
+            props: (data: ScoreData, index: number): TextProps => {
+               return {
+                  text: `#${index + 1} ${data.name}: ${data.score}`,
+                  color: '#fff',
+               }
+            }
+         })
+      },
+   ]
+}
