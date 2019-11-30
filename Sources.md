@@ -19,3 +19,11 @@ Waffen Sound http://soundbible.com/2095-Mossberg-500-Pump-Shotgun.html am 17.09.
 Screen Refresh Rate im Oktober 2019 \
 https://stackoverflow.com/a/6131242 \
 https://jsfiddle.net/rBGPk/
+
+CPU Throttling - Chrome DevTools - Dev Tips \
+27.11.2019 \
+https://umaar.com/dev-tips/88-cpu-throttling/
+
+Firebase Retrieving Data \
+27.11.2019 \
+https://firebase.google.com/docs/database/rest/retrieve-data
