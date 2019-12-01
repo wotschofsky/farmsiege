@@ -28,7 +28,8 @@ if(!process.env.PRODUCTION) {
       eslint({
          exclude: [
             'node_modules/**',
-            '**/**.png'
+            '**/**.png',
+            '**/**.mp3'
          ]
       }),
    ]
