@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from 'clone-deep'
 
 
 // Stores sind globale Speicher, welche für eine Komponente und deren Unterkomponenten initialisiert wird und von denen aus zugänglich ist
