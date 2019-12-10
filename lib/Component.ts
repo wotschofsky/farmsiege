@@ -7,7 +7,7 @@ import Store from './store/Store'
 import RenderUtils from './utils/Render'
 
 
-export default class Component<P> {
+export default abstract class Component<P> {
    private _template: Template = []
    private initialized = false
    private _stores: { [key: string]: Store<any> } = {}
