@@ -1,5 +1,5 @@
 import { Directions } from '../../lib/Enums'
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from 'clone-deep'
 import Store from '../../lib/store/Store'
 
 import { BulletData } from './CharacterStore'

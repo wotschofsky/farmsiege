@@ -1,4 +1,4 @@
-import cloneDeep from 'lodash/cloneDeep'
+import cloneDeep from 'clone-deep'
 import Coordinates from '../../lib/helpers/Coordinates'
 import Store from '../../lib/store/Store'
 
