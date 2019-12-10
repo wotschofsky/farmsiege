@@ -12,6 +12,12 @@ export type BulletData = {
    age: number
 }
 
+export enum Hats {
+   Mexican,
+   Top,
+   Cop,
+   Crown
+}
 
 export type CharacterStoreContent = {
    posX: number,
@@ -19,7 +25,10 @@ export type CharacterStoreContent = {
    direction: Directions,
    fieldX: number,
    fieldY: number,
-   bullets: BulletData[]
+   bullets: BulletData[],
+   style: {
+      hat: Hats
+   }
 }
 
 // Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
@@ -32,6 +41,9 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
          direction: Directions.Right,
          fieldX: 0,
          fieldY: 0,
+         style: {
+            hat: Hats.Mexican
+         }
       })
    }
 

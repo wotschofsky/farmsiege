@@ -16,6 +16,15 @@ import spriteRunningRight from '../assets/finn_running_right.png'
 import TileContents from '../TileContents'
 import shotgunSound from '../assets/sounds/shotgun.mp3'
 
+import blackManLeftSprite from '../assets/character/body/black_man_left.png'
+import blackManRightSprite from '../assets/character/body/black_man_right.png'
+
+import copHatSprite from '../assets/character/hats/cop_hat.png'
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
+import Hat from './character/Hat'
+import CharacterStore from '../store/CharacterStore'
+// import EffectsStore from '../store/EffectsStore'
+
 
 export type CharacterProps = {}
 
@@ -86,10 +95,17 @@ export default class Character extends Component<CharacterProps> {
             this.nextShotAvailable = Date.now() + 1200
          }
       }
+
+
+      // const effectsStore = this.stores.effects as EffectsStore
+      // effectsStore.showSmoke(this.positionX, this.positionY)
    }
 
    private get activeSprite(): string {
       const characterStore = this.stores.character as CharacterStore
+
+
+      // return blackManSprite
 
       // if(characterStore.content.direction === Directions.Right && !this.hasMoved) {
       //    return spriteIdleRight
@@ -138,19 +154,43 @@ export default class Character extends Component<CharacterProps> {
 
    template: Template = [
       {
-         component: new AnimatedSprite(),
+         component: new Sprite(),
          position: (): Coordinates => new Coordinates(
-            this.stores.character.content.posX - 64,
+            this.stores.character.content.posX - 32,
             this.stores.character.content.posY - 128,
          ),
-         props: (): AnimatedSpriteProps => ({
-            source: this.activeSprite,
-            spriteWidth: 32,
-            spriteHeight: 32,
-            width: 256,
-            height: 256,
-            interval: 150
-         }),
+         props: (): SpriteProps => {
+            const characterStore = this.stores.character as CharacterStore
+
+            return {
+               source: characterStore.content.direction === Directions.Left ? blackManLeftSprite : blackManRightSprite,
+               width: 128 * 1.2,
+               height: 128 * 1.2 * 1.5,
+            }
+         },
+      },
+      {
+         component: new Hat(),
+         position: (): Coordinates => new Coordinates(
+            this.stores.character.content.posX - 32,
+            this.stores.character.content.posY - 128 - 48 * 1.2,
+         ),
       }
+      // {
+      //    component: new AnimatedSprite(),
+      //    position: (): Coordinates => new Coordinates(
+      //       this.stores.character.content.posX - 64,
+      //       this.stores.character.content.posY - 128,
+      //    ),
+      //    props: (): AnimatedSpriteProps => ({
+      //       source: this.activeSprite,
+      //       // source: blackManSprite,
+      //       spriteWidth: 32,
+      //       spriteHeight: 32,
+      //       width: 256,
+      //       height: 256,
+      //       interval: 150
+      //    }),
+      // }
    ]
 }
