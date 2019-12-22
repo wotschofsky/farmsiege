@@ -9,14 +9,14 @@ export type BulletData = {
    x: number,
    y: number,
    direction: number,
-   age: number
+   age: number,
 }
 
 export enum Hats {
    Mexican,
    Top,
    Cop,
-   Crown
+   Crown,
 }
 
 export type CharacterStoreContent = {
@@ -27,8 +27,8 @@ export type CharacterStoreContent = {
    fieldY: number,
    bullets: BulletData[],
    style: {
-      hat: Hats
-   }
+      hat: Hats,
+   },
 }
 
 // Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
