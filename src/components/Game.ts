@@ -4,18 +4,24 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 
 import Background from './Background'
-import CharacterStore from '../store/CharacterStore'
-import GridStore from '../store/GridStore'
 import menuSoundtrack from '../assets/soundtrack/menu.mp3'
+import MuteButton from './MuteButton'
+
+import GameOverScreen from '../screens/GameOverScreen'
+import GameScreen from '../screens/GameScreen'
+import HelpScreen from '../screens/HelpScreen'
+import StartScreen from '../screens/StartScreen'
+
+import CharacterStore from '../store/CharacterStore'
+import CosmeticsStore from '../store/CosmeticsStore'
+// import Effects from '../overlays/Effects'
+// import EffectsStore from '../store/EffectsStore'
+import GridStore from '../store/GridStore'
+import MovablesStore from '../store/MovablesStore'
+import PropsContext from '../../lib/PropsContext'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
-import StartScreen from '../screens/StartScreen'
-import GameScreen from '../screens/GameScreen'
-import GameOverScreen from '../screens/GameOverScreen'
-import HelpScreen from '../screens/HelpScreen'
 import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
-import MuteButton from './MuteButton'
-import MovablesStore from '../store/MovablesStore'
 
 
 declare const Howl: Howl
@@ -48,11 +54,17 @@ class Game extends Component<{}> {
       const characterStore = new CharacterStore()
       this.registerStore(characterStore)
 
+      const cosmeticsStore = new CosmeticsStore()
+      this.registerStore(cosmeticsStore)
+
       const gridStore = new GridStore()
       this.registerStore(gridStore)
 
       const movablesStore = new MovablesStore()
       this.registerStore(movablesStore)
+
+      // const effectsStore = new EffectsStore()
+      // this.registerStore(effectsStore)
 
       const scoreStore = new ScoreStore()
       this.registerStore(scoreStore)
@@ -64,7 +76,7 @@ class Game extends Component<{}> {
       this.registerStore(settingsStore)
    }
 
-   protected onTick(): void {
+   protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
       const screensStore = this.stores.screens as ScreensStore
       this.activeScreen = screensStore.content.active
 
@@ -88,6 +100,9 @@ class Game extends Component<{}> {
 
          screensStore.setScreen(Screens.GameOver)
       }
+
+      // const effectsStore = this.stores.effects as EffectsStore
+      // effectsStore.updateEffects(timeDifference)
    }
 
    template: Template = [
@@ -118,7 +133,11 @@ class Game extends Component<{}> {
       {
          component: new MuteButton(),
          position: (): Coordinates => new Coordinates(12, 8),
-      }
+      },
+      // {
+      //    component: new Effects(),
+      //    position: (): Coordinates => new Coordinates(0, 0),
+      // }
    ]
 }
 

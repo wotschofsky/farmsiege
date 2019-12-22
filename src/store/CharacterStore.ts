@@ -1,8 +1,8 @@
 import { Directions } from '../../lib/Enums'
 import cloneDeep from 'clone-deep'
-import Store from '../../lib/store/Store'
-import GridUtils from '../utils/Grid'
 import Coordinates from '../../lib/helpers/Coordinates'
+import GridUtils from '../utils/Grid'
+import Store from '../../lib/store/Store'
 
 
 export type BulletData = {
@@ -12,13 +12,6 @@ export type BulletData = {
    age: number,
 }
 
-export enum Hats {
-   Mexican,
-   Top,
-   Cop,
-   Crown,
-}
-
 export type CharacterStoreContent = {
    posX: number,
    posY: number,
@@ -26,9 +19,6 @@ export type CharacterStoreContent = {
    fieldX: number,
    fieldY: number,
    bullets: BulletData[],
-   style: {
-      hat: Hats,
-   },
 }
 
 // Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
@@ -41,9 +31,6 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
          direction: Directions.Right,
          fieldX: 0,
          fieldY: 0,
-         style: {
-            hat: Hats.Mexican
-         }
       })
    }
 
