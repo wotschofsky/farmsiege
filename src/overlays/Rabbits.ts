@@ -8,6 +8,7 @@ import MovablesStore, { RabbitData } from '../store/MovablesStore'
 import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
 import GridUtils from '../utils/Grid'
+import EffectsStore from '../store/EffectsStore'
 
 
 export type RabbitsProps = {}
@@ -17,10 +18,14 @@ export default class Rabbits extends Component<RabbitsProps> {
 
    protected onTick(ctx: PropsContext<RabbitsProps>, timeDifference: number): void {
       const movablesStore = this.stores.movables as MovablesStore
+      const characterStore = this.stores.character as CharacterStore
+      const effectsStore = this.stores.effects as EffectsStore
+
       movablesStore.updateRabbits(timeDifference)
 
-      const characterStore = this.stores.character as CharacterStore
-      movablesStore.detectHit(characterStore.content.bullets)
+      movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
+         effectsStore.showSmoke(x, y)
+      })
 
       const gridStore = this.stores.grid as GridStore
 
