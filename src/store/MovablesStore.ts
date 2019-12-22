@@ -113,7 +113,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
             bullets.forEach((bullet) => {
                if(Math.abs((rabbit.x + 128) - bullet.x) < 50 && Math.abs((rabbit.y + 256) - bullet.y) < 50) {
                   rabbitHit = true
-                  callback(rabbit.x + 96, rabbit.y + 256)
+                  callback(rabbit.x, rabbit.y)
                }
             })
             return !rabbitHit

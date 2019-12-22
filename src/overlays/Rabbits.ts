@@ -9,6 +9,7 @@ import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
 import GridUtils from '../utils/Grid'
 import EffectsStore from '../store/EffectsStore'
+import ScoreStore from '../store/ScoreStore'
 
 
 export type RabbitsProps = {}
@@ -20,11 +21,13 @@ export default class Rabbits extends Component<RabbitsProps> {
       const movablesStore = this.stores.movables as MovablesStore
       const characterStore = this.stores.character as CharacterStore
       const effectsStore = this.stores.effects as EffectsStore
+      const scoreStore = this.stores.score as ScoreStore
 
       movablesStore.updateRabbits(timeDifference)
 
       movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
-         effectsStore.showSmoke(x, y)
+         effectsStore.showSmoke(x + 96, y + 256)
+         scoreStore.add(10)
       })
 
       const gridStore = this.stores.grid as GridStore
