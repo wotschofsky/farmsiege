@@ -39,10 +39,10 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
          })
 
          clonedState.smoke = clonedState.smoke.filter((smoke) => {
-            return smoke.expired
+            return !smoke.expired
          })
 
-         return oldState
+         return clonedState
       })
    }
 }
