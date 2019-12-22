@@ -75,10 +75,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          const rabbitAmount = Math.ceil(Math.random() * 4) + 3
          const rabbitRows: number[] = []
          for(let i = 0; i < rabbitAmount; i++) {
-            let row = Math.round(Math.random() * 8)
-            while(rabbitRows.includes(row)) {
-               row = Math.round(Math.random() * 8)
-            }
+            let row: number
+            do {
+               row = Math.round(Math.random() * 7)
+            } while(rabbitRows.includes(row))
             rabbitRows.push(row)
          }
 
