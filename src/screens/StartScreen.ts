@@ -17,6 +17,7 @@ import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
+import EffectsStore from '../store/EffectsStore'
 
 
 export type StartScreenProps = {}
