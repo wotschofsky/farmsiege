@@ -14,8 +14,8 @@ import StartScreen from '../screens/StartScreen'
 
 import CharacterStore from '../store/CharacterStore'
 import CosmeticsStore from '../store/CosmeticsStore'
-// import Effects from '../overlays/Effects'
-// import EffectsStore from '../store/EffectsStore'
+import Effects from '../overlays/Effects'
+import EffectsStore from '../store/EffectsStore'
 import GridStore from '../store/GridStore'
 import MovablesStore from '../store/MovablesStore'
 import PropsContext from '../../lib/PropsContext'
@@ -63,8 +63,8 @@ class Game extends Component<{}> {
       const movablesStore = new MovablesStore()
       this.registerStore(movablesStore)
 
-      // const effectsStore = new EffectsStore()
-      // this.registerStore(effectsStore)
+      const effectsStore = new EffectsStore()
+      this.registerStore(effectsStore)
 
       const scoreStore = new ScoreStore()
       this.registerStore(scoreStore)
@@ -101,8 +101,8 @@ class Game extends Component<{}> {
          screensStore.setScreen(Screens.GameOver)
       }
 
-      // const effectsStore = this.stores.effects as EffectsStore
-      // effectsStore.updateEffects(timeDifference)
+      const effectsStore = this.stores.effects as EffectsStore
+      effectsStore.updateEffects(timeDifference)
    }
 
    template: Template = [
@@ -134,10 +134,10 @@ class Game extends Component<{}> {
          component: new MuteButton(),
          position: (): Coordinates => new Coordinates(12, 8),
       },
-      // {
-      //    component: new Effects(),
-      //    position: (): Coordinates => new Coordinates(0, 0),
-      // }
+      {
+         component: new Effects(),
+         position: (): Coordinates => new Coordinates(0, 0),
+      }
    ]
 }
 
