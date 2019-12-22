@@ -14,6 +14,7 @@ import retryButtonSprite from '../assets/ui/retry.png'
 import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
 import Highscores from '../components/Highscores'
+import EffectsStore from '../store/EffectsStore'
 
 
 export type GameOverScreenProps = {}
@@ -35,6 +36,9 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
 
       const scoreStore = this.stores.score as ScoreStore
       scoreStore.reset()
+
+      const effectsStore = this.stores.effects as EffectsStore
+      effectsStore.reset()
    }
 
    template: Template = [
