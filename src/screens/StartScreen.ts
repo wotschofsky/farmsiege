@@ -46,6 +46,8 @@ export default class StartScreen extends Component<StartScreenProps> {
       const scoreStore = this.stores.score as ScoreStore
       scoreStore.reset()
 
+      const effectsStore = this.stores.effects as EffectsStore
+      effectsStore.reset()
    }
 
    private showHelp(): void {
