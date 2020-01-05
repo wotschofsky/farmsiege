@@ -3,7 +3,7 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
 import Text, { TextProps } from '../../lib/components/native/Text'
-import ScoreStore from '../store/ScoreStore'
+import StatsStore from '../store/StatsStore'
 
 
 export type ScoreCounterProps = {}
@@ -13,8 +13,8 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
 
    protected onTick(): void {
       // Score aus ScoreStore übertragen
-      const scoreStore = this.stores.score as ScoreStore
-      this.score = scoreStore.content.score
+      const statsStore = this.stores.score as StatsStore
+      this.score = statsStore.content.score
    }
 
    template: Template = [
