@@ -66,7 +66,7 @@ export default class Rabbits extends Component<RabbitsProps> {
 
       movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
          effectsStore.showSmoke(x + 96, y + 256)
-         statsStore.add(10)
+         statsStore.addScore(10)
       })
 
       movablesStore.stillRabbits.forEach((rabbit) => {

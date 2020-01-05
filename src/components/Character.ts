@@ -8,7 +8,7 @@ import InputMap from '../../lib/InputMap'
 
 import CharacterStore from './store/CharacterStore'
 import GridStore from '../store/GridStore'
-import ScoreStore from '../store/ScoreStore'
+import ScoreStore from '../store/StatsStore'
 import spriteIdleLeft from '../assets/finn_idle_left.png'
 import spriteIdleRight from '../assets/finn_idle_right.png'
 import spriteRunningLeft from '../assets/finn_running_left.png'
@@ -23,6 +23,7 @@ import copHatSprite from '../assets/character/hats/cop_hat.png'
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 import Hat from './character/Hat'
 import CharacterStore from '../store/CharacterStore'
+import StatsStore from '../store/StatsStore'
 // import EffectsStore from '../store/EffectsStore'
 
 
@@ -51,7 +52,7 @@ export default class Character extends Component<CharacterProps> {
    protected onTick(_, timeDifference: number): void {
       const characterStore = this.stores.character as CharacterStore
       const gridStore = this.stores.grid as GridStore
-      const scoreStore = this.stores.score as ScoreStore
+      const statsStore = this.stores.score as StatsStore
 
       const inputs = this.inputMap.pressed
 
@@ -69,7 +70,7 @@ export default class Character extends Component<CharacterProps> {
       if(inputs.use) {
          const field = gridStore.content[characterStore.content.fieldX][characterStore.content.fieldY]
          if(field.type === TileContents.Plant && field.data.age >= 15000) {
-            scoreStore.add(10)
+            statsStore.addScore(10)
          }
 
          gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY)
