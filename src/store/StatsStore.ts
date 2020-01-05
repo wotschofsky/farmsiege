@@ -4,7 +4,7 @@ import Store from '../../lib/store/Store'
 
 export type StatsStoreContent = {
    score: number,
-   duration: number
+   duration: number,
 }
 
 export default class StatsStore extends Store<StatsStoreContent> {
@@ -20,6 +20,16 @@ export default class StatsStore extends Store<StatsStoreContent> {
          const clonedState = cloneDeep(oldState)
 
          clonedState.score += amount
+
+         return clonedState
+      })
+   }
+
+   public increaseDuration(amount: number): void {
+      this.update((oldState: StatsStoreContent) => {
+         const clonedState = cloneDeep(oldState)
+
+         clonedState.duration += amount
 
          return clonedState
       })
