@@ -1,20 +1,21 @@
 import { Directions } from '../../lib/Enums'
 import cloneDeep from 'clone-deep'
+import Coordinates from '../../lib/helpers/Coordinates'
 import Store from '../../lib/store/Store'
 
 import { BulletData } from './CharacterStore'
+import GridUtils from '../utils/Grid'
 
 
 export type RabbitData = {
    x: number,
    y: number,
    direction: Directions,
-   movingTimeLeft: number,
-   timeBeforeMove: number,
+   targetX: number,
 }
 
 type MovablesStoreContent = {
-   rabbits: RabbitData[]
+   rabbits: RabbitData[],
 }
 
 export default class MovablesStore extends Store<MovablesStoreContent> {
@@ -43,25 +44,44 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
          clonedState.rabbits = clonedState.rabbits.map((data): RabbitData => {
             const speed = data.direction === Directions.Left ? 0.2 : -0.2
-            let x = data.movingTimeLeft > 0 ? data.x - timeDifference * speed : data.x
 
-            let timeBeforeMove = data.timeBeforeMove
-            if(data.movingTimeLeft === 0) {
-               timeBeforeMove = Math.max(data.timeBeforeMove - timeDifference, 0)
+            const distanceToTarget = (data.targetX - data.x) * (data.direction === Directions.Left ? -1 : 1)
+            const shouldMove = distanceToTarget > 0
+            const relativeX = timeDifference * speed
+
+            let x = shouldMove ? data.x - relativeX : data.x
+            if(distanceToTarget < 0) {
+               x = data.targetX
             }
 
-            let movingTimeLeft = Math.max(data.movingTimeLeft - timeDifference, 0)
-            if(data.timeBeforeMove === 0) {
-               movingTimeLeft = Math.random() * 1500 + 3000
-               timeBeforeMove = Math.random() * 2000 + 1000
-            }
 
             return {
                ...data,
-               x,
-               movingTimeLeft,
-               timeBeforeMove
+               x
             }
+         })
+
+         return clonedState
+      })
+   }
+
+   public setRabbitTargets(callback: (row: number, direction: Directions, currentColumn: number) => number): void {
+      this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
+         const clonedState = cloneDeep(oldState)
+
+         clonedState.rabbits.map((rabbit): RabbitData => {
+            // Spalte mit Hilfe der x-Koordinate berechnen
+            const { x: currentColumn } = GridUtils.coordsToExactField(new Coordinates(
+               // rabbit.x - (288 - 128),
+               rabbit.x - 128,
+               0,
+            ))
+
+            const rabbitRow = (rabbit.y + 96) / 128
+
+            const value = callback(rabbitRow, rabbit.direction, currentColumn)
+            rabbit.targetX = value * 128 + 288 - 128
+            return rabbit
          })
 
          return clonedState
@@ -72,7 +92,8 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
          const clonedState = cloneDeep(oldState)
 
-         const rabbitAmount = Math.ceil(Math.random() * 4) + 3
+         const rabbitAmount = 1
+         // const rabbitAmount = Math.ceil(Math.random() * 4) + 3
          const rabbitRows: number[] = []
          for(let i = 0; i < rabbitAmount; i++) {
             let row: number
@@ -86,11 +107,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          const mappedRabbits: RabbitData[] = rabbitRows.map((row): RabbitData => {
             const offset = Math.random() * 252
             return {
-               x: direction === Directions.Left ? 1600 + offset : -126 - offset,
-               y: row * 126 - 96,
-               direction: direction,
-               movingTimeLeft: Math.random() * 1500 + 3000,
-               timeBeforeMove: Math.random() * 2000 + 1000
+               x: direction === Directions.Left ? 1600 + offset : -128 - offset,
+               y: row * 128 - 96,
+               direction,
+               targetX: 800
             }
          })
 
@@ -129,7 +149,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
    public get stillRabbits(): RabbitData[] {
       return this.content.rabbits.filter((rabbit) => {
-         return rabbit.movingTimeLeft === 0
+         return rabbit.x === rabbit.targetX
       })
    }
 }

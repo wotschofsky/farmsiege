@@ -10,6 +10,8 @@ import GridStore from '../store/GridStore'
 import GridUtils from '../utils/Grid'
 import EffectsStore from '../store/EffectsStore'
 import ScoreStore from '../store/ScoreStore'
+import TileContents from '../TileContents'
+import { Directions } from '../../lib/Enums'
 
 
 export type RabbitsProps = {}
@@ -18,10 +20,47 @@ export default class Rabbits extends Component<RabbitsProps> {
    rabbits: RabbitData[] = []
 
    protected onTick(ctx: PropsContext<RabbitsProps>, timeDifference: number): void {
-      const movablesStore = this.stores.movables as MovablesStore
       const characterStore = this.stores.character as CharacterStore
       const effectsStore = this.stores.effects as EffectsStore
+      const gridStore = this.stores.grid as GridStore
+      const movablesStore = this.stores.movables as MovablesStore
       const scoreStore = this.stores.score as ScoreStore
+
+      movablesStore.setRabbitTargets((row: number, direction: Directions, currentColumn: number): number => {
+         // console.log(currentColumn)
+         let offset = Math.max(0, Math.round(currentColumn))
+         if(direction === Directions.Left) {
+            offset = Math.max(0, 8 - offset)
+         }
+
+         // x-y-Raster in Array mit bestimmeter Reihe umwandeln
+         let contentRow = gridStore.content.map((column) => {
+            return column[row]
+         })
+
+         // Bei Bedarf Startpunkt ändern
+         if(direction === Directions.Right) {
+            contentRow = contentRow.slice(offset)
+         } else {
+            contentRow = contentRow.reverse().slice(offset)
+         }
+
+
+         let computedTarget = direction === Directions.Right ? 12 : -4
+
+         for(const index in contentRow) {
+            if(contentRow[index].type === TileContents.Plant) {
+               if(direction === Directions.Right) {
+                  computedTarget = parseInt(index) + offset
+               } else {
+                  computedTarget = 8 - parseInt(index) - offset
+               }
+               break
+            }
+         }
+
+         return computedTarget
+      })
 
       movablesStore.updateRabbits(timeDifference)
 
@@ -30,14 +69,21 @@ export default class Rabbits extends Component<RabbitsProps> {
          scoreStore.add(10)
       })
 
-      const gridStore = this.stores.grid as GridStore
-
       movablesStore.stillRabbits.forEach((rabbit) => {
-         const coords = GridUtils.coordsToField(new Coordinates(
-            rabbit.x - 288,
-            rabbit.y + 108,
-         ))
-         gridStore.removePlant(coords.x, coords.y)
+         if(rabbit.direction === Directions.Right) {
+            const coords = GridUtils.coordsToField(new Coordinates(
+               rabbit.x - (288 - 128),
+               rabbit.y + 108,
+            ))
+            gridStore.removePlant(coords.x, coords.y)
+         } else {
+            console.log('rabbit left')
+            const coords = GridUtils.coordsToField(new Coordinates(
+               rabbit.x - (288),
+               rabbit.y + 108,
+            ))
+            gridStore.removePlant(coords.x, coords.y)
+         }
       })
    }
 
@@ -56,7 +102,7 @@ export default class Rabbits extends Component<RabbitsProps> {
                },
                props: (data: RabbitData): RabbitProps => ({
                   direction: data.direction,
-                  moving: data.movingTimeLeft > 0
+                  moving: data.x !== data.targetX
                })
             }
          }
