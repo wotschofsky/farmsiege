@@ -8,4 +8,11 @@ export default class GridUtils {
          Math.round(position.y / 128),
       )
    }
+
+   static coordsToExactField(position: Coordinates): Coordinates {
+      return new Coordinates(
+         position.x / 128,
+         position.y / 128,
+      )
+   }
 }
