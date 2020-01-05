@@ -1,15 +1,16 @@
 // import typescript from 'rollup-plugin-typescript2'
-import typescript from 'rollup-plugin-typescript';
-import serve from 'rollup-plugin-serve'
-import livereload from 'rollup-plugin-livereload'
-import htmlTemplate from 'rollup-plugin-generate-html-template'
-import babel from 'rollup-plugin-babel'
-import url from 'rollup-plugin-url'
-import nodeResolve from 'rollup-plugin-node-resolve'
-import visualizer from 'rollup-plugin-visualizer'
-import { terser } from 'rollup-plugin-terser'
 import { eslint } from 'rollup-plugin-eslint'
-import commonjs from 'rollup-plugin-commonjs'//#
+import { terser } from 'rollup-plugin-terser'
+import babel from 'rollup-plugin-babel'
+import commonjs from 'rollup-plugin-commonjs'
+import htmlTemplate from 'rollup-plugin-generate-html-template'
+import json from '@rollup/plugin-json'
+import livereload from 'rollup-plugin-livereload'
+import nodeResolve from 'rollup-plugin-node-resolve'
+import serve from 'rollup-plugin-serve'
+import typescript from 'rollup-plugin-typescript'
+import url from 'rollup-plugin-url'
+import visualizer from 'rollup-plugin-visualizer'
 
 
 let devConfig = []
@@ -54,6 +55,7 @@ export default {
          emitFiles: true, // defaults to true,
          fileName: '[dirname][hash][extname]',
       }),
+      json(),
       typescript({
          // clean: true
       }),

@@ -11,6 +11,7 @@
       "lint": "eslint **/*.ts"
    },
    "dependencies": {
+      "@rollup/plugin-json": "^4.0.1",
       "@types/clone-deep": "^4.0.1",
       "@types/core-js": "^2.5.2",
       "@types/defaults": "^1.0.2",
