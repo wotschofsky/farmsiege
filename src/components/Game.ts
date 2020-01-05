@@ -27,7 +27,7 @@ import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
 declare const Howl: Howl
 
 class Game extends Component<{}> {
-   activeScreen: Screens
+   private activeScreen: Screens
 
    protected onInit(): void {
       const settingsStore = new SettingsStore()
@@ -80,12 +80,13 @@ class Game extends Component<{}> {
       this.activeScreen = screensStore.content.active
 
       const gridStore = this.stores.grid as GridStore
+      const movablesStore = this.stores.movables as MovablesStore
 
       const statsStore = this.stores.score as StatsStore
 
       statsStore.increaseDuration(timeDifference)
 
-      if(gridStore.friendlyPlants === 0) {
+      if(gridStore.friendlyPlants === 0 && !window.invincible) {
          if(statsStore.content.score > 0) {
             const name = prompt('Please enter your name')
             if(!!name && name.length >= 1) {
@@ -104,6 +105,13 @@ class Game extends Component<{}> {
 
          screensStore.setScreen(Screens.GameOver)
       }
+
+      // Update speedMultiplier in stores
+      const { gameSpeed } = statsStore
+      gridStore.speedMultiplier = gameSpeed
+      movablesStore.speedMultiplier = gameSpeed
+      console.log(gameSpeed)
+
 
       const effectsStore = this.stores.effects as EffectsStore
       effectsStore.updateEffects(timeDifference)

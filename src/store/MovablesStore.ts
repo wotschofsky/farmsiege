@@ -20,12 +20,20 @@ type MovablesStoreContent = {
 }
 
 export default class MovablesStore extends Store<MovablesStoreContent> {
+   private _speedMultiplier: number
+
    constructor() {
       super('movables', {
          rabbits: [],
       })
 
+      this._speedMultiplier = 1
+
       this.spawnRabbits()
+   }
+
+   public set speedMultiplier(value: number) {
+      this._speedMultiplier = value
    }
 
    public updateRabbits(timeDifference: number): void {
@@ -121,7 +129,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
       setTimeout(() => {
          this.spawnRabbits()
-      }, Math.random() * (values.rabbits.spawning.max - values.rabbits.spawning.min) + values.rabbits.spawning.min)
+      }, (Math.random() * (values.rabbits.spawning.max - values.rabbits.spawning.min) + values.rabbits.spawning.min) / this._speedMultiplier)
    }
 
    public detectHit(bullets: BulletData[], callback: (x: number, y: number) => void): void {

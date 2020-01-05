@@ -30,7 +30,8 @@ const initialTile: TileData = {
 }
 
 export default class GridStore extends Store<GridStoreContent> {
-   timers: number[]
+   private timers: number[]
+   private _speedMultiplier: number
 
    constructor() {
       const initialGrid: GridStoreContent = []
@@ -61,6 +62,11 @@ export default class GridStore extends Store<GridStoreContent> {
       super('grid', initialGrid)
 
       this.timers = []
+      this._speedMultiplier = 1
+   }
+
+   public set speedMultiplier(value: number) {
+      this._speedMultiplier = value
    }
 
    public start(): void {
@@ -175,7 +181,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       const timeout = setTimeout(() => {
          this.updateMole()
-      }, Math.random() * (values.mole.spawning.max - values.mole.spawning.min) + values.mole.spawning.min)
+      }, (Math.random() * (values.mole.spawning.max - values.mole.spawning.min) + values.mole.spawning.min) / this._speedMultiplier)
       this.timers.push(timeout)
    }
 
@@ -218,7 +224,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       const timeout = setTimeout(() => {
          this.updateWeed()
-      }, Math.random() * (values.weed.spawning.max - values.weed.spawning.min) + values.weed.spawning.min)
+      }, (Math.random() * (values.weed.spawning.max - values.weed.spawning.min) + values.weed.spawning.min) / this._speedMultiplier)
       this.timers.push(timeout)
    }
 
@@ -254,7 +260,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       const repeatTimeout = setTimeout(() => {
          this.updateLightning()
-      }, Math.random() * (values.lightning.spawning.max - values.lightning.spawning.min) + values.lightning.spawning.min)
+      }, (Math.random() * (values.lightning.spawning.max - values.lightning.spawning.min) + values.lightning.spawning.min) / this._speedMultiplier)
       this.timers.push(repeatTimeout)
    }
 

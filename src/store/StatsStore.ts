@@ -34,4 +34,8 @@ export default class StatsStore extends Store<StatsStoreContent> {
          return clonedState
       })
    }
+
+   public get gameSpeed(): number {
+      return 10e-6 * this.content.duration + 1
+   }
 }
