@@ -92,8 +92,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
          const clonedState = cloneDeep(oldState)
 
-         const rabbitAmount = 1
-         // const rabbitAmount = Math.ceil(Math.random() * 4) + 3
+         const rabbitAmount = Math.ceil(Math.random() * 4) + 3
          const rabbitRows: number[] = []
          for(let i = 0; i < rabbitAmount; i++) {
             let row: number
