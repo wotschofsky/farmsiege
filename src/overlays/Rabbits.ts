@@ -77,7 +77,6 @@ export default class Rabbits extends Component<RabbitsProps> {
             ))
             gridStore.removePlant(coords.x, coords.y)
          } else {
-            console.log('rabbit left')
             const coords = GridUtils.coordsToField(new Coordinates(
                rabbit.x - (288),
                rabbit.y + 108,
