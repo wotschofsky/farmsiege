@@ -8,13 +8,13 @@ import Text, { TextProps } from '../../lib/components/native/Text'
 
 import CharacterStore from '../store/CharacterStore'
 import Dialog, { DialogProps } from '../components/Dialog'
+import EffectsStore from '../store/EffectsStore'
 import GridStore from '../store/GridStore'
+import Highscores from '../components/Highscores'
 import MovablesStore from '../store/MovablesStore'
 import retryButtonSprite from '../assets/ui/retry.png'
-import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
-import Highscores from '../components/Highscores'
-import EffectsStore from '../store/EffectsStore'
+import StatsStore from '../store/StatsStore'
 
 
 export type GameOverScreenProps = {}
@@ -34,8 +34,8 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       const characterStore = this.stores.character as CharacterStore
       characterStore.reset()
 
-      const scoreStore = this.stores.score as ScoreStore
-      scoreStore.reset()
+      const statsStore = this.stores.score as StatsStore
+      statsStore.reset()
 
       const effectsStore = this.stores.effects as EffectsStore
       effectsStore.reset()
@@ -54,9 +54,9 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
          component: new Text(),
          position: (): Coordinates => new Coordinates(550, 350),
          props: (): TextProps => {
-            const scoreStore = this.stores.score as ScoreStore
+            const statsStore = this.stores.score as StatsStore
             return {
-               text: `YOUR SCORE: ${scoreStore.content.score}`,
+               text: `YOUR SCORE: ${statsStore.content.score}`,
                color: '#fff',
                size: 36,
             }

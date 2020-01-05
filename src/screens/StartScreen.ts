@@ -6,18 +6,18 @@ import Coordinates from '../../lib/helpers/Coordinates'
 import Dimensions from '../../lib/helpers/Dimensions'
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener'
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
+import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
 
 import CharacterStore from '../store/CharacterStore'
+import EffectsStore from '../store/EffectsStore'
 import GridStore from '../store/GridStore'
 import helpButtonSprite from '../assets/ui/help.png'
 import logo from '../assets/logo.png'
 import MovablesStore from '../store/MovablesStore'
 import playButtonSprite from '../assets/ui/play.png'
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle'
-import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
-import ScoreStore from '../store/ScoreStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
-import EffectsStore from '../store/EffectsStore'
+import StatsStore from '../store/StatsStore'
 
 
 export type StartScreenProps = {}
@@ -44,8 +44,8 @@ export default class StartScreen extends Component<StartScreenProps> {
       const characterStore = this.stores.character as CharacterStore
       characterStore.reset()
 
-      const scoreStore = this.stores.score as ScoreStore
-      scoreStore.reset()
+      const statsStore = this.stores.score as StatsStore
+      statsStore.reset()
 
       const effectsStore = this.stores.effects as EffectsStore
       effectsStore.reset()

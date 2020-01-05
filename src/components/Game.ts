@@ -19,7 +19,7 @@ import EffectsStore from '../store/EffectsStore'
 import GridStore from '../store/GridStore'
 import MovablesStore from '../store/MovablesStore'
 import PropsContext from '../../lib/PropsContext'
-import ScoreStore from '../store/ScoreStore'
+import StatsStore from '../store/StatsStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
 import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
 
@@ -30,7 +30,6 @@ class Game extends Component<{}> {
    activeScreen: Screens
 
    protected onInit(): void {
-
       const settingsStore = new SettingsStore()
       this.registerStore(settingsStore)
 
@@ -66,8 +65,8 @@ class Game extends Component<{}> {
       const effectsStore = new EffectsStore()
       this.registerStore(effectsStore)
 
-      const scoreStore = new ScoreStore()
-      this.registerStore(scoreStore)
+      const statsStore = new StatsStore()
+      this.registerStore(statsStore)
 
       const screensStore = new ScreensStore()
       this.registerStore(screensStore)

@@ -9,7 +9,7 @@ import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
 import GridUtils from '../utils/Grid'
 import EffectsStore from '../store/EffectsStore'
-import ScoreStore from '../store/ScoreStore'
+import StatsStore from '../store/StatsStore'
 import TileContents from '../TileContents'
 import { Directions } from '../../lib/Enums'
 
@@ -24,7 +24,7 @@ export default class Rabbits extends Component<RabbitsProps> {
       const effectsStore = this.stores.effects as EffectsStore
       const gridStore = this.stores.grid as GridStore
       const movablesStore = this.stores.movables as MovablesStore
-      const scoreStore = this.stores.score as ScoreStore
+      const statsStore = this.stores.score as StatsStore
 
       movablesStore.setRabbitTargets((row: number, direction: Directions, currentColumn: number): number => {
          // console.log(currentColumn)
@@ -66,7 +66,7 @@ export default class Rabbits extends Component<RabbitsProps> {
 
       movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
          effectsStore.showSmoke(x + 96, y + 256)
-         scoreStore.add(10)
+         statsStore.add(10)
       })
 
       movablesStore.stillRabbits.forEach((rabbit) => {

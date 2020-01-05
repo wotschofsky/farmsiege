@@ -2,11 +2,11 @@ import cloneDeep from 'clone-deep'
 import Store from '../../lib/store/Store'
 
 
-export type ScoreStoreContent = {
+export type StatsStoreContent = {
    score: number,
 }
 
-export default class ScoreStore extends Store<ScoreStoreContent> {
+export default class StatsStore extends Store<StatsStoreContent> {
    constructor() {
       super('score', {
          score: 0
@@ -14,7 +14,7 @@ export default class ScoreStore extends Store<ScoreStoreContent> {
    }
 
    public add(amount: number): void {
-      this.update((oldState: ScoreStoreContent): ScoreStoreContent => {
+      this.update((oldState: StatsStoreContent): StatsStoreContent => {
          const clonedState = cloneDeep(oldState)
 
          clonedState.score += amount
