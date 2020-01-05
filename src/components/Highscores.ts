@@ -16,14 +16,21 @@ export default class Highscores extends Component<HighscoresProps> {
    private scores: ScoreData[] = []
 
    protected onInit() {
-      fetch('https://garden-defense.firebaseio.com/highscores.json?orderBy=%22score%22&limitToLast=10').then((res) => {
+      fetch('https://garden-defense.firebaseio.com/highscores.json?orderBy="score"&limitToLast=10').then((res) => {
          return res.json()
       }).then((json) => {
-         let scores: ScoreData[] = []
+         const scores: ScoreData[] = []
          for(let score in json) {
             scores.push(json[score])
          }
-         this.scores = scores
+
+         const sorted = scores.sort((a, b): number => {
+            if(a.score < b.score) return 1
+            if(a.score > b.score) return -1
+            return 0
+         })
+
+         this.scores = sorted
       })
    }
 
