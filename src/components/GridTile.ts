@@ -56,6 +56,20 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.row * this.tileSize,
             ctx.props.column * this.tileSize,
          ),
+         props: (): RectangleProps => {
+            return {
+               width: this.tileSize,
+               height: this.tileSize,
+               color: 'rgba(255, 255, 255, 0.2)'
+            }
+         }
+      },
+      {
+         component: new Rectangle(),
+         position: (ctx: PropsContext<GridTileProps>): Coordinates => new Coordinates(
+            ctx.props.row * this.tileSize,
+            ctx.props.column * this.tileSize,
+         ),
          props: (ctx: PropsContext<GridTileProps>): RectangleProps => {
             const isDark = (ctx.props.row + ctx.props.column) % 2 === 1
             return {
