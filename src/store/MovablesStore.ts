@@ -5,6 +5,7 @@ import Store from '../../lib/store/Store'
 
 import { BulletData } from './CharacterStore'
 import GridUtils from '../utils/Grid'
+import values from '../values.json'
 
 
 export type RabbitData = {
@@ -92,7 +93,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       this.update((oldState: MovablesStoreContent): MovablesStoreContent => {
          const clonedState = cloneDeep(oldState)
 
-         const rabbitAmount = Math.ceil(Math.random() * 4) + 3
+         const rabbitAmount = Math.round(Math.random() * (values.rabbits.amount.max - values.rabbits.amount.min)) + values.rabbits.amount.min
          const rabbitRows: number[] = []
          for(let i = 0; i < rabbitAmount; i++) {
             let row: number
@@ -120,7 +121,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
       setTimeout(() => {
          this.spawnRabbits()
-      }, Math.random() * 12000 + 8000)
+      }, Math.random() * (values.rabbits.spawning.max - values.rabbits.spawning.min) + values.rabbits.spawning.min)
    }
 
    public detectHit(bullets: BulletData[], callback: (x: number, y: number) => void): void {

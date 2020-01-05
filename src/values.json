@@ -1,0 +1,37 @@
+{
+   "rabbits": {
+      "spawning": {
+         "min": 8000,
+         "max": 20000
+      },
+      "amount": {
+         "min": 4,
+         "max": 7
+      }
+   },
+   "mole": {
+      "spawning": {
+         "min": 1000,
+         "max": 5000
+      }
+   },
+   "lightning": {
+      "spawning": {
+         "min": 5000,
+         "max": 20000
+      }
+   },
+   "weed": {
+      "spawning": {
+         "min": 1000,
+         "max": 5000
+      }
+   },
+   "plant": {
+      "startAmount": 3,
+      "age": {
+         "maxStart": 4000,
+         "fullyGrown": 15000
+      }
+   }
+}

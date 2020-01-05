@@ -9,6 +9,7 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
 import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
 import TileContents from '../TileContents'
+import values from '../values.json'
 
 import dirt from '../assets/dirt.png'
 import lightning from '../assets/lightning.png'
@@ -96,9 +97,9 @@ export default class GridTile extends Component<GridTileProps> {
                   break
                case(TileContents.Plant):
                   child = tomato0
-                  if(this.contentData.age >= 5000) child = tomato1
-                  if(this.contentData.age >= 10000) child = tomato2
-                  if(this.contentData.age >= 15000) child = tomato3
+                  if(this.contentData.age >= values.plant.age.fullyGrown * 1/3) child = tomato1
+                  if(this.contentData.age >= values.plant.age.fullyGrown * 2/3) child = tomato2
+                  if(this.contentData.age >= values.plant.age.fullyGrown) child = tomato3
                   break
                case(TileContents.Weed):
                   child = weed

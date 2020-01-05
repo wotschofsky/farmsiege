@@ -3,6 +3,7 @@ import Coordinates from '../../lib/helpers/Coordinates'
 import Store from '../../lib/store/Store'
 
 import TileContents from '../TileContents'
+import values from '../values.json'
 
 
 type TileData = {
@@ -47,13 +48,13 @@ export default class GridStore extends Store<GridStoreContent> {
          initialGrid.push(initialRow)
       }
 
-      for(let i = 0; i < 3; i++) {
+      for(let i = 0; i < values.plant.startAmount; i++) {
          const row = Math.floor(Math.random() * 8)
          const col = Math.floor(Math.random() * 8)
 
          initialGrid[row][col].type = TileContents.Plant
          initialGrid[row][col].data = {
-            age: Math.random() * 4000
+            age: Math.random() * values.plant.age.maxStart
          }
       }
 
@@ -174,7 +175,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       const timeout = setTimeout(() => {
          this.updateMole()
-      }, Math.random() * 4000 + 1000)
+      }, Math.random() * (values.mole.spawning.max - values.mole.spawning.min) + values.mole.spawning.min)
       this.timers.push(timeout)
    }
 
@@ -217,7 +218,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       const timeout = setTimeout(() => {
          this.updateWeed()
-      }, Math.random() * 4000 + 1000)
+      }, Math.random() * (values.weed.spawning.max - values.weed.spawning.min) + values.weed.spawning.min)
       this.timers.push(timeout)
    }
 
@@ -253,7 +254,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
       const repeatTimeout = setTimeout(() => {
          this.updateLightning()
-      }, Math.random() * 15000 + 5000)
+      }, Math.random() * (values.lightning.spawning.max - values.lightning.spawning.min) + values.lightning.spawning.min)
       this.timers.push(repeatTimeout)
    }
 
