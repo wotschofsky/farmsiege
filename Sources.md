@@ -24,6 +24,18 @@ CPU Throttling - Chrome DevTools - Dev Tips \
 27.11.2019 \
 https://umaar.com/dev-tips/88-cpu-throttling/
 
+clone-deep Library Dokumentation\
+10.12.2019 \
+https://www.npmjs.com/package/clone-deep
+
 Firebase Retrieving Data \
-27.11.2019 \
+05.01.2020 \
 https://firebase.google.com/docs/database/rest/retrieve-data
+
+Stackoverflow Thread mit Hinweis zum sortierten Abfragen bei Firebase \
+05.01.2020 \
+https://stackoverflow.com/a/44449675/12475254
+
+Object Destructuring \
+05.01.2020 \
+https://wesbos.com/destructuring-renaming/
