@@ -26,13 +26,13 @@ if(!process.env.PRODUCTION) {
       visualizer({
          filename: 'dist/stats.html'
       }),
-      eslint({
-         exclude: [
-            'node_modules/**',
-            '**/**.png',
-            '**/**.mp3'
-         ]
-      }),
+      // eslint({
+      //    exclude: [
+      //       'node_modules/**',
+      //       '**/**.png',
+      //       '**/**.mp3'
+      //    ]
+      // }),
    ]
 }
 
