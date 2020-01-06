@@ -161,8 +161,8 @@ export default class GridStore extends Store<GridStoreContent> {
          })
 
          if(!moleActive) {
-            // Mit 5% Wahrscheinlichkeit Maulwurf an zufälliger Stelle erscheinen lassen
-            if(Math.random() > 0.05) return oldState
+            // Mit festgelegter Wahrscheinlichkeit Maulwurf an zufälliger Stelle erscheinen lassen
+            if(Math.random() > values.mole.newChance) return oldState
 
             const row = Math.floor(Math.random() * 8)
             const col = Math.floor(Math.random() * 8)
