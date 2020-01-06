@@ -9,13 +9,24 @@
       <style>
          body {
             margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
          }
 
          .container {
-            padding-top: 5rem;
+            padding-top: 2rem;
             width: 80%;
             height: auto;
             margin: auto;
+         }
+
+         footer {
+            text-align: center;
+            font-size: 125%;
+            margin: 2rem 0;
+         }
+
+         :link, :visited {
+            color: #3A7D8C;
          }
       </style>
 
@@ -25,6 +36,7 @@
          /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
          _paq.push(['trackPageView']);
          _paq.push(['enableLinkTracking']);
+         _paq.push(['enableHeartBeatTimer']);
          (function() {
          var u="https://analytics.felisk.io/";
          _paq.push(['setTrackerUrl', u+'matomo.php']);
@@ -39,6 +51,9 @@
    <body>
       <div class="container">
          <canvas id="canvas" style="width: 100%; height: auto;"></canvas>
+         <footer>
+            Handcrafted with ❤️ by <a href="https://felisk.io">Felix Wotschofsky</a>
+         </footer>
       </div>
    </body>
 </html>
