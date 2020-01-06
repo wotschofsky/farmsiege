@@ -9,14 +9,6 @@ import StatsStore from '../store/StatsStore'
 export type ScoreCounterProps = {}
 
 export default class ScoreCounter extends Component<ScoreCounterProps> {
-   private score = 0
-
-   protected onTick(): void {
-      // Score aus ScoreStore übertragen
-      const statsStore = this.stores.score as StatsStore
-      this.score = statsStore.content.score
-   }
-
    protected template: Template = [
       {
          component: new Rectangle(),
@@ -30,10 +22,14 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
       {
          component: new Text(),
          position: (): Coordinates => new Coordinates(-30, 30),
-         props: (): TextProps => ({
-            text: `${this.score} Points`,
-            color: '#fff',
-         }),
+         props: (): TextProps => {
+            const statsStore = this.stores.score as StatsStore
+
+            return {
+               text: `${statsStore.content.score} Points`,
+               color: '#fff',
+            }
+         },
       }
    ]
 }
