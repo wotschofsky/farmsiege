@@ -3,7 +3,7 @@ export default class InputMap {
    private template: Record<string, string[]>
    private usedKeys: string[] = []
 
-   constructor(template: Record<string, string[]>) {
+   public constructor(template: Record<string, string[]>) {
       this.template = template
 
       for(const key in this.template) {

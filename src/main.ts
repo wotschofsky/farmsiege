@@ -6,9 +6,9 @@ import Dimensions from '../lib/helpers/Dimensions'
 
 
 class Main {
-   canvas: Canvas
+   private canvas: Canvas
 
-   constructor() {
+   public constructor() {
       // Spiel initialisieren
       this.canvas = new Canvas({
          el: document.getElementById('canvas') as HTMLCanvasElement,

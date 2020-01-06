@@ -16,7 +16,7 @@ export default class EventListener extends Component<EventListenerProps> {
    private componentSize: Dimensions
    private renderContext: RenderingContext
 
-   constructor() {
+   public constructor() {
       super()
 
       this.clickListener = (): void => {}

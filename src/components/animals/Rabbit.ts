@@ -18,7 +18,7 @@ export type RabbitProps = {
 }
 
 export default class Rabbit extends Component<RabbitProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new AnimatedSprite(),
          position: (): Coordinates => new Coordinates(0, 0),

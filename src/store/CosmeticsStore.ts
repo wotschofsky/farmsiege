@@ -39,7 +39,7 @@ export type CosmeticsStoreContent = {
 }
 
 export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
-   constructor() {
+   public constructor() {
       super('cosmetics', {
          hat: Hats.Mexican
       })

@@ -15,7 +15,7 @@ export default class Bullets extends Component<BulletsProps> {
       characterStore.updateBullets(timeDifference)
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Repeating(),
          position: (): Coordinates => new Coordinates(0, 0),

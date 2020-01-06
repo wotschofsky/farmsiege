@@ -11,7 +11,7 @@ export type TextProps = {
 }
 
 export default class Text extends Component<TextProps> {
-   render(context: RenderingContext, position: Coordinates, props: TextProps): void {
+   public render(context: RenderingContext, position: Coordinates, props: TextProps): void {
       context.renderContext.textAlign = 'left'
       context.renderContext.fillStyle = props.color || 'black'
       context.renderContext.font = `${(props.size || 16) * context.scaleFactor}px ${props.font || 'Arial'}`

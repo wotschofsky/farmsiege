@@ -23,7 +23,7 @@ export type CharacterStoreContent = {
 
 // Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
 export default class CharacterStore extends Store<CharacterStoreContent> {
-   constructor() {
+   public constructor() {
       super('character', {
          bullets: [],
          posX: 100,

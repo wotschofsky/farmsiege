@@ -2,7 +2,7 @@ export default class Coordinates {
    private _x: number
    private _y: number
 
-   constructor(x: number, y: number) {
+   public constructor(x: number, y: number) {
       this._x = x || 0
       this._y = y || 0
    }

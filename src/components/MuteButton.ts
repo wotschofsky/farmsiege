@@ -28,7 +28,7 @@ export default class MuteButton extends Component<MuteButtonProps> {
       return muteIconSprite
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new EventListener(),
          position: (): Coordinates => new Coordinates(0, 0),

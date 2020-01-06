@@ -1,7 +1,7 @@
 export default class PropsContext<P> {
    private _props: P
 
-   constructor(
+   public constructor(
       props: P,
    ) {
       this._props = props

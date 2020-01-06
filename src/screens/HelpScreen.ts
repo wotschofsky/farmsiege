@@ -20,7 +20,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       screensStore.setReturnScreen(null)
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Dialog(),
          position: (): Coordinates => new Coordinates(500, 400),

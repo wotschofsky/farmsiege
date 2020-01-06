@@ -38,7 +38,7 @@ export default class GridTile extends Component<GridTileProps> {
       this.contentData = tileData.data
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Sprite(),
          position: (ctx: PropsContext<GridTileProps>): Coordinates => new Coordinates(

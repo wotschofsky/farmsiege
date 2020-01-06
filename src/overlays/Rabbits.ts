@@ -86,7 +86,7 @@ export default class Rabbits extends Component<RabbitsProps> {
       })
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Repeating(),
          position: (): Coordinates => new Coordinates(0, 0),

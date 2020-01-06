@@ -33,7 +33,7 @@ export default class GridStore extends Store<GridStoreContent> {
    private timers: number[]
    private _speedMultiplier: number
 
-   constructor() {
+   public constructor() {
       const initialGrid: GridStoreContent = []
       for(let i = 0; i < 8; i++) {
          const initialRow: RowData = [

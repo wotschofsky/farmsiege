@@ -12,7 +12,7 @@ type EffectsStoreContent = {
 }
 
 export default class EffectsStore extends Store<EffectsStoreContent> {
-   constructor() {
+   public constructor() {
       super('effects', {
          smoke: []
       })

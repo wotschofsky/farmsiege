@@ -5,7 +5,7 @@ export default class FPS {
    private timestamps: number[]
    private _current: number
 
-   constructor() {
+   public constructor() {
       this.animationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame
       this.timestamps = []
       // this.animate(0)

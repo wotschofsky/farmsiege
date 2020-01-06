@@ -12,7 +12,7 @@ import ScoreCounter from '../components/ScoreCounter'
 export type GameScreenProps = {}
 
 export default class GameScreen extends Component<GameScreenProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new Grid(),
          position: (): Coordinates => new Coordinates(288, 176),

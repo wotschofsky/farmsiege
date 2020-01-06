@@ -10,7 +10,7 @@ import smokeSprites from '../assets/smoke.png'
 type SmokeProps = {}
 
 export default class Smoke extends Component<SmokeProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new AnimatedSprite(),
          position: (): Coordinates => new Coordinates(0, 0),

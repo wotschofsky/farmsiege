@@ -21,7 +21,7 @@ export type DialogProps = {
 }
 
 export default class Dialog extends Component<DialogProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(

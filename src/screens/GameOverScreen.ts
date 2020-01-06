@@ -41,7 +41,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       effectsStore.reset()
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Dialog(),
          position: (): Coordinates => new Coordinates(500, 200),

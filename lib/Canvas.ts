@@ -33,7 +33,7 @@ class Canvas {
    private lastFrameOn: number
    private frameStart: number
 
-   constructor(config: CanvasConfig) {
+   public constructor(config: CanvasConfig) {
       this.scaleFactor = 1
 
       this.canvas = config.el

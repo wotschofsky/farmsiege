@@ -10,7 +10,7 @@ import SmokeData from '../store/effects/SmokeData'
 type EffectsProps = {}
 
 export default class Effects extends Component<EffectsProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new Repeating(),
          position: (): Coordinates => new Coordinates(0, 0),

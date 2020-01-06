@@ -34,7 +34,7 @@ export default class Highscores extends Component<HighscoresProps> {
       })
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Repeating(),
          position: (): Coordinates => new Coordinates(0, 0),

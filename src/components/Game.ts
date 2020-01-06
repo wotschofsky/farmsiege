@@ -46,7 +46,7 @@ class Game extends Component<{}> {
       })
    }
 
-   constructor() {
+   public constructor() {
       super()
 
       this.activeScreen = Screens.Start

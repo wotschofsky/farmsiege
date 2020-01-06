@@ -15,7 +15,7 @@ import Clouds from './Clouds'
 export type BackgroundProps = {}
 
 export default class Background extends Component<BackgroundProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(0, 0),

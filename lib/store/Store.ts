@@ -11,7 +11,7 @@ export default abstract class Store<S> {
    private _initialState: S
    private _listeners: (ListenerCallback<S> | null)[]
 
-   constructor(name: string, initialState: S) {
+   public constructor(name: string, initialState: S) {
       this._name = name
       this._content = cloneDeep(initialState)
       this._initialState = cloneDeep(initialState)

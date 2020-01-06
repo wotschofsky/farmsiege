@@ -5,7 +5,7 @@ export default class EffectData {
    private _position: Coordinates
    private _timeRemaining = 500
 
-   constructor(position: Coordinates) {
+   public constructor(position: Coordinates) {
       this._position = position
    }
 

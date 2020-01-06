@@ -7,7 +7,7 @@ import Coordinates from '../../lib/helpers/Coordinates'
 export type GridProps = {}
 
 export default class Grid extends Component<GridProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new GridRow(),
          position: (): Coordinates => new Coordinates(0, 0),

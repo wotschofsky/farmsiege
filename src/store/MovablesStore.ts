@@ -22,7 +22,7 @@ type MovablesStoreContent = {
 export default class MovablesStore extends Store<MovablesStoreContent> {
    private _speedMultiplier: number
 
-   constructor() {
+   public constructor() {
       super('movables', {
          rabbits: [],
       })

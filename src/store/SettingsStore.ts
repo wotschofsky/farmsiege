@@ -7,7 +7,7 @@ export type SettingsStoreContent = {
 }
 
 export default class SettingsStore extends Store<SettingsStoreContent> {
-   constructor() {
+   public constructor() {
       let playMusic = true
       if(Cookie.getJSON('playMusic') === false) {
          playMusic = false

@@ -5,7 +5,7 @@ export default class FPSDisplay {
    private lastDisplay: number
    private lastUpdate: number
 
-   constructor() {
+   public constructor() {
       this.history = []
       this.lastDisplay = 0
       this.lastUpdate = Date.now()

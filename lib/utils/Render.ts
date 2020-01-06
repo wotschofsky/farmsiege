@@ -5,7 +5,7 @@ import RenderingContext from '../RenderingContext'
 
 
 export default class RenderUtils {
-   static renderTemplateItem(item: TemplateItem, context: RenderingContext, position: Coordinates, propsContext: PropsContext<any>): void {
+   public static renderTemplateItem(item: TemplateItem, context: RenderingContext, position: Coordinates, propsContext: PropsContext<any>): void {
       if(typeof(item.show) === 'function' && !item.show(propsContext)) return
 
       item.component.render(

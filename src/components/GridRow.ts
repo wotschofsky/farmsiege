@@ -10,7 +10,7 @@ export type GridRowProps = {
 }
 
 export default class GridRow extends Component<GridRowProps> {
-   template: Template = [
+   protected template: Template = [
       {
          component: new GridTile(),
          position: (): Coordinates => new Coordinates(0, 0),

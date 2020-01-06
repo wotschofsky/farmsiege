@@ -44,7 +44,7 @@ export default class RenderingContext {
    }
 
 
-   constructor(
+   public constructor(
       frame: Dimensions,
       parentX: number,
       parentY: number,
