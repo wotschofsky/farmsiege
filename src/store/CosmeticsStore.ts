@@ -1,3 +1,4 @@
+import cloneDeep from 'clone-deep'
 import Store from '../../lib/store/Store'
 
 import copHatSprite from '../assets/character/hats/cop_hat.png'
@@ -49,5 +50,18 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
       return hatsData.find((hat): boolean => {
          return hat.id === storeHat
       }) as HatData
+   }
+
+   public rotateHat(): void {
+      this.update((oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
+         const clonedState = cloneDeep(oldState)
+
+         clonedState.hat++
+         if(clonedState.hat === hatsData.length) {
+            clonedState.hat = 0
+         }
+
+         return clonedState
+      })
    }
 }
