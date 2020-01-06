@@ -27,9 +27,9 @@ import StatsStore from '../store/StatsStore'
 // import EffectsStore from '../store/EffectsStore'
 
 
-export type CharacterProps = {}
+export type CharacterContainerProps = {}
 
-export default class Character extends Component<CharacterProps> {
+export default class CharacterContainer extends Component<CharacterContainerProps> {
    private inputMap: InputMap
    private positionX = (1024 - 128) / 2
    private positionY = (1024) / 2
