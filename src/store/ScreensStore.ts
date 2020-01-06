@@ -5,7 +5,8 @@ export enum Screens {
    Start,
    Game,
    Help,
-   GameOver
+   GameOver,
+   Cosmetics
 }
 
 type ScreensStoreContent = {

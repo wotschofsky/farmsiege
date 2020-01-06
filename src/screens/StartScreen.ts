@@ -57,7 +57,13 @@ export default class StartScreen extends Component<StartScreenProps> {
       screensStore.setReturnScreen(Screens.Start)
    }
 
-   template: Template = [
+   private showCosmetics(): void {
+      const screensStore = this.stores.screens as ScreensStore
+      screensStore.setScreen(Screens.Cosmetics)
+      screensStore.setReturnScreen(Screens.Start)
+   }
+
+   protected template: Template = [
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(444, 150),
@@ -95,6 +101,23 @@ export default class StartScreen extends Component<StartScreenProps> {
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(650, 700),
+         props: (): SpriteProps => ({
+            source: helpButtonSprite,
+            width: 300,
+            height: 200,
+         }),
+      },
+      {
+         component: new EventListener(),
+         position: (): Coordinates => new Coordinates(650, 900),
+         props: (): EventListenerProps => ({
+            size: new Dimensions(300, 200),
+            onClick: this.showCosmetics,
+         })
+      },
+      {
+         component: new Sprite(),
+         position: (): Coordinates => new Coordinates(650, 900),
          props: (): SpriteProps => ({
             source: helpButtonSprite,
             width: 300,

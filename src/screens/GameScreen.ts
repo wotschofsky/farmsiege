@@ -3,7 +3,7 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 
 import Bullets from '../overlays/Bullets'
-import Character from '../components/Character'
+import CharacterContainer from '../components/CharacterContainer'
 import Grid from '../components/Grid'
 import Rabbits from '../overlays/Rabbits'
 import ScoreCounter from '../components/ScoreCounter'
@@ -26,7 +26,7 @@ export default class GameScreen extends Component<GameScreenProps> {
          position: () => new Coordinates(0, 176),
       },
       {
-         component: new Character(),
+         component: new CharacterContainer(),
          position: (): Coordinates => new Coordinates(288, 176),
       },
       {

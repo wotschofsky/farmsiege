@@ -22,6 +22,7 @@ import PropsContext from '../../lib/PropsContext'
 import StatsStore from '../store/StatsStore'
 import ScreensStore, { Screens } from '../store/ScreensStore'
 import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
+import CosmeticsScreen from '../screens/CosmeticsScreen'
 
 
 declare const Howl: Howl
@@ -110,14 +111,13 @@ class Game extends Component<{}> {
       const { gameSpeed } = statsStore
       gridStore.speedMultiplier = gameSpeed
       movablesStore.speedMultiplier = gameSpeed
-      console.log(gameSpeed)
 
 
       const effectsStore = this.stores.effects as EffectsStore
       effectsStore.updateEffects(timeDifference)
    }
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Background(),
          position: (): Coordinates => new Coordinates(0, 0),
@@ -141,6 +141,11 @@ class Game extends Component<{}> {
          component: new HelpScreen(),
          position: (): Coordinates => new Coordinates(0, 0),
          show: (): boolean => this.activeScreen === Screens.Help
+      },
+      {
+         component: new CosmeticsScreen(),
+         position: (): Coordinates => new Coordinates(0, 0),
+         show: (): boolean => this.activeScreen === Screens.Cosmetics
       },
       {
          component: new MuteButton(),
