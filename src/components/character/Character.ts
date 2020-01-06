@@ -18,7 +18,7 @@ export type CharacterProps = {
    direction: Directions,
 }
 
-export class Character extends Component<CharacterProps> {
+export default class Character extends Component<CharacterProps> {
    protected template: Template = [
       {
          component: new Sprite(),

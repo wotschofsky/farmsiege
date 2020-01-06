@@ -4,7 +4,7 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import InputMap from '../../lib/InputMap'
 
-import { Character, CharacterProps } from './character/Character'
+import Character, { CharacterProps } from './character/Character'
 import CharacterStore from '../store/CharacterStore'
 import CharacterStore from './store/CharacterStore'
 import GridStore from '../store/GridStore'
