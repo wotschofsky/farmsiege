@@ -1,6 +1,8 @@
 import cloneDeep from 'clone-deep'
 import Store from '../../lib/store/Store'
 
+import values from '../values.json'
+
 
 export type StatsStoreContent = {
    score: number,
@@ -36,6 +38,6 @@ export default class StatsStore extends Store<StatsStoreContent> {
    }
 
    public get gameSpeed(): number {
-      return 10e-6 * this.content.duration + 1
+      return Math.min(values.gameSpeed.max, 1 + ((values.gameSpeed.base * this.content.duration) ** values.gameSpeed.exponent) / values.gameSpeed.divideBy)
    }
 }
