@@ -1,9 +1,9 @@
 import Store from '../../lib/store/Store'
 
-import copHatSprite from '../assets/character/hats/mexican_hat.png'
+import copHatSprite from '../assets/character/hats/cop_hat.png'
 import crownSprite from '../assets/character/hats/crown.png'
 import mexicanHatSprite from '../assets/character/hats/mexican_hat.png'
-import topHatSprite from '../assets/character/hats/crown.png'
+import topHatSprite from '../assets/character/hats/top_hat.png'
 
 
 export enum Hats {
