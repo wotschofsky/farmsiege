@@ -39,5 +39,8 @@
       "base": 0.3,
       "exponent": 2,
       "divideBy": 10e8
+   },
+   "character": {
+      "size": 1.2
    }
 }

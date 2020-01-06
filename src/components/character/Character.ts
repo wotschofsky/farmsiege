@@ -5,6 +5,7 @@ import Hat from './Hat'
 import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite'
 import { Directions } from '../../../lib/Enums'
 import PropsContext from '../../../lib/PropsContext'
+import values from '../../values.json'
 
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png'
 import blackManRightSprite from '../../assets/character/body/black_man_right.png'
@@ -28,8 +29,8 @@ export default class Character extends Component<CharacterProps> {
 
             return {
                source: ctx.props.direction === Directions.Left ? blackManLeftSprite : blackManRightSprite,
-               width: 128 * 1.2,
-               height: 128 * 1.2 * 1.5,
+               width: 128 * values.character.size,
+               height: 128 * values.character.size * 1.5,
             }
          },
       },
@@ -37,7 +38,7 @@ export default class Character extends Component<CharacterProps> {
          component: new Hat(),
          position: (): Coordinates => new Coordinates(
             0,
-            -48 * 1.2,
+            -48 * values.character.size,
          ),
       }
       // {

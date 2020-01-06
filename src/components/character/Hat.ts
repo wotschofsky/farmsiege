@@ -3,7 +3,8 @@ import { Template } from '../../../lib/Types'
 import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite'
 import Coordinates from '../../../lib/helpers/Coordinates'
 
-import CosmeticsStore, { Hats, hatsData } from '../../store/CosmeticsStore'
+import CosmeticsStore, { Hats } from '../../store/CosmeticsStore'
+import values from '../../values.json'
 
 
 type HatProps = {}
@@ -12,7 +13,7 @@ export default class Hat extends Component<HatProps> {
    private lastHat: Hats
    private hatSprite: string
 
-   template: Template = [
+   protected template: Template = [
       {
          component: new Sprite(),
          position: (): Coordinates => new Coordinates(0, 0),
@@ -25,10 +26,9 @@ export default class Hat extends Component<HatProps> {
             }
 
             return {
-               width: 128 * 1.2,
-               height: 128 * 1.2,
+               width: 128 * values.character.size,
+               height: 128 * values.character.size,
                source: this.hatSprite
-               // source: hatsData[0].sprite
             }
          }
       }
