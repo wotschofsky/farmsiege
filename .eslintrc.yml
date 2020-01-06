@@ -32,3 +32,5 @@ rules:
       singleline:
         delimiter: comma
         requireLast: false
+  '@typescript-eslint/explicit-member-accessibility':
+    - error
