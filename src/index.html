@@ -22,8 +22,13 @@
 
          footer {
             text-align: center;
-            font-size: 125%;
             margin: 2rem 0;
+         }
+
+         @media(min-width: 480px) {
+            footer {
+               font-size: 125%;
+            }
          }
 
          :link, :visited {
@@ -37,7 +42,7 @@
          /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
          _paq.push(['trackPageView']);
          _paq.push(['enableLinkTracking']);
-         _paq.push(['enableHeartBeatTimer']);
+         _paq.push(['enableHeartBeatTimer', 10]);
          (function() {
          var u="https://analytics.felisk.io/";
          _paq.push(['setTrackerUrl', u+'matomo.php']);
