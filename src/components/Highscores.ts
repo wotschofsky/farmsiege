@@ -20,7 +20,7 @@ export default class Highscores extends Component<HighscoresProps> {
          return res.json()
       }).then((json) => {
          const scores: ScoreData[] = []
-         for(let score in json) {
+         for(const score in json) {
             scores.push(json[score])
          }
 

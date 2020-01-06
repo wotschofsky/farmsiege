@@ -1,10 +1,10 @@
-import RenderingContext from './RenderingContext'
-import Dimensions from './helpers/Dimensions'
+import { EventTypes } from './Enums'
 import Component from './Component'
+import Coordinates from './helpers/Coordinates'
+import Dimensions from './helpers/Dimensions'
 import FPS from './utils/FPS'
 import FPSDisplay from './FPSDisplay'
-import Coordinates from './helpers/Coordinates'
-import { EventTypes } from './Enums'
+import RenderingContext from './RenderingContext'
 
 
 type CanvasConfig = {

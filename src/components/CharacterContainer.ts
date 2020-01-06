@@ -6,7 +6,6 @@ import InputMap from '../../lib/InputMap'
 
 import Character, { CharacterProps } from './character/Character'
 import CharacterStore from '../store/CharacterStore'
-import CharacterStore from './store/CharacterStore'
 import GridStore from '../store/GridStore'
 import shotgunSound from '../assets/sounds/shotgun.mp3'
 import StatsStore from '../store/StatsStore'

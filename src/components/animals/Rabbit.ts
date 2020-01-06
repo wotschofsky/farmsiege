@@ -14,7 +14,7 @@ import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite'
 
 export type RabbitProps = {
    direction: Directions,
-   moving: boolean
+   moving: boolean,
 }
 
 export default class Rabbit extends Component<RabbitProps> {

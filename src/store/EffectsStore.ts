@@ -8,7 +8,7 @@ import EffectData from './effects/EffectData'
 
 
 type EffectsStoreContent = {
-   smoke: SmokeData[]
+   smoke: SmokeData[],
 }
 
 export default class EffectsStore extends Store<EffectsStoreContent> {

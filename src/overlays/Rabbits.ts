@@ -17,8 +17,6 @@ import { Directions } from '../../lib/Enums'
 export type RabbitsProps = {}
 
 export default class Rabbits extends Component<RabbitsProps> {
-   rabbits: RabbitData[] = []
-
    protected onTick(ctx: PropsContext<RabbitsProps>, timeDifference: number): void {
       const characterStore = this.stores.character as CharacterStore
       const effectsStore = this.stores.effects as EffectsStore
