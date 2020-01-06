@@ -1,30 +1,16 @@
-import { Howl, Howler } from 'howler'
-import { Directions } from '../../lib/Enums'
+import { Howl } from 'howler'
 import { Template } from '../../lib/Types'
-import AnimatedSprite, { AnimatedSpriteProps } from '../../lib/components/native/AnimatedSprite'
 import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 import InputMap from '../../lib/InputMap'
 
+import { Character, CharacterProps } from './character/Character'
+import CharacterStore from '../store/CharacterStore'
 import CharacterStore from './store/CharacterStore'
 import GridStore from '../store/GridStore'
-import ScoreStore from '../store/StatsStore'
-import spriteIdleLeft from '../assets/finn_idle_left.png'
-import spriteIdleRight from '../assets/finn_idle_right.png'
-import spriteRunningLeft from '../assets/finn_running_left.png'
-import spriteRunningRight from '../assets/finn_running_right.png'
-import TileContents from '../TileContents'
 import shotgunSound from '../assets/sounds/shotgun.mp3'
-
-import blackManLeftSprite from '../assets/character/body/black_man_left.png'
-import blackManRightSprite from '../assets/character/body/black_man_right.png'
-
-import copHatSprite from '../assets/character/hats/cop_hat.png'
-import Sprite, { SpriteProps } from '../../lib/components/native/Sprite'
-import Hat from './character/Hat'
-import CharacterStore from '../store/CharacterStore'
 import StatsStore from '../store/StatsStore'
-// import EffectsStore from '../store/EffectsStore'
+import TileContents from '../TileContents'
 
 
 export type CharacterContainerProps = {}
@@ -96,102 +82,22 @@ export default class CharacterContainer extends Component<CharacterContainerProp
             this.nextShotAvailable = Date.now() + 1200
          }
       }
-
-
-      // const effectsStore = this.stores.effects as EffectsStore
-      // effectsStore.showSmoke(this.positionX, this.positionY)
    }
 
-   private get activeSprite(): string {
-      const characterStore = this.stores.character as CharacterStore
-
-
-      // return blackManSprite
-
-      // if(characterStore.content.direction === Directions.Right && !this.hasMoved) {
-      //    return spriteIdleRight
-      // } else if(characterStore.content.direction === Directions.Right && this.hasMoved) {
-      //    return spriteRunningRight
-      // } else if(characterStore.content.direction === Directions.Left && !this.hasMoved) {
-      //    return spriteIdleLeft
-      // } else {
-      //    return spriteRunningLeft
-      // }
-
-      // if(characterStore.content.direction === Directions.Right) {
-      switch(characterStore.content.direction) {
-         case(Directions.Left):
-            return spriteIdleLeft
-            // return this.hasMoved ? spriteRunningLeft : spriteIdleLeft
-         case(Directions.Right):
-            return spriteIdleRight
-            // return this.hasMoved ? spriteRunningRight : spriteIdleRight
-      }
-
-      return spriteIdleRight
-
-      //    if(this.hasMoved) {
-      //       return spriteRunningRight
-      //    } else {
-      //       return spriteIdleRight
-      //    }
-      // } else {
-      //    switch(characterStore.content.direction) {
-      //       case(Directions.Left):
-      //          return spriteIdleLeft
-      //       case(Directions.Right):
-      //          return spriteIdleRight
-      //    }
-      //    if(this.hasMoved) {
-      //       return spriteRunningLeft
-      //    } else {
-      //       return spriteIdleLeft
-      //    }
-      // }
-
-      // return characterStore.content.direction === Directions.Right ? spriteIdleRight : spriteIdleLeft
-      // return spriteIdleRight
-   }
-
-   template: Template = [
+   protected template: Template = [
       {
-         component: new Sprite(),
+         component: new Character(),
          position: (): Coordinates => new Coordinates(
             this.stores.character.content.posX - 32,
             this.stores.character.content.posY - 128,
          ),
-         props: (): SpriteProps => {
+         props: (): CharacterProps => {
             const characterStore = this.stores.character as CharacterStore
 
             return {
-               source: characterStore.content.direction === Directions.Left ? blackManLeftSprite : blackManRightSprite,
-               width: 128 * 1.2,
-               height: 128 * 1.2 * 1.5,
+               direction: characterStore.content.direction
             }
-         },
-      },
-      {
-         component: new Hat(),
-         position: (): Coordinates => new Coordinates(
-            this.stores.character.content.posX - 32,
-            this.stores.character.content.posY - 128 - 48 * 1.2,
-         ),
+         }
       }
-      // {
-      //    component: new AnimatedSprite(),
-      //    position: (): Coordinates => new Coordinates(
-      //       this.stores.character.content.posX - 64,
-      //       this.stores.character.content.posY - 128,
-      //    ),
-      //    props: (): AnimatedSpriteProps => ({
-      //       source: this.activeSprite,
-      //       // source: blackManSprite,
-      //       spriteWidth: 32,
-      //       spriteHeight: 32,
-      //       width: 256,
-      //       height: 256,
-      //       interval: 150
-      //    }),
-      // }
    ]
 }
