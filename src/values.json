@@ -7,7 +7,8 @@
       "amount": {
          "min": 4,
          "max": 7
-      }
+      },
+      "timeToClear": 1000
    },
    "mole": {
       "spawning": {
@@ -29,7 +30,7 @@
       }
    },
    "plant": {
-      "startAmount": 3,
+      "startAmount": 40,
       "age": {
          "maxStart": 4000,
          "fullyGrown": 15000

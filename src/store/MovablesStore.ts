@@ -13,6 +13,7 @@ export type RabbitData = {
    y: number,
    direction: Directions,
    targetX: number,
+   timeLeft: number,
 }
 
 type MovablesStoreContent = {
@@ -63,10 +64,17 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
                x = data.targetX
             }
 
+            let { timeLeft } = data
+            if(x === data.targetX) {
+               timeLeft = Math.max(0, timeLeft - timeDifference)
+               console.log(timeLeft)
+            }
+
 
             return {
                ...data,
-               x
+               x,
+               timeLeft
             }
          })
 
@@ -118,7 +126,8 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
                x: direction === Directions.Left ? 1600 + offset : -128 - offset,
                y: row * 128 - 96,
                direction,
-               targetX: 800
+               targetX: 800,
+               timeLeft: values.rabbits.timeToClear
             }
          })
 
@@ -157,6 +166,12 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
    public get stillRabbits(): RabbitData[] {
       return this.content.rabbits.filter((rabbit) => {
+         return rabbit.x === rabbit.targetX
+      })
+   }
+
+   public get directStillRabbits(): RabbitData[] {
+      return this.directContent.rabbits.filter((rabbit) => {
          return rabbit.x === rabbit.targetX
       })
    }

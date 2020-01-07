@@ -13,6 +13,8 @@ import StatsStore from '../store/StatsStore'
 import TileContents from '../TileContents'
 import { Directions } from '../../lib/Enums'
 
+import values from '../values.json'
+
 
 export type RabbitsProps = {}
 
@@ -67,19 +69,15 @@ export default class Rabbits extends Component<RabbitsProps> {
          statsStore.addScore(10)
       })
 
-      movablesStore.stillRabbits.forEach((rabbit) => {
-         if(rabbit.direction === Directions.Right) {
+      movablesStore.directStillRabbits.forEach((rabbit) => {
+         if(rabbit.timeLeft === 0) {
             const coords = GridUtils.coordsToField(new Coordinates(
-               rabbit.x - (288 - 128),
+               rabbit.x - 288 + (rabbit.direction === Directions.Right ? 128 : 0),
                rabbit.y + 108,
             ))
             gridStore.removePlant(coords.x, coords.y)
-         } else {
-            const coords = GridUtils.coordsToField(new Coordinates(
-               rabbit.x - (288),
-               rabbit.y + 108,
-            ))
-            gridStore.removePlant(coords.x, coords.y)
+            rabbit.timeLeft = values.rabbits.timeToClear
+            console.log(rabbit.timeLeft)
          }
       })
    }
