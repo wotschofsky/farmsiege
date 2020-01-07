@@ -4,7 +4,7 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 
 import Background from './Background'
-import menuSoundtrack from '../assets/soundtrack/menu.mp3'
+// import menuSoundtrack from '../assets/soundtrack/menu.mp3'
 import MuteButton from './MuteButton'
 
 import GameOverScreen from '../screens/GameOverScreen'
@@ -31,19 +31,16 @@ class Game extends Component<{}> {
    private activeScreen: Screens
 
    protected onInit(): void {
-      const settingsStore = new SettingsStore()
-      this.registerStore(settingsStore)
+      // const musicPlayer = new Howl({
+      //    src: [menuSoundtrack],
+      //    autoplay: true,
+      //    loop: true,
+      //    volume: settingsStore.content.music ? 0.8 : 0
+      // })
 
-      const musicPlayer = new Howl({
-         src: [menuSoundtrack],
-         autoplay: true,
-         loop: true,
-         volume: settingsStore.content.music ? 0.8 : 0
-      })
-
-      settingsStore.subscribe((state: SettingsStoreContent) => {
-         musicPlayer.volume(state.music ? 0.8 : 0)
-      })
+      // settingsStore.subscribe((state: SettingsStoreContent) => {
+      //    musicPlayer.volume(state.music ? 0.8 : 0)
+      // })
    }
 
    public constructor() {
