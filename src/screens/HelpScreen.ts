@@ -50,7 +50,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
          component: new Text(),
          position: (): Coordinates => new Coordinates(500 + 50, 400 + 150),
          props: (): TextProps => ({
-            text: '• Space to clear the selected field',
+            text: '• Press Space to clear the selected field (also harvesting crops)',
             color: '#fff',
          }),
       },
@@ -58,21 +58,45 @@ export default class HelpScreen extends Component<HelpScreenProps> {
          component: new Text(),
          position: (): Coordinates => new Coordinates(500 + 50, 400 + 175),
          props: (): TextProps => ({
-            text: '• V to plant',
+            text: '• Press V to plant a crop',
             color: '#fff',
          }),
       },
       {
          component: new Text(),
-         position: (): Coordinates => new Coordinates(500 + 50, 400 + 225),
+         position: (): Coordinates => new Coordinates(500 + 50, 400 + 200),
          props: (): TextProps => ({
-            text: '• Earn points by harvesting fully grown plants',
+            text: '• Press C to fire gun',
             color: '#fff',
          }),
       },
       {
          component: new Text(),
          position: (): Coordinates => new Coordinates(500 + 50, 400 + 250),
+         props: (): TextProps => ({
+            text: '• Earn points by',
+            color: '#fff',
+         }),
+      },
+      {
+         component: new Text(),
+         position: (): Coordinates => new Coordinates(500 + 60, 400 + 275),
+         props: (): TextProps => ({
+            text: '- harvesting fully grown crops',
+            color: '#fff',
+         }),
+      },
+      {
+         component: new Text(),
+         position: (): Coordinates => new Coordinates(500 + 60, 400 + 300),
+         props: (): TextProps => ({
+            text: '- Killing rabbits',
+            color: '#fff',
+         }),
+      },
+      {
+         component: new Text(),
+         position: (): Coordinates => new Coordinates(500 + 50, 400 + 350),
          props: (): TextProps => ({
             text: '• The game ends once there are no own plants left on the playing field',
             color: '#fff',
