@@ -10,6 +10,7 @@ import GridStore from '../store/GridStore'
 import shotgunSound from '../assets/sounds/shotgun.mp3'
 import StatsStore from '../store/StatsStore'
 import TileContents from '../TileContents'
+import SettingsStore from '../store/SettingsStore'
 
 
 export type CharacterContainerProps = {}
@@ -70,13 +71,16 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       if(inputs.fire) {
          if(this.nextShotAvailable <= Date.now()) {
             const characterStore = this.stores.character as CharacterStore
+            const settingsStore = this.stores.settings as SettingsStore
             characterStore.fireGun()
             this.inputMap.removeActiveKey('KeyC')
 
-            new Howl({
-               src: shotgunSound,
-               autoplay: true,
-            })
+            if(settingsStore.content.music) {
+               new Howl({
+                  src: shotgunSound,
+                  autoplay: true,
+               })
+            }
 
             this.nextShotAvailable = Date.now() + 1200
          }
