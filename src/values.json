@@ -30,7 +30,7 @@
       }
    },
    "plant": {
-      "startAmount": 40,
+      "startAmount": 3,
       "age": {
          "maxStart": 4000,
          "fullyGrown": 15000

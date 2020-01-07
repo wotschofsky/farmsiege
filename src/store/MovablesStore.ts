@@ -67,7 +67,6 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
             let { timeLeft } = data
             if(x === data.targetX) {
                timeLeft = Math.max(0, timeLeft - timeDifference)
-               console.log(timeLeft)
             }
 
 
