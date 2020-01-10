@@ -23,7 +23,7 @@ export default class GameScreen extends Component<GameScreenProps> {
       },
       {
          component: new Rabbits(),
-         position: () => new Coordinates(0, 176),
+         position: (): Coordinates => new Coordinates(0, 176),
       },
       {
          component: new CharacterContainer(),
@@ -31,7 +31,7 @@ export default class GameScreen extends Component<GameScreenProps> {
       },
       {
          component: new Bullets(),
-         position: () => new Coordinates(0, 0),
+         position: (): Coordinates => new Coordinates(0, 0),
       },
    ]
 }
