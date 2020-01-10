@@ -45,20 +45,18 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
             return !outsideScreen
          })
 
-         clonedState.rabbits = clonedState.rabbits.map((data): RabbitData => {
-            const speed = data.direction === Directions.Left ? values.rabbits.speed : -values.rabbits.speed
+         for(const rabbit of clonedState.rabbits) {
+            const speed = rabbit.direction === Directions.Left ? values.rabbits.speed : -values.rabbits.speed
             const relativeX = timeDifference * speed
 
-            const shouldMove = data.distanceToTarget > 0
+            const shouldMove = rabbit.distanceToTarget > 0
 
-            data.move(shouldMove ? relativeX : 0)
+            rabbit.move(shouldMove ? relativeX : 0)
 
-            if(data.targetReached) {
-               data.reduceTimeLeft(timeDifference)
+            if(rabbit.targetReached) {
+               rabbit.reduceTimeLeft(timeDifference)
             }
-
-            return data
-         })
+         }
 
          return clonedState
       })
