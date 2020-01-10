@@ -1,5 +1,6 @@
 import { Directions } from '../../../lib/Enums'
 import values from '../../values.json'
+import { BulletData } from '../CharacterStore'
 
 
 export default class RabbitData {
@@ -70,5 +71,16 @@ export default class RabbitData {
 
    public get targetReached(): boolean {
       return this._x === this._targetX
+   }
+
+   public detectHit(bullets: BulletData[]): boolean {
+      let rabbitHit = false
+      for(const bullet of bullets) {
+         if(Math.abs((this._x + 128) - bullet.x) < 50 && Math.abs((this._y + 256) - bullet.y) < 50) {
+            rabbitHit = true
+            break
+         }
+      }
+      return rabbitHit
    }
 }

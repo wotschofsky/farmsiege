@@ -124,12 +124,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          const clonedState = cloneDeep(oldState)
 
          clonedState.rabbits = clonedState.rabbits.filter((rabbit) => {
-            let rabbitHit = false
-            bullets.forEach((bullet) => {
-               if(Math.abs((rabbit.x + 128) - bullet.x) < 50 && Math.abs((rabbit.y + 256) - bullet.y) < 50) {
-                  rabbitHit = true
-               }
-            })
+            const rabbitHit = rabbit.detectHit(bullets)
 
             if(rabbitHit) {
                callback(rabbit.x, rabbit.y)
