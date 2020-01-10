@@ -8,6 +8,7 @@
          "min": 4,
          "max": 7
       },
+      "speed": 0.2,
       "timeToClear": 1000
    },
    "mole": {

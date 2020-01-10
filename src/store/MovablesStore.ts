@@ -5,16 +5,9 @@ import Store from '../../lib/store/Store'
 
 import { BulletData } from './CharacterStore'
 import GridUtils from '../utils/Grid'
+import RabbitData from './models/RabbitData'
 import values from '../values.json'
 
-
-export type RabbitData = {
-   x: number,
-   y: number,
-   direction: Directions,
-   targetX: number,
-   timeLeft: number,
-}
 
 type MovablesStoreContent = {
    rabbits: RabbitData[],
@@ -53,28 +46,18 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          })
 
          clonedState.rabbits = clonedState.rabbits.map((data): RabbitData => {
-            const speed = data.direction === Directions.Left ? 0.2 : -0.2
-
-            const distanceToTarget = (data.targetX - data.x) * (data.direction === Directions.Left ? -1 : 1)
-            const shouldMove = distanceToTarget > 0
+            const speed = data.direction === Directions.Left ? values.rabbits.speed : -values.rabbits.speed
             const relativeX = timeDifference * speed
 
-            let x = shouldMove ? data.x - relativeX : data.x
-            if(distanceToTarget < 0) {
-               x = data.targetX
+            const shouldMove = data.distanceToTarget > 0
+
+            data.move(shouldMove ? relativeX : 0)
+
+            if(data.targetReached) {
+               data.reduceTimeLeft(timeDifference)
             }
 
-            let { timeLeft } = data
-            if(x === data.targetX) {
-               timeLeft = Math.max(0, timeLeft - timeDifference)
-            }
-
-
-            return {
-               ...data,
-               x,
-               timeLeft
-            }
+            return data
          })
 
          return clonedState
@@ -121,13 +104,9 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          const direction = Math.random() > 0.5 ? Directions.Left : Directions.Right
          const mappedRabbits: RabbitData[] = rabbitRows.map((row): RabbitData => {
             const offset = Math.random() * 252
-            return {
-               x: direction === Directions.Left ? 1600 + offset : -128 - offset,
-               y: row * 128 - 96,
-               direction,
-               targetX: 800,
-               timeLeft: values.rabbits.timeToClear
-            }
+            const x = direction === Directions.Left ? 1600 + offset : -128 - offset
+            const y = row * 128 - 96
+            return new RabbitData(x, y, direction)
          })
 
          clonedState.rabbits = clonedState.rabbits.concat(mappedRabbits)

@@ -4,7 +4,7 @@ import Coordinates from '../../lib/helpers/Coordinates'
 import PropsContext from '../../lib/PropsContext'
 import Rabbit, { RabbitProps } from '../components/animals/Rabbit'
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating'
-import MovablesStore, { RabbitData } from '../store/MovablesStore'
+import MovablesStore from '../store/MovablesStore'
 import CharacterStore from '../store/CharacterStore'
 import GridStore from '../store/GridStore'
 import GridUtils from '../utils/Grid'
@@ -14,6 +14,7 @@ import TileContents from '../TileContents'
 import { Directions } from '../../lib/Enums'
 
 import values from '../values.json'
+import RabbitData from '../store/models/RabbitData'
 
 
 export type RabbitsProps = {}
@@ -76,8 +77,7 @@ export default class Rabbits extends Component<RabbitsProps> {
                rabbit.y + 108,
             ))
             gridStore.removePlant(coords.x, coords.y)
-            rabbit.timeLeft = values.rabbits.timeToClear
-            console.log(rabbit.timeLeft)
+            rabbit.resetTimer()
          }
       })
    }
