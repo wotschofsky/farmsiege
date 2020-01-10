@@ -3,7 +3,7 @@ import cloneDeep from 'clone-deep'
 import Coordinates from '../../lib/helpers/Coordinates'
 import Store from '../../lib/store/Store'
 
-import { BulletData } from './CharacterStore'
+import BulletData from './models/BulletData'
 import GridUtils from '../utils/Grid'
 import RabbitData from './models/RabbitData'
 import values from '../values.json'

@@ -4,15 +4,9 @@ import Coordinates from '../../lib/helpers/Coordinates'
 import Store from '../../lib/store/Store'
 
 import GridUtils from '../utils/Grid'
+import BulletData from './models/BulletData'
 import values from '../values.json'
 
-
-export type BulletData = {
-   x: number,
-   y: number,
-   direction: number,
-   age: number,
-}
 
 export type CharacterStoreContent = {
    posX: number,
@@ -82,12 +76,13 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
                direction = Math.PI * (1 - 0.5 * values.guns.pumpgun.spread) + Math.random() * Math.PI * values.guns.pumpgun.spread
             }
 
-            clonedState.bullets.push({
-               x: oldState.posX + 288,
-               y: oldState.posY + 176,
-               direction,
-               age: 0,
-            })
+            const bullet = new BulletData(
+               oldState.posX + 288,
+               oldState.posY + 176,
+               direction
+            )
+
+            clonedState.bullets.push(bullet)
          }
 
          return clonedState
@@ -96,17 +91,14 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
 
    public updateBullets(timeDifference: number): void {
       this.update((oldState: CharacterStoreContent): CharacterStoreContent => {
+
          const clonedState = cloneDeep(oldState)
 
-         clonedState.bullets = clonedState.bullets.filter((data: BulletData): boolean => data.age <= values.guns.pumpgun.maxAge)
-         clonedState.bullets = clonedState.bullets.map((data: BulletData): BulletData => {
-            return {
-               ...data,
-               x: data.x + Math.cos(data.direction) * timeDifference * 3,
-               y: data.y + Math.sin(data.direction) * timeDifference * 3,
-               age: data.age + timeDifference
-            }
-         })
+         clonedState.bullets = clonedState.bullets.filter((bullet: BulletData): boolean => bullet.endOfLifeReached)
+
+         for(const bullet of clonedState.bullets) {
+            bullet.update(timeDifference)
+         }
 
          return clonedState
       })

@@ -1,6 +1,6 @@
 import { Directions } from '../../../lib/Enums'
+import BulletData from './BulletData'
 import values from '../../values.json'
-import { BulletData } from '../CharacterStore'
 
 
 export default class RabbitData {
