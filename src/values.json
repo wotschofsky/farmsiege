@@ -45,5 +45,12 @@
    },
    "character": {
       "size": 1.2
+   },
+   "guns": {
+      "pumpgun": {
+         "maxAge": 150,
+         "amount": 20,
+         "spread": 0.2
+      }
    }
 }

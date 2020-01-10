@@ -1,8 +1,10 @@
-import { Directions } from '../../lib/Enums'
 import cloneDeep from 'clone-deep'
+import { Directions } from '../../lib/Enums'
 import Coordinates from '../../lib/helpers/Coordinates'
-import GridUtils from '../utils/Grid'
 import Store from '../../lib/store/Store'
+
+import GridUtils from '../utils/Grid'
+import values from '../values.json'
 
 
 export type BulletData = {
@@ -72,12 +74,12 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
       this.update((oldState: CharacterStoreContent): CharacterStoreContent => {
          const clonedState = cloneDeep(oldState)
 
-         for(let i = 0; i < 20; i++) {
+         for(let i = 0; i < values.guns.pumpgun.amount; i++) {
             let direction: number
             if(oldState.direction === Directions.Right) {
-               direction = Math.PI * -0.1 + Math.random() * Math.PI * 0.2
+               direction = Math.PI * (-0.5 * values.guns.pumpgun.spread) + Math.random() * Math.PI * values.guns.pumpgun.spread
             } else {
-               direction = Math.PI * 0.9 + Math.random() * Math.PI * 0.2
+               direction = Math.PI * (1 - 0.5 * values.guns.pumpgun.spread) + Math.random() * Math.PI * values.guns.pumpgun.spread
             }
 
             clonedState.bullets.push({
@@ -96,7 +98,7 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
       this.update((oldState: CharacterStoreContent): CharacterStoreContent => {
          const clonedState = cloneDeep(oldState)
 
-         clonedState.bullets = clonedState.bullets.filter((data: BulletData): boolean => data.age <= 150)
+         clonedState.bullets = clonedState.bullets.filter((data: BulletData): boolean => data.age <= values.guns.pumpgun.maxAge)
          clonedState.bullets = clonedState.bullets.map((data: BulletData): BulletData => {
             return {
                ...data,
