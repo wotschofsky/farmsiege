@@ -3,6 +3,7 @@ import { eslint } from 'rollup-plugin-eslint'
 import { terser } from 'rollup-plugin-terser'
 import babel from 'rollup-plugin-babel'
 import commonjs from 'rollup-plugin-commonjs'
+import copy from 'rollup-plugin-copy'
 import htmlTemplate from 'rollup-plugin-generate-html-template'
 import json from '@rollup/plugin-json'
 import livereload from 'rollup-plugin-livereload'
@@ -53,7 +54,7 @@ export default {
          // include: ['**/*.svg'], // defaults to .svg, .png, .jpg and .gif files
          include: ['**/*.png', '**/*.mp3'],
          emitFiles: true, // defaults to true,
-         fileName: '[dirname][hash][extname]',
+         fileName: 'assets/[dirname][hash][extname]',
       }),
       json(),
       typescript({
@@ -69,6 +70,14 @@ export default {
       htmlTemplate({
          template: 'src/index.html',
          target: 'dist/index.html',
+      }),
+      copy({
+         targets: [
+            {
+               src: 'static/**',
+               dest: 'dist/assets/'
+            }
+         ]
       }),
       terser(),
       ...devConfig

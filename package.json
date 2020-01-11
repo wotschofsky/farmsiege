@@ -36,6 +36,7 @@
       "@typescript-eslint/parser": "^2.5.0",
       "babel-plugin-lodash": "^3.3.4",
       "rollup": "^1.24.0",
+      "rollup-plugin-copy": "^3.1.0",
       "rollup-plugin-eslint": "^7.0.0",
       "rollup-plugin-generate-html-template": "^1.5.0",
       "rollup-plugin-img": "^1.1.0",
