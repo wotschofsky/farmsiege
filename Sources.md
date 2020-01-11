@@ -40,3 +40,11 @@ https://stackoverflow.com/a/44449675/12475254
 Object Destructuring \
 05.01.2020 \
 https://wesbos.com/destructuring-renaming/
+
+rollup-plugin-copy Dokumentation \
+11.01.2020 \
+https://www.npmjs.com/package/rollup-plugin-copy
+
+Press Start 2P Font \
+11.01.2020 \
+https://google-webfonts-helper.herokuapp.com/fonts/press-start-2p
