@@ -74,7 +74,7 @@ export default {
       copy({
          targets: [
             {
-               src: 'static/**',
+               src: 'static/*',
                dest: 'dist/assets/'
             }
          ]
