@@ -1,4 +1,3 @@
-import { Howl } from 'howler'
 import { Template } from '../../lib/Types'
 import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
@@ -76,10 +75,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
             this.inputMap.removeActiveKey('KeyC')
 
             if(settingsStore.content.music) {
-               new Howl({
-                  src: shotgunSound,
-                  autoplay: true,
-               })
+               new Audio(shotgunSound).play()
             }
 
             this.nextShotAvailable = Date.now() + 1200

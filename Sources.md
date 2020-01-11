@@ -48,3 +48,7 @@ https://www.npmjs.com/package/rollup-plugin-copy
 Press Start 2P Font \
 11.01.2020 \
 https://google-webfonts-helper.herokuapp.com/fonts/press-start-2p
+
+Audiodateien per JavaScript wiedergeben \
+11.01.2020 \
+https://stackoverflow.com/a/27890570/12475254

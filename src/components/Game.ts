@@ -1,4 +1,3 @@
-// import { Howl } from '../node_modules/howler/dist/howler.min.js'
 import { Template } from '../../lib/Types'
 import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
@@ -25,21 +24,17 @@ import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
 import CosmeticsScreen from '../screens/CosmeticsScreen'
 
 
-declare const Howl: Howl
-
 class Game extends Component<{}> {
    private activeScreen: Screens
 
    protected onInit(): void {
-      // const musicPlayer = new Howl({
-      //    src: [menuSoundtrack],
-      //    autoplay: true,
-      //    loop: true,
-      //    volume: settingsStore.content.music ? 0.8 : 0
-      // })
+      // const audio = new Audio(menuSoundtrack)
+      // audio.loop = true
+      // audio.volume = settingsStore.content.music ? 0.8 : 0
+      // audio.play()
 
       // settingsStore.subscribe((state: SettingsStoreContent) => {
-      //    musicPlayer.volume(state.music ? 0.8 : 0)
+      //    audio.volume = state.music ? 0.8 : 0
       // })
    }
 
