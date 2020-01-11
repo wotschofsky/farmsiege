@@ -45,10 +45,6 @@ export default class RabbitData {
       return this._direction
    }
 
-   public set direction(value: Directions) {
-      this._direction = value
-   }
-
    public get targetX(): number {
       return this._targetX
    }
