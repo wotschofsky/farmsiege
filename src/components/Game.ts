@@ -36,13 +36,14 @@ class Game extends Component<{}> {
       audio.loop = true
       audio.volume = settingsStore.content.music ? 0.8 : 0
       audio.autoplay = true
-      // try {
-      //    audio.play()
-      // } catch(err) {
-      //    setTimeout(() => {
-      //       audio.play()
-      //    }, 1000)
-      // }
+      audio.play().catch(() => {
+         window.addEventListener('click', () => {
+            audio.play()
+         }, {
+            once: true,
+            passive: true
+         })
+      })
 
       settingsStore.subscribe((state: SettingsStoreContent) => {
          audio.volume = state.music ? 0.8 : 0

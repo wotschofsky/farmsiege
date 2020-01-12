@@ -52,3 +52,7 @@ https://google-webfonts-helper.herokuapp.com/fonts/press-start-2p
 Audiodateien per JavaScript wiedergeben \
 11.01.2020 \
 https://stackoverflow.com/a/27890570/12475254
+
+Passive EventListener in JavaScript \
+12.01.2020 \
+https://developer.mozilla.org/de/docs/Web/API/EventTarget/addEventListener
