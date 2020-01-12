@@ -4,6 +4,8 @@ import Coordinates from '../../lib/helpers/Coordinates'
 
 import Background from './Background'
 // import menuSoundtrack from '../assets/soundtrack/menu.mp3'
+// import menuSoundtrack from '../assets/soundtrack/moon_base.mp3'
+import menuSoundtrack from '../assets/soundtrack/thermal.mp3'
 import MuteButton from './MuteButton'
 
 import GameOverScreen from '../screens/GameOverScreen'
@@ -28,14 +30,23 @@ class Game extends Component<{}> {
    private activeScreen: Screens
 
    protected onInit(): void {
-      // const audio = new Audio(menuSoundtrack)
-      // audio.loop = true
-      // audio.volume = settingsStore.content.music ? 0.8 : 0
-      // audio.play()
+      const settingsStore = this.stores.settings as SettingsStore
 
-      // settingsStore.subscribe((state: SettingsStoreContent) => {
-      //    audio.volume = state.music ? 0.8 : 0
-      // })
+      const audio = new Audio(menuSoundtrack)
+      audio.loop = true
+      audio.volume = settingsStore.content.music ? 0.8 : 0
+      audio.autoplay = true
+      // try {
+      //    audio.play()
+      // } catch(err) {
+      //    setTimeout(() => {
+      //       audio.play()
+      //    }, 1000)
+      // }
+
+      settingsStore.subscribe((state: SettingsStoreContent) => {
+         audio.volume = state.music ? 0.8 : 0
+      })
    }
 
    public constructor() {
@@ -81,13 +92,13 @@ class Game extends Component<{}> {
 
       if(gridStore.friendlyPlants === 0 && !window.invincible) {
          if(statsStore.content.score > 0) {
-            const name = prompt('Please enter your name')
-            if(!!name && name.length >= 1) {
+            const name = prompt('Please enter your name', '')
+            if(!!name && name.trim().length >= 1) {
                fetch('https://garden-defense.firebaseio.com/highscores.json', {
                   method: 'POST',
                   body: JSON.stringify({
                      score: statsStore.content.score,
-                     name
+                     name: name.trim()
                   }),
                })
             }

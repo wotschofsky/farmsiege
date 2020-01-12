@@ -76,10 +76,11 @@ class Canvas {
    }
 
    private adjustToScreen(): void {
+      const scaleFactor = 4
       const rect = this.canvas.getBoundingClientRect()
-      this.canvas.width = this.width = rect.width * window.devicePixelRatio
-      this.canvas.height = this.height = rect.width * (1 / this.aspectRatio) * window.devicePixelRatio
-      this.scaleFactor = (rect.width / this.grid.width) * window.devicePixelRatio
+      this.canvas.width = this.width = rect.width * window.devicePixelRatio * scaleFactor
+      this.canvas.height = this.height = rect.width * (1 / this.aspectRatio) * window.devicePixelRatio * scaleFactor
+      this.scaleFactor = (rect.width / this.grid.width) * window.devicePixelRatio * scaleFactor
    }
 
    private render(): void {
@@ -107,7 +108,7 @@ class Canvas {
       )
 
       if(this.showFPS) {
-         this.fpsDisplay.render(this.canvas, this.context, timeDifference)
+         this.fpsDisplay.render(this.canvas, this.context, timeDifference, this.scaleFactor)
       }
 
       setTimeout(() => {
