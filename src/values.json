@@ -38,7 +38,7 @@
       }
    },
    "gameSpeed": {
-      "max": 3,
+      "max": 4,
       "base": 0.3,
       "exponent": 2,
       "divideBy": 10e8
