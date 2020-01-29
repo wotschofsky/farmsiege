@@ -76,7 +76,7 @@ class Canvas {
    }
 
    private adjustToScreen(): void {
-      const scaleFactor = 4
+      const scaleFactor = 1
       const rect = this.canvas.getBoundingClientRect()
       this.canvas.width = this.width = rect.width * window.devicePixelRatio * scaleFactor
       this.canvas.height = this.height = rect.width * (1 / this.aspectRatio) * window.devicePixelRatio * scaleFactor
