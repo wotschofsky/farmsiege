@@ -33,7 +33,7 @@ export default class GridTile extends Component<GridTileProps> {
    private contentData: Record<string, any> = {}
 
    protected onTick(ctx: PropsContext<GridTileProps>): void {
-      const tileData = (this.stores.grid as GridStore).content[ctx.props.row][ctx.props.column]
+      const tileData = (this.stores.grid as GridStore).directContent[ctx.props.row][ctx.props.column]
       this.content = tileData.type
       this.contentData = tileData.data
    }
@@ -50,20 +50,6 @@ export default class GridTile extends Component<GridTileProps> {
             width: this.tileSize,
             height: this.tileSize
          })
-      },
-      {
-         component: new Rectangle(),
-         position: (ctx: PropsContext<GridTileProps>): Coordinates => new Coordinates(
-            ctx.props.row * this.tileSize,
-            ctx.props.column * this.tileSize,
-         ),
-         props: (): RectangleProps => {
-            return {
-               width: this.tileSize,
-               height: this.tileSize,
-               color: 'rgba(255, 255, 255, 0.2)'
-            }
-         }
       },
       {
          component: new Rectangle(),
@@ -114,7 +100,11 @@ export default class GridTile extends Component<GridTileProps> {
                width: this.tileSize,
                height: this.tileSize
             }
-         }
+         },
+         show: (): boolean => this.content === TileContents.Mole ||
+                              this.content === TileContents.Molehill ||
+                              this.content === TileContents.Plant ||
+                              this.content === TileContents.Weed
       },
       {
          component: new AnimatedSprite(),
@@ -138,19 +128,14 @@ export default class GridTile extends Component<GridTileProps> {
             ctx.props.row * this.tileSize,
             ctx.props.column * this.tileSize,
          ),
-         props: (ctx: PropsContext<GridTileProps>): RectangleProps => {
+         props: (): RectangleProps => ({
+            width: this.tileSize,
+            height: this.tileSize,
+            color: 'rgba(255, 255, 255, 0.3)'
+         }),
+         show: (ctx: PropsContext<GridTileProps>): boolean => {
             const characterStore = this.stores.character as CharacterStore
-
-            let isActive = false
-            if(ctx.props.row == characterStore.content.fieldX && ctx.props.column == characterStore.content.fieldY) {
-               isActive = true
-            }
-
-            return {
-               width: this.tileSize,
-               height: this.tileSize,
-               color: `rgba(255, 255, 255, ${isActive ? 0.3 : 0})`
-            }
+            return ctx.props.row == characterStore.content.fieldX && ctx.props.column == characterStore.content.fieldY
          }
       },
    ]
