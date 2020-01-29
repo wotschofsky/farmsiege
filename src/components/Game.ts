@@ -3,9 +3,8 @@ import Component from '../../lib/Component'
 import Coordinates from '../../lib/helpers/Coordinates'
 
 import Background from './Background'
-// import menuSoundtrack from '../assets/soundtrack/menu.mp3'
-// import menuSoundtrack from '../assets/soundtrack/moon_base.mp3'
-import menuSoundtrack from '../assets/soundtrack/thermal.mp3'
+import soundtrackMoonBase from '../assets/soundtrack/moon_base.mp3'
+import soundtrackThermal from '../assets/soundtrack/thermal.mp3'
 import MuteButton from './MuteButton'
 
 import GameOverScreen from '../screens/GameOverScreen'
@@ -21,7 +20,7 @@ import GridStore from '../store/GridStore'
 import MovablesStore from '../store/MovablesStore'
 import PropsContext from '../../lib/PropsContext'
 import StatsStore from '../store/StatsStore'
-import ScreensStore, { Screens } from '../store/ScreensStore'
+import ScreensStore, { ScreensStoreContent, Screens } from '../store/ScreensStore'
 import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore'
 import CosmeticsScreen from '../screens/CosmeticsScreen'
 
@@ -31,8 +30,9 @@ class Game extends Component<{}> {
 
    protected onInit(): void {
       const settingsStore = this.stores.settings as SettingsStore
+      const screensStore = this.stores.screens as ScreensStore
 
-      const audio = new Audio(menuSoundtrack)
+      let audio = new Audio(soundtrackMoonBase);
       audio.loop = true
       audio.volume = settingsStore.content.music ? 0.8 : 0
       audio.autoplay = true
@@ -47,6 +47,16 @@ class Game extends Component<{}> {
 
       settingsStore.subscribe((state: SettingsStoreContent) => {
          audio.volume = state.music ? 0.8 : 0
+      })
+
+      screensStore.subscribe((state: ScreensStoreContent) => {
+         switch(state.active) {
+            case(Screens.Game):
+               audio.src = soundtrackThermal
+               break
+            case(Screens.GameOver):
+               audio.src = soundtrackMoonBase
+         }
       })
    }
 

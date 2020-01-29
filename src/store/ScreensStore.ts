@@ -9,7 +9,7 @@ export enum Screens {
    Cosmetics
 }
 
-type ScreensStoreContent = {
+export type ScreensStoreContent = {
    active: Screens,
    returnScreen: Screens | null,
 }
