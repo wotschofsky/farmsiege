@@ -135,7 +135,7 @@ export default class GridTile extends Component<GridTileProps> {
          }),
          show: (ctx: PropsContext<GridTileProps>): boolean => {
             const characterStore = this.stores.character as CharacterStore
-            return ctx.props.row == characterStore.content.fieldX && ctx.props.column == characterStore.content.fieldY
+            return ctx.props.row === characterStore.content.fieldX && ctx.props.column === characterStore.content.fieldY
          }
       },
    ]
