@@ -1,13 +1,11 @@
 import cloneDeep from 'clone-deep';
 import Store from '../../lib/store/Store';
 
-import SmokeData from './effects/SmokeData';
-import Smoke from '../components/Smoke';
-import Coordinates from '../../lib/helpers/Coordinates';
 import EffectData from './effects/EffectData';
+import Coordinates from '../../lib/helpers/Coordinates';
 
 type EffectsStoreContent = {
-  smoke: SmokeData[];
+  smoke: EffectData[];
 };
 
 export default class EffectsStore extends Store<EffectsStoreContent> {
@@ -22,7 +20,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
       const clonedState = cloneDeep(oldState);
 
       const position = new Coordinates(x, y);
-      const smoke = new SmokeData(position);
+      const smoke = new EffectData(position);
       clonedState.smoke.push(smoke);
 
       return clonedState;
