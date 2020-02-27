@@ -14,6 +14,7 @@ type MovablesStoreContent = {
 }
 
 export default class MovablesStore extends Store<MovablesStoreContent> {
+   private timers: number[]
    private _speedMultiplier: number
 
    public constructor() {
@@ -21,13 +22,22 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          rabbits: [],
       })
 
+      this.timers = []
       this._speedMultiplier = 1
-
-      this.spawnRabbits()
    }
 
    public set speedMultiplier(value: number) {
       this._speedMultiplier = value
+   }
+
+   public start(): void {
+      this.spawnRabbits()
+   }
+
+   public stop(): void {
+      this.timers.forEach((timer) => {
+         clearTimeout(timer)
+      })
    }
 
    public updateRabbits(timeDifference: number): void {
@@ -112,9 +122,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
          return clonedState
       })
 
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
          this.spawnRabbits()
       }, (Math.random() * (values.rabbits.spawning.max - values.rabbits.spawning.min) + values.rabbits.spawning.min) / this._speedMultiplier)
+      this.timers.push(timeout)
    }
 
    public detectHit(bullets: BulletData[], callback: (x: number, y: number) => void): void {

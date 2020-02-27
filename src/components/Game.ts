@@ -115,8 +115,11 @@ class Game extends Component<{}> {
             }
          }
 
-         gridStore.reset()
          gridStore.stop()
+         gridStore.reset()
+
+         movablesStore.stop()
+         movablesStore.reset()
 
          screensStore.setScreen(Screens.GameOver)
       }

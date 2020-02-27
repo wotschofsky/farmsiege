@@ -25,11 +25,10 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       screensStore.setScreen(Screens.Game)
 
       const gridStore = this.stores.grid as GridStore
-      gridStore.reset()
       gridStore.start()
 
       const movablesStore = this.stores.movables as MovablesStore
-      movablesStore.reset()
+      movablesStore.start()
 
       const characterStore = this.stores.character as CharacterStore
       characterStore.reset()

@@ -27,21 +27,23 @@ export default class StartScreen extends Component<StartScreenProps> {
       const gridStore = this.stores.grid as GridStore
       gridStore.reset()
 
+      const movablesStore = this.stores.movables as MovablesStore
+      movablesStore.reset()
+
       const screensStore = this.stores.screens as ScreensStore
       if(Cookie.getJSON('helpShown')) {
-         screensStore.setScreen(Screens.Game)
          gridStore.start()
+         movablesStore.start()
+         screensStore.setScreen(Screens.Game)
       } else {
          screensStore.setScreen(Screens.Help)
          screensStore.setOnReturn(() => {
             gridStore.start()
+            movablesStore.start()
             screensStore.setScreen(Screens.Game)
          })
          Cookie.set('helpShown', 'true')
       }
-
-      const movablesStore = this.stores.movables as MovablesStore
-      movablesStore.reset()
 
       const characterStore = this.stores.character as CharacterStore
       characterStore.reset()
