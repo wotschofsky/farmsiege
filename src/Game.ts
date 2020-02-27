@@ -24,6 +24,7 @@ import ScreensStore, { ScreensStoreContent, Screens } from './store/ScreensStore
 import SettingsStore, { SettingsStoreContent } from './store/SettingsStore';
 import CosmeticsScreen from './screens/CosmeticsScreen';
 import Foreground from './components/surroundings/Foreground';
+import ScoreCounter from './components/ScoreCounter';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
@@ -178,6 +179,11 @@ class Game extends Component<{}> {
     {
       component: new Foreground(),
       position: (): Coordinates => new Coordinates(0, 0)
+    },
+    {
+      component: new ScoreCounter(),
+      position: (): Coordinates => new Coordinates(800, 0),
+      show: (): boolean => this.activeScreen === Screens.Game
     }
   ];
 }
