@@ -19,40 +19,53 @@ const initialTile: TileData = {
   data: {}
 };
 
+const generateInitialGrid = (): GridStoreContent => {
+  const grid: GridStoreContent = [];
+  for (let i = 0; i < 8; i++) {
+    const row: RowData = [];
+    for (let j = 0; j < 8; j++) {
+      const tile = cloneDeep(initialTile);
+      row.push(tile);
+    }
+    grid.push(row);
+  }
+
+  let plantsPlaced = 0;
+  do {
+    const row = Math.floor(Math.random() * 8);
+    const col = Math.floor(Math.random() * 8);
+
+    if (grid[row][col].type === TileContents.Plant) {
+      continue;
+    }
+
+    grid[row][col].type = TileContents.Plant;
+    grid[row][col].data = {
+      age: Math.random() * values.plant.age.maxStart
+    };
+    plantsPlaced++;
+  } while (plantsPlaced < values.plant.startAmount);
+
+  return grid;
+};
+
 export default class GridStore extends Store<GridStoreContent> {
   private timers: number[];
   private _speedMultiplier: number;
 
   public constructor() {
-    const initialGrid: GridStoreContent = [];
-    for (let i = 0; i < 8; i++) {
-      const initialRow: RowData = [
-        cloneDeep(initialTile),
-        cloneDeep(initialTile),
-        cloneDeep(initialTile),
-        cloneDeep(initialTile),
-        cloneDeep(initialTile),
-        cloneDeep(initialTile),
-        cloneDeep(initialTile),
-        cloneDeep(initialTile)
-      ];
-      initialGrid.push(initialRow);
-    }
-
-    for (let i = 0; i < values.plant.startAmount; i++) {
-      const row = Math.floor(Math.random() * 8);
-      const col = Math.floor(Math.random() * 8);
-
-      initialGrid[row][col].type = TileContents.Plant;
-      initialGrid[row][col].data = {
-        age: Math.random() * values.plant.age.maxStart
-      };
-    }
-
+    const initialGrid = generateInitialGrid();
     super('grid', initialGrid);
 
     this.timers = [];
     this._speedMultiplier = 1;
+  }
+
+  public reset(): void {
+    this.update(() => {
+      const initialGrid = generateInitialGrid();
+      return initialGrid;
+    });
   }
 
   public set speedMultiplier(value: number) {
