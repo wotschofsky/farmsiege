@@ -7,6 +7,7 @@ import BulletData from './models/BulletData';
 import GridUtils from '../utils/Grid';
 import RabbitData from './models/RabbitData';
 import values from '../values.json';
+import Random from '../utils/Random';
 
 type MovablesStoreContent = {
   rabbits: RabbitData[];
@@ -137,7 +138,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
 
     const timeout = setTimeout(() => {
       this.spawnRabbits();
-    }, (Math.random() * (values.rabbits.spawning.max - values.rabbits.spawning.min) + values.rabbits.spawning.min) / this._speedMultiplier);
+    }, Random.between(values.rabbits.spawning.min, values.rabbits.spawning.max) / this._speedMultiplier);
     this.timers.push(timeout);
   }
 

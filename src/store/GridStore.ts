@@ -3,6 +3,8 @@ import Coordinates from '../../lib/helpers/Coordinates';
 import Store from '../../lib/store/Store';
 
 import TileContents from '../TileContents';
+import Random from '../utils/Random';
+
 import values from '../values.json';
 
 type TileData = {
@@ -191,7 +193,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
     const timeout = setTimeout(() => {
       this.updateMole();
-    }, (Math.random() * (values.mole.spawning.max - values.mole.spawning.min) + values.mole.spawning.min) / this._speedMultiplier);
+    }, Random.between(values.mole.spawning.min, values.mole.spawning.max) / this._speedMultiplier);
     this.timers.push(timeout);
   }
 
@@ -231,7 +233,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
     const timeout = setTimeout(() => {
       this.updateWeed();
-    }, (Math.random() * (values.weed.spawning.max - values.weed.spawning.min) + values.weed.spawning.min) / this._speedMultiplier);
+    }, Random.between(values.weed.spawning.min, values.weed.spawning.max) / this._speedMultiplier);
     this.timers.push(timeout);
   }
 
@@ -271,7 +273,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
     const repeatTimeout = setTimeout(() => {
       this.updateLightning();
-    }, (Math.random() * (values.lightning.spawning.max - values.lightning.spawning.min) + values.lightning.spawning.min) / this._speedMultiplier);
+    }, Random.between(values.lightning.spawning.min, values.lightning.spawning.max) / this._speedMultiplier);
     this.timers.push(repeatTimeout);
   }
 
