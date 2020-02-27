@@ -4,5 +4,8 @@ module.exports =  {
     'plugin:@typescript-eslint/recommended',
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended'
-  ]
+  ],
+  'rules': {
+    'linebreak-style': ['error', 'unix']
+  }
 };
