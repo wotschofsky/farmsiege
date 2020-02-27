@@ -1,1 +1,7 @@
-*.* eol=lf
+*.html eol=lf
+*.js   eol=lf
+*.json eol=lf
+*.md   eol=lf
+*.ts   eol=lf
+*.yml  eol=lf
+.*     eol=lf
