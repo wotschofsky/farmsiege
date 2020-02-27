@@ -9,30 +9,39 @@ export enum Screens {
    Cosmetics
 }
 
+type OnReturnFunction = () => void
+
 export type ScreensStoreContent = {
    active: Screens,
-   returnScreen: Screens | null,
+   onReturn: OnReturnFunction
 }
 
 export default class ScreensStore extends Store<ScreensStoreContent> {
    public constructor() {
       super('screens', {
          active: Screens.Start,
-         returnScreen: null,
+         onReturn: (): void => {}
       })
    }
 
    public setScreen(newScreen: Screens): void {
       this.update((oldState: ScreensStoreContent) => ({
          ...oldState,
-         active: newScreen,
+         active: newScreen
       }))
    }
 
-   public setReturnScreen(newScreen: Screens | null): void {
+   public setOnReturn(onReturn: OnReturnFunction): void {
       this.update((oldState: ScreensStoreContent) => ({
          ...oldState,
-         returnScreen: newScreen,
+         onReturn: onReturn
+      }))
+   }
+
+   public resetOnReturn(): void {
+      this.update((oldState: ScreensStoreContent) => ({
+         ...oldState,
+         onReturn: (): void => {}
       }))
    }
 }

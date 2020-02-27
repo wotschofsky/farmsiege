@@ -25,8 +25,7 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
 
    private goBack(): void {
       const screensStore = this.stores.screens as ScreensStore
-      screensStore.setScreen(screensStore.content.returnScreen)
-      screensStore.setReturnScreen(null)
+      screensStore.directContent.onReturn()
    }
 
    protected template: Template = [

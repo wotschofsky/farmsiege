@@ -16,8 +16,7 @@ export type HelpScreenProps = {}
 export default class HelpScreen extends Component<HelpScreenProps> {
    private goBack(): void {
       const screensStore = this.stores.screens as ScreensStore
-      screensStore.setScreen(screensStore.content.returnScreen)
-      screensStore.setReturnScreen(null)
+      screensStore.directContent.onReturn()
    }
 
    protected template: Template = [

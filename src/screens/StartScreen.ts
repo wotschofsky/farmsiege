@@ -24,19 +24,21 @@ export type StartScreenProps = {}
 
 export default class StartScreen extends Component<StartScreenProps> {
    private startGame(): void {
+      const gridStore = this.stores.grid as GridStore
+      gridStore.reset()
+
       const screensStore = this.stores.screens as ScreensStore
       if(Cookie.getJSON('helpShown')) {
          screensStore.setScreen(Screens.Game)
+         gridStore.start()
       } else {
          screensStore.setScreen(Screens.Help)
-         screensStore.setReturnScreen(Screens.Game)
+         screensStore.setOnReturn(() => {
+            gridStore.start()
+            screensStore.setScreen(Screens.Game)
+         })
          Cookie.set('helpShown', 'true')
       }
-
-
-      const gridStore = this.stores.grid as GridStore
-      gridStore.reset()
-      gridStore.start()
 
       const movablesStore = this.stores.movables as MovablesStore
       movablesStore.reset()
@@ -54,13 +56,17 @@ export default class StartScreen extends Component<StartScreenProps> {
    private showHelp(): void {
       const screensStore = this.stores.screens as ScreensStore
       screensStore.setScreen(Screens.Help)
-      screensStore.setReturnScreen(Screens.Start)
+      screensStore.setOnReturn(() => {
+         screensStore.setScreen(Screens.Start)
+      })
    }
 
    private showCosmetics(): void {
       const screensStore = this.stores.screens as ScreensStore
       screensStore.setScreen(Screens.Cosmetics)
-      screensStore.setReturnScreen(Screens.Start)
+      screensStore.setOnReturn(() => {
+         screensStore.setScreen(Screens.Start)
+      })
    }
 
    protected template: Template = [
