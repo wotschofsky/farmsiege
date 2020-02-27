@@ -9,7 +9,7 @@ import CharacterStore, { BulletData } from '../store/CharacterStore';
 export type BulletsProps = {};
 
 export default class Bullets extends Component<BulletsProps> {
-  protected onTick(ctx: PropsContext<BulletsProps>, timeDifference: number) {
+  protected onTick(ctx: PropsContext<BulletsProps>, timeDifference: number): void {
     const characterStore = this.stores.character as CharacterStore;
     characterStore.updateBullets(timeDifference);
   }
@@ -22,7 +22,7 @@ export default class Bullets extends Component<BulletsProps> {
         const characterStore = this.stores.character as CharacterStore;
         return {
           list: characterStore.content.bullets,
-          component: () => new Rectangle(),
+          component: (): Rectangle => new Rectangle(),
           position: (data: BulletData): Coordinates => {
             return new Coordinates(data.x, data.y);
           },

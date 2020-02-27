@@ -14,7 +14,7 @@ type HighscoresProps = {};
 export default class Highscores extends Component<HighscoresProps> {
   private scores: ScoreData[] = [];
 
-  protected onInit() {
+  protected onInit(): void {
     fetch('https://garden-defense.firebaseio.com/highscores.json?orderBy="score"&limitToLast=10')
       .then(res => {
         return res.json();
@@ -41,7 +41,7 @@ export default class Highscores extends Component<HighscoresProps> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): RepeatingProps => ({
         list: this.scores,
-        component: () => new Text(),
+        component: (): Text => new Text(),
         position: (data: ScoreData, index: number): Coordinates => {
           return new Coordinates(0, index * 30);
         },
