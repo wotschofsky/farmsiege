@@ -1,7 +1,4 @@
-import Coordinates from '../../../lib/helpers/Coordinates'
-import EffectData from './EffectData'
+import Coordinates from '../../../lib/helpers/Coordinates';
+import EffectData from './EffectData';
 
-
-export default class SmokeData extends EffectData {
-
-}
+export default class SmokeData extends EffectData {}

@@ -1,11 +1,10 @@
 enum TileContents {
-   Empty,
-   Mole,
-   Molehill,
-   Weed,
-   Plant,
-   Lightning,
+  Empty,
+  Mole,
+  Molehill,
+  Weed,
+  Plant,
+  Lightning
 }
 
-
-export default TileContents
+export default TileContents;
