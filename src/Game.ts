@@ -1,28 +1,29 @@
-import { Template } from '../../lib/Types';
-import Component from '../../lib/Component';
-import Coordinates from '../../lib/helpers/Coordinates';
+import { Template } from '../lib/Types';
+import Component from '../lib/Component';
+import Coordinates from '../lib/helpers/Coordinates';
 
-import Background from './Background';
-import soundtrackMoonBase from '../assets/soundtrack/moon_base.mp3';
-import soundtrackThermal from '../assets/soundtrack/thermal.mp3';
-import MuteButton from './MuteButton';
+import Background from './components/surroundings/Background';
+import soundtrackMoonBase from './assets/soundtrack/moon_base.mp3';
+import soundtrackThermal from './assets/soundtrack/thermal.mp3';
+import MuteButton from './components/MuteButton';
 
-import GameOverScreen from '../screens/GameOverScreen';
-import GameScreen from '../screens/GameScreen';
-import HelpScreen from '../screens/HelpScreen';
-import StartScreen from '../screens/StartScreen';
+import GameOverScreen from './screens/GameOverScreen';
+import GameScreen from './screens/GameScreen';
+import HelpScreen from './screens/HelpScreen';
+import StartScreen from './screens/StartScreen';
 
-import CharacterStore from '../store/CharacterStore';
-import CosmeticsStore from '../store/CosmeticsStore';
-import Effects from '../overlays/Effects';
-import EffectsStore from '../store/EffectsStore';
-import GridStore from '../store/GridStore';
-import MovablesStore from '../store/MovablesStore';
-import PropsContext from '../../lib/PropsContext';
-import StatsStore from '../store/StatsStore';
-import ScreensStore, { ScreensStoreContent, Screens } from '../store/ScreensStore';
-import SettingsStore, { SettingsStoreContent } from '../store/SettingsStore';
-import CosmeticsScreen from '../screens/CosmeticsScreen';
+import CharacterStore from './store/CharacterStore';
+import CosmeticsStore from './store/CosmeticsStore';
+import Effects from './overlays/Effects';
+import EffectsStore from './store/EffectsStore';
+import GridStore from './store/GridStore';
+import MovablesStore from './store/MovablesStore';
+import PropsContext from '../lib/PropsContext';
+import StatsStore from './store/StatsStore';
+import ScreensStore, { ScreensStoreContent, Screens } from './store/ScreensStore';
+import SettingsStore, { SettingsStoreContent } from './store/SettingsStore';
+import CosmeticsScreen from './screens/CosmeticsScreen';
+import Foreground from './components/surroundings/Foreground';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
@@ -172,6 +173,10 @@ class Game extends Component<{}> {
     },
     {
       component: new Effects(),
+      position: (): Coordinates => new Coordinates(0, 0)
+    },
+    {
+      component: new Foreground(),
       position: (): Coordinates => new Coordinates(0, 0)
     }
   ];

@@ -32,7 +32,7 @@ export default class Clouds extends Component<CloudProps> {
     },
     {
       component: new Sprite(),
-      position: (): Coordinates => new Coordinates(this.pos1, 80),
+      position: (): Coordinates => new Coordinates(this.pos1, 40),
       props: (): SpriteProps => ({
         source: cloud1,
         width: 610 / 1.5,
@@ -41,7 +41,7 @@ export default class Clouds extends Component<CloudProps> {
     },
     {
       component: new Sprite(),
-      position: (): Coordinates => new Coordinates(this.pos2, 70),
+      position: (): Coordinates => new Coordinates(this.pos2, 30),
       props: (): SpriteProps => ({
         source: cloud2,
         width: 580 / 1.5,

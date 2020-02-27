@@ -1,7 +1,7 @@
 // import 'core-js/stable'
 
 import Canvas from '../lib/Canvas';
-import Game from './components/Game';
+import Game from './Game';
 import Dimensions from '../lib/helpers/Dimensions';
 
 class Main {
