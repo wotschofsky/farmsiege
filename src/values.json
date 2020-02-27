@@ -1,56 +1,56 @@
 {
-   "rabbits": {
-      "spawning": {
-         "min": 8000,
-         "max": 20000
-      },
-      "amount": {
-         "min": 4,
-         "max": 7
-      },
-      "speed": 0.2,
-      "timeToClear": 1000
-   },
-   "mole": {
-      "spawning": {
-         "min": 1000,
-         "max": 5000
-      },
-      "newChance": 0.05
-   },
-   "lightning": {
-      "spawning": {
-         "min": 5000,
-         "max": 15000
-      }
-   },
-   "weed": {
-      "spawning": {
-         "min": 1000,
-         "max": 5000
-      }
-   },
-   "plant": {
-      "startAmount": 3,
-      "age": {
-         "maxStart": 4000,
-         "fullyGrown": 15000
-      }
-   },
-   "gameSpeed": {
-      "max": 4,
-      "base": 0.3,
-      "exponent": 2,
-      "divideBy": 10e8
-   },
-   "character": {
-      "size": 1.2
-   },
-   "guns": {
-      "pumpgun": {
-         "maxAge": 150,
-         "amount": 20,
-         "spread": 0.2
-      }
-   }
+  "rabbits": {
+    "spawning": {
+      "min": 8000,
+      "max": 20000
+    },
+    "amount": {
+      "min": 4,
+      "max": 7
+    },
+    "speed": 0.2,
+    "timeToClear": 1000
+  },
+  "mole": {
+    "spawning": {
+      "min": 1000,
+      "max": 5000
+    },
+    "newChance": 0.05
+  },
+  "lightning": {
+    "spawning": {
+      "min": 5000,
+      "max": 15000
+    }
+  },
+  "weed": {
+    "spawning": {
+      "min": 1000,
+      "max": 5000
+    }
+  },
+  "plant": {
+    "startAmount": 3,
+    "age": {
+      "maxStart": 4000,
+      "fullyGrown": 15000
+    }
+  },
+  "gameSpeed": {
+    "max": 4,
+    "base": 0.3,
+    "exponent": 2,
+    "divideBy": 10e8
+  },
+  "character": {
+    "size": 1.2
+  },
+  "guns": {
+    "pumpgun": {
+      "maxAge": 150,
+      "amount": 20,
+      "spread": 0.2
+    }
+  }
 }
