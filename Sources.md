@@ -57,4 +57,10 @@ https://stackoverflow.com/a/27890570/12475254
 
 Passive EventListener in JavaScript \
 12.01.2020 \
-https://developer.mozilla.org/de/docs/Web/API/EventTarget/addEventListener
+https://developer.mozilla.org/de/docs/Web/API/EventTarget/addEventListener  \
+
+JavaScript Gamepad API \
+28.02.2020 \
+https://html5gamepad.com/for-developers \
+https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API \
+https://developer.mozilla.org/en-US/docs/Web/API/GamepadHapticActuator/pulse

@@ -1,7 +1,7 @@
 import { Template } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
-import InputMap from '../../lib/InputMap';
+import InputMap, { GamepadButtons, GamepadStickDirections } from '../../lib/InputMap';
 
 import Character, { CharacterProps } from './character/Character';
 import CharacterStore from '../store/CharacterStore';
@@ -23,13 +23,13 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
   protected onInit(): void {
     this.inputMap = new InputMap({
-      up: ['KeyW', 'ArrowUp'],
-      left: ['KeyA', 'ArrowLeft'],
-      down: ['KeyS', 'ArrowDown'],
-      right: ['KeyD', 'ArrowRight'],
-      use: ['Space'],
-      place: ['KeyV'],
-      fire: ['KeyC']
+      up: ['KeyW', 'ArrowUp', GamepadStickDirections.LeftStickUp],
+      left: ['KeyA', 'ArrowLeft', GamepadStickDirections.LeftStickLeft],
+      down: ['KeyS', 'ArrowDown', GamepadStickDirections.LeftStickDown],
+      right: ['KeyD', 'ArrowRight', GamepadStickDirections.LeftStickRight],
+      use: ['Space', GamepadButtons.ButtonB],
+      place: ['KeyV', GamepadButtons.ButtonA],
+      fire: ['KeyC', GamepadButtons.ButtonX]
     });
   }
 
@@ -72,6 +72,21 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         const settingsStore = this.stores.settings as SettingsStore;
         characterStore.fireGun();
         this.inputMap.removeActiveKey('KeyC');
+
+        for (const gamepad of navigator.getGamepads()) {
+          if (gamepad) {
+            if ('hapticActuators' in gamepad) {
+              gamepad.hapticActuators[0].pulse(0.7, 100);
+            } else if ('vibrationActuator' in gamepad) {
+              gamepad.vibrationActuator.playEffect('dual-rumble', {
+                startDelay: 0,
+                duration: 100,
+                weakMagnitude: 0.7,
+                strongMagnitude: 0.7
+              });
+            }
+          }
+        }
 
         if (settingsStore.content.music) {
           new Audio(shotgunSound).play();
