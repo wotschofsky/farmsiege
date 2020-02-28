@@ -8,12 +8,13 @@ import values from '../../values.json';
 
 import Hat from './Hat';
 import Shirt from './Shirt';
+import Pants from './Pants';
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
 import blackManRightSprite from '../../assets/character/body/black_man_right.png';
-import spriteIdleLeft from '../../assets/finn_idle_left.png';
-import spriteIdleRight from '../../assets/finn_idle_right.png';
-import spriteRunningLeft from '../../assets/finn_running_left.png';
-import spriteRunningRight from '../../assets/finn_running_right.png';
+// import spriteIdleLeft from '../../assets/finn_idle_left.png';
+// import spriteIdleRight from '../../assets/finn_idle_right.png';
+// import spriteRunningLeft from '../../assets/finn_running_left.png';
+// import spriteRunningRight from '../../assets/finn_running_right.png';
 
 export type CharacterProps = {
   direction: Directions;
@@ -31,6 +32,10 @@ export default class Character extends Component<CharacterProps> {
           height: 128 * values.character.size * 1.5
         };
       }
+    },
+    {
+      component: new Pants(),
+      position: (): Coordinates => new Coordinates(0, 72 * values.character.size)
     },
     {
       component: new Shirt(),

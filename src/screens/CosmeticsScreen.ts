@@ -27,6 +27,11 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
     cosmeticsStore.rotateShirt();
   }
 
+  private changePants(): void {
+    const cosmeticsStore = this.stores.cosmetics as CosmeticsStore;
+    cosmeticsStore.rotatePants();
+  }
+
   private goBack(): void {
     const screensStore = this.stores.screens as ScreensStore;
     screensStore.directContent.onReturn();
@@ -82,6 +87,24 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
     //   props: (): RectangleProps => ({
     //     width: 128 * values.character.size,
     //     height: 56 * values.character.size,
+    //     color: 'rgba(0, 0, 0, 0.3)'
+    //   })
+    // },
+
+    {
+      component: new EventListener(),
+      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 144 * values.character.size),
+      props: (): EventListenerProps => ({
+        size: new Dimensions(128 * values.character.size, 32 * values.character.size),
+        onClick: this.changePants
+      })
+    },
+    // {
+    //   component: new Rectangle(),
+    //   position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 144 * values.character.size),
+    //   props: (): RectangleProps => ({
+    //     width: 128 * values.character.size,
+    //     height: 32 * values.character.size,
     //     color: 'rgba(0, 0, 0, 0.3)'
     //   })
     // },

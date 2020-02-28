@@ -10,6 +10,9 @@ import topHatSprite from '../assets/character/hats/top_hat.png';
 import whiteShirtSprite from '../assets/character/shirt/white_shirt.png';
 import woodsmanShirtSprite from '../assets/character/shirt/woodsman_shirt.png';
 
+import bluePantsSprite from '../assets/character/pants/blue_pants.png';
+import grayPantsSprite from '../assets/character/pants/gray_pants.png';
+
 interface CosmeticsData {
   sprite: string;
 }
@@ -20,6 +23,10 @@ interface HatData extends CosmeticsData {
 
 interface ShirtData extends CosmeticsData {
   id: Shirts;
+}
+
+interface PantsData extends CosmeticsData {
+  id: Pants;
 }
 
 export enum Hats {
@@ -74,9 +81,31 @@ export const shirtsData: ShirtData[] = [
   }
 ];
 
+export enum Pants {
+  None,
+  Blue,
+  Gray
+}
+
+export const pantsData: PantsData[] = [
+  {
+    id: Pants.None,
+    sprite: ''
+  },
+  {
+    id: Pants.Blue,
+    sprite: bluePantsSprite
+  },
+  {
+    id: Pants.Gray,
+    sprite: grayPantsSprite
+  }
+];
+
 export type CosmeticsStoreContent = {
   hat: Hats;
   shirt: Shirts;
+  pants: Pants;
 };
 
 export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
@@ -85,7 +114,8 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
   public constructor() {
     super('cosmetics', {
       hat: Hats.Mexican,
-      shirt: Shirts.Woodsman
+      shirt: Shirts.Woodsman,
+      pants: Pants.Blue
     });
 
     const cookieData = this.retrieveConfiguration();
@@ -142,6 +172,29 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
         clonedState.shirt++;
         if (clonedState.shirt === shirtsData.length) {
           clonedState.shirt = 0;
+        }
+
+        return clonedState;
+      }
+    );
+    this.saveConfiguration();
+  }
+
+  public get activePants(): PantsData {
+    const storePants = this.content.pants;
+    return pantsData.find((pants): boolean => {
+      return pants.id === storePants;
+    }) as PantsData;
+  }
+
+  public rotatePants(): void {
+    this.update(
+      (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
+        const clonedState = cloneDeep(oldState);
+
+        clonedState.pants++;
+        if (clonedState.pants === pantsData.length) {
+          clonedState.pants = 0;
         }
 
         return clonedState;
