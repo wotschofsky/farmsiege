@@ -4,6 +4,10 @@
       "min": 8000,
       "max": 20000
     },
+    "grace": {
+      "min": 10000,
+      "max": 15000
+    },
     "amount": {
       "min": 4,
       "max": 7
@@ -16,19 +20,32 @@
       "min": 1000,
       "max": 5000
     },
+    "grace": {
+      "min": 3000,
+      "max": 8000
+    },
     "newChance": 0.05
   },
   "lightning": {
     "spawning": {
       "min": 5000,
       "max": 15000
+    },
+    "grace": {
+      "min": 5000,
+      "max": 10000
     }
   },
   "weed": {
     "spawning": {
       "min": 1000,
       "max": 5000
-    }
+    },
+    "grace": {
+      "min": 3000,
+      "max": 5000
+    },
+    "newChance": 0.3
   },
   "plant": {
     "startAmount": 3,

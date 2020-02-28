@@ -75,10 +75,28 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   public start(): void {
-    this.updateMole();
     this.growPlants();
-    this.updateWeed();
-    this.updateLightning();
+
+    {
+      const timeout = setTimeout(() => {
+        this.updateMole();
+      }, Random.between(values.mole.grace.min, values.mole.grace.max));
+      this.timers.push(timeout);
+    }
+
+    {
+      const timeout = setTimeout(() => {
+        this.updateWeed();
+      }, Random.between(values.weed.grace.min, values.weed.grace.max));
+      this.timers.push(timeout);
+    }
+
+    {
+      const timeout = setTimeout(() => {
+        this.updateLightning();
+      }, Random.between(values.lightning.grace.min, values.lightning.grace.max));
+      this.timers.push(timeout);
+    }
   }
 
   public stop(): void {
@@ -211,7 +229,7 @@ export default class GridStore extends Store<GridStoreContent> {
           });
         });
 
-        if (Math.random() < 0.3) {
+        if (Math.random() < values.weed.newChance) {
           const row = Math.floor(Math.random() * 8);
           const col = Math.floor(Math.random() * 8);
           clonedState[row][col].type = TileContents.Weed;

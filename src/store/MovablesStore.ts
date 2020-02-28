@@ -31,7 +31,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
   }
 
   public start(): void {
-    this.spawnRabbits();
+    const timeout = setTimeout(() => {
+      this.spawnRabbits();
+    }, Random.between(values.rabbits.grace.min, values.rabbits.grace.max));
+    this.timers.push(timeout);
   }
 
   public stop(): void {
