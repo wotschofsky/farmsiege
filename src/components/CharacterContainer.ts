@@ -27,9 +27,9 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       left: ['KeyA', 'ArrowLeft', GamepadStickDirections.LeftStickLeft],
       down: ['KeyS', 'ArrowDown', GamepadStickDirections.LeftStickDown],
       right: ['KeyD', 'ArrowRight', GamepadStickDirections.LeftStickRight],
-      use: ['Space', GamepadButtons.ButtonB],
-      place: ['KeyV', GamepadButtons.ButtonA],
-      fire: ['KeyC', GamepadButtons.ButtonX]
+      '!use': ['Space', GamepadButtons.ButtonB],
+      '!place': ['KeyV', GamepadButtons.ButtonA],
+      '!fire': ['KeyC', GamepadButtons.ButtonX]
     });
   }
 
@@ -58,12 +58,10 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       }
 
       gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY);
-      this.inputMap.removeActiveKey('Space');
     }
 
     if (inputs.place) {
       gridStore.placePlant(characterStore.content.fieldX, characterStore.content.fieldY);
-      this.inputMap.removeActiveKey('KeyV');
     }
 
     if (inputs.fire) {
@@ -71,7 +69,6 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         const characterStore = this.stores.character as CharacterStore;
         const settingsStore = this.stores.settings as SettingsStore;
         characterStore.fireGun();
-        this.inputMap.removeActiveKey('KeyC');
 
         for (const gamepad of navigator.getGamepads()) {
           if (gamepad) {

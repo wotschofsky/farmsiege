@@ -77,6 +77,10 @@ export default class InputMap {
       this.template[key].forEach(code => {
         if (this.activeKeys.includes(code)) {
           active = true;
+
+          if (key.startsWith('!')) {
+            this.removeActiveKey(code);
+          }
         }
 
         if (code in GamepadButtons) {
@@ -206,6 +210,15 @@ export default class InputMap {
         mappedKeys[key] = active;
       });
     }
+
+    for (const key in mappedKeys) {
+      if (key.startsWith('!')) {
+        const strippedKey = key.slice(1);
+        mappedKeys[strippedKey] = mappedKeys[key];
+        delete mappedKeys[key];
+      }
+    }
+
     return mappedKeys;
   }
 }
