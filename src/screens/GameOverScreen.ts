@@ -12,9 +12,10 @@ import EffectsStore from '../store/EffectsStore';
 import GridStore from '../store/GridStore';
 import Highscores from '../components/Highscores';
 import MovablesStore from '../store/MovablesStore';
-import retryButtonSprite from '../assets/ui/retry.png';
 import ScreensStore, { Screens } from '../store/ScreensStore';
 import StatsStore from '../store/StatsStore';
+import playButtonSprite from '../assets/ui/play.png';
+import homeButtonSprite from '../assets/ui/home.png';
 
 export type GameOverScreenProps = {};
 
@@ -37,6 +38,11 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
 
     const effectsStore = this.stores.effects as EffectsStore;
     effectsStore.reset();
+  }
+
+  private goBack(): void {
+    const screensStore = this.stores.screens as ScreensStore;
+    screensStore.setScreen(Screens.Start);
   }
 
   protected template: Template = [
@@ -68,7 +74,25 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
 
     {
       component: new EventListener(),
-      position: (): Coordinates => new Coordinates(650, 900),
+      position: (): Coordinates => new Coordinates(500, 900),
+      props: (): EventListenerProps => ({
+        size: new Dimensions(300, 200),
+        onClick: this.goBack
+      })
+    },
+    {
+      component: new Sprite(),
+      position: (): Coordinates => new Coordinates(500, 900),
+      props: (): SpriteProps => ({
+        source: homeButtonSprite,
+        width: 300,
+        height: 200
+      })
+    },
+
+    {
+      component: new EventListener(),
+      position: (): Coordinates => new Coordinates(800, 900),
       props: (): EventListenerProps => ({
         size: new Dimensions(300, 200),
         onClick: this.startGame
@@ -76,9 +100,9 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     },
     {
       component: new Sprite(),
-      position: (): Coordinates => new Coordinates(650, 900),
+      position: (): Coordinates => new Coordinates(800, 900),
       props: (): SpriteProps => ({
-        source: retryButtonSprite,
+        source: playButtonSprite,
         width: 300,
         height: 200
       })
