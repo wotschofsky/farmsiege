@@ -6,18 +6,17 @@ import Coordinates from '../../lib/helpers/Coordinates';
 import Dimensions from '../../lib/helpers/Dimensions';
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
-import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
 
 import CharacterStore from '../store/CharacterStore';
 import EffectsStore from '../store/EffectsStore';
 import GridStore from '../store/GridStore';
-import helpButtonSprite from '../assets/ui/help.png';
 import logo from '../assets/logo.png';
 import MovablesStore from '../store/MovablesStore';
-import playButtonSprite from '../assets/ui/play.png';
 import ScreensStore, { Screens } from '../store/ScreensStore';
 import StatsStore from '../store/StatsStore';
+import playButtonSprite from '../assets/ui/play.png';
+import helpButtonSprite from '../assets/ui/help.png';
+import cosmeticsButtonSprite from '../assets/ui/cosmetics.png';
 
 export type StartScreenProps = {};
 
@@ -126,7 +125,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(650, 900),
       props: (): SpriteProps => ({
-        source: helpButtonSprite,
+        source: cosmeticsButtonSprite,
         width: 300,
         height: 200
       })
