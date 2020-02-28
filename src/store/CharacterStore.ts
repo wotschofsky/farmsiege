@@ -21,8 +21,8 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
   public constructor() {
     super('character', {
       bullets: [],
-      posX: 100,
-      posY: 100,
+      posX: 512 - 32 * values.character.size,
+      posY: 512,
       direction: Directions.Right,
       fieldX: 0,
       fieldY: 0
