@@ -1,12 +1,13 @@
 import Component from '../../../lib/Component';
 import { Template } from '../../../lib/Types';
 import Coordinates from '../../../lib/helpers/Coordinates';
-import Hat from './Hat';
 import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 import values from '../../values.json';
 
+import Hat from './Hat';
+import Shirt from './Shirt';
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
 import blackManRightSprite from '../../assets/character/body/black_man_right.png';
 import spriteIdleLeft from '../../assets/finn_idle_left.png';
@@ -30,6 +31,10 @@ export default class Character extends Component<CharacterProps> {
           height: 128 * values.character.size * 1.5
         };
       }
+    },
+    {
+      component: new Shirt(),
+      position: (): Coordinates => new Coordinates(0, 56 * values.character.size)
     },
     {
       component: new Hat(),
