@@ -2,6 +2,7 @@
 
 ## Sprites
 
+Himmel https://savvycow.itch.io/loudypixelsky am 28.02.2020 \
 Wolken https://opengameart.org/content/clouds am 19.10.2019 \
 Bäume https://opengameart.org/content/trees-bushes am 18.10.2019 \
 Character https://lhteam.itch.io/finn-sprite im Oktober 2019 \

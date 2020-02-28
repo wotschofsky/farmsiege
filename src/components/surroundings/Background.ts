@@ -13,7 +13,7 @@ export default class Background extends Component<BackgroundProps> {
   protected template: Template = [
     {
       component: new Sprite(),
-      position: (): Coordinates => new Coordinates(0, 0),
+      position: (): Coordinates => new Coordinates(0, -400),
       props: (): SpriteProps => ({
         source: sky,
         width: 1600,
