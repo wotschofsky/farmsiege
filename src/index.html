@@ -1,80 +1,92 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <meta http-equiv="X-UA-Compatible" content="ie=edge">
-      <title>Garden Defense</title>
-      <style>
-         /* press-start-2p-regular - latin */
-         @font-face {
-         font-family: 'Press Start 2P';
-         font-style: normal;
-         font-weight: 400;
-         src: url('./assets/fonts/press-start-2p-v8-latin-regular.eot'); /* IE9 Compat Modes */
-         src: local('Press Start 2P Regular'), local('PressStart2P-Regular'),
-               url('./assets/fonts/press-start-2p-v8-latin-regular.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
-               url('./assets/fonts/press-start-2p-v8-latin-regular.woff2') format('woff2'), /* Super Modern Browsers */
-               url('./assets/fonts/press-start-2p-v8-latin-regular.woff') format('woff'), /* Modern Browsers */
-               url('./assets/fonts/press-start-2p-v8-latin-regular.ttf') format('truetype'), /* Safari, Android, iOS */
-               url('./assets/fonts/press-start-2p-v8-latin-regular.svg#PressStart2P') format('svg'); /* Legacy iOS */
-         }
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Garden Defense</title>
+  <style>
+    /* press-start-2p-regular - latin */
+    @font-face {
+      font-family: 'Press Start 2P';
+      font-style: normal;
+      font-weight: 400;
+      src: url('./assets/fonts/press-start-2p-v8-latin-regular.eot');
+      /* IE9 Compat Modes */
+      src: local('Press Start 2P Regular'), local('PressStart2P-Regular'),
+        url('./assets/fonts/press-start-2p-v8-latin-regular.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('./assets/fonts/press-start-2p-v8-latin-regular.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('./assets/fonts/press-start-2p-v8-latin-regular.woff') format('woff'),
+        /* Modern Browsers */
+        url('./assets/fonts/press-start-2p-v8-latin-regular.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('./assets/fonts/press-start-2p-v8-latin-regular.svg#PressStart2P') format('svg');
+        /* Legacy iOS */
+    }
 
 
-         body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-         }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+    }
 
-         .container {
-            padding-top: 2rem;
-            width: 80%;
-            max-width: 110vh;
-            height: auto;
-            margin: auto;
-         }
+    .container {
+      padding-top: 2rem;
+      width: 80%;
+      max-width: 110vh;
+      height: auto;
+      margin: auto;
+    }
 
-         footer {
-            text-align: center;
-            margin: 2rem 0;
-         }
+    footer {
+      text-align: center;
+      margin: 2rem 0;
+    }
 
-         @media(min-width: 480px) {
-            footer {
-               font-size: 125%;
-            }
-         }
+    @media(min-width: 480px) {
+      footer {
+        font-size: 125%;
+      }
+    }
 
-         :link, :visited {
-            color: #3A7D8C;
-         }
-      </style>
+    :link,
+    :visited {
+      color: #3A7D8C;
+    }
+  </style>
 
-      <!-- Matomo -->
-      <script type="text/javascript">
-         var _paq = window._paq || [];
-         /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-         _paq.push(['trackPageView']);
-         _paq.push(['enableLinkTracking']);
-         _paq.push(['enableHeartBeatTimer', 10]);
-         (function() {
-         var u="https://analytics.felisk.io/";
-         _paq.push(['setTrackerUrl', u+'matomo.php']);
-         _paq.push(['setSiteId', '4']);
-         var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-         g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-         })();
-      </script>
-      <noscript><p><img src="https://analytics.felisk.io/matomo.php?idsite=4&amp;rec=1" style="border:0;" alt="" /></p></noscript>
-      <!-- End Matomo Code -->
-   </head>
-   <body>
-      <div class="container">
-         <div style="font-family: 'Press Start 2P';"></div>
-         <canvas id="canvas" style="width: 100%; height: auto;"></canvas>
-         <footer>
-            Handcrafted with ❤️ by <a href="https://felisk.io">Felix Wotschofsky</a>
-         </footer>
-      </div>
-   </body>
+  <!-- Matomo -->
+  <script type="text/javascript">
+    var _paq = window._paq || [];
+    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+    _paq.push(['trackPageView']);
+    _paq.push(['enableLinkTracking']);
+    _paq.push(['enableHeartBeatTimer', 10]);
+    (function() {
+      var u = "https://analytics.felisk.io/";
+      _paq.push(['setTrackerUrl', u + 'matomo.php']);
+      _paq.push(['setSiteId', '4']);
+      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+      g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'matomo.js'; s.parentNode.insertBefore(g, s);
+    })();
+  </script>
+  <noscript>
+    <p><img src="https://analytics.felisk.io/matomo.php?idsite=4&amp;rec=1" style="border:0;" alt="" /></p>
+  </noscript>
+  <!-- End Matomo Code -->
+</head>
+
+<body>
+  <div class="container">
+    <div style="font-family: 'Press Start 2P';"></div>
+    <canvas id="canvas" style="width: 100%; height: auto;"></canvas>
+    <footer>
+      Handcrafted with ❤️ by <a href="https://felisk.io">Felix Wotschofsky</a>
+    </footer>
+  </div>
+</body>
+
 </html>
