@@ -1,4 +1,5 @@
 import cloneDeep from 'clone-deep';
+import Cookie from 'js-cookie';
 import Store from '../../lib/store/Store';
 
 import copHatSprite from '../assets/character/hats/cop_hat.png';
@@ -79,11 +80,28 @@ export type CosmeticsStoreContent = {
 };
 
 export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
+  cookieName = 'cosmetics';
+
   public constructor() {
     super('cosmetics', {
       hat: Hats.Mexican,
       shirt: Shirts.Woodsman
     });
+
+    const cookieData = this.retrieveConfiguration();
+    if (cookieData) {
+      this.update(() => cookieData);
+    }
+  }
+
+  public saveConfiguration(): void {
+    const data = this.content;
+    Cookie.set(this.cookieName, data);
+  }
+
+  public retrieveConfiguration(): CosmeticsStoreContent {
+    const data = Cookie.getJSON(this.cookieName);
+    return data;
   }
 
   public get activeHat(): HatData {
@@ -106,6 +124,7 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
         return clonedState;
       }
     );
+    this.saveConfiguration();
   }
 
   public get activeShirt(): ShirtData {
@@ -128,5 +147,6 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
         return clonedState;
       }
     );
+    this.saveConfiguration();
   }
 }
