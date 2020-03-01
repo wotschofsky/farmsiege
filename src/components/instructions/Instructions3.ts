@@ -6,17 +6,21 @@ import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 
-export type Instructions2Props = {};
+export type Instructions3Props = {};
 
-export default class Instructions2 extends Component<Instructions2Props> {
+export default class Instructions3 extends Component<Instructions3Props> {
   private timer = 0;
 
-  onTick(ctx: PropsContext<Instructions2>, timeDifference: number): void {
+  onTick(ctx: PropsContext<Instructions3>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 
   private get showPlant() {
-    return this.timer % 2000 > 1000;
+    return this.timer % 2000 < 1000;
+  }
+
+  private get showScore() {
+    return this.timer % 2000 >= 1000;
   }
 
   protected template: Template = [
@@ -38,9 +42,19 @@ export default class Instructions2 extends Component<Instructions2Props> {
     },
     {
       component: new Text(),
+      position: (): Coordinates => new Coordinates(300, 100),
+      props: (): TextProps => ({
+        text: '+10',
+        color: '#fff',
+        size: 36
+      }),
+      show: (): boolean => this.showScore
+    },
+    {
+      component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Press V to plant a crop',
+        text: 'Press Space or B to clear the selected field (also harvesting crops)',
         color: '#fff'
       })
     }

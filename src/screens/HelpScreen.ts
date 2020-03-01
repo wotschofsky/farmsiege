@@ -11,11 +11,12 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import backButtonSprite from '../assets/ui/retry.png';
 import Instructions1 from '../components/instructions/Instructions1';
 import Instructions2 from '../components/instructions/Instructions2';
+import Instructions3 from '../components/instructions/Instructions3';
 
 export type HelpScreenProps = {};
 
 export default class HelpScreen extends Component<HelpScreenProps> {
-  private totalPages = 2;
+  private totalPages = 3;
   private currentPage = 1;
 
   private continue(): void {
@@ -55,6 +56,11 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       component: new Instructions2(),
       position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
       show: (): boolean => this.currentPage === 2
+    },
+    {
+      component: new Instructions3(),
+      position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+      show: (): boolean => this.currentPage === 3
     },
 
     // {
