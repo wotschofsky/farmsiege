@@ -10,7 +10,7 @@ export type EventListenerProps = {
 };
 
 export default class EventListener extends Component<EventListenerProps> {
-  private clickListener: (position: Coordinates) => void | null = null;
+  private clickListener: ((position: Coordinates) => void) | null = null;
   private componentPosition: Coordinates;
   private componentSize: Dimensions;
   private renderContext: RenderingContext;
