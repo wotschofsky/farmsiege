@@ -12,7 +12,6 @@ import TileContents from '../TileContents';
 import values from '../values.json';
 
 import dirt from '../assets/dirt.png';
-import lightning from '../assets/lightning.png';
 import mole from '../assets/mole.png';
 import molehill from '../assets/molehill.png';
 import tomato0 from '../assets/plants/tomato_0.png';
@@ -20,6 +19,7 @@ import tomato1 from '../assets/plants/tomato_1.png';
 import tomato2 from '../assets/plants/tomato_2.png';
 import tomato3 from '../assets/plants/tomato_3.png';
 import weed from '../assets/plants/weed.png';
+import Lightning from './Lightning';
 
 export type GridTileProps = {
   row: number;
@@ -101,17 +101,9 @@ export default class GridTile extends Component<GridTileProps> {
         this.content === TileContents.Weed
     },
     {
-      component: new AnimatedSprite(),
+      component: new Lightning(),
       position: (ctx: PropsContext<GridTileProps>): Coordinates =>
         new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize - 128),
-      props: (): AnimatedSpriteProps => ({
-        source: lightning,
-        interval: 100,
-        width: 128,
-        height: 256,
-        spriteWidth: 256,
-        spriteHeight: 512
-      }),
       show: (): boolean => this.content === TileContents.Lightning
     },
     {
