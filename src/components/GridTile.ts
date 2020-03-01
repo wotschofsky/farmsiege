@@ -123,8 +123,11 @@ export default class GridTile extends Component<GridTileProps> {
         height: this.tileSize,
         color: 'rgba(255, 255, 255, 0.3)'
       }),
-      show: (ctx: PropsContext<GridTileProps>): boolean => {
+      show: (ctx: PropsContext<GridTileProps> | undefined): boolean => {
         const characterStore = this.stores.character as CharacterStore;
+        if (!ctx) {
+          return false;
+        }
         return ctx.props.row === characterStore.content.fieldX && ctx.props.column === characterStore.content.fieldY;
       }
     }

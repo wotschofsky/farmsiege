@@ -10,15 +10,13 @@ export type EventListenerProps = {
 };
 
 export default class EventListener extends Component<EventListenerProps> {
-  private clickListener: (position: Coordinates) => void | null;
+  private clickListener: (position: Coordinates) => void | null = null;
   private componentPosition: Coordinates;
   private componentSize: Dimensions;
   private renderContext: RenderingContext;
 
   public constructor() {
     super();
-
-    this.clickListener = (): void => {};
   }
 
   public propagateEvent(type: EventTypes, position: Coordinates): void {
