@@ -13,7 +13,7 @@ export type TomatoProps = {
   age: 0 | 1 | 2 | 3;
 };
 
-export default class Tomatom extends Component<TomatoProps> {
+export default class Tomato extends Component<TomatoProps> {
   protected template: Template = [
     {
       component: new Sprite(),
