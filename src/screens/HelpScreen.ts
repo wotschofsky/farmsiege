@@ -9,13 +9,23 @@ import ScreensStore from '../store/ScreensStore';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
 import backButtonSprite from '../assets/ui/retry.png';
+import Instructions1 from '../components/instructions/Instructions1';
+import Instructions2 from '../components/instructions/Instructions2';
+import Instructions3 from '../components/instructions/Instructions3';
 
 export type HelpScreenProps = {};
 
 export default class HelpScreen extends Component<HelpScreenProps> {
-  private goBack(): void {
-    const screensStore = this.stores.screens as ScreensStore;
-    screensStore.directContent.onReturn();
+  private totalPages = 3;
+  private currentPage = 1;
+
+  private continue(): void {
+    if (this.currentPage === this.totalPages) {
+      const screensStore = this.stores.screens as ScreensStore;
+      screensStore.directContent.onReturn();
+      return;
+    }
+    this.currentPage++;
   }
 
   protected template: Template = [
@@ -36,67 +46,93 @@ export default class HelpScreen extends Component<HelpScreenProps> {
         size: 36
       })
     },
+
     {
-      component: new Text(),
+      component: new Instructions1(),
       position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
-      props: (): TextProps => ({
-        text: '• WASD/Arrow Keys to navigate',
-        color: '#fff'
-      })
+      show: (): boolean => this.currentPage === 1
     },
     {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(500 + 50, 400 + 150),
-      props: (): TextProps => ({
-        text: '• Press Space to clear the selected field (also harvesting crops)',
-        color: '#fff'
-      })
+      component: new Instructions2(),
+      position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+      show: (): boolean => this.currentPage === 2
     },
     {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(500 + 50, 400 + 175),
-      props: (): TextProps => ({
-        text: '• Press V to plant a crop',
-        color: '#fff'
-      })
+      component: new Instructions3(),
+      position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+      show: (): boolean => this.currentPage === 3
     },
+
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+    //   props: (): TextProps => ({
+    //     text: '• WASD/Arrow Keys to navigate',
+    //     color: '#fff'
+    //   })
+    // },
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 150),
+    //   props: (): TextProps => ({
+    //     text: '• Press Space to clear the selected field (also harvesting crops)',
+    //     color: '#fff'
+    //   })
+    // },
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 175),
+    //   props: (): TextProps => ({
+    //     text: '• Press V to plant a crop',
+    //     color: '#fff'
+    //   })
+    // },
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 200),
+    //   props: (): TextProps => ({
+    //     text: '• Press C to fire gun',
+    //     color: '#fff'
+    //   })
+    // },
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 250),
+    //   props: (): TextProps => ({
+    //     text: '• Earn points by',
+    //     color: '#fff'
+    //   })
+    // },
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 60, 400 + 275),
+    //   props: (): TextProps => ({
+    //     text: '- harvesting fully grown crops',
+    //     color: '#fff'
+    //   })
+    // },
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 60, 400 + 300),
+    //   props: (): TextProps => ({
+    //     text: '- Killing rabbits',
+    //     color: '#fff'
+    //   })
+    // },
+    // {
+    //   component: new Text(),
+    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 350),
+    //   props: (): TextProps => ({
+    //     text: '• The game ends once there are no own plants left on the playing field',
+    //     color: '#fff'
+    //   })
+    // },
+
     {
       component: new Text(),
-      position: (): Coordinates => new Coordinates(500 + 50, 400 + 200),
+      position: (): Coordinates => new Coordinates(500 + 280, 400 + 375),
       props: (): TextProps => ({
-        text: '• Press C to fire gun',
-        color: '#fff'
-      })
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(500 + 50, 400 + 250),
-      props: (): TextProps => ({
-        text: '• Earn points by',
-        color: '#fff'
-      })
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(500 + 60, 400 + 275),
-      props: (): TextProps => ({
-        text: '- harvesting fully grown crops',
-        color: '#fff'
-      })
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(500 + 60, 400 + 300),
-      props: (): TextProps => ({
-        text: '- Killing rabbits',
-        color: '#fff'
-      })
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(500 + 50, 400 + 350),
-      props: (): TextProps => ({
-        text: '• The game ends once there are no own plants left on the playing field',
+        text: `${this.currentPage} / ${this.totalPages}`,
         color: '#fff'
       })
     },
@@ -106,7 +142,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       position: (): Coordinates => new Coordinates(650, 900),
       props: (): EventListenerProps => ({
         size: new Dimensions(300, 200),
-        onClick: this.goBack
+        onClick: this.continue.bind(this)
       })
     },
     {
