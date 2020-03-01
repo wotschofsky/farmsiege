@@ -6,6 +6,8 @@ import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 
+import Tomato, { TomatoProps } from '../plants/Tomato';
+
 export type Instructions2Props = {};
 
 export default class Instructions2 extends Component<Instructions2Props> {
@@ -15,26 +17,25 @@ export default class Instructions2 extends Component<Instructions2Props> {
     this.timer += timeDifference;
   }
 
-  private get showPlant() {
+  private get showPlant(): boolean {
     return this.timer % 2000 > 1000;
   }
 
   protected template: Template = [
+    {
+      component: new Tomato(),
+      position: (): Coordinates => new Coordinates(200, 100),
+      props: (): TomatoProps => ({
+        age: 0
+      }),
+      show: (): boolean => this.showPlant
+    },
     {
       component: new Character(),
       position: (): Coordinates => new Coordinates(125, 0),
       props: (): CharacterProps => ({
         direction: Directions.Right
       })
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(200, 215),
-      props: (): TextProps => ({
-        text: '(Plant here)',
-        color: '#fff'
-      }),
-      show: (): boolean => this.showPlant
     },
     {
       component: new Text(),

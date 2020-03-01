@@ -6,55 +6,45 @@ import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 import Tomato, { TomatoProps } from '../plants/Tomato';
+import Lightning from '../Lightning';
 
-export type Instructions3Props = {};
+export type Instructions5Props = {};
 
-export default class Instructions3 extends Component<Instructions3Props> {
+export default class Instructions5 extends Component<Instructions5Props> {
   private timer = 0;
 
-  onTick(ctx: PropsContext<Instructions3>, timeDifference: number): void {
+  onTick(ctx: PropsContext<Instructions5>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 
   private get showPlant(): boolean {
-    return this.timer % 2000 < 1000;
+    return this.timer % 4200 < 1400;
   }
 
-  private get showScore(): boolean {
-    return this.timer % 2000 >= 1000;
+  private get showLightning(): boolean {
+    const time = this.timer % 4200;
+    return time > 1400 && time < 2800;
   }
 
   protected template: Template = [
     {
       component: new Tomato(),
-      position: (): Coordinates => new Coordinates(200, 100),
+      position: (): Coordinates => new Coordinates(180, 100),
       props: (): TomatoProps => ({
         age: 3
       }),
       show: (): boolean => this.showPlant
     },
     {
-      component: new Character(),
-      position: (): Coordinates => new Coordinates(125, 0),
-      props: (): CharacterProps => ({
-        direction: Directions.Right
-      })
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(300, 100),
-      props: (): TextProps => ({
-        text: '+10',
-        color: '#fff',
-        size: 36
-      }),
-      show: (): boolean => this.showScore
+      component: new Lightning(),
+      position: (): Coordinates => new Coordinates(180, -28),
+      show: (): boolean => this.showLightning
     },
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Press Space or B to clear the selected field (also harvesting crops)',
+        text: 'Watch out! There are dangers trying to destroy your plants.',
         color: '#fff'
       })
     }

@@ -7,12 +7,12 @@ import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 import Tomato, { TomatoProps } from '../plants/Tomato';
 
-export type Instructions3Props = {};
+export type Instructions4Props = {};
 
-export default class Instructions3 extends Component<Instructions3Props> {
+export default class Instructions4 extends Component<Instructions4Props> {
   private timer = 0;
 
-  onTick(ctx: PropsContext<Instructions3>, timeDifference: number): void {
+  onTick(ctx: PropsContext<Instructions4>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 
@@ -29,7 +29,7 @@ export default class Instructions3 extends Component<Instructions3Props> {
       component: new Tomato(),
       position: (): Coordinates => new Coordinates(200, 100),
       props: (): TomatoProps => ({
-        age: 3
+        age: 2
       }),
       show: (): boolean => this.showPlant
     },
@@ -44,7 +44,7 @@ export default class Instructions3 extends Component<Instructions3Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(300, 100),
       props: (): TextProps => ({
-        text: '+10',
+        text: '+0',
         color: '#fff',
         size: 36
       }),
@@ -54,7 +54,7 @@ export default class Instructions3 extends Component<Instructions3Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Press Space or B to clear the selected field (also harvesting crops)',
+        text: 'Note: You only get points for fully grown plants.',
         color: '#fff'
       })
     }

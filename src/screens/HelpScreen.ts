@@ -12,11 +12,13 @@ import backButtonSprite from '../assets/ui/retry.png';
 import Instructions1 from '../components/instructions/Instructions1';
 import Instructions2 from '../components/instructions/Instructions2';
 import Instructions3 from '../components/instructions/Instructions3';
+import Instructions4 from '../components/instructions/Instructions4';
+import Instructions5 from '../components/instructions/Instructions5';
 
 export type HelpScreenProps = {};
 
 export default class HelpScreen extends Component<HelpScreenProps> {
-  private totalPages = 3;
+  private totalPages = 5;
   private currentPage = 1;
 
   private continue(): void {
@@ -62,31 +64,17 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
       show: (): boolean => this.currentPage === 3
     },
+    {
+      component: new Instructions4(),
+      position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+      show: (): boolean => this.currentPage === 4
+    },
+    {
+      component: new Instructions5(),
+      position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+      show: (): boolean => this.currentPage === 5
+    },
 
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
-    //   props: (): TextProps => ({
-    //     text: '• WASD/Arrow Keys to navigate',
-    //     color: '#fff'
-    //   })
-    // },
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 150),
-    //   props: (): TextProps => ({
-    //     text: '• Press Space to clear the selected field (also harvesting crops)',
-    //     color: '#fff'
-    //   })
-    // },
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 175),
-    //   props: (): TextProps => ({
-    //     text: '• Press V to plant a crop',
-    //     color: '#fff'
-    //   })
-    // },
     // {
     //   component: new Text(),
     //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 200),
