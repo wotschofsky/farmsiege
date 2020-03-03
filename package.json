@@ -17,11 +17,9 @@
       "@types/js-cookie": "^2.2.4",
       "clone-deep": "^4.0.1",
       "core-js": "^3.3.5",
-      "js-cookie": "^2.2.1",
-      "rollup-plugin-babel": "^4.3.3",
-      "rollup-plugin-commonjs": "^10.1.0"
-   },
-   "devDependencies": {
+      "js-cookie": "^2.2.1"
+    },
+    "devDependencies": {
       "@babel/core": "^7.6.4",
       "@babel/preset-env": "^7.6.3",
       "@typescript-eslint/eslint-plugin": "^2.21.0",
@@ -29,7 +27,8 @@
       "eslint-config-prettier": "^6.10.0",
       "eslint-plugin-prettier": "^3.1.2",
       "prettier": "^1.19.1",
-      "rollup": "^1.24.0",
+      "rollup-plugin-babel": "^4.3.3",
+      "rollup-plugin-commonjs": "^10.1.0",
       "rollup-plugin-copy": "^3.1.0",
       "rollup-plugin-eslint": "^7.0.0",
       "rollup-plugin-generate-html-template": "^1.5.0",
@@ -42,6 +41,7 @@
       "rollup-plugin-typescript2": "^0.24.3",
       "rollup-plugin-url": "^3.0.0",
       "rollup-plugin-visualizer": "^2.6.0",
+      "rollup": "^1.24.0",
       "typescript": "^3.6.4"
    }
 }
