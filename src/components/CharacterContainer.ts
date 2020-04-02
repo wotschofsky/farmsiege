@@ -102,9 +102,16 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
         for (const gamepad of navigator.getGamepads()) {
           if (gamepad) {
+            let feedbackGiven = false;
+
             if ('hapticActuators' in gamepad) {
-              gamepad.hapticActuators[0].pulse(0.7, 100);
-            } else if ('vibrationActuator' in gamepad) {
+              for (const actuator of gamepad.hapticActuators) {
+                actuator.pulse(0.7, 100);
+                feedbackGiven = true;
+              }
+            }
+
+            if (!feedbackGiven && 'vibrationActuator' in gamepad) {
               gamepad.vibrationActuator.playEffect('dual-rumble', {
                 startDelay: 0,
                 duration: 100,
