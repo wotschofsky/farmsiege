@@ -6,6 +6,10 @@ module.exports =  {
     'plugin:prettier/recommended'
   ],
   'rules': {
-    'linebreak-style': ['error', 'unix']
+    'linebreak-style': ['error', 'unix'],
+    '@typescript-eslint/consistent-type-assertions': ['warn', {
+      assertionStyle: 'angle-bracket',
+      objectLiteralTypeAssertions: 'never'
+    }]
   }
 };
