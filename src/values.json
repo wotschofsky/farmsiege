@@ -69,5 +69,11 @@
       "amount": 20,
       "spread": 0.2
     }
+  },
+  "scores": {
+    "rabbit": 10,
+    "weed": 2,
+    "plant": 10,
+    "mole": 50
   }
 }

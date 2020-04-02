@@ -12,6 +12,8 @@ import TileContents from '../TileContents';
 import SettingsStore from '../store/SettingsStore';
 import EffectsStore from '../store/EffectsStore';
 
+import values from '../values.json';
+
 export type CharacterContainerProps = {};
 
 export default class CharacterContainer extends Component<CharacterContainerProps> {
@@ -63,15 +65,15 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         let addedScore = 0;
         switch (removedContent) {
           case TileContents.Mole:
-            addedScore = 50;
+            addedScore = values.scores.mole;
             break;
           case TileContents.Plant:
             if (isGrownPlant) {
-              addedScore = 10;
+              addedScore = values.scores.plant;
             }
             break;
           case TileContents.Weed:
-            addedScore = 2;
+            addedScore = values.scores.weed;
             break;
         }
 
