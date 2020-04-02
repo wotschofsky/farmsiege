@@ -64,3 +64,7 @@ JavaScript Gamepad API \
 https://html5gamepad.com/for-developers \
 https://developer.mozilla.org/en-US/docs/Web/API/Gamepad_API/Using_the_Gamepad_API \
 https://developer.mozilla.org/en-US/docs/Web/API/GamepadHapticActuator/pulse
+
+"eases" package \
+02.04.2020 \
+https://www.npmjs.com/package/eases
