@@ -64,8 +64,10 @@ export default class Rabbits extends Component<RabbitsProps> {
     movablesStore.updateRabbits(timeDifference);
 
     movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
+      const score = 10;
       effectsStore.showSmoke(x + 96, y + 256);
-      statsStore.addScore(10);
+      effectsStore.showScoreEffect(x + 128, y + 320, score);
+      statsStore.addScore(score);
     });
 
     movablesStore.directStillRabbits.forEach(rabbit => {
