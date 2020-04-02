@@ -15,7 +15,7 @@ export default class FPS {
     const animate = (now: number): void => {
       this.timestamps.unshift(now);
       if (this.timestamps.length > 10) {
-        const t0 = this.timestamps.pop() as number;
+        const t0 = <number>this.timestamps.pop();
         const fps = Math.floor((1000 * 10) / (now - t0));
         this._current = fps;
       }

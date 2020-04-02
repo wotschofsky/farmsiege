@@ -45,13 +45,12 @@ class Canvas {
 
     this.fps = new FPS();
     this.fpsDisplay = new FPSDisplay();
-
     this.canvas.width = config.grid.width;
     this.canvas.height = config.grid.height;
 
     this.adjustToScreen();
 
-    this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
+    this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
 
     this.lastFrameOn = Date.now();
     this.frameStart = Date.now();

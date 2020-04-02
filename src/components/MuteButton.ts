@@ -14,12 +14,12 @@ export type MuteButtonProps = {};
 
 export default class MuteButton extends Component<MuteButtonProps> {
   private toggleMusic(): void {
-    const settingsStore = this.stores.settings as SettingsStore;
+    const settingsStore = <SettingsStore>this.stores.settings;
     settingsStore.toggleMusic();
   }
 
   private get icon(): string {
-    const settingsStore = this.stores.settings as SettingsStore;
+    const settingsStore = <SettingsStore>this.stores.settings;
 
     if (settingsStore.content.music) {
       return volumeIconSprite;

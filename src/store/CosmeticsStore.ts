@@ -136,9 +136,9 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
   public get activeHat(): HatData {
     const storeHat = this.content.hat;
-    return hatsData.find((hat): boolean => {
+    return <HatData>hatsData.find((hat): boolean => {
       return hat.id === storeHat;
-    }) as HatData;
+    });
   }
 
   public rotateHat(): void {
@@ -159,9 +159,9 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
   public get activeShirt(): ShirtData {
     const storeShirt = this.content.shirt;
-    return shirtsData.find((shirt): boolean => {
+    return <ShirtData>shirtsData.find((shirt): boolean => {
       return shirt.id === storeShirt;
-    }) as ShirtData;
+    });
   }
 
   public rotateShirt(): void {
@@ -182,9 +182,9 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
   public get activePants(): PantsData {
     const storePants = this.content.pants;
-    return pantsData.find((pants): boolean => {
+    return <PantsData>pantsData.find((pants): boolean => {
       return pants.id === storePants;
-    }) as PantsData;
+    });
   }
 
   public rotatePants(): void {

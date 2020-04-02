@@ -22,13 +22,13 @@ export type StartScreenProps = {};
 
 export default class StartScreen extends Component<StartScreenProps> {
   private startGame(): void {
-    const gridStore = this.stores.grid as GridStore;
+    const gridStore = <GridStore>this.stores.grid;
     gridStore.reset();
 
-    const movablesStore = this.stores.movables as MovablesStore;
+    const movablesStore = <MovablesStore>this.stores.movables;
     movablesStore.reset();
 
-    const screensStore = this.stores.screens as ScreensStore;
+    const screensStore = <ScreensStore>this.stores.screens;
     if (Cookie.getJSON('helpShown')) {
       gridStore.start();
       movablesStore.start();
@@ -43,18 +43,18 @@ export default class StartScreen extends Component<StartScreenProps> {
       Cookie.set('helpShown', 'true');
     }
 
-    const characterStore = this.stores.character as CharacterStore;
+    const characterStore = <CharacterStore>this.stores.character;
     characterStore.reset();
 
-    const statsStore = this.stores.score as StatsStore;
+    const statsStore = <StatsStore>this.stores.score;
     statsStore.reset();
 
-    const effectsStore = this.stores.effects as EffectsStore;
+    const effectsStore = <EffectsStore>this.stores.effects;
     effectsStore.reset();
   }
 
   private showHelp(): void {
-    const screensStore = this.stores.screens as ScreensStore;
+    const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Help);
     screensStore.setOnReturn(() => {
       screensStore.setScreen(Screens.Start);
@@ -62,7 +62,7 @@ export default class StartScreen extends Component<StartScreenProps> {
   }
 
   private showCosmetics(): void {
-    const screensStore = this.stores.screens as ScreensStore;
+    const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Cosmetics);
     screensStore.setOnReturn(() => {
       screensStore.setScreen(Screens.Start);

@@ -18,22 +18,22 @@ export type CosmeticsScreenProps = {};
 
 export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
   private changeHat(): void {
-    const cosmeticsStore = this.stores.cosmetics as CosmeticsStore;
+    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
     cosmeticsStore.rotateHat();
   }
 
   private changeShirt(): void {
-    const cosmeticsStore = this.stores.cosmetics as CosmeticsStore;
+    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
     cosmeticsStore.rotateShirt();
   }
 
   private changePants(): void {
-    const cosmeticsStore = this.stores.cosmetics as CosmeticsStore;
+    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
     cosmeticsStore.rotatePants();
   }
 
   private goBack(): void {
-    const screensStore = this.stores.screens as ScreensStore;
+    const screensStore = <ScreensStore>this.stores.screens;
     screensStore.directContent.onReturn();
   }
 

@@ -16,7 +16,7 @@ export default class Effects extends Component<EffectsProps> {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): RepeatingProps => {
-        const effectsStore = this.stores.effects as EffectsStore;
+        const effectsStore = <EffectsStore>this.stores.effects;
 
         return {
           list: effectsStore.content.smoke,
@@ -30,7 +30,7 @@ export default class Effects extends Component<EffectsProps> {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): RepeatingProps => {
-        const effectsStore = this.stores.effects as EffectsStore;
+        const effectsStore = <EffectsStore>this.stores.effects;
 
         return {
           list: effectsStore.content.scores,

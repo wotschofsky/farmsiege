@@ -17,7 +17,7 @@ export default class Pants extends Component<HatProps> {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): SpriteProps => {
-        const cosmeticsStore = this.stores.cosmetics as CosmeticsStore;
+        const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
 
         if (cosmeticsStore.content.pants !== this.lastPants) {
           this.lastPants = cosmeticsStore.content.pants;

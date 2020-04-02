@@ -32,7 +32,7 @@ export default class GridTile extends Component<GridTileProps> {
   private contentData: Record<string, any> = {};
 
   protected onTick(ctx: PropsContext<GridTileProps>): void {
-    const tileData = (this.stores.grid as GridStore).directContent[ctx.props.row][ctx.props.column];
+    const tileData = (<GridStore>this.stores.grid).directContent[ctx.props.row][ctx.props.column];
     this.content = tileData.type;
     this.contentData = tileData.data;
   }
@@ -116,7 +116,7 @@ export default class GridTile extends Component<GridTileProps> {
         color: 'rgba(255, 255, 255, 0.3)'
       }),
       show: (ctx: PropsContext<GridTileProps> | undefined): boolean => {
-        const characterStore = this.stores.character as CharacterStore;
+        const characterStore = <CharacterStore>this.stores.character;
         if (!ctx) {
           return false;
         }

@@ -20,11 +20,11 @@ export type RabbitsProps = {};
 
 export default class Rabbits extends Component<RabbitsProps> {
   protected onTick(ctx: PropsContext<RabbitsProps>, timeDifference: number): void {
-    const characterStore = this.stores.character as CharacterStore;
-    const effectsStore = this.stores.effects as EffectsStore;
-    const gridStore = this.stores.grid as GridStore;
-    const movablesStore = this.stores.movables as MovablesStore;
-    const statsStore = this.stores.score as StatsStore;
+    const characterStore = <CharacterStore>this.stores.character;
+    const effectsStore = <EffectsStore>this.stores.effects;
+    const gridStore = <GridStore>this.stores.grid;
+    const movablesStore = <MovablesStore>this.stores.movables;
+    const statsStore = <StatsStore>this.stores.score;
 
     movablesStore.setRabbitTargets((row: number, direction: Directions, currentColumn: number): number => {
       // console.log(currentColumn)
@@ -85,7 +85,7 @@ export default class Rabbits extends Component<RabbitsProps> {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): RepeatingProps => {
-        const movablesStore = this.stores.movables as MovablesStore;
+        const movablesStore = <MovablesStore>this.stores.movables;
 
         return {
           list: movablesStore.content.rabbits,

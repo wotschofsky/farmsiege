@@ -21,27 +21,27 @@ export type GameOverScreenProps = {};
 
 export default class GameOverScreen extends Component<GameOverScreenProps> {
   private startGame(): void {
-    const screensStore = this.stores.screens as ScreensStore;
+    const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Game);
 
-    const gridStore = this.stores.grid as GridStore;
+    const gridStore = <GridStore>this.stores.grid;
     gridStore.start();
 
-    const movablesStore = this.stores.movables as MovablesStore;
+    const movablesStore = <MovablesStore>this.stores.movables;
     movablesStore.start();
 
-    const characterStore = this.stores.character as CharacterStore;
+    const characterStore = <CharacterStore>this.stores.character;
     characterStore.reset();
 
-    const statsStore = this.stores.score as StatsStore;
+    const statsStore = <StatsStore>this.stores.score;
     statsStore.reset();
 
-    const effectsStore = this.stores.effects as EffectsStore;
+    const effectsStore = <EffectsStore>this.stores.effects;
     effectsStore.reset();
   }
 
   private goBack(): void {
-    const screensStore = this.stores.screens as ScreensStore;
+    const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Start);
   }
 
@@ -58,7 +58,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(550, 350),
       props: (): TextProps => {
-        const statsStore = this.stores.score as StatsStore;
+        const statsStore = <StatsStore>this.stores.score;
         return {
           text: `YOUR SCORE: ${statsStore.content.score}`,
           color: '#fff',

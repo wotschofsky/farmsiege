@@ -25,10 +25,10 @@ export default class AnimatedSprite extends Component<AnimatedSpriteProps> {
 
     // Bild neu laden, wenn sich Quelle geändert hat
     if (this.lastSource !== props.source) {
-      this.imageElement = document.createElement('img');
+      this.imageElement = <HTMLImageElement>document.createElement('img');
       this.imageElement.src = props.source;
       this.imageElement.addEventListener('load', () => {
-        this.size = (this.imageElement as HTMLImageElement).naturalWidth / props.spriteWidth;
+        this.size = (<HTMLImageElement>this.imageElement).naturalWidth / props.spriteWidth;
       });
     }
 
@@ -36,7 +36,7 @@ export default class AnimatedSprite extends Component<AnimatedSpriteProps> {
 
     context.renderContext.imageSmoothingEnabled = false;
     context.renderContext.drawImage(
-      this.imageElement as HTMLImageElement,
+      <HTMLImageElement>this.imageElement,
       this.index * props.spriteWidth,
       0,
       props.spriteWidth,

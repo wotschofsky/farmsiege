@@ -22,7 +22,7 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(-30, 30),
       props: (): TextProps => {
-        const statsStore = this.stores.score as StatsStore;
+        const statsStore = <StatsStore>this.stores.score;
 
         return {
           text: `${statsStore.content.score} Points`,

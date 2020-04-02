@@ -28,7 +28,7 @@ export default class Sprite extends Component<SpriteProps> {
     // context.drawImage(this.imageElement, props.x, props.y, props.width, props.height, 10, 10, 50, 60);
     context.renderContext.imageSmoothingEnabled = false;
     context.renderContext.drawImage(
-      this.imageElement as HTMLImageElement,
+      <HTMLImageElement>this.imageElement,
       (position.x + context.parentX) * context.scaleFactor,
       (position.y + context.parentY) * context.scaleFactor,
       props.width * context.scaleFactor,

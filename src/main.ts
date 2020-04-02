@@ -10,7 +10,7 @@ class Main {
   public constructor() {
     // Spiel initialisieren
     this.canvas = new Canvas({
-      el: document.getElementById('canvas') as HTMLCanvasElement,
+      el: <HTMLCanvasElement>document.getElementById('canvas'),
       aspectRatio: 4 / 3,
       width: 600,
       grid: new Dimensions(1600, 1200),

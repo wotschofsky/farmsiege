@@ -30,8 +30,8 @@ class Game extends Component<{}> {
   private activeScreen: Screens;
 
   protected onInit(): void {
-    const settingsStore = this.stores.settings as SettingsStore;
-    const screensStore = this.stores.screens as ScreensStore;
+    const settingsStore = <SettingsStore>this.stores.settings;
+    const screensStore = <ScreensStore>this.stores.screens;
 
     const audio = new Audio(soundtrackMoonBase);
     audio.loop = true;
@@ -96,13 +96,13 @@ class Game extends Component<{}> {
   }
 
   protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
-    const screensStore = this.stores.screens as ScreensStore;
+    const screensStore = <ScreensStore>this.stores.screens;
     this.activeScreen = screensStore.content.active;
 
-    const gridStore = this.stores.grid as GridStore;
-    const movablesStore = this.stores.movables as MovablesStore;
+    const gridStore = <GridStore>this.stores.grid;
+    const movablesStore = <MovablesStore>this.stores.movables;
 
-    const statsStore = this.stores.score as StatsStore;
+    const statsStore = <StatsStore>this.stores.score;
 
     statsStore.increaseDuration(timeDifference);
 
@@ -134,7 +134,7 @@ class Game extends Component<{}> {
     gridStore.speedMultiplier = gameSpeed;
     movablesStore.speedMultiplier = gameSpeed;
 
-    const effectsStore = this.stores.effects as EffectsStore;
+    const effectsStore = <EffectsStore>this.stores.effects;
     effectsStore.updateEffects(timeDifference);
   }
 

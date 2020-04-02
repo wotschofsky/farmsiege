@@ -23,7 +23,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
 
   private continue(): void {
     if (this.currentPage === this.totalPages) {
-      const screensStore = this.stores.screens as ScreensStore;
+      const screensStore = <ScreensStore>this.stores.screens;
       screensStore.directContent.onReturn();
       return;
     }

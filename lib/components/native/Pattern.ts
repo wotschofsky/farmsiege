@@ -36,7 +36,7 @@ export default class Pattern extends Component<PatternProps> {
         const offsetY = props.tileWidth * row;
 
         context.renderContext.drawImage(
-          this.imageElement as HTMLImageElement,
+          <HTMLImageElement>this.imageElement,
           (position.x + context.parentX + offsetX) * context.scaleFactor,
           (position.y + context.parentY + offsetY) * context.scaleFactor,
           props.tileWidth * context.scaleFactor,

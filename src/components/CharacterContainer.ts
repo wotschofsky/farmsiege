@@ -37,9 +37,9 @@ export default class CharacterContainer extends Component<CharacterContainerProp
   }
 
   protected onTick(_, timeDifference: number): void {
-    const characterStore = this.stores.character as CharacterStore;
-    const gridStore = this.stores.grid as GridStore;
-    const statsStore = this.stores.score as StatsStore;
+    const characterStore = <CharacterStore>this.stores.character;
+    const gridStore = <GridStore>this.stores.grid;
+    const statsStore = <StatsStore>this.stores.score;
 
     const inputs = this.inputMap.pressed;
 
@@ -78,7 +78,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         }
 
         if (addedScore > 0) {
-          const effectsStore = this.stores.effects as EffectsStore;
+          const effectsStore = <EffectsStore>this.stores.effects;
 
           statsStore.addScore(addedScore);
           effectsStore.showScoreEffect(
@@ -96,8 +96,8 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
     if (inputs.fire) {
       if (this.nextShotAvailable <= Date.now()) {
-        const characterStore = this.stores.character as CharacterStore;
-        const settingsStore = this.stores.settings as SettingsStore;
+        const characterStore = <CharacterStore>this.stores.character;
+        const settingsStore = <SettingsStore>this.stores.settings;
         characterStore.fireGun();
 
         for (const gamepad of navigator.getGamepads()) {
@@ -112,7 +112,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
             }
 
             if (!feedbackGiven && 'vibrationActuator' in gamepad) {
-              gamepad.vibrationActuator.playEffect('dual-rumble', {
+              (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
                 startDelay: 0,
                 duration: 100,
                 weakMagnitude: 0.7,
@@ -137,7 +137,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       position: (): Coordinates =>
         new Coordinates(this.stores.character.content.posX - 32, this.stores.character.content.posY - 128),
       props: (): CharacterProps => {
-        const characterStore = this.stores.character as CharacterStore;
+        const characterStore = <CharacterStore>this.stores.character;
 
         return {
           direction: characterStore.content.direction

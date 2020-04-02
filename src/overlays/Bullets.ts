@@ -10,7 +10,7 @@ export type BulletsProps = {};
 
 export default class Bullets extends Component<BulletsProps> {
   protected onTick(ctx: PropsContext<BulletsProps>, timeDifference: number): void {
-    const characterStore = this.stores.character as CharacterStore;
+    const characterStore = <CharacterStore>this.stores.character;
     characterStore.updateBullets(timeDifference);
   }
 
@@ -19,7 +19,7 @@ export default class Bullets extends Component<BulletsProps> {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): RepeatingProps => {
-        const characterStore = this.stores.character as CharacterStore;
+        const characterStore = <CharacterStore>this.stores.character;
         return {
           list: characterStore.content.bullets,
           component: (): Rectangle => new Rectangle(),
