@@ -10,6 +10,7 @@ import shotgunSound from '../assets/sounds/shotgun.mp3';
 import StatsStore from '../store/StatsStore';
 import TileContents from '../TileContents';
 import SettingsStore from '../store/SettingsStore';
+import EffectsStore from '../store/EffectsStore';
 
 export type CharacterContainerProps = {};
 
@@ -53,11 +54,38 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
     if (inputs.use) {
       const field = gridStore.content[characterStore.content.fieldX][characterStore.content.fieldY];
+      let isGrownPlant = false;
       if (field.type === TileContents.Plant && field.data.age >= 15000) {
-        statsStore.addScore(10);
+        isGrownPlant = true;
       }
 
-      gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY);
+      gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY, removedContent => {
+        let addedScore = 0;
+        switch (removedContent) {
+          case TileContents.Mole:
+            addedScore = 50;
+            break;
+          case TileContents.Plant:
+            if (isGrownPlant) {
+              addedScore = 10;
+            }
+            break;
+          case TileContents.Weed:
+            addedScore = 2;
+            break;
+        }
+
+        if (addedScore > 0) {
+          const effectsStore = this.stores.effects as EffectsStore;
+
+          statsStore.addScore(addedScore);
+          effectsStore.showScoreEffect(
+            characterStore.content.fieldX * 128 + 288 + 32,
+            characterStore.content.fieldY * 128 + 176 + 64,
+            addedScore
+          );
+        }
+      });
     }
 
     if (inputs.place) {

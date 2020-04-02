@@ -105,7 +105,7 @@ export default class GridStore extends Store<GridStoreContent> {
     });
   }
 
-  public removeContent(x: number, y: number): void {
+  public removeContent(x: number, y: number, callback: (removedContent: TileContents) => void): void {
     if (!this.isValidField(x, y)) return;
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
@@ -113,7 +113,12 @@ export default class GridStore extends Store<GridStoreContent> {
 
         if (clonedState[x][y].type === TileContents.Lightning) return clonedState;
 
+        const tileContent = clonedState[x][y].type;
         clonedState[x][y].type = TileContents.Empty;
+        if (tileContent !== TileContents.Empty) {
+          callback(tileContent);
+        }
+
         return clonedState;
       }
     );
