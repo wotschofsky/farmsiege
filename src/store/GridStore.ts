@@ -125,12 +125,11 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   public removePlant(x: number, y: number): void {
-    if (!this.isValidField(x, y)) return;
+    if (!this.isValidField(x, y) || this.directContent[x][y].type !== TileContents.Plant) return;
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        if (clonedState[x][y].type !== TileContents.Plant) return clonedState;
         clonedState[x][y].type = TileContents.Empty;
 
         return clonedState;
