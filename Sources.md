@@ -68,3 +68,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/GamepadHapticActuator/pulse
 "eases" package \
 02.04.2020 \
 https://www.npmjs.com/package/eases
+
+Easing Function Cheat Sheet \
+03.04.2020 \
+https://easings.net/
