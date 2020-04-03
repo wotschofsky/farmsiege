@@ -1,5 +1,5 @@
 import Coordinates from '../../../lib/helpers/Coordinates';
-import quadOut from 'eases/quad-out';
+import eases from 'eases';
 
 export default class EffectData {
   private readonly offsetMultiplier = 100;
@@ -30,6 +30,6 @@ export default class EffectData {
   }
 
   public get verticalOffset(): number {
-    return quadOut(this.age / this.maxAge) * this.offsetMultiplier;
+    return eases.quadOut(this.age / this.maxAge) * this.offsetMultiplier;
   }
 }
