@@ -38,95 +38,98 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
   protected onTick(_, timeDifference: number): void {
     const characterStore = <CharacterStore>this.stores.character;
+    const effectsStore = <EffectsStore>this.stores.effects;
     const gridStore = <GridStore>this.stores.grid;
     const statsStore = <StatsStore>this.stores.score;
 
     const inputs = this.inputMap.pressed;
 
-    let moveX = 0;
-    let moveY = 0;
-    if (inputs.up) moveY -= 1000 * (timeDifference / 1000);
-    if (inputs.down) moveY += 1000 * (timeDifference / 1000);
-    if (inputs.right) moveX += 1000 * (timeDifference / 1000);
-    if (inputs.left) moveX -= 1000 * (timeDifference / 1000);
+    if (!effectsStore.directContent.gameOver.active) {
+      let moveX = 0;
+      let moveY = 0;
+      if (inputs.up) moveY -= 1000 * (timeDifference / 1000);
+      if (inputs.down) moveY += 1000 * (timeDifference / 1000);
+      if (inputs.right) moveX += 1000 * (timeDifference / 1000);
+      if (inputs.left) moveX -= 1000 * (timeDifference / 1000);
 
-    this.hasMoved = moveX !== 0;
+      this.hasMoved = moveX !== 0;
 
-    characterStore.move(moveX, moveY);
+      characterStore.move(moveX, moveY);
 
-    if (inputs.use) {
-      const field = gridStore.content[characterStore.content.fieldX][characterStore.content.fieldY];
-      let isGrownPlant = false;
-      if (field.type === TileContents.Plant && field.data.age >= 15000) {
-        isGrownPlant = true;
+      if (inputs.use) {
+        const field = gridStore.content[characterStore.content.fieldX][characterStore.content.fieldY];
+        let isGrownPlant = false;
+        if (field.type === TileContents.Plant && field.data.age >= 15000) {
+          isGrownPlant = true;
+        }
+
+        gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY, removedContent => {
+          let addedScore = 0;
+          switch (removedContent) {
+            case TileContents.Mole:
+              addedScore = values.scores.mole;
+              break;
+            case TileContents.Plant:
+              if (isGrownPlant) {
+                addedScore = values.scores.plant;
+              }
+              break;
+            case TileContents.Weed:
+              addedScore = values.scores.weed;
+              break;
+          }
+
+          if (addedScore > 0) {
+            const effectsStore = <EffectsStore>this.stores.effects;
+
+            statsStore.addScore(addedScore);
+            effectsStore.showScoreEffect(
+              characterStore.content.fieldX * 128 + 288 + 32,
+              characterStore.content.fieldY * 128 + 176 + 64,
+              addedScore
+            );
+          }
+        });
       }
 
-      gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY, removedContent => {
-        let addedScore = 0;
-        switch (removedContent) {
-          case TileContents.Mole:
-            addedScore = values.scores.mole;
-            break;
-          case TileContents.Plant:
-            if (isGrownPlant) {
-              addedScore = values.scores.plant;
-            }
-            break;
-          case TileContents.Weed:
-            addedScore = values.scores.weed;
-            break;
-        }
+      if (inputs.place) {
+        gridStore.placePlant(characterStore.content.fieldX, characterStore.content.fieldY);
+      }
 
-        if (addedScore > 0) {
-          const effectsStore = <EffectsStore>this.stores.effects;
+      if (inputs.fire) {
+        if (this.nextShotAvailable <= Date.now()) {
+          const characterStore = <CharacterStore>this.stores.character;
+          const settingsStore = <SettingsStore>this.stores.settings;
+          characterStore.fireGun();
 
-          statsStore.addScore(addedScore);
-          effectsStore.showScoreEffect(
-            characterStore.content.fieldX * 128 + 288 + 32,
-            characterStore.content.fieldY * 128 + 176 + 64,
-            addedScore
-          );
-        }
-      });
-    }
+          for (const gamepad of navigator.getGamepads()) {
+            if (gamepad) {
+              let feedbackGiven = false;
 
-    if (inputs.place) {
-      gridStore.placePlant(characterStore.content.fieldX, characterStore.content.fieldY);
-    }
+              if ('hapticActuators' in gamepad) {
+                for (const actuator of gamepad.hapticActuators) {
+                  actuator.pulse(0.7, 100);
+                  feedbackGiven = true;
+                }
+              }
 
-    if (inputs.fire) {
-      if (this.nextShotAvailable <= Date.now()) {
-        const characterStore = <CharacterStore>this.stores.character;
-        const settingsStore = <SettingsStore>this.stores.settings;
-        characterStore.fireGun();
-
-        for (const gamepad of navigator.getGamepads()) {
-          if (gamepad) {
-            let feedbackGiven = false;
-
-            if ('hapticActuators' in gamepad) {
-              for (const actuator of gamepad.hapticActuators) {
-                actuator.pulse(0.7, 100);
-                feedbackGiven = true;
+              if (!feedbackGiven && 'vibrationActuator' in gamepad) {
+                (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
+                  startDelay: 0,
+                  duration: 100,
+                  weakMagnitude: 0.7,
+                  strongMagnitude: 0.7
+                });
               }
             }
-
-            if (!feedbackGiven && 'vibrationActuator' in gamepad) {
-              (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
-                startDelay: 0,
-                duration: 100,
-                weakMagnitude: 0.7,
-                strongMagnitude: 0.7
-              });
-            }
           }
-        }
 
-        if (settingsStore.content.music) {
-          new Audio(shotgunSound).play();
-        }
+          if (settingsStore.content.music) {
+            new Audio(shotgunSound).play();
+          }
 
-        this.nextShotAvailable = Date.now() + 1200;
+          this.nextShotAvailable = Date.now() + 1200;
+        }
       }
     }
   }
