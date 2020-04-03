@@ -54,6 +54,7 @@ const generateInitialGrid = (): GridStoreContent => {
 export default class GridStore extends Store<GridStoreContent> {
   private timers: number[];
   private _speedMultiplier: number;
+  private _lastRemovedPlant: Coordinates;
 
   public constructor() {
     const initialGrid = generateInitialGrid();
@@ -105,8 +106,17 @@ export default class GridStore extends Store<GridStoreContent> {
     });
   }
 
-  public removeContent(x: number, y: number, callback: (removedContent: TileContents) => void): void {
+  public removeContent(x: number, y: number, callback?: (removedContent: TileContents) => void): void {
     if (!this.isValidField(x, y)) return;
+
+    if (this.directContent[x][y].type === TileContents.Plant) {
+      this.removePlant(x, y);
+      if (callback) {
+        callback(TileContents.Plant);
+      }
+      return;
+    }
+
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
@@ -115,7 +125,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
         const tileContent = clonedState[x][y].type;
         clonedState[x][y].type = TileContents.Empty;
-        if (tileContent !== TileContents.Empty) {
+        if (tileContent !== TileContents.Empty && callback) {
           callback(tileContent);
         }
 
@@ -131,6 +141,7 @@ export default class GridStore extends Store<GridStoreContent> {
         const clonedState = cloneDeep(oldState);
 
         clonedState[x][y].type = TileContents.Empty;
+        this._lastRemovedPlant = new Coordinates(x, y);
 
         return clonedState;
       }
@@ -193,18 +204,20 @@ export default class GridStore extends Store<GridStoreContent> {
           });
         });
 
+        const row = Math.floor(Math.random() * 8);
+        const col = Math.floor(Math.random() * 8);
+
         if (!moleActive) {
           // Mit festgelegter Wahrscheinlichkeit Maulwurf an zufälliger Stelle erscheinen lassen
           if (Math.random() > values.mole.newChance) return oldState;
 
-          const row = Math.floor(Math.random() * 8);
-          const col = Math.floor(Math.random() * 8);
+          if (clonedState[row][col].type === TileContents.Plant) {
+            this._lastRemovedPlant = new Coordinates(col, row);
+          }
 
           clonedState[row][col].type = TileContents.Mole;
         } else {
           // Maulwurf verschieben und Hügel hinterlassen
-          const row = Math.floor(Math.random() * 8);
-          const col = Math.floor(Math.random() * 8);
           clonedState[row][col].type = TileContents.Mole;
           clonedState[molePosition.y][molePosition.x].type = TileContents.Molehill;
         }
@@ -267,15 +280,24 @@ export default class GridStore extends Store<GridStoreContent> {
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
 
+        let plantDestroyed = false;
         for (let rowIndex = -1; rowIndex <= 1; rowIndex++) {
           if (randomRow + rowIndex >= 0 && randomRow + rowIndex <= 7) {
             for (let colIndex = -1; colIndex <= 1; colIndex++) {
               if (randomCol + colIndex >= 0 && randomCol + colIndex <= 7) {
+                if (clonedState[randomRow + rowIndex][randomCol + colIndex].type === TileContents.Plant) {
+                  plantDestroyed = true;
+                }
                 clonedState[randomRow + rowIndex][randomCol + colIndex].type = TileContents.Empty;
               }
             }
           }
         }
+
+        if (plantDestroyed) {
+          this._lastRemovedPlant = new Coordinates(randomRow, randomCol);
+        }
+
         clonedState[randomRow][randomCol].type = TileContents.Lightning;
 
         return clonedState;
@@ -325,5 +347,9 @@ export default class GridStore extends Store<GridStoreContent> {
       }
     });
     return amount;
+  }
+
+  public get lastRemovedPlant(): Coordinates {
+    return this._lastRemovedPlant;
   }
 }
