@@ -25,6 +25,7 @@ import SettingsStore, { SettingsStoreContent } from './store/SettingsStore';
 import CosmeticsScreen from './screens/CosmeticsScreen';
 import Foreground from './components/surroundings/Foreground';
 import ScoreCounter from './components/ScoreCounter';
+import GameOverEffect from './overlays/GameOverEffect';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
@@ -107,26 +108,29 @@ class Game extends Component<{}> {
     statsStore.increaseDuration(timeDifference);
 
     if (gridStore.friendlyPlants === 0 && !window.invincible) {
-      if (statsStore.content.score > 0) {
-        const name = prompt('Please enter your name', '');
-        if (!!name && name.trim().length >= 1) {
-          fetch('https://garden-defense.firebaseio.com/highscores.json', {
-            method: 'POST',
-            body: JSON.stringify({
-              score: statsStore.content.score,
-              name: name.trim()
-            })
-          });
+      const effectsStore = <EffectsStore>this.stores.effects;
+      effectsStore.showGameOverAnimation(new Coordinates(1000, 800), () => {
+        if (statsStore.content.score > 0) {
+          const name = prompt('Please enter your name', '');
+          if (!!name && name.trim().length >= 1) {
+            fetch('https://garden-defense.firebaseio.com/highscores.json', {
+              method: 'POST',
+              body: JSON.stringify({
+                score: statsStore.content.score,
+                name: name.trim()
+              })
+            });
+          }
         }
-      }
+
+        movablesStore.stop();
+        movablesStore.reset();
+
+        screensStore.setScreen(Screens.GameOver);
+      });
 
       gridStore.stop();
       gridStore.reset();
-
-      movablesStore.stop();
-      movablesStore.reset();
-
-      screensStore.setScreen(Screens.GameOver);
     }
 
     // Update speedMultiplier in stores
@@ -184,6 +188,10 @@ class Game extends Component<{}> {
       component: new ScoreCounter(),
       position: (): Coordinates => new Coordinates(800, 0),
       show: (): boolean => this.activeScreen === Screens.Game
+    },
+    {
+      component: new GameOverEffect(),
+      position: (): Coordinates => new Coordinates(0, 0)
     }
   ];
 }
