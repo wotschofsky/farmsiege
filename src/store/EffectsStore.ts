@@ -1,4 +1,5 @@
 import cloneDeep from 'clone-deep';
+import eases from 'eases';
 import Store from '../../lib/store/Store';
 
 import EffectData from './effects/EffectData';
@@ -8,13 +9,23 @@ import Coordinates from '../../lib/helpers/Coordinates';
 type EffectsStoreContent = {
   smoke: EffectData[];
   scores: ScoreEffectData[];
+  gameOver: {
+    active: boolean;
+    timer: number;
+    center: Coordinates;
+  };
 };
 
 export default class EffectsStore extends Store<EffectsStoreContent> {
   public constructor() {
     super('effects', {
       smoke: [],
-      scores: []
+      scores: [],
+      gameOver: {
+        active: false,
+        timer: 0,
+        center: new Coordinates(0, 0)
+      }
     });
   }
 
@@ -42,6 +53,17 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
     });
   }
 
+  public showGameOverAnimation(center: Coordinates): void {
+    this.update(oldState => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.gameOver.active = true;
+      clonedState.gameOver.center = center;
+
+      return clonedState;
+    });
+  }
+
   public updateEffects(timeDifference: number): void {
     this.update(oldState => {
       const clonedState = cloneDeep(oldState);
@@ -62,7 +84,37 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
         return !score.expired;
       });
 
+      if (clonedState.gameOver.timer > 1000) {
+        clonedState.gameOver.active = false;
+        clonedState.gameOver.timer = 0;
+      }
+
+      if (clonedState.gameOver.active) {
+        clonedState.gameOver.timer += timeDifference;
+      }
+
       return clonedState;
     });
+  }
+
+  public get endAnimationProgress(): number {
+    const animationDuration = 1000;
+    const timer = this.directContent.gameOver.timer;
+
+    if (timer >= animationDuration) {
+      return 1;
+    }
+
+    const pauseOffset = 0.85;
+
+    if (timer <= animationDuration * 0.5) {
+      return eases.expoOut(timer / (animationDuration * 0.5)) * pauseOffset;
+    } else if (timer < animationDuration * 0.75) {
+      return pauseOffset;
+    } else if (timer < animationDuration * 1) {
+      return pauseOffset + eases.expoInOut(1 - (animationDuration - timer) / 250) * (1 - pauseOffset);
+    } else {
+      return 1;
+    }
   }
 }
