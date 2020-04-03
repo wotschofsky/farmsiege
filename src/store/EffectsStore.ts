@@ -53,12 +53,14 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
     });
   }
 
-  public showGameOverAnimation(center: Coordinates): void {
+  public showGameOverAnimation(center: Coordinates, callback: () => void): void {
     this.update(oldState => {
       const clonedState = cloneDeep(oldState);
 
       clonedState.gameOver.active = true;
       clonedState.gameOver.center = center;
+
+      setTimeout(callback, 1200);
 
       return clonedState;
     });
@@ -84,7 +86,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
         return !score.expired;
       });
 
-      if (clonedState.gameOver.timer > 1000) {
+      if (clonedState.gameOver.timer > 1500) {
         clonedState.gameOver.active = false;
         clonedState.gameOver.timer = 0;
       }
@@ -105,7 +107,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
       return 1;
     }
 
-    const pauseOffset = 0.85;
+    const pauseOffset = 0.92;
 
     if (timer <= animationDuration * 0.5) {
       return eases.expoOut(timer / (animationDuration * 0.5)) * pauseOffset;
