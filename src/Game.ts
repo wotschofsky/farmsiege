@@ -29,6 +29,7 @@ import GameOverEffect from './overlays/GameOverEffect';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
+  private gameOver = false;
 
   protected onInit(): void {
     const settingsStore = <SettingsStore>this.stores.settings;
@@ -102,13 +103,13 @@ class Game extends Component<{}> {
 
     const gridStore = <GridStore>this.stores.grid;
     const movablesStore = <MovablesStore>this.stores.movables;
+    const effectsStore = <EffectsStore>this.stores.effects;
 
     const statsStore = <StatsStore>this.stores.score;
 
     statsStore.increaseDuration(timeDifference);
 
-    if (gridStore.friendlyPlants === 0 && !window.invincible) {
-      const effectsStore = <EffectsStore>this.stores.effects;
+    if (gridStore.friendlyPlants === 0 && !effectsStore.directContent.gameOver.active && !window.invincible) {
       effectsStore.showGameOverAnimation(new Coordinates(1000, 800), () => {
         if (statsStore.content.score > 0) {
           const name = prompt('Please enter your name', '');
@@ -138,7 +139,6 @@ class Game extends Component<{}> {
     gridStore.speedMultiplier = gameSpeed;
     movablesStore.speedMultiplier = gameSpeed;
 
-    const effectsStore = <EffectsStore>this.stores.effects;
     effectsStore.updateEffects(timeDifference);
   }
 
