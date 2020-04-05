@@ -109,7 +109,7 @@ class Game extends Component<{}> {
 
     statsStore.increaseDuration(timeDifference);
 
-    if (gridStore.friendlyPlants === 0 && !effectsStore.directContent.gameOver.active && !window.invincible) {
+    if (gridStore.friendlyPlants === 0 && !effectsStore.directContent.gameOver.active) {
       effectsStore.showGameOverAnimation(new Coordinates(1000, 800), () => {
         if (statsStore.content.score > 0) {
           const name = prompt('Please enter your name', '');
