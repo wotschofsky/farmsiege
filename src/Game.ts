@@ -125,12 +125,12 @@ class Game extends Component<{}> {
 
         movablesStore.stop();
         movablesStore.reset();
+        gridStore.reset();
 
         screensStore.setScreen(Screens.GameOver);
       });
 
       gridStore.stop();
-      gridStore.reset();
     }
 
     // Update speedMultiplier in stores
