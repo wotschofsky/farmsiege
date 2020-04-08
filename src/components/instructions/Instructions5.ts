@@ -7,6 +7,8 @@ import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 import Tomato, { TomatoProps } from '../plants/Tomato';
 import Lightning from '../Lightning';
+import Molehill, { MolehillProps } from '../MoleHill';
+import Rabbit, { RabbitProps } from '../animals/Rabbit';
 
 export type Instructions5Props = {};
 
@@ -24,6 +26,11 @@ export default class Instructions5 extends Component<Instructions5Props> {
   private get showLightning(): boolean {
     const time = this.timer % 4200;
     return time > 1400 && time < 2800;
+  }
+
+  private get showMole(): boolean {
+    const time = this.timer % 3000;
+    return time >= 1750;
   }
 
   protected template: Template = [
@@ -46,6 +53,21 @@ export default class Instructions5 extends Component<Instructions5Props> {
       props: (): TextProps => ({
         text: 'Watch out! There are dangers trying to destroy your plants.',
         color: '#fff'
+      })
+    },
+    {
+      component: new Molehill(),
+      position: (): Coordinates => new Coordinates(0, 50),
+      props: (): MolehillProps => ({
+        moleVisible: this.showMole
+      })
+    },
+    {
+      component: new Rabbit(),
+      position: (): Coordinates => new Coordinates(300, -50),
+      props: (): RabbitProps => ({
+        direction: Directions.Left,
+        moving: false
       })
     }
   ];
