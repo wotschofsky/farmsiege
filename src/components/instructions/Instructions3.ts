@@ -5,9 +5,11 @@ import Text, { TextProps } from '../../../lib/components/native/Text';
 import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
+
 import Tomato, { TomatoProps } from '../plants/Tomato';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
+import values from '../../values.json';
 
 export type Instructions3Props = {};
 
@@ -51,7 +53,7 @@ export default class Instructions3 extends Component<Instructions3Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(300, 100),
       props: (): TextProps => ({
-        text: '+10',
+        text: `+${values.scores.plant}`,
         color: '#fff',
         size: 36
       }),
