@@ -5,8 +5,8 @@ import Text, { TextProps } from '../../../lib/components/native/Text';
 import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
-import WASDButtons, { WASDButtonsProps } from '../inputButtons/WASDButtons';
-import ArrowButtons, { ArrowButtonsProps } from '../inputButtons/ArrowButtons';
+import WASDButtons, { WASDButtonsProps } from '../inputButtons/KeyboardWASDButtons';
+import ArrowButtons, { ArrowButtonsProps } from '../inputButtons/KeyboardArrowButtons';
 
 export type Instructions1Props = {};
 
