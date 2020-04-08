@@ -7,6 +7,7 @@ import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 
 import Tomato, { TomatoProps } from '../plants/Tomato';
+import VButton, { VButtonProps } from '../inputButtons/KeyboardVButton';
 
 export type Instructions2Props = {};
 
@@ -19,6 +20,11 @@ export default class Instructions2 extends Component<Instructions2Props> {
 
   private get showPlant(): boolean {
     return this.timer % 2000 > 1000;
+  }
+
+  private get buttonPressed(): boolean {
+    const currentTimer = this.timer % 2000;
+    return currentTimer > 1000 && currentTimer < 1250;
   }
 
   protected template: Template = [
@@ -43,6 +49,13 @@ export default class Instructions2 extends Component<Instructions2Props> {
       props: (): TextProps => ({
         text: 'Press V to plant a crop',
         color: '#fff'
+      })
+    },
+    {
+      component: new VButton(),
+      position: (): Coordinates => new Coordinates(400, 100),
+      props: (): VButtonProps => ({
+        pressed: this.buttonPressed
       })
     }
   ];
