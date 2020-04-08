@@ -5,6 +5,8 @@ import Text, { TextProps } from '../../../lib/components/native/Text';
 import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
+import WASDButtons, { WASDButtonsProps } from '../inputButtons/WASDButtons';
+import ArrowButtons, { ArrowButtonsProps } from '../inputButtons/ArrowButtons';
 
 export type Instructions1Props = {};
 
@@ -42,9 +44,31 @@ export default class Instructions1 extends Component<Instructions1Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Move using WASD or Left Stick',
+        text: 'Move using WASD, Arrow Keys or Left Stick',
         color: '#fff'
       })
+    },
+    {
+      component: new ArrowButtons(),
+      position: (): Coordinates => new Coordinates(300, -85),
+      props: (): ArrowButtonsProps => {
+        const activeKey = this.movingDirection === Directions.Left ? 'left' : 'right';
+
+        return {
+          pressed: [activeKey]
+        };
+      }
+    },
+    {
+      component: new WASDButtons(),
+      position: (): Coordinates => new Coordinates(420, -85),
+      props: (): WASDButtonsProps => {
+        const activeKey = this.movingDirection === Directions.Left ? 'a' : 'd';
+
+        return {
+          pressed: [activeKey]
+        };
+      }
     }
   ];
 }
