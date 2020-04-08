@@ -8,7 +8,8 @@ import Dimensions from '../../lib/helpers/Dimensions';
 import ScreensStore from '../store/ScreensStore';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
-import backButtonSprite from '../assets/ui/retry.png';
+import backButtonSprite from '../assets/ui/back.png';
+import forwardButtonSprite from '../assets/ui/forward.png';
 import Instructions1 from '../components/instructions/Instructions1';
 import Instructions2 from '../components/instructions/Instructions2';
 import Instructions3 from '../components/instructions/Instructions3';
@@ -20,6 +21,15 @@ export type HelpScreenProps = {};
 export default class HelpScreen extends Component<HelpScreenProps> {
   private totalPages = 5;
   private currentPage = 1;
+
+  private goBack(): void {
+    if (this.currentPage === 1) {
+      const screensStore = <ScreensStore>this.stores.screens;
+      screensStore.directContent.onReturn();
+      return;
+    }
+    this.currentPage--;
+  }
 
   private continue(): void {
     if (this.currentPage === this.totalPages) {
@@ -75,47 +85,6 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       show: (): boolean => this.currentPage === 5
     },
 
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 200),
-    //   props: (): TextProps => ({
-    //     text: '• Press C to fire gun',
-    //     color: '#fff'
-    //   })
-    // },
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 250),
-    //   props: (): TextProps => ({
-    //     text: '• Earn points by',
-    //     color: '#fff'
-    //   })
-    // },
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 60, 400 + 275),
-    //   props: (): TextProps => ({
-    //     text: '- harvesting fully grown crops',
-    //     color: '#fff'
-    //   })
-    // },
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 60, 400 + 300),
-    //   props: (): TextProps => ({
-    //     text: '- Killing rabbits',
-    //     color: '#fff'
-    //   })
-    // },
-    // {
-    //   component: new Text(),
-    //   position: (): Coordinates => new Coordinates(500 + 50, 400 + 350),
-    //   props: (): TextProps => ({
-    //     text: '• The game ends once there are no own plants left on the playing field',
-    //     color: '#fff'
-    //   })
-    // },
-
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(500 + 280, 400 + 375),
@@ -127,7 +96,25 @@ export default class HelpScreen extends Component<HelpScreenProps> {
 
     {
       component: new EventListener(),
-      position: (): Coordinates => new Coordinates(650, 900),
+      position: (): Coordinates => new Coordinates(500, 900),
+      props: (): EventListenerProps => ({
+        size: new Dimensions(300, 200),
+        onClick: this.goBack.bind(this)
+      })
+    },
+    {
+      component: new Sprite(),
+      position: (): Coordinates => new Coordinates(500, 900),
+      props: (): SpriteProps => ({
+        source: backButtonSprite,
+        width: 300,
+        height: 200
+      })
+    },
+
+    {
+      component: new EventListener(),
+      position: (): Coordinates => new Coordinates(800, 900),
       props: (): EventListenerProps => ({
         size: new Dimensions(300, 200),
         onClick: this.continue.bind(this)
@@ -135,9 +122,9 @@ export default class HelpScreen extends Component<HelpScreenProps> {
     },
     {
       component: new Sprite(),
-      position: (): Coordinates => new Coordinates(650, 900),
+      position: (): Coordinates => new Coordinates(800, 900),
       props: (): SpriteProps => ({
-        source: backButtonSprite,
+        source: forwardButtonSprite,
         width: 300,
         height: 200
       })
