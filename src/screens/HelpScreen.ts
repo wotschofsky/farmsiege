@@ -10,6 +10,7 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
 import backButtonSprite from '../assets/ui/back.png';
 import forwardButtonSprite from '../assets/ui/forward.png';
+import homeButtonSprite from '../assets/ui/home.png';
 import Instructions1 from '../components/instructions/Instructions1';
 import Instructions2 from '../components/instructions/Instructions2';
 import Instructions3 from '../components/instructions/Instructions3';
@@ -109,7 +110,18 @@ export default class HelpScreen extends Component<HelpScreenProps> {
         source: backButtonSprite,
         width: 300,
         height: 200
-      })
+      }),
+      show: (): boolean => this.currentPage !== 1
+    },
+    {
+      component: new Sprite(),
+      position: (): Coordinates => new Coordinates(500, 900),
+      props: (): SpriteProps => ({
+        source: homeButtonSprite,
+        width: 300,
+        height: 200
+      }),
+      show: (): boolean => this.currentPage === 1
     },
 
     {
@@ -127,7 +139,18 @@ export default class HelpScreen extends Component<HelpScreenProps> {
         source: forwardButtonSprite,
         width: 300,
         height: 200
-      })
+      }),
+      show: (): boolean => this.currentPage !== this.totalPages
+    },
+    {
+      component: new Sprite(),
+      position: (): Coordinates => new Coordinates(800, 900),
+      props: (): SpriteProps => ({
+        source: homeButtonSprite,
+        width: 300,
+        height: 200
+      }),
+      show: (): boolean => this.currentPage === this.totalPages
     }
   ];
 }
