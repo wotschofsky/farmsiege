@@ -8,6 +8,7 @@ import PropsContext from '../../../lib/PropsContext';
 
 import Tomato, { TomatoProps } from '../plants/Tomato';
 import VButton, { VButtonProps } from '../inputButtons/KeyboardVButton';
+import ControllerAButton, { ControllerAButtonProps } from '../inputButtons/ControllerAButton';
 
 export type Instructions2Props = {};
 
@@ -55,6 +56,13 @@ export default class Instructions2 extends Component<Instructions2Props> {
       component: new VButton(),
       position: (): Coordinates => new Coordinates(400, 100),
       props: (): VButtonProps => ({
+        pressed: this.buttonPressed
+      })
+    },
+    {
+      component: new ControllerAButton(),
+      position: (): Coordinates => new Coordinates(400, 150),
+      props: (): ControllerAButtonProps => ({
         pressed: this.buttonPressed
       })
     }
