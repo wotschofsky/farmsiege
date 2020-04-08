@@ -2,8 +2,8 @@ import { Template } from '../../../lib/Types';
 import Component from '../../../lib/Component';
 import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
-import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
+import BaseButton, { BaseButtonProps } from './BaseButton';
 import keyboardUpSprite from '../../assets/inputs/keyboard_up.png';
 import keyboardUpPressedSprite from '../../assets/inputs/keyboard_up_pressed.png';
 import keyboardLeftSprite from '../../assets/inputs/keyboard_left.png';
@@ -22,39 +22,39 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
 
   template: Template = [
     {
-      component: new Sprite(),
+      component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, 0),
-      props: (ctx: PropsContext<ArrowButtonsProps>): SpriteProps => ({
-        width: this.buttonSize,
-        height: this.buttonSize,
-        source: ctx.props.pressed.includes('up') ? keyboardUpPressedSprite : keyboardUpSprite
+      props: (ctx: PropsContext<ArrowButtonsProps>): BaseButtonProps => ({
+        pressed: ctx.props.pressed.includes('up'),
+        sprite: keyboardUpSprite,
+        spritePressed: keyboardUpPressedSprite
       })
     },
     {
-      component: new Sprite(),
+      component: new BaseButton(),
       position: (): Coordinates => new Coordinates(0, this.buttonSize),
-      props: (ctx: PropsContext<ArrowButtonsProps>): SpriteProps => ({
-        width: this.buttonSize,
-        height: this.buttonSize,
-        source: ctx.props.pressed.includes('left') ? keyboardLeftPressedSprite : keyboardLeftSprite
+      props: (ctx: PropsContext<ArrowButtonsProps>): BaseButtonProps => ({
+        pressed: ctx.props.pressed.includes('left'),
+        sprite: keyboardLeftSprite,
+        spritePressed: keyboardLeftPressedSprite
       })
     },
     {
-      component: new Sprite(),
+      component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, this.buttonSize),
-      props: (ctx: PropsContext<ArrowButtonsProps>): SpriteProps => ({
-        width: this.buttonSize,
-        height: this.buttonSize,
-        source: ctx.props.pressed.includes('down') ? keyboardDownPressedSprite : keyboardDownSprite
+      props: (ctx: PropsContext<ArrowButtonsProps>): BaseButtonProps => ({
+        pressed: ctx.props.pressed.includes('down'),
+        sprite: keyboardDownSprite,
+        spritePressed: keyboardDownPressedSprite
       })
     },
     {
-      component: new Sprite(),
+      component: new BaseButton(),
       position: (): Coordinates => new Coordinates(2 * this.buttonSize, this.buttonSize),
-      props: (ctx: PropsContext<ArrowButtonsProps>): SpriteProps => ({
-        width: this.buttonSize,
-        height: this.buttonSize,
-        source: ctx.props.pressed.includes('right') ? keyboardRightPressedSprite : keyboardRightSprite
+      props: (ctx: PropsContext<ArrowButtonsProps>): BaseButtonProps => ({
+        pressed: ctx.props.pressed.includes('right'),
+        sprite: keyboardRightSprite,
+        spritePressed: keyboardRightPressedSprite
       })
     }
   ];
