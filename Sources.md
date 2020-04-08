@@ -72,3 +72,7 @@ https://www.npmjs.com/package/eases
 Easing Function Cheat Sheet \
 03.04.2020 \
 https://easings.net/
+
+Keyboard/Controller Key Sprites \
+08.04.2020 \
+https://hyohnoo.itch.io/keyboard-controller-keys
