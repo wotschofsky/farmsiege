@@ -12,6 +12,11 @@ export default class RenderUtils {
   ): void {
     if (typeof item.show === 'function' && !item.show(propsContext)) return;
 
+    const applyTransformations = !!item.transform;
+    if (applyTransformations && item.transform) {
+      context.renderContext.save();
+    }
+
     item.component.render(
       new RenderingContext(
         context.frame,
@@ -26,5 +31,9 @@ export default class RenderUtils {
       item.position(propsContext),
       typeof item.props === 'function' ? item.props(propsContext) : {}
     );
+
+    if (applyTransformations) {
+      context.renderContext.restore();
+    }
   }
 }
