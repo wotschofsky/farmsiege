@@ -83,15 +83,18 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
 
         for (let i = 0; i < values.guns.pumpgun.amount; i++) {
           let direction: number;
-          if (oldState.direction === Directions.Right) {
+          let xOffset: number;
+          if (clonedState.direction === Directions.Right) {
             direction =
               Math.PI * (-0.5 * values.guns.pumpgun.spread) + Math.random() * Math.PI * values.guns.pumpgun.spread;
+            xOffset = 164;
           } else {
             direction =
               Math.PI * (1 - 0.5 * values.guns.pumpgun.spread) + Math.random() * Math.PI * values.guns.pumpgun.spread;
+            xOffset = -156;
           }
 
-          const bullet = new BulletData(oldState.posX + 288, oldState.posY + 176, direction);
+          const bullet = new BulletData(oldState.posX + 320 + xOffset, oldState.posY + 196, direction);
 
           clonedState.bullets.push(bullet);
         }
