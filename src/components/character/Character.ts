@@ -9,6 +9,7 @@ import values from '../../values.json';
 import Hat from './Hat';
 import Shirt from './Shirt';
 import Pants from './Pants';
+import Hammer, { HammerProps } from './Hammer';
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
 import blackManRightSprite from '../../assets/character/body/black_man_right.png';
 // import spriteIdleLeft from '../../assets/finn_idle_left.png';
@@ -44,6 +45,13 @@ export default class Character extends Component<CharacterProps> {
     {
       component: new Hat(),
       position: (): Coordinates => new Coordinates(0, -48 * values.character.size)
+    },
+    {
+      component: new Hammer(),
+      position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
+      props: (): HammerProps => ({
+        position: 0
+      })
     }
     // {
     //    component: new AnimatedSprite(),
