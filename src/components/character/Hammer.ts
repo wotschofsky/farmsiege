@@ -1,3 +1,4 @@
+import eases from 'eases';
 import { Directions } from '../../../lib/Enums';
 import { Template, TransformationConfig } from '../../../lib/Types';
 import Component from '../../../lib/Component';
@@ -16,9 +17,9 @@ export type HammerProps = {
 export default class Hammer extends Component<HammerProps> {
   private getAngle(direction: Directions, position: number): number {
     if (direction === Directions.Left) {
-      return position * Math.PI * -0.55 + 0.25 * Math.PI;
+      return Math.PI * (eases.cubicOut(position) * -0.55 + 0.25);
     } else {
-      return position * Math.PI * 0.3 + 0.25 * Math.PI;
+      return Math.PI * (eases.cubicOut(position) * 0.55 + 0.25);
     }
   }
 
