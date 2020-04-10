@@ -8,7 +8,8 @@ import BulletData from './models/BulletData';
 import values from '../values.json';
 
 export enum HoldableItems {
-  None
+  None,
+  Hammer
 }
 
 export type CharacterStoreContent = {

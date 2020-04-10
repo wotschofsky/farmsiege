@@ -6,6 +6,7 @@ import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 import values from '../../values.json';
 
+import { HoldableItems } from '../../store/CharacterStore';
 import Hat from './Hat';
 import Shirt from './Shirt';
 import Pants from './Pants';
@@ -19,6 +20,8 @@ import blackManRightSprite from '../../assets/character/body/black_man_right.png
 
 export type CharacterProps = {
   direction: Directions;
+  heldItem: HoldableItems;
+  hammerPosition?: number;
 };
 
 export default class Character extends Component<CharacterProps> {
@@ -49,9 +52,11 @@ export default class Character extends Component<CharacterProps> {
     {
       component: new Hammer(),
       position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
-      props: (): HammerProps => ({
-        position: 0
-      })
+      props: (ctx: PropsContext<CharacterProps>): HammerProps => ({
+        position: ctx.props.hammerPosition ?? 0
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Hammer
     }
     // {
     //    component: new AnimatedSprite(),

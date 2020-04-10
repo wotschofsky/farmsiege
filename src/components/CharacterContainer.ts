@@ -4,7 +4,7 @@ import Coordinates from '../../lib/helpers/Coordinates';
 import InputMap, { GamepadButtons, GamepadStickDirections } from '../../lib/InputMap';
 
 import Character, { CharacterProps } from './character/Character';
-import CharacterStore from '../store/CharacterStore';
+import CharacterStore, { HoldableItems } from '../store/CharacterStore';
 import GridStore from '../store/GridStore';
 import shotgunSound from '../assets/sounds/shotgun.mp3';
 import StatsStore from '../store/StatsStore';
@@ -68,6 +68,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           switch (removedContent) {
             case TileContents.Mole:
               addedScore = values.scores.mole;
+              characterStore.heldItem = HoldableItems.Hammer;
               break;
             case TileContents.Plant:
               if (isGrownPlant) {
@@ -143,7 +144,9 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         const characterStore = <CharacterStore>this.stores.character;
 
         return {
-          direction: characterStore.content.direction
+          direction: characterStore.content.direction,
+          heldItem: characterStore.content.heldItem,
+          hammerPosition: 0
         };
       }
     }
