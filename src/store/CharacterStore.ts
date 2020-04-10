@@ -1,11 +1,15 @@
-import cloneDeep from 'clone-deep';
 import { Directions } from '../../lib/Enums';
+import cloneDeep from 'clone-deep';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Store from '../../lib/store/Store';
 
 import GridUtils from '../utils/Grid';
 import BulletData from './models/BulletData';
 import values from '../values.json';
+
+export enum HoldableItems {
+  None
+}
 
 export type CharacterStoreContent = {
   posX: number;
@@ -14,6 +18,7 @@ export type CharacterStoreContent = {
   fieldX: number;
   fieldY: number;
   bullets: BulletData[];
+  heldItem: HoldableItems;
 };
 
 // Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
@@ -25,7 +30,8 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
       posY: 512,
       direction: Directions.Right,
       fieldX: 0,
-      fieldY: 0
+      fieldY: 0,
+      heldItem: HoldableItems.None
     });
   }
 
@@ -97,6 +103,18 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
         for (const bullet of clonedState.bullets) {
           bullet.update(timeDifference);
         }
+
+        return clonedState;
+      }
+    );
+  }
+
+  public set heldItem(value: HoldableItems) {
+    this.update(
+      (oldState: CharacterStoreContent): CharacterStoreContent => {
+        const clonedState = cloneDeep(oldState);
+
+        clonedState.heldItem = value;
 
         return clonedState;
       }
