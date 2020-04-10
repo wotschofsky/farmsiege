@@ -55,7 +55,9 @@ export default class Character extends Component<CharacterProps> {
       position: (): Coordinates => new Coordinates(0, 120 * values.character.size),
       props: (ctx: PropsContext<CharacterProps>): GunProps => ({
         direction: ctx.props.direction
-      })
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Gun
     },
     {
       component: new Hammer(),
