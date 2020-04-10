@@ -10,10 +10,11 @@ import { HoldableItems } from '../../store/CharacterStore';
 import Hat from './Hat';
 import Shirt from './Shirt';
 import Pants from './Pants';
+import Gun, { GunProps } from './Gun';
 import Hammer, { HammerProps } from './Hammer';
+import Shovel, { ShovelProps } from './Shovel';
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
 import blackManRightSprite from '../../assets/character/body/black_man_right.png';
-import Gun, { GunProps } from './Gun';
 // import spriteIdleLeft from '../../assets/finn_idle_left.png';
 // import spriteIdleRight from '../../assets/finn_idle_right.png';
 // import spriteRunningLeft from '../../assets/finn_running_left.png';
@@ -68,6 +69,15 @@ export default class Character extends Component<CharacterProps> {
       }),
       show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
         !!ctx && ctx.props.heldItem === HoldableItems.Hammer
+    },
+    {
+      component: new Shovel(),
+      position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): ShovelProps => ({
+        direction: ctx.props.direction
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Shovel
     }
     // {
     //    component: new AnimatedSprite(),

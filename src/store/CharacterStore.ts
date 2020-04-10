@@ -10,7 +10,8 @@ import values from '../values.json';
 export enum HoldableItems {
   None,
   Gun,
-  Hammer
+  Hammer,
+  Shovel
 }
 
 export type CharacterStoreContent = {
