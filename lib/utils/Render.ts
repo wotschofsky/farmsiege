@@ -12,16 +12,35 @@ export default class RenderUtils {
   ): void {
     if (typeof item.show === 'function' && !item.show(propsContext)) return;
 
+    let computedPositionX = context.parentX + position.x;
+    let computedPositionY = context.parentY + position.y;
+
     const applyTransformations = !!item.transform;
+
     if (applyTransformations && item.transform) {
       context.renderContext.save();
+
+      const transformConfig = item.transform(propsContext);
+
+      if (transformConfig.rotate) {
+        const { center } = transformConfig.rotate;
+        context.renderContext.translate(
+          context.scaleFactor * (context.parentX + position.x + center.x),
+          context.scaleFactor * (context.parentY + position.y + center.y)
+        );
+
+        computedPositionX = -center.x;
+        computedPositionY = -center.y;
+
+        context.renderContext.rotate(transformConfig.rotate.angle);
+      }
     }
 
     item.component.render(
       new RenderingContext(
         context.frame,
-        context.parentX + position.x,
-        context.parentY + position.y,
+        computedPositionX,
+        computedPositionY,
         context.canvas,
         context.renderContext,
         context.scaleFactor,
