@@ -1,3 +1,4 @@
+import { Directions } from '../../../lib/Enums';
 import { Template, TransformationConfig } from '../../../lib/Types';
 import Component from '../../../lib/Component';
 import Coordinates from '../../../lib/helpers/Coordinates';
@@ -9,9 +10,18 @@ import values from '../../values.json';
 
 export type HammerProps = {
   position: number;
+  direction: Directions;
 };
 
 export default class Hammer extends Component<HammerProps> {
+  private getAngle(direction: Directions, position: number): number {
+    if (direction === Directions.Left) {
+      return position * Math.PI * -0.55 + 0.25 * Math.PI;
+    } else {
+      return position * Math.PI * 0.3 + 0.25 * Math.PI;
+    }
+  }
+
   protected template: Template = [
     {
       component: new Sprite(),
@@ -24,7 +34,7 @@ export default class Hammer extends Component<HammerProps> {
       transform: (ctx: PropsContext<HammerProps>): TransformationConfig => {
         return {
           rotate: {
-            angle: ctx.props.position * Math.PI * -0.55 + 0.25 * Math.PI,
+            angle: this.getAngle(ctx.props.direction, ctx.props.position),
             center: new Coordinates(
               (13.5 / 16) * 128 * values.character.size,
               (13.5 / 16) * 128 * values.character.size

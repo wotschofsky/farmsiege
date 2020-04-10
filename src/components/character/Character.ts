@@ -53,7 +53,8 @@ export default class Character extends Component<CharacterProps> {
       component: new Hammer(),
       position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
       props: (ctx: PropsContext<CharacterProps>): HammerProps => ({
-        position: ctx.props.hammerPosition ?? 0
+        position: ctx.props.hammerPosition ?? 0,
+        direction: ctx.props.direction
       }),
       show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
         !!ctx && ctx.props.heldItem === HoldableItems.Hammer
