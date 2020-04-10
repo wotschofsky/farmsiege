@@ -146,7 +146,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         return {
           direction: characterStore.content.direction,
           heldItem: characterStore.content.heldItem,
-          hammerPosition: 0
+          hammerPosition: characterStore.hammerPosition
         };
       }
     }

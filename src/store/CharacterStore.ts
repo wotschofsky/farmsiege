@@ -20,10 +20,13 @@ export type CharacterStoreContent = {
   fieldY: number;
   bullets: BulletData[];
   heldItem: HoldableItems;
+  hammerTimer: number;
 };
 
 // Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
 export default class CharacterStore extends Store<CharacterStoreContent> {
+  private readonly hammerAnimationDuration = 100;
+
   public constructor() {
     super('character', {
       bullets: [],
@@ -32,7 +35,8 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
       direction: Directions.Right,
       fieldX: 0,
       fieldY: 0,
-      heldItem: HoldableItems.None
+      heldItem: HoldableItems.None,
+      hammerTimer: 0
     });
   }
 
@@ -94,7 +98,7 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
     );
   }
 
-  public updateBullets(timeDifference: number): void {
+  public updateTimer(timeDifference: number): void {
     this.update(
       (oldState: CharacterStoreContent): CharacterStoreContent => {
         const clonedState = cloneDeep(oldState);
@@ -103,6 +107,14 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
 
         for (const bullet of clonedState.bullets) {
           bullet.update(timeDifference);
+        }
+
+        if (clonedState.hammerTimer > this.hammerAnimationDuration) {
+          clonedState.hammerTimer = 0;
+        }
+
+        if (clonedState.hammerTimer > 0) {
+          clonedState.hammerTimer += timeDifference;
         }
 
         return clonedState;
@@ -117,8 +129,16 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
 
         clonedState.heldItem = value;
 
+        if (value === HoldableItems.Hammer) {
+          clonedState.hammerTimer = 1;
+        }
+
         return clonedState;
       }
     );
+  }
+
+  public get hammerPosition(): number {
+    return this.directContent.hammerTimer / this.hammerAnimationDuration;
   }
 }
