@@ -6,18 +6,20 @@ import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 import values from '../../values.json';
 
+import { HoldableItems } from '../../store/CharacterStore';
 import Hat from './Hat';
 import Shirt from './Shirt';
 import Pants from './Pants';
+import Gun, { GunProps } from './Gun';
+import Hammer, { HammerProps } from './Hammer';
+import Shovel, { ShovelProps } from './Shovel';
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
 import blackManRightSprite from '../../assets/character/body/black_man_right.png';
-// import spriteIdleLeft from '../../assets/finn_idle_left.png';
-// import spriteIdleRight from '../../assets/finn_idle_right.png';
-// import spriteRunningLeft from '../../assets/finn_running_left.png';
-// import spriteRunningRight from '../../assets/finn_running_right.png';
 
 export type CharacterProps = {
   direction: Directions;
+  heldItem: HoldableItems;
+  hammerPosition?: number;
 };
 
 export default class Character extends Component<CharacterProps> {
@@ -44,22 +46,34 @@ export default class Character extends Component<CharacterProps> {
     {
       component: new Hat(),
       position: (): Coordinates => new Coordinates(0, -48 * values.character.size)
+    },
+    {
+      component: new Gun(),
+      position: (): Coordinates => new Coordinates(0, 120 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): GunProps => ({
+        direction: ctx.props.direction
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Gun
+    },
+    {
+      component: new Hammer(),
+      position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): HammerProps => ({
+        position: ctx.props.hammerPosition ?? 0,
+        direction: ctx.props.direction
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Hammer
+    },
+    {
+      component: new Shovel(),
+      position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): ShovelProps => ({
+        direction: ctx.props.direction
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Shovel
     }
-    // {
-    //    component: new AnimatedSprite(),
-    //    position: (): Coordinates => new Coordinates(
-    //       this.stores.character.content.posX - 64,
-    //       this.stores.character.content.posY - 128,
-    //    ),
-    //    props: (): AnimatedSpriteProps => ({
-    //       source: this.activeSprite,
-    //       // source: blackManSprite,
-    //       spriteWidth: 32,
-    //       spriteHeight: 32,
-    //       width: 256,
-    //       height: 256,
-    //       interval: 150
-    //    }),
-    // }
   ];
 }

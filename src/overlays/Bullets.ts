@@ -9,11 +9,6 @@ import CharacterStore, { BulletData } from '../store/CharacterStore';
 export type BulletsProps = {};
 
 export default class Bullets extends Component<BulletsProps> {
-  protected onTick(ctx: PropsContext<BulletsProps>, timeDifference: number): void {
-    const characterStore = <CharacterStore>this.stores.character;
-    characterStore.updateBullets(timeDifference);
-  }
-
   protected template: Template = [
     {
       component: new Repeating(),

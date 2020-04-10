@@ -105,9 +105,11 @@ class Game extends Component<{}> {
     const movablesStore = <MovablesStore>this.stores.movables;
     const effectsStore = <EffectsStore>this.stores.effects;
 
+    const characterStore = <CharacterStore>this.stores.character;
     const statsStore = <StatsStore>this.stores.score;
 
     statsStore.increaseDuration(timeDifference);
+    characterStore.updateTimer(timeDifference);
 
     if (gridStore.friendlyPlants === 0 && !effectsStore.directContent.gameOver.active) {
       effectsStore.showGameOverAnimation(new Coordinates(1000, 800), () => {

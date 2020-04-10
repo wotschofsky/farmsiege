@@ -116,10 +116,10 @@ export default class GridTile extends Component<GridTileProps> {
         color: 'rgba(255, 255, 255, 0.3)'
       }),
       show: (ctx: PropsContext<GridTileProps> | undefined): boolean => {
-        const characterStore = <CharacterStore>this.stores.character;
         if (!ctx) {
           return false;
         }
+        const characterStore = <CharacterStore>this.stores.character;
         return ctx.props.row === characterStore.content.fieldX && ctx.props.column === characterStore.content.fieldY;
       }
     }
