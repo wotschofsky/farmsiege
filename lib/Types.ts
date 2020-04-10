@@ -7,7 +7,14 @@ export type TemplateItem = {
   position: (context: PropsContext<any>) => Coordinates;
   props?: (context: PropsContext<any>) => { [key: string]: any };
   show?: (context?: PropsContext<any>) => boolean;
-  transform?: (context: PropsContext<any>) => {};
+  transform?: (
+    context: PropsContext<any>
+  ) => {
+    rotate?: {
+      center: Coordinates;
+      angle: number;
+    };
+  };
 };
 
 export type Template = TemplateItem[];
