@@ -103,6 +103,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       }
 
       if (inputs.place) {
+        characterStore.heldItem = HoldableItems.None;
         gridStore.placePlant(characterStore.content.fieldX, characterStore.content.fieldY);
       }
 
