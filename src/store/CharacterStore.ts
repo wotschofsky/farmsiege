@@ -9,6 +9,7 @@ import values from '../values.json';
 
 export enum HoldableItems {
   None,
+  Gun,
   Hammer
 }
 
@@ -74,6 +75,8 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
   }
 
   public fireGun(): void {
+    this.heldItem = HoldableItems.Gun;
+
     this.update(
       (oldState: CharacterStoreContent): CharacterStoreContent => {
         const clonedState = cloneDeep(oldState);

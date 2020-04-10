@@ -13,6 +13,7 @@ import Pants from './Pants';
 import Hammer, { HammerProps } from './Hammer';
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
 import blackManRightSprite from '../../assets/character/body/black_man_right.png';
+import Gun, { GunProps } from './Gun';
 // import spriteIdleLeft from '../../assets/finn_idle_left.png';
 // import spriteIdleRight from '../../assets/finn_idle_right.png';
 // import spriteRunningLeft from '../../assets/finn_running_left.png';
@@ -48,6 +49,13 @@ export default class Character extends Component<CharacterProps> {
     {
       component: new Hat(),
       position: (): Coordinates => new Coordinates(0, -48 * values.character.size)
+    },
+    {
+      component: new Gun(),
+      position: (): Coordinates => new Coordinates(0, 120 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): GunProps => ({
+        direction: ctx.props.direction
+      })
     },
     {
       component: new Hammer(),
