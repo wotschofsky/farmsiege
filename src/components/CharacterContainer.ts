@@ -70,12 +70,20 @@ export default class CharacterContainer extends Component<CharacterContainerProp
               addedScore = values.scores.mole;
               characterStore.heldItem = HoldableItems.Hammer;
               break;
+
             case TileContents.Plant:
               if (isGrownPlant) {
                 addedScore = values.scores.plant;
               }
               characterStore.heldItem = HoldableItems.Shovel;
               break;
+            case TileContents.Weed:
+              characterStore.heldItem = HoldableItems.Shovel;
+              break;
+            case TileContents.Molehill:
+              characterStore.heldItem = HoldableItems.Shovel;
+              break;
+
             case TileContents.Weed:
               addedScore = values.scores.weed;
               break;
