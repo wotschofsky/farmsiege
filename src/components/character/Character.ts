@@ -6,14 +6,20 @@ import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 import values from '../../values.json';
 
+import { HoldableItems } from '../../store/CharacterStore';
 import Hat from './Hat';
 import Shirt from './Shirt';
 import Pants from './Pants';
+import Gun, { GunProps } from './Gun';
+import Hammer, { HammerProps } from './Hammer';
+import Shovel, { ShovelProps } from './Shovel';
 import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
 import blackManRightSprite from '../../assets/character/body/black_man_right.png';
 
 export type CharacterProps = {
   direction: Directions;
+  heldItem: HoldableItems;
+  hammerPosition?: number;
 };
 
 export default class Character extends Component<CharacterProps> {
@@ -40,6 +46,34 @@ export default class Character extends Component<CharacterProps> {
     {
       component: new Hat(),
       position: (): Coordinates => new Coordinates(0, -48 * values.character.size)
+    },
+    {
+      component: new Gun(),
+      position: (): Coordinates => new Coordinates(0, 120 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): GunProps => ({
+        direction: ctx.props.direction
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Gun
+    },
+    {
+      component: new Hammer(),
+      position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): HammerProps => ({
+        position: ctx.props.hammerPosition ?? 0,
+        direction: ctx.props.direction
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Hammer
+    },
+    {
+      component: new Shovel(),
+      position: (): Coordinates => new Coordinates(-80 * values.character.size, 32 * values.character.size),
+      props: (ctx: PropsContext<CharacterProps>): ShovelProps => ({
+        direction: ctx.props.direction
+      }),
+      show: (ctx: PropsContext<CharacterProps> | undefined): boolean =>
+        !!ctx && ctx.props.heldItem === HoldableItems.Shovel
     }
   ];
 }

@@ -10,7 +10,9 @@ Pflanzen https://opengameart.org/content/farming-crops-16x16 im Oktober 2019 \
 Tiere https://finalbossblues.itch.io/animals-sprite-pack am 03.11.2019 \
 Blitz https://kvsr.itch.io/attack-pixel-art am 12.11.2019 \
 Untergrund https://finalbossblues.itch.io/tf-jungle-tileset am 26.11.2019 \
-Rauch Effekt https://opengameart.org/content/smoke-fire-animated-particle-16x16 am 28.02.2020
+Rauch Effekt https://opengameart.org/content/smoke-fire-animated-particle-16x16 am 28.02.2020 \
+Shotgun https://asgaard42.itch.io/rifle-and-shotgun-sprites am 10.04.2020 \
+Hammer https://opengameart.org/content/heavy-iron-hammer am 10.04.2020
 
 
 ## Sounds
