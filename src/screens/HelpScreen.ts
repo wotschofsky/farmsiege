@@ -1,13 +1,14 @@
-import Component from '../../lib/Component';
 import { Template } from '../../lib/Types';
-import Dialog, { DialogProps } from '../components/Dialog';
+import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
-import Text, { TextProps } from '../../lib/components/native/Text';
-import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
+import Dialog, { DialogProps } from '../components/Dialog';
 import Dimensions from '../../lib/helpers/Dimensions';
-import ScreensStore from '../store/ScreensStore';
+import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
+import Text, { TextProps } from '../../lib/components/native/Text';
 
+import ScreensStore from '../store/ScreensStore';
+import MiscStore from '../store/MiscStore';
 import backButtonSprite from '../assets/ui/back.png';
 import forwardButtonSprite from '../assets/ui/forward.png';
 import homeButtonSprite from '../assets/ui/home.png';
@@ -26,7 +27,16 @@ export type HelpScreenProps = {};
 
 export default class HelpScreen extends Component<HelpScreenProps> {
   private totalPages = 10;
-  private currentPage = 1;
+
+  private get currentPage(): number {
+    const miscStore = <MiscStore>this.stores.misc;
+    return miscStore.directContent.instructionsPage;
+  }
+
+  private set currentPage(value: number) {
+    const miscStore = <MiscStore>this.stores.misc;
+    miscStore.changeInstructionsPage(value);
+  }
 
   private goBack(): void {
     if (this.currentPage === 1) {

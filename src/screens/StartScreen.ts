@@ -17,6 +17,7 @@ import StatsStore from '../store/StatsStore';
 import playButtonSprite from '../assets/ui/play.png';
 import helpButtonSprite from '../assets/ui/help.png';
 import cosmeticsButtonSprite from '../assets/ui/cosmetics.png';
+import MiscStore from '../store/MiscStore';
 
 export type StartScreenProps = {};
 
@@ -54,6 +55,9 @@ export default class StartScreen extends Component<StartScreenProps> {
   }
 
   private showHelp(): void {
+    const miscStore = <MiscStore>this.stores.misc;
+    miscStore.resetInstructions();
+
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Help);
     screensStore.setOnReturn(() => {

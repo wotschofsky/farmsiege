@@ -26,6 +26,7 @@ import CosmeticsScreen from './screens/CosmeticsScreen';
 import Foreground from './components/surroundings/Foreground';
 import ScoreCounter from './components/ScoreCounter';
 import GameOverEffect from './overlays/GameOverEffect';
+import MiscStore from './store/MiscStore';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
@@ -95,6 +96,9 @@ class Game extends Component<{}> {
 
     const settingsStore = new SettingsStore();
     this.registerStore(settingsStore);
+
+    const miscStore = new MiscStore();
+    this.registerStore(miscStore);
   }
 
   protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
@@ -112,17 +116,27 @@ class Game extends Component<{}> {
     characterStore.updateTimer(timeDifference);
 
     if (gridStore.friendlyPlants === 0 && !effectsStore.directContent.gameOver.active) {
-      effectsStore.showGameOverAnimation(new Coordinates(1000, 800), () => {
+      const miscStore = <MiscStore>this.stores.misc;
+      miscStore.fetchHighscores();
+
+      effectsStore.showGameOverAnimation(new Coordinates(1000, 800), async () => {
         if (statsStore.content.score > 0) {
           const name = prompt('Please enter your name', '');
           if (!!name && name.trim().length >= 1) {
-            fetch('https://garden-defense.firebaseio.com/highscores.json', {
+            const score = statsStore.content.score;
+
+            await fetch('https://garden-defense.firebaseio.com/highscores.json', {
               method: 'POST',
               body: JSON.stringify({
-                score: statsStore.content.score,
+                score: score,
                 name: name.trim()
               })
             });
+
+            const highscores = miscStore.content.highscores;
+            if (highscores[highscores.length - 1].score < score) {
+              miscStore.fetchHighscores();
+            }
           }
         }
 
