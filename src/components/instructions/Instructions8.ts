@@ -53,7 +53,9 @@ export default class Instructions8 extends Component<Instructions8Props> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
         text: 'Get rid of the weed!',
-        color: '#fff'
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     },
     {

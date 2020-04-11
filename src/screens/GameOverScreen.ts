@@ -62,7 +62,8 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
         return {
           text: `YOUR SCORE: ${statsStore.content.score}`,
           color: '#fff',
-          size: 36
+          font: 'Heartbit',
+          size: 64
         };
       }
     },

@@ -49,6 +49,9 @@ export default class Instructions2 extends Component<Instructions2Props> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
         text: 'Plant crops!',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     },
     {

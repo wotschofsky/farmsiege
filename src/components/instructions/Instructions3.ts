@@ -63,6 +63,9 @@ export default class Instructions3 extends Component<Instructions3Props> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
         text: 'Harvest crops!',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     },
     {

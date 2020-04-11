@@ -54,8 +54,10 @@ export default class Instructions4 extends Component<Instructions4Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Note: You only get points for fully grown plants.',
-        color: '#fff'
+        text: 'Note: You only grown plants give you points!',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     }
   ];

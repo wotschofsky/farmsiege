@@ -61,7 +61,8 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       props: (): TextProps => ({
         text: 'HOW TO PLAY',
         color: '#fff',
-        size: 36
+        font: 'Heartbit',
+        size: 64
       })
     },
 
@@ -121,7 +122,9 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       position: (): Coordinates => new Coordinates(500 + 280, 400 + 375),
       props: (): TextProps => ({
         text: `${this.currentPage} / ${this.totalPages}`,
-        color: '#fff'
+        color: '#fff',
+        font: 'Heartbit',
+        size: 32
       })
     },
 

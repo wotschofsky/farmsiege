@@ -69,7 +69,9 @@ export default class Instructions7 extends Component<Instructions7Props> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
         text: 'Shoot the rabbits!',
-        color: '#fff'
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     },
     {

@@ -51,7 +51,9 @@ export default class Instructions6 extends Component<Instructions6Props> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
         text: 'Smash the moles!',
-        color: '#fff'
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     },
     {

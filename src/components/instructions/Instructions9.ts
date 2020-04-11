@@ -33,7 +33,9 @@ export default class Instructions9 extends Component<Instructions9Props> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
         text: `Lightnings? Can't do nothing!`,
-        color: '#fff'
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     },
     {

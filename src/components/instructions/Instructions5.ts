@@ -51,8 +51,10 @@ export default class Instructions5 extends Component<Instructions5Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Watch out! There are dangers trying to destroy your plants.',
-        color: '#fff'
+        text: `Watch out! You're not alone!`,
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     },
     {
