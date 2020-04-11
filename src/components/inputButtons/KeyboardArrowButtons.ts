@@ -18,7 +18,7 @@ export type ArrowButtonsProps = {
 };
 
 export default class ArrowButtons extends Component<ArrowButtonsProps> {
-  private readonly buttonSize = 32;
+  private readonly buttonSize = 64;
 
   template: Template = [
     {

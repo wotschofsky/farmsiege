@@ -18,7 +18,7 @@ export type WASDButtonsProps = {
 };
 
 export default class WASDButtons extends Component<WASDButtonsProps> {
-  private readonly buttonSize = 32;
+  private readonly buttonSize = 64;
 
   template: Template = [
     {

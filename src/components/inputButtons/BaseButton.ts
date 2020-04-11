@@ -16,7 +16,7 @@ export type BaseButtonProps = {
 };
 
 export default class BaseButton extends Component<BaseButtonProps> {
-  private readonly buttonSize = 32;
+  private readonly buttonSize = 64;
 
   template: Template = [
     {
