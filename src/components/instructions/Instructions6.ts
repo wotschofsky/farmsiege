@@ -66,14 +66,14 @@ export default class Instructions6 extends Component<Instructions6Props> {
     },
     {
       component: new KeyboardSpaceButton(),
-      position: (): Coordinates => new Coordinates(400, 100),
+      position: (): Coordinates => new Coordinates(373, 75),
       props: (): KeyboardSpaceButtonProps => ({
         pressed: this.buttonPressed
       })
     },
     {
       component: new ControllerBButton(),
-      position: (): Coordinates => new Coordinates(400, 150),
+      position: (): Coordinates => new Coordinates(425, 150),
       props: (): ControllerBButtonProps => ({
         pressed: this.buttonPressed
       })

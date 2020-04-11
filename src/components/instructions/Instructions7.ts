@@ -100,14 +100,14 @@ export default class Instructions7 extends Component<Instructions7Props> {
     },
     {
       component: new KeyboardCButton(),
-      position: (): Coordinates => new Coordinates(400, 100),
+      position: (): Coordinates => new Coordinates(425, 75),
       props: (): KeyboardCButtonProps => ({
         pressed: this.buttonPressed
       })
     },
     {
       component: new ControllerXButton(),
-      position: (): Coordinates => new Coordinates(400, 150),
+      position: (): Coordinates => new Coordinates(425, 150),
       props: (): ControllerXButtonProps => ({
         pressed: this.buttonPressed
       })

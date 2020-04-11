@@ -54,14 +54,14 @@ export default class Instructions2 extends Component<Instructions2Props> {
     },
     {
       component: new KeyboardVButton(),
-      position: (): Coordinates => new Coordinates(400, 100),
+      position: (): Coordinates => new Coordinates(425, 75),
       props: (): KeyboardVButtonProps => ({
         pressed: this.buttonPressed
       })
     },
     {
       component: new ControllerAButton(),
-      position: (): Coordinates => new Coordinates(400, 150),
+      position: (): Coordinates => new Coordinates(425, 150),
       props: (): ControllerAButtonProps => ({
         pressed: this.buttonPressed
       })
