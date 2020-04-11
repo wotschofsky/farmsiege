@@ -11,8 +11,9 @@ import { HoldableItems } from '../../store/CharacterStore';
 import BulletData from '../../store/models/BulletData';
 import Character, { CharacterProps } from '../character/Character';
 import ControllerXButton, { ControllerXButtonProps } from '../inputButtons/ControllerXButton';
-import Rabbit, { RabbitProps } from '../animals/Rabbit';
 import KeyboardCButton, { KeyboardCButtonProps } from '../inputButtons/KeyboardCButton';
+import Rabbit, { RabbitProps } from '../animals/Rabbit';
+import values from '../../values.json';
 
 export type Instructions7Props = {};
 
@@ -56,6 +57,11 @@ export default class Instructions7 extends Component<Instructions7Props> {
     return time >= 1500 && time < 1750;
   }
 
+  private get showScore(): boolean {
+    const time = this.timer % 2600;
+    return time >= 1550;
+  }
+
   protected template: Template = [
     {
       component: new Text(),
@@ -73,6 +79,16 @@ export default class Instructions7 extends Component<Instructions7Props> {
         moving: false
       }),
       show: (): boolean => this.showRabbit
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(350, 150),
+      props: (): TextProps => ({
+        text: `+${values.scores.rabbit}`,
+        color: '#fff',
+        size: 36
+      }),
+      show: (): boolean => this.showScore
     },
     {
       component: new Character(),

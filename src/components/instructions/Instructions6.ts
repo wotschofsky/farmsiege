@@ -1,15 +1,16 @@
-import Component from '../../../lib/Component';
-import { Template } from '../../../lib/Types';
-import Coordinates from '../../../lib/helpers/Coordinates';
-import Text, { TextProps } from '../../../lib/components/native/Text';
-import PropsContext from '../../../lib/PropsContext';
-import Tomato, { TomatoProps } from '../plants/Tomato';
-import Molehill, { MolehillProps } from '../MoleHill';
-import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
+import { Template } from '../../../lib/Types';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
+import PropsContext from '../../../lib/PropsContext';
+import Text, { TextProps } from '../../../lib/components/native/Text';
+
 import { HoldableItems } from '../../store/CharacterStore';
-import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
+import Character, { CharacterProps } from '../character/Character';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
+import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
+import Molehill, { MolehillProps } from '../MoleHill';
+import values from '../../values.json';
 
 export type Instructions6Props = {};
 
@@ -38,6 +39,11 @@ export default class Instructions6 extends Component<Instructions6Props> {
     return (2000 - 1900) / 100;
   }
 
+  private get showScore(): boolean {
+    const time = this.timer % 3000;
+    return time > 2000;
+  }
+
   protected template: Template = [
     {
       component: new Text(),
@@ -54,6 +60,16 @@ export default class Instructions6 extends Component<Instructions6Props> {
         moleVisible: true
       }),
       show: (): boolean => this.showMole
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(280, 120),
+      props: (): TextProps => ({
+        text: `+${values.scores.mole}`,
+        color: '#fff',
+        size: 36
+      }),
+      show: (): boolean => this.showScore
     },
     {
       component: new Character(),
