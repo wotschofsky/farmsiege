@@ -20,11 +20,12 @@ import Instructions6 from '../components/instructions/Instructions6';
 import Instructions7 from '../components/instructions/Instructions7';
 import Instructions8 from '../components/instructions/Instructions8';
 import Instructions9 from '../components/instructions/Instructions9';
+import Instructions10 from '../components/instructions/Instructions10';
 
 export type HelpScreenProps = {};
 
 export default class HelpScreen extends Component<HelpScreenProps> {
-  private totalPages = 9;
+  private totalPages = 10;
   private currentPage = 1;
 
   private goBack(): void {
@@ -108,6 +109,11 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       component: new Instructions9(),
       position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
       show: (): boolean => this.currentPage === 9
+    },
+    {
+      component: new Instructions10(),
+      position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+      show: (): boolean => this.currentPage === 10
     },
 
     {
