@@ -44,7 +44,8 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
       props: (): TextProps => ({
         text: 'Click on a part of the character to change it',
         color: '#fff',
-        size: 32
+        font: 'Heartbit',
+        size: 40
       })
     },
     {

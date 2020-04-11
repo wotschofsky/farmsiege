@@ -35,7 +35,12 @@ export default class Rabbit extends Component<RabbitProps> {
           interval: 100
         };
       },
-      show: (ctx: PropsContext<RabbitProps>): boolean => ctx.props.moving
+      show: (ctx: PropsContext<RabbitProps> | undefined): boolean => {
+        if (!ctx) {
+          return false;
+        }
+        return ctx.props.moving;
+      }
     },
     {
       component: new Sprite(),
@@ -51,7 +56,12 @@ export default class Rabbit extends Component<RabbitProps> {
           height: 108 * 2
         };
       },
-      show: (ctx: PropsContext<RabbitProps>): boolean => !ctx.props.moving
+      show: (ctx: PropsContext<RabbitProps> | undefined): boolean => {
+        if (!ctx) {
+          return false;
+        }
+        return !ctx.props.moving;
+      }
     }
   ];
 }

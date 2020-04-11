@@ -43,12 +43,14 @@ export default class Highscores extends Component<HighscoresProps> {
         list: this.scores,
         component: (): Text => new Text(),
         position: (data: ScoreData, index: number): Coordinates => {
-          return new Coordinates(0, index * 30);
+          return new Coordinates(0, index * 36);
         },
         props: (data: ScoreData, index: number): TextProps => {
           return {
             text: `#${index + 1} ${data.name}: ${data.score}`,
-            color: '#fff'
+            color: '#fff',
+            font: 'Heartbit',
+            size: 40
           };
         }
       })

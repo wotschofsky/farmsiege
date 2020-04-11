@@ -26,7 +26,9 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
 
         return {
           text: `${statsStore.content.score} Points`,
-          color: '#fff'
+          color: '#fff',
+          font: 'Heartbit',
+          size: 32
         };
       }
     }

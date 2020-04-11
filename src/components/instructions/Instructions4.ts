@@ -1,10 +1,12 @@
-import Component from '../../../lib/Component';
-import { Template } from '../../../lib/Types';
-import Coordinates from '../../../lib/helpers/Coordinates';
-import Text, { TextProps } from '../../../lib/components/native/Text';
-import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
+import { Template } from '../../../lib/Types';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
+import Text, { TextProps } from '../../../lib/components/native/Text';
+
+import Character, { CharacterProps } from '../character/Character';
+import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
 import Tomato, { TomatoProps } from '../plants/Tomato';
 
 export type Instructions4Props = {};
@@ -41,12 +43,10 @@ export default class Instructions4 extends Component<Instructions4Props> {
       })
     },
     {
-      component: new Text(),
+      component: new ScoreEffect(),
       position: (): Coordinates => new Coordinates(300, 100),
-      props: (): TextProps => ({
-        text: '+0',
-        color: '#fff',
-        size: 36
+      props: (): ScoreEffectProps => ({
+        value: 0
       }),
       show: (): boolean => this.showScore
     },
@@ -54,8 +54,10 @@ export default class Instructions4 extends Component<Instructions4Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Note: You only get points for fully grown plants.',
-        color: '#fff'
+        text: 'Note: You only grown plants give you points!',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
       })
     }
   ];
