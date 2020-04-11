@@ -20,38 +20,25 @@ export default class Instructions6 extends Component<Instructions6Props> {
     this.timer += timeDifference;
   }
 
-  private get showPlant(): boolean {
-    const time = this.timer % 4000;
-    return time < 1500;
-  }
-
   private get showMole(): boolean {
-    const time = this.timer % 4000;
-    return time >= 1500 && time < 3000;
+    const time = this.timer % 3000;
+    return time >= 0 && time < 1925;
   }
 
   private get buttonPressed(): boolean {
-    const currentTimer = this.timer % 4000;
-    return currentTimer >= 2900 && currentTimer < 3150;
+    const currentTimer = this.timer % 3000;
+    return currentTimer >= 1900 && currentTimer < 2150;
   }
 
   private get hammerPosition(): number {
-    const time = this.timer % 4000;
-    if (time < 2900 || time > 3000) {
+    const time = this.timer % 3000;
+    if (time < 1900 || time > 2000) {
       return 0;
     }
-    return (3000 - 2900) / 100;
+    return (2000 - 1900) / 100;
   }
 
   protected template: Template = [
-    {
-      component: new Tomato(),
-      position: (): Coordinates => new Coordinates(180, 100),
-      props: (): TomatoProps => ({
-        age: 3
-      }),
-      show: (): boolean => this.showPlant
-    },
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
