@@ -63,8 +63,7 @@ export default class Instructions3 extends Component<Instructions3Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Press Space or B to clear the selected field (also harvesting crops)',
-        color: '#fff'
+        text: 'Harvest crops!',
       })
     },
     {
