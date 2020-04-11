@@ -6,9 +6,10 @@ import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 
-import Tomato, { TomatoProps } from '../plants/Tomato';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
+import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
+import Tomato, { TomatoProps } from '../plants/Tomato';
 import values from '../../values.json';
 
 export type Instructions3Props = {};
@@ -50,12 +51,10 @@ export default class Instructions3 extends Component<Instructions3Props> {
       })
     },
     {
-      component: new Text(),
+      component: new ScoreEffect(),
       position: (): Coordinates => new Coordinates(300, 100),
-      props: (): TextProps => ({
-        text: `+${values.scores.plant}`,
-        color: '#fff',
-        size: 36
+      props: (): ScoreEffectProps => ({
+        value: values.scores.plant
       }),
       show: (): boolean => this.showScore
     },

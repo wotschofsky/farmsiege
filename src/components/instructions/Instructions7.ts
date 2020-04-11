@@ -13,6 +13,7 @@ import Character, { CharacterProps } from '../character/Character';
 import ControllerXButton, { ControllerXButtonProps } from '../inputButtons/ControllerXButton';
 import KeyboardCButton, { KeyboardCButtonProps } from '../inputButtons/KeyboardCButton';
 import Rabbit, { RabbitProps } from '../animals/Rabbit';
+import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
 import values from '../../values.json';
 
 export type Instructions7Props = {};
@@ -81,12 +82,10 @@ export default class Instructions7 extends Component<Instructions7Props> {
       show: (): boolean => this.showRabbit
     },
     {
-      component: new Text(),
+      component: new ScoreEffect(),
       position: (): Coordinates => new Coordinates(350, 150),
-      props: (): TextProps => ({
-        text: `+${values.scores.rabbit}`,
-        color: '#fff',
-        size: 36
+      props: (): ScoreEffectProps => ({
+        value: values.scores.rabbit
       }),
       show: (): boolean => this.showScore
     },

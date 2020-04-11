@@ -9,6 +9,7 @@ import { HoldableItems } from '../../store/CharacterStore';
 import Character, { CharacterProps } from '../character/Character';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
+import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
 import Weed from '../plants/Weed';
 import values from '../../values.json';
 
@@ -71,12 +72,10 @@ export default class Instructions8 extends Component<Instructions8Props> {
       show: (): boolean => this.showWeed3
     },
     {
-      component: new Text(),
+      component: new ScoreEffect(),
       position: (): Coordinates => new Coordinates(192, 100),
-      props: (): TextProps => ({
-        text: `+${values.scores.weed}`,
-        color: '#fff',
-        size: 36
+      props: (): ScoreEffectProps => ({
+        value: values.scores.weed
       }),
       show: (): boolean => this.showScore
     },

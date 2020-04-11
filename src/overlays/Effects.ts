@@ -1,12 +1,13 @@
-import Component from '../../lib/Component';
 import { Template } from '../../lib/Types';
-import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
+import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
+
 import EffectsStore from '../store/EffectsStore';
-import SmokeData from '../store/effects/SmokeData';
+import ScoreEffect, { ScoreEffectProps } from '../components/ScoreEffect';
 import ScoreEffectData from '../store/effects/ScoreEffectData';
 import Smoke from '../components/Smoke';
-import Text, { TextProps } from '../../lib/components/native/Text';
+import SmokeData from '../store/effects/SmokeData';
 
 type EffectsProps = {};
 
@@ -34,14 +35,11 @@ export default class Effects extends Component<EffectsProps> {
 
         return {
           list: effectsStore.content.scores,
-          component: (): Text => new Text(),
-          position: (data: ScoreEffectData): Coordinates => {
-            return new Coordinates(data.position.x, data.position.y - data.verticalOffset);
-          },
-          props: (data: ScoreEffectData): TextProps => ({
-            text: `+${data.value}`,
-            color: '#fff',
-            size: 36
+          component: (): ScoreEffect => new ScoreEffect(),
+          position: (data: ScoreEffectData): Coordinates =>
+            new Coordinates(data.position.x, data.position.y - data.verticalOffset),
+          props: (data: ScoreEffectData): ScoreEffectProps => ({
+            value: data.value
           })
         };
       }

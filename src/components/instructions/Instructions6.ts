@@ -10,6 +10,7 @@ import Character, { CharacterProps } from '../character/Character';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
 import Molehill, { MolehillProps } from '../MoleHill';
+import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
 import values from '../../values.json';
 
 export type Instructions6Props = {};
@@ -62,12 +63,10 @@ export default class Instructions6 extends Component<Instructions6Props> {
       show: (): boolean => this.showMole
     },
     {
-      component: new Text(),
+      component: new ScoreEffect(),
       position: (): Coordinates => new Coordinates(280, 120),
-      props: (): TextProps => ({
-        text: `+${values.scores.mole}`,
-        color: '#fff',
-        size: 36
+      props: (): ScoreEffectProps => ({
+        value: values.scores.mole
       }),
       show: (): boolean => this.showScore
     },
