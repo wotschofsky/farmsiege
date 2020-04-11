@@ -14,10 +14,13 @@ Rauch Effekt https://opengameart.org/content/smoke-fire-animated-particle-16x16 
 Shotgun https://asgaard42.itch.io/rifle-and-shotgun-sprites am 10.04.2020 \
 Hammer https://opengameart.org/content/heavy-iron-hammer am 10.04.2020
 
-
 ## Sounds
 
 Waffen Sound http://soundbible.com/2095-Mossberg-500-Pump-Shotgun.html am 17.09.2019
+
+## Fonts
+
+Heartbit https://arcade.itch.io/heartbit am 11.04.2020
 
 ## Sources
 
@@ -49,10 +52,6 @@ rollup-plugin-copy Dokumentation \
 11.01.2020 \
 https://www.npmjs.com/package/rollup-plugin-copy
 
-Press Start 2P Font \
-11.01.2020 \
-https://google-webfonts-helper.herokuapp.com/fonts/press-start-2p
-
 Audiodateien per JavaScript wiedergeben \
 11.01.2020 \
 https://stackoverflow.com/a/27890570/12475254
@@ -78,3 +77,7 @@ https://easings.net/
 Keyboard/Controller Key Sprites \
 08.04.2020 \
 https://hyohnoo.itch.io/keyboard-controller-keys
+
+Drawing rotated images into canvas \
+10.04.2020 \
+http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/index.html
