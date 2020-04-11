@@ -1,33 +1,59 @@
-import Component from '../../../lib/Component';
-import { Template } from '../../../lib/Types';
-import Coordinates from '../../../lib/helpers/Coordinates';
-import Text, { TextProps } from '../../../lib/components/native/Text';
-import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
+import { Template } from '../../../lib/Types';
+import Character, { CharacterProps } from '../character/Character';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
-import WASDButtons, { WASDButtonsProps } from '../inputButtons/KeyboardWASDButtons';
+
+import { HoldableItems } from '../../store/CharacterStore';
 import ArrowButtons, { ArrowButtonsProps } from '../inputButtons/KeyboardArrowButtons';
+import WASDButtons, { WASDButtonsProps } from '../inputButtons/KeyboardWASDButtons';
 
 export type Instructions1Props = {};
 
 export default class Instructions1 extends Component<Instructions1Props> {
   private movingDirection = Directions.Right;
-  private position = 0;
-  private turnPointLeft = 0;
-  private turnPointRight = 350;
+  private positionX = 300;
+  private positionY = 100;
+  private readonly turningPointLeft = 250;
+  private readonly turningPointRight = 400;
+  private readonly turningPointTop = -120;
+  private readonly turningPointBottom = 25;
+  private readonly movementSpeed = 375;
 
   onTick(ctx: PropsContext<Instructions1>, timeDifference: number): void {
-    if (this.movingDirection === Directions.Right) {
-      this.position += 750 * (timeDifference / 1000);
-    } else {
-      this.position -= 750 * (timeDifference / 1000);
+    switch (this.movingDirection) {
+      case Directions.Right:
+        this.positionX += this.movementSpeed * (timeDifference / 1000);
+        break;
+      case Directions.Left:
+        this.positionX -= this.movementSpeed * (timeDifference / 1000);
+        break;
+      case Directions.Up:
+        this.positionY -= this.movementSpeed * (timeDifference / 1000);
+        break;
+      case Directions.Down:
+        this.positionY += this.movementSpeed * (timeDifference / 1000);
+        break;
     }
 
-    if (this.position > this.turnPointRight) {
+    if (this.positionX > this.turningPointRight) {
+      this.positionX = this.turningPointRight;
+      this.movingDirection = Directions.Up;
+    }
+
+    if (this.positionX < this.turningPointLeft) {
+      this.positionX = this.turningPointLeft;
+      this.movingDirection = Directions.Down;
+    }
+
+    if (this.positionY < this.turningPointTop) {
+      this.positionY = this.turningPointTop;
       this.movingDirection = Directions.Left;
     }
 
-    if (this.position < this.turnPointLeft) {
+    if (this.positionY > this.turningPointBottom) {
+      this.positionY = this.turningPointBottom;
       this.movingDirection = Directions.Right;
     }
   }
@@ -35,24 +61,31 @@ export default class Instructions1 extends Component<Instructions1Props> {
   protected template: Template = [
     {
       component: new Character(),
-      position: (): Coordinates => new Coordinates(this.position, 0),
+      position: (): Coordinates => new Coordinates(this.positionX, this.positionY),
       props: (): CharacterProps => ({
-        direction: this.movingDirection
-      })
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(0, 0),
-      props: (): TextProps => ({
-        text: 'Move using WASD, Arrow Keys or Left Stick',
-        color: '#fff'
+        direction: this.movingDirection,
+        heldItem: HoldableItems.None
       })
     },
     {
       component: new ArrowButtons(),
-      position: (): Coordinates => new Coordinates(300, -85),
+      position: (): Coordinates => new Coordinates(0, -20),
       props: (): ArrowButtonsProps => {
-        const activeKey = this.movingDirection === Directions.Left ? 'left' : 'right';
+        let activeKey: 'up' | 'left' | 'down' | 'right';
+        switch (this.movingDirection) {
+          case Directions.Up:
+            activeKey = 'up';
+            break;
+          case Directions.Left:
+            activeKey = 'left';
+            break;
+          case Directions.Down:
+            activeKey = 'down';
+            break;
+          case Directions.Right:
+            activeKey = 'right';
+            break;
+        }
 
         return {
           pressed: [activeKey]
@@ -61,9 +94,23 @@ export default class Instructions1 extends Component<Instructions1Props> {
     },
     {
       component: new WASDButtons(),
-      position: (): Coordinates => new Coordinates(420, -85),
+      position: (): Coordinates => new Coordinates(0, 124),
       props: (): WASDButtonsProps => {
-        const activeKey = this.movingDirection === Directions.Left ? 'a' : 'd';
+        let activeKey: 'w' | 'a' | 's' | 'd';
+        switch (this.movingDirection) {
+          case Directions.Up:
+            activeKey = 'w';
+            break;
+          case Directions.Left:
+            activeKey = 'a';
+            break;
+          case Directions.Down:
+            activeKey = 's';
+            break;
+          case Directions.Right:
+            activeKey = 'd';
+            break;
+        }
 
         return {
           pressed: [activeKey]
