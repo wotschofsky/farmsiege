@@ -7,14 +7,14 @@ import BaseButton, { ButtonPropsTemplate, BaseButtonProps } from './BaseButton';
 import keyboardVSprite from '../../assets/inputs/keyboard_v.png';
 import keyboardVPressedSprite from '../../assets/inputs/keyboard_v_pressed.png';
 
-export type VButtonProps = ButtonPropsTemplate;
+export type KeyboardVButtonProps = ButtonPropsTemplate;
 
-export default class VButton extends Component<VButtonProps> {
+export default class KeyboardVButton extends Component<KeyboardVButtonProps> {
   template: Template = [
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(0, 0),
-      props: (ctx: PropsContext<VButtonProps>): BaseButtonProps => ({
+      props: (ctx: PropsContext<KeyboardVButtonProps>): BaseButtonProps => ({
         pressed: ctx.props.pressed,
         sprite: keyboardVSprite,
         spritePressed: keyboardVPressedSprite
