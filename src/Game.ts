@@ -123,14 +123,20 @@ class Game extends Component<{}> {
         if (statsStore.content.score > 0) {
           const name = prompt('Please enter your name', '');
           if (!!name && name.trim().length >= 1) {
+            const score = statsStore.content.score;
+
             await fetch('https://garden-defense.firebaseio.com/highscores.json', {
               method: 'POST',
               body: JSON.stringify({
-                score: statsStore.content.score,
+                score: score,
                 name: name.trim()
               })
             });
-            miscStore.fetchHighscores();
+
+            const highscores = miscStore.content.highscores;
+            if (highscores[highscores.length - 1].score < score) {
+              miscStore.fetchHighscores();
+            }
           }
         }
 
