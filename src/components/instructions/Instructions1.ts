@@ -7,6 +7,7 @@ import PropsContext from '../../../lib/PropsContext';
 
 import { HoldableItems } from '../../store/CharacterStore';
 import ArrowButtons, { ArrowButtonsProps } from '../inputButtons/KeyboardArrowButtons';
+import ControllerStick, { ControllerStickProps } from '../inputButtons/ContollerStick';
 import WASDButtons, { WASDButtonsProps } from '../inputButtons/KeyboardWASDButtons';
 
 export type Instructions1Props = {};
@@ -116,6 +117,14 @@ export default class Instructions1 extends Component<Instructions1Props> {
           pressed: [activeKey]
         };
       }
+    },
+    {
+      component: new ControllerStick(),
+      position: (): Coordinates => new Coordinates(200, 124),
+      props: (): ControllerStickProps => ({
+        type: 'left',
+        direction: this.movingDirection
+      })
     }
   ];
 }
