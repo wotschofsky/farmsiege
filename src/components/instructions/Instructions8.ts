@@ -74,7 +74,7 @@ export default class Instructions8 extends Component<Instructions8Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(192, 100),
       props: (): TextProps => ({
-        text: `+${values.scores.plant}`,
+        text: `+${values.scores.weed}`,
         color: '#fff',
         size: 36
       }),
