@@ -13,9 +13,9 @@ export default class BulletData {
   }
 
   public update(timeDifference: number): void {
-    (this._x = this._x + Math.cos(this._direction) * timeDifference * 3),
-      (this._y = this._y + Math.sin(this._direction) * timeDifference * 3),
-      (this._age = this._age + timeDifference);
+    this._x = this._x + Math.cos(this._direction) * timeDifference * 3;
+    this._y = this._y + Math.sin(this._direction) * timeDifference * 3;
+    this._age = this._age + timeDifference;
   }
 
   public get x(): number {
