@@ -17,11 +17,12 @@ import Instructions3 from '../components/instructions/Instructions3';
 import Instructions4 from '../components/instructions/Instructions4';
 import Instructions5 from '../components/instructions/Instructions5';
 import Instructions6 from '../components/instructions/Instructions6';
+import Instructions7 from '../components/instructions/Instructions7';
 
 export type HelpScreenProps = {};
 
 export default class HelpScreen extends Component<HelpScreenProps> {
-  private totalPages = 6;
+  private totalPages = 7;
   private currentPage = 1;
 
   private goBack(): void {
@@ -90,6 +91,11 @@ export default class HelpScreen extends Component<HelpScreenProps> {
       component: new Instructions6(),
       position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
       show: (): boolean => this.currentPage === 6
+    },
+    {
+      component: new Instructions7(),
+      position: (): Coordinates => new Coordinates(500 + 50, 400 + 125),
+      show: (): boolean => this.currentPage === 7
     },
 
     {
