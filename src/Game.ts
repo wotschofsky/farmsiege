@@ -26,6 +26,7 @@ import CosmeticsScreen from './screens/CosmeticsScreen';
 import Foreground from './components/surroundings/Foreground';
 import ScoreCounter from './components/ScoreCounter';
 import GameOverEffect from './overlays/GameOverEffect';
+import MiscStore from './store/MiscStore';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
@@ -95,6 +96,9 @@ class Game extends Component<{}> {
 
     const settingsStore = new SettingsStore();
     this.registerStore(settingsStore);
+
+    const miscStore = new MiscStore();
+    this.registerStore(miscStore);
   }
 
   protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
