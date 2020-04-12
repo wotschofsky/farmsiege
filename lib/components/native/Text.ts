@@ -7,11 +7,12 @@ export type TextProps = {
   color?: string;
   font?: string;
   size?: number;
+  align?: CanvasTextAlign;
 };
 
 export default class Text extends Component<TextProps> {
   public render(context: RenderingContext, position: Coordinates, props: TextProps): void {
-    context.renderContext.textAlign = 'left';
+    context.renderContext.textAlign = props.align || 'start';
     context.renderContext.fillStyle = props.color || 'black';
     context.renderContext.font = `${(props.size || 16) * context.scaleFactor}px ${props.font || 'Arial'}`;
     context.renderContext.fillText(
