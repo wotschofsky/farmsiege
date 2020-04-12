@@ -34,6 +34,10 @@ export default class RenderUtils {
 
         context.renderContext.rotate(transformConfig.rotate.angle);
       }
+
+      if (transformConfig.opacity) {
+        context.renderContext.globalAlpha = transformConfig.opacity.value;
+      }
     }
 
     item.component.render(
