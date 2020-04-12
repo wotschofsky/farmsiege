@@ -81,3 +81,15 @@ https://hyohnoo.itch.io/keyboard-controller-keys
 Drawing rotated images into canvas \
 10.04.2020 \
 http://creativejs.com/2012/01/day-10-drawing-rotated-images-into-canvas/index.html
+
+Canvas globalAlpha \
+12.04.2020 \
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/globalAlpha
+
+Http Feature-Policy header \
+12.04.2020 \
+https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/autoplay
+
+Zeit Now Routes
+12.04.2020 \
+https://zeit.co/docs/configuration#routes/headers
