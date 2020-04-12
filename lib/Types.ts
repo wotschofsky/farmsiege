@@ -7,6 +7,9 @@ export type TransformationConfig = {
     center: Coordinates;
     angle: number;
   };
+  opacity?: {
+    value: number;
+  };
 };
 
 export type TemplateItem = {
