@@ -6,3 +6,5 @@ yarn-error.log
 
 src/assets/soundtrack/**
 !src/assets/soundtrack/**.mp3
+
+.now

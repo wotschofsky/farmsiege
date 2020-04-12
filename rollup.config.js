@@ -1,4 +1,4 @@
-import { eslint } from 'rollup-plugin-eslint';
+// import { eslint } from 'rollup-plugin-eslint';
 import { terser } from 'rollup-plugin-terser';
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
@@ -17,7 +17,8 @@ if (!process.env.PRODUCTION) {
   devConfig = [
     serve({
       contentBase: './dist/',
-      open: false
+      open: false,
+      port: process.env.PORT || 10001
     }),
     livereload({
       watch: 'dist'

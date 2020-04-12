@@ -1,0 +1,11 @@
+{
+  "routes": [
+    {
+      "src": "/*",
+      "headers": {
+        "Feature-Policy": "autoplay 'self'"
+      },
+      "continue": true
+    }
+  ]
+}
