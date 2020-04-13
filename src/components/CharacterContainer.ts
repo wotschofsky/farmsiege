@@ -78,14 +78,11 @@ export default class CharacterContainer extends Component<CharacterContainerProp
               characterStore.heldItem = HoldableItems.Shovel;
               break;
             case TileContents.Weed:
+              addedScore = values.scores.weed;
               characterStore.heldItem = HoldableItems.Shovel;
               break;
             case TileContents.Molehill:
               characterStore.heldItem = HoldableItems.Shovel;
-              break;
-
-            case TileContents.Weed:
-              addedScore = values.scores.weed;
               break;
           }
 
