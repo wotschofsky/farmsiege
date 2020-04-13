@@ -47,10 +47,10 @@ export default class CharacterContainer extends Component<CharacterContainerProp
     if (!effectsStore.directContent.gameOver.active) {
       let moveX = 0;
       let moveY = 0;
-      if (inputs.up) moveY -= 1000 * (timeDifference / 1000);
-      if (inputs.down) moveY += 1000 * (timeDifference / 1000);
-      if (inputs.right) moveX += 1000 * (timeDifference / 1000);
-      if (inputs.left) moveX -= 1000 * (timeDifference / 1000);
+      if (inputs.up) moveY -= inputs.up * 1000 * (timeDifference / 1000);
+      if (inputs.down) moveY += inputs.down * 1000 * (timeDifference / 1000);
+      if (inputs.right) moveX += inputs.right * 1000 * (timeDifference / 1000);
+      if (inputs.left) moveX -= inputs.left * 1000 * (timeDifference / 1000);
 
       this.hasMoved = moveX !== 0;
 

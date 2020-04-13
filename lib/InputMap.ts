@@ -30,6 +30,8 @@ export enum GamepadButtons {
 }
 
 export default class InputMap {
+  private readonly analogDeadzone = 0.2;
+
   private activeKeys: string[] = [];
   private template: Record<string, string[]>;
   private usedKeys: string[] = [];
@@ -70,13 +72,13 @@ export default class InputMap {
     });
   }
 
-  public get pressed(): { [key: string]: boolean } {
-    const mappedKeys: Record<string, boolean> = {};
+  public get pressed(): { [key: string]: number } {
+    const mappedKeys: { [key: string]: number } = {};
     for (const key in this.template) {
-      let active = false;
+      let value = 0;
       this.template[key].forEach(code => {
         if (this.activeKeys.includes(code)) {
-          active = true;
+          value = 1;
 
           if (key.startsWith('!')) {
             this.removeActiveKey(code);
@@ -87,71 +89,71 @@ export default class InputMap {
           for (const gamepad of navigator.getGamepads()) {
             if (gamepad) {
               if (code === GamepadButtons.ButtonA && gamepad.buttons[0].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.ButtonB && gamepad.buttons[1].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.ButtonX && gamepad.buttons[2].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.ButtonY && gamepad.buttons[3].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.BumperLeft && gamepad.buttons[4].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.BumperRight && gamepad.buttons[5].pressed) {
-                active = true;
+                value = 1;
               }
 
-              if (code === GamepadButtons.TriggerLeft && gamepad.buttons[6].pressed) {
-                active = true;
+              if (code === GamepadButtons.TriggerLeft && gamepad.buttons[6].value > this.analogDeadzone) {
+                value = gamepad.buttons[6].value;
               }
 
-              if (code === GamepadButtons.TriggerRight && gamepad.buttons[7].pressed) {
-                active = true;
+              if (code === GamepadButtons.TriggerRight && gamepad.buttons[7].value > this.analogDeadzone) {
+                value = gamepad.buttons[7].value;
               }
 
               if (code === GamepadButtons.ButtonBack && gamepad.buttons[8].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.ButtonStart && gamepad.buttons[9].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.StickLeft && gamepad.buttons[10].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.StickRight && gamepad.buttons[11].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.DpadUp && gamepad.buttons[12].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.DpadDown && gamepad.buttons[13].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.DpadLeft && gamepad.buttons[14].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.DpadRight && gamepad.buttons[15].pressed) {
-                active = true;
+                value = 1;
               }
 
               if (code === GamepadButtons.Button16 && gamepad.buttons[16].pressed) {
-                active = true;
+                value = 1;
               }
             }
           }
@@ -163,43 +165,43 @@ export default class InputMap {
               const { axes } = gamepad;
               switch (code) {
                 case GamepadStickDirections.LeftStickLeft:
-                  if (axes[0] < -0.5) {
-                    active = true;
+                  if (axes[0] < -this.analogDeadzone) {
+                    value = Math.abs(axes[0]);
                   }
                   break;
                 case GamepadStickDirections.LeftStickRight:
-                  if (axes[0] > 0.5) {
-                    active = true;
+                  if (axes[0] > this.analogDeadzone) {
+                    value = Math.abs(axes[0]);
                   }
                   break;
                 case GamepadStickDirections.LeftStickUp:
-                  if (axes[1] < -0.5) {
-                    active = true;
+                  if (axes[1] < -this.analogDeadzone) {
+                    value = Math.abs(axes[1]);
                   }
                   break;
                 case GamepadStickDirections.LeftStickDown:
-                  if (axes[1] > 0.5) {
-                    active = true;
+                  if (axes[1] > this.analogDeadzone) {
+                    value = Math.abs(axes[1]);
                   }
                   break;
                 case GamepadStickDirections.RightStickLeft:
-                  if (axes[2] < -0.5) {
-                    active = true;
+                  if (axes[2] < -this.analogDeadzone) {
+                    value = Math.abs(axes[2]);
                   }
                   break;
                 case GamepadStickDirections.RightStickRight:
-                  if (axes[2] > 0.5) {
-                    active = true;
+                  if (axes[2] > this.analogDeadzone) {
+                    value = Math.abs(axes[2]);
                   }
                   break;
                 case GamepadStickDirections.RightStickUp:
-                  if (axes[3] < -0.5) {
-                    active = true;
+                  if (axes[3] < -this.analogDeadzone) {
+                    value = Math.abs(axes[3]);
                   }
                   break;
                 case GamepadStickDirections.RightStickDown:
-                  if (axes[3] > 0.5) {
-                    active = true;
+                  if (axes[3] > this.analogDeadzone) {
+                    value = Math.abs(axes[3]);
                   }
                   break;
               }
@@ -207,7 +209,7 @@ export default class InputMap {
           }
         }
 
-        mappedKeys[key] = active;
+        mappedKeys[key] = value;
       });
     }
 
