@@ -3,17 +3,22 @@ import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Dimensions from '../../lib/helpers/Dimensions';
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
-import SettingsStore from '../store/SettingsStore';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
+import MiscStore from '../store/MiscStore';
 import muteIconSprite from '../assets/ui/icons/mute.png';
+import SettingsStore from '../store/SettingsStore';
 import volumeIconSprite from '../assets/ui/icons/volume.png';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
 
 export type MuteButtonProps = {};
 
 export default class MuteButton extends Component<MuteButtonProps> {
   private toggleMusic(): void {
+    const miscStore = <MiscStore>this.stores.misc;
+    if (miscStore.content.splashScreenShowing) {
+      return;
+    }
+
     const settingsStore = <SettingsStore>this.stores.settings;
     settingsStore.toggleMusic();
   }

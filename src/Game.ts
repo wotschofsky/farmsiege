@@ -27,7 +27,7 @@ import Foreground from './components/surroundings/Foreground';
 import ScoreCounter from './components/ScoreCounter';
 import GameOverEffect from './overlays/GameOverEffect';
 import MiscStore from './store/MiscStore';
-import SplashScreen from './overlays/SplashScreen';
+import SplashScreen, { SplashScreenProps } from './overlays/SplashScreen';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
@@ -211,7 +211,13 @@ class Game extends Component<{}> {
     },
     {
       component: new SplashScreen(),
-      position: (): Coordinates => new Coordinates(0, 0)
+      position: (): Coordinates => new Coordinates(0, 0),
+      props: (): SplashScreenProps => ({
+        finishedCallback: (): void => {
+          const miscStore = <MiscStore>this.stores.misc;
+          miscStore.setSplashScreenShown();
+        }
+      })
     }
   ];
 }

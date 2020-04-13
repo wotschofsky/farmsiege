@@ -23,6 +23,11 @@ export type StartScreenProps = {};
 
 export default class StartScreen extends Component<StartScreenProps> {
   private startGame(): void {
+    const miscStore = <MiscStore>this.stores.misc;
+    if (miscStore.content.splashScreenShowing) {
+      return;
+    }
+
     const gridStore = <GridStore>this.stores.grid;
     gridStore.reset();
 
@@ -37,8 +42,6 @@ export default class StartScreen extends Component<StartScreenProps> {
     } else {
       screensStore.setScreen(Screens.Help);
       screensStore.setOnReturn(() => {
-        const miscStore = <MiscStore>this.stores.misc;
-
         if (miscStore.content.instructionsPage !== 1) {
           Cookie.set('helpShown', 'true');
 
@@ -64,11 +67,14 @@ export default class StartScreen extends Component<StartScreenProps> {
   }
 
   private showHelp(): void {
+    const miscStore = <MiscStore>this.stores.misc;
+    if (miscStore.content.splashScreenShowing) {
+      return;
+    }
+
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Help);
     screensStore.setOnReturn(() => {
-      const miscStore = <MiscStore>this.stores.misc;
-
       if (miscStore.content.instructionsPage !== 1) {
         Cookie.set('helpShown', 'true');
       }
@@ -79,6 +85,11 @@ export default class StartScreen extends Component<StartScreenProps> {
   }
 
   private showCosmetics(): void {
+    const miscStore = <MiscStore>this.stores.misc;
+    if (miscStore.content.splashScreenShowing) {
+      return;
+    }
+
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Cosmetics);
     screensStore.setOnReturn(() => {

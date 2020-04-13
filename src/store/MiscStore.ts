@@ -6,13 +6,15 @@ import { ScoreData } from '../components/Highscores';
 type MiscStoreContent = {
   highscores: ScoreData[];
   instructionsPage: number;
+  splashScreenShowing: boolean;
 };
 
 export default class MiscStore extends Store<MiscStoreContent> {
   public constructor() {
     super('misc', {
       highscores: [],
-      instructionsPage: 1
+      instructionsPage: 1,
+      splashScreenShowing: true
     });
   }
 
@@ -64,5 +66,15 @@ export default class MiscStore extends Store<MiscStoreContent> {
     });
 
     this.setHighscores(sorted);
+  }
+
+  public setSplashScreenShown(): void {
+    this.update((oldState: MiscStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.splashScreenShowing = false;
+
+      return clonedState;
+    });
   }
 }

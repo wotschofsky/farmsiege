@@ -7,13 +7,21 @@ import Text, { TextProps } from '../../lib/components/native/Text';
 
 import Logo, { LogoProps } from '../components/Logo';
 
-export type SplashScreenProps = {};
+export type SplashScreenProps = {
+  finishedCallback: () => void;
+};
 
 export default class SplashScreen extends Component<SplashScreenProps> {
+  private readonly totalDuration = 3000;
   private timer = 0;
+  private callbackExecuted = false;
 
   protected onTick(ctx: PropsContext<SplashScreenProps>, timeDifference: number): void {
     this.timer += timeDifference;
+    if (this.timer >= this.totalDuration && !this.callbackExecuted) {
+      ctx.props.finishedCallback();
+      this.callbackExecuted = true;
+    }
   }
 
   private get logoProgress(): number {
