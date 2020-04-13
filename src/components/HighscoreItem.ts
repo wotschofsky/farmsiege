@@ -17,7 +17,31 @@ export default class HighscoreItem extends Component<HighscoreItemProps> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (ctx: PropsContext<HighscoreItemProps>): TextProps => {
         return {
-          text: `#${ctx.props.position} ${ctx.props.name}: ${ctx.props.score}`,
+          text: `#${ctx.props.position}`,
+          color: '#fff',
+          font: 'Heartbit',
+          size: 40
+        };
+      }
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(64, 0),
+      props: (ctx: PropsContext<HighscoreItemProps>): TextProps => {
+        return {
+          text: ctx.props.name,
+          color: '#fff',
+          font: 'Heartbit',
+          size: 40
+        };
+      }
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(384, 0),
+      props: (ctx: PropsContext<HighscoreItemProps>): TextProps => {
+        return {
+          text: ctx.props.score.toString(),
           color: '#fff',
           font: 'Heartbit',
           size: 40
