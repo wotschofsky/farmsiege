@@ -10,7 +10,6 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import CharacterStore from '../store/CharacterStore';
 import EffectsStore from '../store/EffectsStore';
 import GridStore from '../store/GridStore';
-import logo from '../assets/logo.png';
 import MovablesStore from '../store/MovablesStore';
 import ScreensStore, { Screens } from '../store/ScreensStore';
 import StatsStore from '../store/StatsStore';
@@ -18,6 +17,7 @@ import playButtonSprite from '../assets/ui/play.png';
 import helpButtonSprite from '../assets/ui/help.png';
 import cosmeticsButtonSprite from '../assets/ui/cosmetics.png';
 import MiscStore from '../store/MiscStore';
+import Logo from '../components/Logo';
 
 export type StartScreenProps = {};
 
@@ -88,13 +88,8 @@ export default class StartScreen extends Component<StartScreenProps> {
 
   protected template: Template = [
     {
-      component: new Sprite(),
-      position: (): Coordinates => new Coordinates(444, 150),
-      props: (): SpriteProps => ({
-        source: logo,
-        width: 712,
-        height: 296
-      })
+      component: new Logo(),
+      position: (): Coordinates => new Coordinates(444, 150)
     },
     {
       component: new EventListener(),
