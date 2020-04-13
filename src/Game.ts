@@ -121,16 +121,15 @@ class Game extends Component<{}> {
       miscStore.fetchHighscores();
 
       effectsStore.showGameOverAnimation(new Coordinates(1000, 800), async () => {
-        if (statsStore.content.score > 0) {
-          const name = prompt('Please enter your name', '');
+        const score = statsStore.content.score;
+        if (score > 0) {
+          const name = prompt(`Your Score is ${score}! Please enter your name (max. 22 Characters)`, '');
           if (!!name && name.trim().length >= 1) {
-            const score = statsStore.content.score;
-
             await fetch('https://garden-defense.firebaseio.com/highscores.json', {
               method: 'POST',
               body: JSON.stringify({
                 score: score,
-                name: name.trim()
+                name: name.trim().slice(0, 22)
               })
             });
 
