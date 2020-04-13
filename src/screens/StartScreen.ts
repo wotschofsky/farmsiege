@@ -37,11 +37,20 @@ export default class StartScreen extends Component<StartScreenProps> {
     } else {
       screensStore.setScreen(Screens.Help);
       screensStore.setOnReturn(() => {
-        gridStore.start();
-        movablesStore.start();
-        screensStore.setScreen(Screens.Game);
+        const miscStore = <MiscStore>this.stores.misc;
+
+        if (miscStore.content.instructionsPage !== 1) {
+          Cookie.set('helpShown', 'true');
+
+          gridStore.start();
+          movablesStore.start();
+          screensStore.setScreen(Screens.Game);
+        } else {
+          screensStore.setScreen(Screens.Start);
+        }
+
+        miscStore.resetInstructions();
       });
-      Cookie.set('helpShown', 'true');
     }
 
     const characterStore = <CharacterStore>this.stores.character;
@@ -55,13 +64,17 @@ export default class StartScreen extends Component<StartScreenProps> {
   }
 
   private showHelp(): void {
-    const miscStore = <MiscStore>this.stores.misc;
-    miscStore.resetInstructions();
-
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Help);
     screensStore.setOnReturn(() => {
+      const miscStore = <MiscStore>this.stores.misc;
+
+      if (miscStore.content.instructionsPage !== 1) {
+        Cookie.set('helpShown', 'true');
+      }
+
       screensStore.setScreen(Screens.Start);
+      miscStore.resetInstructions();
     });
   }
 
