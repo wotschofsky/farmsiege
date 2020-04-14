@@ -6,6 +6,7 @@ import Coordinates from '../../lib/helpers/Coordinates';
 import Dimensions from '../../lib/helpers/Dimensions';
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
+import Text, { TextProps } from '../../lib/components/native/Text';
 
 import CharacterStore from '../store/CharacterStore';
 import EffectsStore from '../store/EffectsStore';
@@ -97,11 +98,21 @@ export default class StartScreen extends Component<StartScreenProps> {
     });
   }
 
+  private showCredits(): void {
+    const miscStore = <MiscStore>this.stores.misc;
+    if (miscStore.content.splashScreenShowing) {
+      return;
+    }
+
+    alert('show credits');
+  }
+
   protected template: Template = [
     {
       component: new Logo(),
       position: (): Coordinates => new Coordinates(444, 150)
     },
+
     {
       component: new EventListener(),
       position: (): Coordinates => new Coordinates(650, 500),
@@ -119,6 +130,7 @@ export default class StartScreen extends Component<StartScreenProps> {
         height: 200
       })
     },
+
     {
       component: new EventListener(),
       position: (): Coordinates => new Coordinates(650, 700),
@@ -136,6 +148,7 @@ export default class StartScreen extends Component<StartScreenProps> {
         height: 200
       })
     },
+
     {
       component: new EventListener(),
       position: (): Coordinates => new Coordinates(650, 900),
@@ -151,6 +164,26 @@ export default class StartScreen extends Component<StartScreenProps> {
         source: cosmeticsButtonSprite,
         width: 300,
         height: 200
+      })
+    },
+
+    {
+      component: new EventListener(),
+      position: (): Coordinates => new Coordinates(725, 1124),
+      props: (): EventListenerProps => ({
+        size: new Dimensions(150, 36),
+        onClick: this.showCredits
+      })
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(800, 1150),
+      props: (): TextProps => ({
+        text: '-> Credits',
+        align: 'center',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 48
       })
     }
   ];
