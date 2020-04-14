@@ -1,7 +1,8 @@
+import { EventTypes } from '../../Enums';
 import Component from '../../Component';
-import RenderUtils from '../../utils/Render';
-import PropsContext from '../../PropsContext';
 import Coordinates from '../../helpers/Coordinates';
+import PropsContext from '../../PropsContext';
+import RenderUtils from '../../utils/Render';
 
 export type RepeatingProps = {
   list: any[];
@@ -13,6 +14,12 @@ export type RepeatingProps = {
 export default class Repeating extends Component<RepeatingProps> {
   private listLength: number;
   private listComponents: Component<any>[] = [];
+
+  public propagateEvent(type: EventTypes, position: Coordinates): void {
+    this.listComponents.forEach(el => {
+      el.propagateEvent(type, position);
+    });
+  }
 
   public render(context: RenderingContext, position: Coordinates, props: RepeatingProps): void {
     this.listLength = props.list.length;
