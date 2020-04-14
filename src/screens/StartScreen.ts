@@ -104,7 +104,11 @@ export default class StartScreen extends Component<StartScreenProps> {
       return;
     }
 
-    alert('show credits');
+    const screensStore = <ScreensStore>this.stores.screens;
+    screensStore.setScreen(Screens.Credits);
+    screensStore.setOnReturn(() => {
+      screensStore.setScreen(Screens.Start);
+    });
   }
 
   protected template: Template = [

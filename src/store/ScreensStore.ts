@@ -5,7 +5,8 @@ export enum Screens {
   Game,
   Help,
   GameOver,
-  Cosmetics
+  Cosmetics,
+  Credits
 }
 
 type OnReturnFunction = () => void;

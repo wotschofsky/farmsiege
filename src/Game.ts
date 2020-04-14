@@ -11,6 +11,8 @@ import GameOverScreen from './screens/GameOverScreen';
 import GameScreen from './screens/GameScreen';
 import HelpScreen from './screens/HelpScreen';
 import StartScreen from './screens/StartScreen';
+import CosmeticsScreen from './screens/CosmeticsScreen';
+import CreditsScreen from './screens/CreditsScreen';
 
 import CharacterStore from './store/CharacterStore';
 import CosmeticsStore from './store/CosmeticsStore';
@@ -22,7 +24,6 @@ import PropsContext from '../lib/PropsContext';
 import StatsStore from './store/StatsStore';
 import ScreensStore, { ScreensStoreContent, Screens } from './store/ScreensStore';
 import SettingsStore, { SettingsStoreContent } from './store/SettingsStore';
-import CosmeticsScreen from './screens/CosmeticsScreen';
 import Foreground from './components/surroundings/Foreground';
 import ScoreCounter from './components/ScoreCounter';
 import GameOverEffect from './overlays/GameOverEffect';
@@ -187,6 +188,11 @@ class Game extends Component<{}> {
       component: new CosmeticsScreen(),
       position: (): Coordinates => new Coordinates(0, 0),
       show: (): boolean => this.activeScreen === Screens.Cosmetics
+    },
+    {
+      component: new CreditsScreen(),
+      position: (): Coordinates => new Coordinates(0, 0),
+      show: (): boolean => this.activeScreen === Screens.Credits
     },
     {
       component: new MuteButton(),
