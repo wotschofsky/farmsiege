@@ -121,7 +121,7 @@ export default class CreditsScreen extends Component<CreditsScreenProps> {
 
     {
       component: new EventListener(),
-      position: (): Coordinates => new Coordinates(500, 900),
+      position: (): Coordinates => new Coordinates(650, 900),
       props: (): EventListenerProps => ({
         size: new Dimensions(300, 200),
         onClick: this.goBack
@@ -129,7 +129,7 @@ export default class CreditsScreen extends Component<CreditsScreenProps> {
     },
     {
       component: new Sprite(),
-      position: (): Coordinates => new Coordinates(500, 900),
+      position: (): Coordinates => new Coordinates(650, 900),
       props: (): SpriteProps => ({
         source: homeButtonSprite,
         width: 300,
