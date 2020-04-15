@@ -12,8 +12,8 @@ export default class RenderUtils {
   ): void {
     if (typeof item.show === 'function' && !item.show(propsContext)) return;
 
-    let computedPositionX = context.parentX + position.x;
-    let computedPositionY = context.parentY + position.y;
+    let computedParentX = context.parentX + position.x;
+    let computedParentY = context.parentY + position.y;
 
     const applyTransformations = !!item.transform;
 
@@ -29,8 +29,8 @@ export default class RenderUtils {
           context.scaleFactor * (context.parentY + position.y + center.y)
         );
 
-        computedPositionX = -center.x;
-        computedPositionY = -center.y;
+        computedParentX = -center.x;
+        computedParentY = -center.y;
 
         context.renderContext.rotate(transformConfig.rotate.angle);
       }
@@ -43,8 +43,8 @@ export default class RenderUtils {
     item.component.render(
       new RenderingContext(
         context.frame,
-        computedPositionX,
-        computedPositionY,
+        computedParentX,
+        computedParentY,
         context.canvas,
         context.renderContext,
         context.scaleFactor,
