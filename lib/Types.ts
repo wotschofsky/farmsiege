@@ -10,6 +10,12 @@ export type TransformationConfig = {
   opacity?: {
     value: number;
   };
+  clip?: {
+    circle: {
+      center: Coordinates;
+      radius: number;
+    };
+  };
 };
 
 export type TemplateItem = {

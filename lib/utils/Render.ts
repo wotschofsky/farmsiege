@@ -38,6 +38,20 @@ export default class RenderUtils {
       if (transformConfig.opacity) {
         context.renderContext.globalAlpha = transformConfig.opacity.value;
       }
+
+      if (transformConfig.clip) {
+        const ownPosition = item.position(propsContext);
+
+        context.renderContext.beginPath();
+        context.renderContext.arc(
+          (transformConfig.clip.circle.center.x + ownPosition.x + computedParentX) * context.scaleFactor,
+          (transformConfig.clip.circle.center.y + ownPosition.y + computedParentY) * context.scaleFactor,
+          transformConfig.clip.circle.radius * context.scaleFactor,
+          0,
+          2 * Math.PI
+        );
+        context.renderContext.clip();
+      }
     }
 
     item.component.render(
