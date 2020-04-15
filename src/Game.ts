@@ -223,7 +223,11 @@ class Game extends Component<{}> {
           const miscStore = <MiscStore>this.stores.misc;
           miscStore.setSplashScreenShown();
         }
-      })
+      }),
+      show: (): boolean => {
+        const miscStore = <MiscStore>this.stores.misc;
+        return miscStore.content.splashScreenShowing;
+      }
     }
   ];
 }
