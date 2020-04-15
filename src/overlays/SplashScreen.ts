@@ -3,6 +3,7 @@ import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import PropsContext from '../../lib/PropsContext';
 import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import Text, { TextProps } from '../../lib/components/native/Text';
 
 import Logo, { LogoProps } from '../components/Logo';
@@ -25,7 +26,7 @@ export default class SplashScreen extends Component<SplashScreenProps> {
   }
 
   private get logoProgress(): number {
-    return Math.min(1, this.timer / 500);
+    return Math.min(1.5, this.timer / 500);
   }
 
   private get opacity(): number {
@@ -76,6 +77,7 @@ export default class SplashScreen extends Component<SplashScreenProps> {
           }
         }
       }),
+      show: (): boolean => this.logoProgress >= 1.5
     },
     {
       component: new Text(),
@@ -88,6 +90,7 @@ export default class SplashScreen extends Component<SplashScreenProps> {
         font: 'Heartbit',
         size: 64
       }),
+      show: (): boolean => this.logoProgress >= 1.5
     }
   ];
 }
