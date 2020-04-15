@@ -58,15 +58,36 @@ export default class SplashScreen extends Component<SplashScreenProps> {
       })
     },
     {
+      component: new Sprite(),
+      position: (): Coordinates => new Coordinates(600, 800 - 30),
+      props: (): SpriteProps => ({
+        source: 'https://www.gravatar.com/avatar/70f77192f7f326cfd0d8c9f22e52af7d?d=404&r=g&s=64',
+        width: 64,
+        height: 64
+      }),
+      transform: (): TransformationConfig => ({
+        opacity: {
+          value: this.opacity
+        },
+        clip: {
+          circle: {
+            center: new Coordinates(32, 32),
+            radius: 32
+          }
+        }
+      }),
+    },
+    {
       component: new Text(),
-      position: (): Coordinates => new Coordinates(800, 800),
+      position: (): Coordinates => new Coordinates(1000, 800),
       props: (): TextProps => ({
-        text: 'by Felix Wotschofsky',
-        align: 'center',
+        text: 'Felix Wotschofsky',
+        align: 'end',
+        baseline: 'middle',
         color: `rgba(0, 0, 0, ${this.opacity})`,
         font: 'Heartbit',
         size: 64
-      })
+      }),
     }
   ];
 }
