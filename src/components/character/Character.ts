@@ -1,20 +1,18 @@
 import Component from '../../../lib/Component';
 import { Template } from '../../../lib/Types';
 import Coordinates from '../../../lib/helpers/Coordinates';
-import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
-import values from '../../values.json';
 
 import { HoldableItems } from '../../store/CharacterStore';
-import Hat from './Hat';
-import Shirt from './Shirt';
-import Pants from './Pants';
+import CharacterBase, { CharacterBaseProps } from './CharacterBase';
 import Gun, { GunProps } from './Gun';
 import Hammer, { HammerProps } from './Hammer';
+import Hat from './Hat';
+import Pants from './Pants';
+import Shirt from './Shirt';
 import Shovel, { ShovelProps } from './Shovel';
-import blackManLeftSprite from '../../assets/character/body/black_man_left.png';
-import blackManRightSprite from '../../assets/character/body/black_man_right.png';
+import values from '../../values.json';
 
 export type CharacterProps = {
   direction: Directions;
@@ -25,15 +23,11 @@ export type CharacterProps = {
 export default class Character extends Component<CharacterProps> {
   protected template: Template = [
     {
-      component: new Sprite(),
+      component: new CharacterBase(),
       position: (): Coordinates => new Coordinates(0, 0),
-      props: (ctx: PropsContext<CharacterProps>): SpriteProps => {
-        return {
-          source: ctx.props.direction === Directions.Left ? blackManLeftSprite : blackManRightSprite,
-          width: 128 * values.character.size,
-          height: 128 * values.character.size * 1.5
-        };
-      }
+      props: (ctx: PropsContext<CharacterProps>): CharacterBaseProps => ({
+        direction: ctx.props.direction
+      })
     },
     {
       component: new Pants(),
