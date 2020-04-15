@@ -1,18 +1,18 @@
 import { Directions } from '../../lib/Enums';
 import { Template } from '../../lib/Types';
-import Character, { CharacterProps } from '../components/character/Character';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
-import CosmeticsStore from '../store/CosmeticsStore';
 import Dimensions from '../../lib/helpers/Dimensions';
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import Text, { TextProps } from '../../lib/components/native/Text';
 
+import { HoldableItems } from '../store/CharacterStore';
 import backButtonSprite from '../assets/ui/retry.png';
+import Character, { CharacterProps } from '../components/character/Character';
+import CosmeticsStore from '../store/CosmeticsStore';
 import ScreensStore from '../store/ScreensStore';
 import values from '../values.json';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
 
 export type CosmeticsScreenProps = {};
 
@@ -52,7 +52,8 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
       component: new Character(),
       position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600),
       props: (): CharacterProps => ({
-        direction: Directions.Left
+        direction: Directions.Left,
+        heldItem: HoldableItems.None
       })
     },
 
@@ -64,15 +65,6 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
         onClick: this.changeHat
       })
     },
-    // {
-    //   component: new Rectangle(),
-    //   position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 - 16 * values.character.size),
-    //   props: (): RectangleProps => ({
-    //     width: 128 * values.character.size,
-    //     height: 64 * values.character.size,
-    //     color: 'rgba(0, 0, 0, 0.3)'
-    //   })
-    // },
 
     {
       component: new EventListener(),
@@ -82,15 +74,6 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
         onClick: this.changeShirt
       })
     },
-    // {
-    //   component: new Rectangle(),
-    //   position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 88 * values.character.size),
-    //   props: (): RectangleProps => ({
-    //     width: 128 * values.character.size,
-    //     height: 56 * values.character.size,
-    //     color: 'rgba(0, 0, 0, 0.3)'
-    //   })
-    // },
 
     {
       component: new EventListener(),
@@ -100,15 +83,6 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
         onClick: this.changePants
       })
     },
-    // {
-    //   component: new Rectangle(),
-    //   position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 144 * values.character.size),
-    //   props: (): RectangleProps => ({
-    //     width: 128 * values.character.size,
-    //     height: 32 * values.character.size,
-    //     color: 'rgba(0, 0, 0, 0.3)'
-    //   })
-    // },
 
     {
       component: new EventListener(),
