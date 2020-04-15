@@ -5,7 +5,6 @@
 Himmel https://savvycow.itch.io/loudypixelsky am 28.02.2020 \
 Wolken https://opengameart.org/content/clouds am 19.10.2019 \
 Bäume https://opengameart.org/content/trees-bushes am 18.10.2019 \
-Character https://lhteam.itch.io/finn-sprite im Oktober 2019 \
 Pflanzen https://opengameart.org/content/farming-crops-16x16 im Oktober 2019 \
 Tiere https://finalbossblues.itch.io/animals-sprite-pack am 03.11.2019 \
 Blitz https://kvsr.itch.io/attack-pixel-art am 12.11.2019 \
@@ -93,3 +92,11 @@ https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Feature-Policy/autopla
 Zeit Now Routes
 12.04.2020 \
 https://zeit.co/docs/configuration#routes/headers
+
+Canvas textBaseline \
+14.04.2020 \
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textBaseline
+
+Gravatar Image Requests \
+15.04.2020 \
+https://de.gravatar.com/site/implement/images/
