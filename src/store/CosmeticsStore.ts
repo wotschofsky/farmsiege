@@ -102,10 +102,13 @@ export const pantsData: PantsData[] = [
   }
 ];
 
+export type SkinColors = 1 | 2 | 3 | 4 | 5;
+
 export type CosmeticsStoreContent = {
   hat: Hats;
   shirt: Shirts;
   pants: Pants;
+  skinColor: SkinColors;
 };
 
 export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
@@ -115,7 +118,8 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     super('cosmetics', {
       hat: Hats.Mexican,
       shirt: Shirts.Woodsman,
-      pants: Pants.Blue
+      pants: Pants.Blue,
+      skinColor: <SkinColors>(Math.round(Math.random() * 4) + 1)
     });
 
     const cookieData = this.retrieveConfiguration();
@@ -201,5 +205,15 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
       }
     );
     this.saveConfiguration();
+  }
+
+  public setSkinColor(color: SkinColors): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.skinColor = color;
+
+      return clonedState;
+    });
   }
 }
