@@ -11,6 +11,7 @@ import { HoldableItems } from '../store/CharacterStore';
 import backButtonSprite from '../assets/ui/retry.png';
 import Character, { CharacterProps } from '../components/character/Character';
 import CosmeticsStore from '../store/CosmeticsStore';
+import Dialog, { DialogProps } from '../components/Dialog';
 import ScreensStore from '../store/ScreensStore';
 import values from '../values.json';
 
@@ -38,6 +39,14 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
   }
 
   protected template: Template = [
+    {
+      component: new Dialog(),
+      position: (): Coordinates => new Coordinates(500, 200),
+      props: (): DialogProps => ({
+        width: 600,
+        height: 700
+      })
+    },
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(480, 500),
