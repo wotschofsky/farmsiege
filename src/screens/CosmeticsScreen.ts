@@ -12,6 +12,7 @@ import backButtonSprite from '../assets/ui/retry.png';
 import Character, { CharacterProps } from '../components/character/Character';
 import CosmeticsStore from '../store/CosmeticsStore';
 import Dialog, { DialogProps } from '../components/Dialog';
+import homeButtonSprite from '../assets/ui/home.png';
 import ScreensStore from '../store/ScreensStore';
 import values from '../values.json';
 
@@ -107,7 +108,7 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(650, 900),
       props: (): SpriteProps => ({
-        source: backButtonSprite,
+        source: homeButtonSprite,
         width: 300,
         height: 200
       })
