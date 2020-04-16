@@ -8,12 +8,12 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import Text, { TextProps } from '../../lib/components/native/Text';
 
 import { HoldableItems } from '../store/CharacterStore';
-import backButtonSprite from '../assets/ui/retry.png';
 import Character, { CharacterProps } from '../components/character/Character';
 import CosmeticsStore from '../store/CosmeticsStore';
 import Dialog, { DialogProps } from '../components/Dialog';
 import homeButtonSprite from '../assets/ui/home.png';
 import ScreensStore from '../store/ScreensStore';
+import SkinColorPicker from '../components/SkinColorPicker';
 import values from '../values.json';
 
 export type CosmeticsScreenProps = {};
@@ -47,6 +47,21 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
         width: 600,
         height: 700
       })
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(550, 220),
+      props: (): TextProps => ({
+        text: 'Cosmetics',
+        baseline: 'top',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 64
+      })
+    },
+    {
+      component: new SkinColorPicker(),
+      position: (): Coordinates => new Coordinates(664, 300)
     },
     {
       component: new Text(),
