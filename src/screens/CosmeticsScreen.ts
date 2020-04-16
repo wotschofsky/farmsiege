@@ -49,9 +49,11 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
     },
     {
       component: new Text(),
-      position: (): Coordinates => new Coordinates(480, 500),
+      position: (): Coordinates => new Coordinates(800, 875),
       props: (): TextProps => ({
         text: 'Click on a part of the character to change it',
+        align: 'center',
+        baseline: 'bottom',
         color: '#fff',
         font: 'Heartbit',
         size: 40
