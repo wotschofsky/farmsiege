@@ -1,11 +1,11 @@
-import Component from '../../lib/Component';
-import { Template } from '../../lib/Types';
-import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
-import Coordinates from '../../lib/helpers/Coordinates';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
-import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
-import Dimensions from '../../lib/helpers/Dimensions';
-import CosmeticsStore, { SkinColors } from '../store/CosmeticsStore';
+import Component from '../../../lib/Component';
+import { Template } from '../../../lib/Types';
+import Repeating, { RepeatingProps } from '../../../lib/components/logical/Repeating';
+import Coordinates from '../../../lib/helpers/Coordinates';
+import Rectangle, { RectangleProps } from '../../../lib/components/native/Rectangle';
+import EventListener, { EventListenerProps } from '../../../lib/components/logical/EventListener';
+import Dimensions from '../../../lib/helpers/Dimensions';
+import CosmeticsStore, { SkinColors } from '../../store/CosmeticsStore';
 
 export type SkinColorPickerProps = {};
 

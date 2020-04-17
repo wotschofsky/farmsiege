@@ -9,11 +9,12 @@ import Text, { TextProps } from '../../lib/components/native/Text';
 
 import { HoldableItems } from '../store/CharacterStore';
 import Character, { CharacterProps } from '../components/character/Character';
+import CosmeticsPicker from '../components/cosmeticsScreen/CosmeticsPicker';
 import CosmeticsStore from '../store/CosmeticsStore';
 import Dialog, { DialogProps } from '../components/Dialog';
 import homeButtonSprite from '../assets/ui/home.png';
 import ScreensStore from '../store/ScreensStore';
-import SkinColorPicker from '../components/SkinColorPicker';
+import SkinColorPicker from '../components/cosmeticsScreen/SkinColorPicker';
 import values from '../values.json';
 
 export type CosmeticsScreenProps = {};
@@ -60,24 +61,12 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
       })
     },
     {
-      component: new SkinColorPicker(),
+      component: new CosmeticsPicker(),
       position: (): Coordinates => new Coordinates(664, 300)
     },
     {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(800, 875),
-      props: (): TextProps => ({
-        text: 'Click on a part of the character to change it',
-        align: 'center',
-        baseline: 'bottom',
-        color: '#fff',
-        font: 'Heartbit',
-        size: 40
-      })
-    },
-    {
       component: new Character(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600),
+      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580),
       props: (): CharacterProps => ({
         direction: Directions.Left,
         heldItem: HoldableItems.None
@@ -86,7 +75,7 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
 
     {
       component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 - 16 * values.character.size),
+      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580 - 16 * values.character.size),
       props: (): EventListenerProps => ({
         size: new Dimensions(128 * values.character.size, 64 * values.character.size),
         onClick: this.changeHat
@@ -95,7 +84,7 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
 
     {
       component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 88 * values.character.size),
+      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580 + 88 * values.character.size),
       props: (): EventListenerProps => ({
         size: new Dimensions(128 * values.character.size, 56 * values.character.size),
         onClick: this.changeShirt
@@ -104,11 +93,16 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
 
     {
       component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 144 * values.character.size),
+      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580 + 144 * values.character.size),
       props: (): EventListenerProps => ({
         size: new Dimensions(128 * values.character.size, 32 * values.character.size),
         onClick: this.changePants
       })
+    },
+
+    {
+      component: new SkinColorPicker(),
+      position: (): Coordinates => new Coordinates(664, 825)
     },
 
     {
