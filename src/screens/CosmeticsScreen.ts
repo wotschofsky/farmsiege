@@ -10,7 +10,6 @@ import Text, { TextProps } from '../../lib/components/native/Text';
 import { HoldableItems } from '../store/CharacterStore';
 import Character, { CharacterProps } from '../components/character/Character';
 import CosmeticsPicker from '../components/cosmeticsScreen/CosmeticsPicker';
-import CosmeticsStore from '../store/CosmeticsStore';
 import Dialog, { DialogProps } from '../components/Dialog';
 import homeButtonSprite from '../assets/ui/home.png';
 import ScreensStore from '../store/ScreensStore';
@@ -47,7 +46,7 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
     },
     {
       component: new CosmeticsPicker(),
-      position: (): Coordinates => new Coordinates(664, 300)
+      position: (): Coordinates => new Coordinates(500, 300)
     },
     {
       component: new Character(),
