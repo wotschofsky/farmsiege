@@ -20,21 +20,6 @@ import values from '../values.json';
 export type CosmeticsScreenProps = {};
 
 export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
-  private changeHat(): void {
-    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-    cosmeticsStore.rotateHat();
-  }
-
-  private changeShirt(): void {
-    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-    cosmeticsStore.rotateShirt();
-  }
-
-  private changePants(): void {
-    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-    cosmeticsStore.rotatePants();
-  }
-
   private goBack(): void {
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.directContent.onReturn();
@@ -70,33 +55,6 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
       props: (): CharacterProps => ({
         direction: Directions.Left,
         heldItem: HoldableItems.None
-      })
-    },
-
-    {
-      component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580 - 16 * values.character.size),
-      props: (): EventListenerProps => ({
-        size: new Dimensions(128 * values.character.size, 64 * values.character.size),
-        onClick: this.changeHat
-      })
-    },
-
-    {
-      component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580 + 88 * values.character.size),
-      props: (): EventListenerProps => ({
-        size: new Dimensions(128 * values.character.size, 56 * values.character.size),
-        onClick: this.changeShirt
-      })
-    },
-
-    {
-      component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580 + 144 * values.character.size),
-      props: (): EventListenerProps => ({
-        size: new Dimensions(128 * values.character.size, 32 * values.character.size),
-        onClick: this.changePants
       })
     },
 
