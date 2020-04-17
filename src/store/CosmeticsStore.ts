@@ -13,19 +13,21 @@ import woodsmanShirtSprite from '../assets/character/shirt/woodsman_shirt.png';
 import bluePantsSprite from '../assets/character/pants/blue_pants.png';
 import grayPantsSprite from '../assets/character/pants/gray_pants.png';
 
+export type CosmeticsTypes = 'hat' | 'shirt' | 'pants';
+
 interface CosmeticsData {
   sprite: string;
 }
 
-interface HatData extends CosmeticsData {
+export interface HatData extends CosmeticsData {
   id: Hats;
 }
 
-interface ShirtData extends CosmeticsData {
+export interface ShirtData extends CosmeticsData {
   id: Shirts;
 }
 
-interface PantsData extends CosmeticsData {
+export interface PantsData extends CosmeticsData {
   id: Pants;
 }
 
@@ -145,6 +147,17 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     });
   }
 
+  public setHat(value: Hats): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.hat = value;
+
+      return clonedState;
+    });
+    this.saveConfiguration();
+  }
+
   public rotateHat(): void {
     this.update(
       (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
@@ -168,6 +181,17 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     });
   }
 
+  public setShirt(value: Shirts): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.shirt = value;
+
+      return clonedState;
+    });
+    this.saveConfiguration();
+  }
+
   public rotateShirt(): void {
     this.update(
       (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
@@ -189,6 +213,17 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     return <PantsData>pantsData.find((pants): boolean => {
       return pants.id === storePants;
     });
+  }
+
+  public setPants(value: Pants): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.pants = value;
+
+      return clonedState;
+    });
+    this.saveConfiguration();
   }
 
   public rotatePants(): void {
