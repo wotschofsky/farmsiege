@@ -220,5 +220,6 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
       return clonedState;
     });
+    this.saveConfiguration();
   }
 }
