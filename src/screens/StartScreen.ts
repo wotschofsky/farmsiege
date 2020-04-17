@@ -183,11 +183,11 @@ export default class StartScreen extends Component<StartScreenProps> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(800, 1150),
       props: (): TextProps => ({
-        text: '-> Credits',
+        text: 'Credits',
         align: 'center',
         color: '#fff',
         font: 'Heartbit',
-        size: 48
+        size: 64
       })
     }
   ];
