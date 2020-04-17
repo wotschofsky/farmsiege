@@ -127,6 +127,8 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     const cookieData = this.retrieveConfiguration();
     if (cookieData) {
       this.update(() => cookieData);
+    } else {
+      this.saveConfiguration();
     }
   }
 
@@ -135,8 +137,29 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     Cookie.set(this.cookieName, data);
   }
 
-  public retrieveConfiguration(): CosmeticsStoreContent {
-    const data = Cookie.getJSON(this.cookieName);
+  public retrieveConfiguration(): CosmeticsStoreContent | void {
+    const data = <CosmeticsStoreContent | undefined>Cookie.getJSON(this.cookieName);
+
+    if (!data) {
+      return;
+    }
+
+    if (!data.hat || !hatsData.find(val => val.id === data.hat)) {
+      return;
+    }
+
+    if (!data.shirt || !shirtsData.find(val => val.id === data.shirt)) {
+      return;
+    }
+
+    if (!data.pants || !pantsData.find(val => val.id === data.pants)) {
+      return;
+    }
+
+    if (!data.skinColor || data.skinColor < 0 || data.skinColor > 5) {
+      return;
+    }
+
     return data;
   }
 
