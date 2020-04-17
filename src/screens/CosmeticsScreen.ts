@@ -1,37 +1,24 @@
 import { Directions } from '../../lib/Enums';
 import { Template } from '../../lib/Types';
-import Character, { CharacterProps } from '../components/character/Character';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
-import CosmeticsStore from '../store/CosmeticsStore';
 import Dimensions from '../../lib/helpers/Dimensions';
 import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import Text, { TextProps } from '../../lib/components/native/Text';
 
-import backButtonSprite from '../assets/ui/retry.png';
+import { HoldableItems } from '../store/CharacterStore';
+import Character, { CharacterProps } from '../components/character/Character';
+import CosmeticsPicker from '../components/cosmeticsScreen/CosmeticsPicker';
+import Dialog, { DialogProps } from '../components/Dialog';
+import homeButtonSprite from '../assets/ui/home.png';
 import ScreensStore from '../store/ScreensStore';
+import SkinColorPicker from '../components/cosmeticsScreen/SkinColorPicker';
 import values from '../values.json';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
 
 export type CosmeticsScreenProps = {};
 
 export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
-  private changeHat(): void {
-    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-    cosmeticsStore.rotateHat();
-  }
-
-  private changeShirt(): void {
-    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-    cosmeticsStore.rotateShirt();
-  }
-
-  private changePants(): void {
-    const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-    cosmeticsStore.rotatePants();
-  }
-
   private goBack(): void {
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.directContent.onReturn();
@@ -39,76 +26,41 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
 
   protected template: Template = [
     {
+      component: new Dialog(),
+      position: (): Coordinates => new Coordinates(500, 200),
+      props: (): DialogProps => ({
+        width: 600,
+        height: 700
+      })
+    },
+    {
       component: new Text(),
-      position: (): Coordinates => new Coordinates(480, 500),
+      position: (): Coordinates => new Coordinates(550, 220),
       props: (): TextProps => ({
-        text: 'Click on a part of the character to change it',
+        text: 'Cosmetics',
+        baseline: 'top',
         color: '#fff',
         font: 'Heartbit',
-        size: 40
+        size: 64
       })
+    },
+    {
+      component: new CosmeticsPicker(),
+      position: (): Coordinates => new Coordinates(500, 300)
     },
     {
       component: new Character(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600),
+      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 580),
       props: (): CharacterProps => ({
-        direction: Directions.Left
+        direction: Directions.Left,
+        heldItem: HoldableItems.None
       })
     },
 
     {
-      component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 - 16 * values.character.size),
-      props: (): EventListenerProps => ({
-        size: new Dimensions(128 * values.character.size, 64 * values.character.size),
-        onClick: this.changeHat
-      })
+      component: new SkinColorPicker(),
+      position: (): Coordinates => new Coordinates(664, 825)
     },
-    // {
-    //   component: new Rectangle(),
-    //   position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 - 16 * values.character.size),
-    //   props: (): RectangleProps => ({
-    //     width: 128 * values.character.size,
-    //     height: 64 * values.character.size,
-    //     color: 'rgba(0, 0, 0, 0.3)'
-    //   })
-    // },
-
-    {
-      component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 88 * values.character.size),
-      props: (): EventListenerProps => ({
-        size: new Dimensions(128 * values.character.size, 56 * values.character.size),
-        onClick: this.changeShirt
-      })
-    },
-    // {
-    //   component: new Rectangle(),
-    //   position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 88 * values.character.size),
-    //   props: (): RectangleProps => ({
-    //     width: 128 * values.character.size,
-    //     height: 56 * values.character.size,
-    //     color: 'rgba(0, 0, 0, 0.3)'
-    //   })
-    // },
-
-    {
-      component: new EventListener(),
-      position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 144 * values.character.size),
-      props: (): EventListenerProps => ({
-        size: new Dimensions(128 * values.character.size, 32 * values.character.size),
-        onClick: this.changePants
-      })
-    },
-    // {
-    //   component: new Rectangle(),
-    //   position: (): Coordinates => new Coordinates(800 - 64 * values.character.size, 600 + 144 * values.character.size),
-    //   props: (): RectangleProps => ({
-    //     width: 128 * values.character.size,
-    //     height: 32 * values.character.size,
-    //     color: 'rgba(0, 0, 0, 0.3)'
-    //   })
-    // },
 
     {
       component: new EventListener(),
@@ -122,7 +74,7 @@ export default class CosmeticsScreen extends Component<CosmeticsScreenProps> {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(650, 900),
       props: (): SpriteProps => ({
-        source: backButtonSprite,
+        source: homeButtonSprite,
         width: 300,
         height: 200
       })

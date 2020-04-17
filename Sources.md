@@ -100,3 +100,7 @@ https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textBa
 Gravatar Image Requests \
 15.04.2020 \
 https://de.gravatar.com/site/implement/images/
+
+Skin Colors \
+16.04.2020 \
+https://www.schemecolor.com/real-skin-tones-color-palette.php

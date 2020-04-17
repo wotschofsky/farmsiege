@@ -13,19 +13,21 @@ import woodsmanShirtSprite from '../assets/character/shirt/woodsman_shirt.png';
 import bluePantsSprite from '../assets/character/pants/blue_pants.png';
 import grayPantsSprite from '../assets/character/pants/gray_pants.png';
 
+export type CosmeticsTypes = 'hat' | 'shirt' | 'pants';
+
 interface CosmeticsData {
   sprite: string;
 }
 
-interface HatData extends CosmeticsData {
+export interface HatData extends CosmeticsData {
   id: Hats;
 }
 
-interface ShirtData extends CosmeticsData {
+export interface ShirtData extends CosmeticsData {
   id: Shirts;
 }
 
-interface PantsData extends CosmeticsData {
+export interface PantsData extends CosmeticsData {
   id: Pants;
 }
 
@@ -82,16 +84,11 @@ export const shirtsData: ShirtData[] = [
 ];
 
 export enum Pants {
-  None,
   Blue,
   Gray
 }
 
 export const pantsData: PantsData[] = [
-  {
-    id: Pants.None,
-    sprite: ''
-  },
   {
     id: Pants.Blue,
     sprite: bluePantsSprite
@@ -102,10 +99,13 @@ export const pantsData: PantsData[] = [
   }
 ];
 
+export type SkinColors = 1 | 2 | 3 | 4 | 5;
+
 export type CosmeticsStoreContent = {
   hat: Hats;
   shirt: Shirts;
   pants: Pants;
+  skinColor: SkinColors;
 };
 
 export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
@@ -115,12 +115,15 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     super('cosmetics', {
       hat: Hats.Mexican,
       shirt: Shirts.Woodsman,
-      pants: Pants.Blue
+      pants: Pants.Blue,
+      skinColor: <SkinColors>(Math.round(Math.random() * 4) + 1)
     });
 
     const cookieData = this.retrieveConfiguration();
     if (cookieData) {
       this.update(() => cookieData);
+    } else {
+      this.saveConfiguration();
     }
   }
 
@@ -129,8 +132,29 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     Cookie.set(this.cookieName, data);
   }
 
-  public retrieveConfiguration(): CosmeticsStoreContent {
-    const data = Cookie.getJSON(this.cookieName);
+  public retrieveConfiguration(): CosmeticsStoreContent | void {
+    const data = <CosmeticsStoreContent | undefined>Cookie.getJSON(this.cookieName);
+
+    if (!data) {
+      return;
+    }
+
+    if (!data.hat || !hatsData.find(val => val.id === data.hat)) {
+      return;
+    }
+
+    if (!data.shirt || !shirtsData.find(val => val.id === data.shirt)) {
+      return;
+    }
+
+    if (!data.pants || !pantsData.find(val => val.id === data.pants)) {
+      return;
+    }
+
+    if (!data.skinColor || data.skinColor < 0 || data.skinColor > 5) {
+      return;
+    }
+
     return data;
   }
 
@@ -141,19 +165,14 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     });
   }
 
-  public rotateHat(): void {
-    this.update(
-      (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
-        const clonedState = cloneDeep(oldState);
+  public setHat(value: Hats): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
 
-        clonedState.hat++;
-        if (clonedState.hat === hatsData.length) {
-          clonedState.hat = 0;
-        }
+      clonedState.hat = value;
 
-        return clonedState;
-      }
-    );
+      return clonedState;
+    });
     this.saveConfiguration();
   }
 
@@ -164,19 +183,14 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     });
   }
 
-  public rotateShirt(): void {
-    this.update(
-      (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
-        const clonedState = cloneDeep(oldState);
+  public setShirt(value: Shirts): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
 
-        clonedState.shirt++;
-        if (clonedState.shirt === shirtsData.length) {
-          clonedState.shirt = 0;
-        }
+      clonedState.shirt = value;
 
-        return clonedState;
-      }
-    );
+      return clonedState;
+    });
     this.saveConfiguration();
   }
 
@@ -187,19 +201,25 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     });
   }
 
-  public rotatePants(): void {
-    this.update(
-      (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
-        const clonedState = cloneDeep(oldState);
+  public setPants(value: Pants): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
 
-        clonedState.pants++;
-        if (clonedState.pants === pantsData.length) {
-          clonedState.pants = 0;
-        }
+      clonedState.pants = value;
 
-        return clonedState;
-      }
-    );
+      return clonedState;
+    });
+    this.saveConfiguration();
+  }
+
+  public setSkinColor(color: SkinColors): void {
+    this.update((oldState: CosmeticsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.skinColor = color;
+
+      return clonedState;
+    });
     this.saveConfiguration();
   }
 }
