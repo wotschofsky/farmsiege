@@ -84,16 +84,11 @@ export const shirtsData: ShirtData[] = [
 ];
 
 export enum Pants {
-  None,
   Blue,
   Gray
 }
 
 export const pantsData: PantsData[] = [
-  {
-    id: Pants.None,
-    sprite: ''
-  },
   {
     id: Pants.Blue,
     sprite: bluePantsSprite
