@@ -158,22 +158,6 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     this.saveConfiguration();
   }
 
-  public rotateHat(): void {
-    this.update(
-      (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
-        const clonedState = cloneDeep(oldState);
-
-        clonedState.hat++;
-        if (clonedState.hat === hatsData.length) {
-          clonedState.hat = 0;
-        }
-
-        return clonedState;
-      }
-    );
-    this.saveConfiguration();
-  }
-
   public get activeShirt(): ShirtData {
     const storeShirt = this.content.shirt;
     return <ShirtData>shirtsData.find((shirt): boolean => {
@@ -192,22 +176,6 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     this.saveConfiguration();
   }
 
-  public rotateShirt(): void {
-    this.update(
-      (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
-        const clonedState = cloneDeep(oldState);
-
-        clonedState.shirt++;
-        if (clonedState.shirt === shirtsData.length) {
-          clonedState.shirt = 0;
-        }
-
-        return clonedState;
-      }
-    );
-    this.saveConfiguration();
-  }
-
   public get activePants(): PantsData {
     const storePants = this.content.pants;
     return <PantsData>pantsData.find((pants): boolean => {
@@ -223,22 +191,6 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
       return clonedState;
     });
-    this.saveConfiguration();
-  }
-
-  public rotatePants(): void {
-    this.update(
-      (oldState: CosmeticsStoreContent): CosmeticsStoreContent => {
-        const clonedState = cloneDeep(oldState);
-
-        clonedState.pants++;
-        if (clonedState.pants === pantsData.length) {
-          clonedState.pants = 0;
-        }
-
-        return clonedState;
-      }
-    );
     this.saveConfiguration();
   }
 
