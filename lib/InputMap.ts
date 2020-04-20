@@ -29,18 +29,26 @@ export enum GamepadButtons {
   Button16 = 'Button16'
 }
 
+export type InputMapConfig = {
+  [name: string]: {
+    keys: string[];
+    overrides?: string;
+    singlePress?: boolean;
+  };
+};
+
 export default class InputMap {
   private readonly analogDeadzone = 0.2;
 
   private activeKeys: string[] = [];
-  private template: Record<string, string[]>;
+  private template: InputMapConfig;
   private usedKeys: string[] = [];
 
-  public constructor(template: Record<string, string[]>) {
+  public constructor(template: InputMapConfig) {
     this.template = template;
 
     for (const key in this.template) {
-      this.usedKeys = [...this.usedKeys, ...this.template[key]];
+      this.usedKeys = [...this.usedKeys, ...this.template[key].keys];
     }
 
     window.addEventListener('keydown', event => {
@@ -76,11 +84,11 @@ export default class InputMap {
     const mappedKeys: { [key: string]: number } = {};
     for (const key in this.template) {
       let value = 0;
-      this.template[key].forEach(code => {
+      this.template[key].keys.forEach(code => {
         if (this.activeKeys.includes(code)) {
           value = 1;
 
-          if (key.startsWith('!')) {
+          if (this.template[key].singlePress) {
             this.removeActiveKey(code);
           }
         }
@@ -211,14 +219,6 @@ export default class InputMap {
 
         mappedKeys[key] = value;
       });
-    }
-
-    for (const key in mappedKeys) {
-      if (key.startsWith('!')) {
-        const strippedKey = key.slice(1);
-        mappedKeys[strippedKey] = mappedKeys[key];
-        delete mappedKeys[key];
-      }
     }
 
     return mappedKeys;

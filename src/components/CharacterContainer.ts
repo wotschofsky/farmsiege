@@ -26,13 +26,28 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
   protected onInit(): void {
     this.inputMap = new InputMap({
-      up: ['KeyW', 'ArrowUp', GamepadStickDirections.LeftStickUp],
-      left: ['KeyA', 'ArrowLeft', GamepadStickDirections.LeftStickLeft],
-      down: ['KeyS', 'ArrowDown', GamepadStickDirections.LeftStickDown],
-      right: ['KeyD', 'ArrowRight', GamepadStickDirections.LeftStickRight],
-      use: ['Space', GamepadButtons.ButtonB],
-      place: ['KeyV', GamepadButtons.ButtonA],
-      '!fire': ['KeyC', GamepadButtons.ButtonX]
+      up: {
+        keys: ['KeyW', 'ArrowUp', GamepadStickDirections.LeftStickUp]
+      },
+      left: {
+        keys: ['KeyA', 'ArrowLeft', GamepadStickDirections.LeftStickLeft]
+      },
+      down: {
+        keys: ['KeyS', 'ArrowDown', GamepadStickDirections.LeftStickDown]
+      },
+      right: {
+        keys: ['KeyD', 'ArrowRight', GamepadStickDirections.LeftStickRight]
+      },
+      use: {
+        keys: ['Space', GamepadButtons.ButtonB]
+      },
+      place: {
+        keys: ['KeyV', GamepadButtons.ButtonA]
+      },
+      fire: {
+        keys: ['KeyC', GamepadButtons.ButtonX],
+        singlePress: true
+      }
     });
   }
 
