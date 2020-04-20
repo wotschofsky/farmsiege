@@ -32,7 +32,7 @@ export enum GamepadButtons {
 export type InputMapConfig = {
   [name: string]: {
     keys: string[];
-    overrides?: string;
+    overrides?: string[];
     singlePress?: boolean;
   };
 };
@@ -221,8 +221,10 @@ export default class InputMap {
       });
 
       const overridesKey = this.template[key].overrides;
-      if (mappedKeys[key] > 0 && overridesKey) {
-        mappedKeys[overridesKey] = 0;
+      if (mappedKeys[key] > 0 && overridesKey && overridesKey.length > 0) {
+        for (const key of overridesKey) {
+          mappedKeys[key] = 0;
+        }
       }
     }
 

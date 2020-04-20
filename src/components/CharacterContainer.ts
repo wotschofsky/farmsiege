@@ -40,11 +40,11 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       },
       use: {
         keys: ['Space', GamepadButtons.ButtonB],
-        overrides: 'place'
+        overrides: ['place']
       },
       place: {
         keys: ['KeyV', GamepadButtons.ButtonA],
-        overrides: 'use'
+        overrides: ['use']
       },
       fire: {
         keys: ['KeyC', GamepadButtons.ButtonX],
