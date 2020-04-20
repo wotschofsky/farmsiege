@@ -39,10 +39,12 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         keys: ['KeyD', 'ArrowRight', GamepadStickDirections.LeftStickRight]
       },
       use: {
-        keys: ['Space', GamepadButtons.ButtonB]
+        keys: ['Space', GamepadButtons.ButtonB],
+        overrides: 'place'
       },
       place: {
-        keys: ['KeyV', GamepadButtons.ButtonA]
+        keys: ['KeyV', GamepadButtons.ButtonA],
+        overrides: 'use'
       },
       fire: {
         keys: ['KeyC', GamepadButtons.ButtonX],

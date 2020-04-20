@@ -219,6 +219,11 @@ export default class InputMap {
 
         mappedKeys[key] = value;
       });
+
+      const overridesKey = this.template[key].overrides;
+      if (mappedKeys[key] > 0 && overridesKey) {
+        mappedKeys[overridesKey] = 0;
+      }
     }
 
     return mappedKeys;
