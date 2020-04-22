@@ -41,6 +41,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       movablesStore.start();
       screensStore.setScreen(Screens.Game);
     } else {
+      miscStore.setInstructionsMode('beforeGame');
       screensStore.setScreen(Screens.Help);
       screensStore.setOnReturn(() => {
         if (miscStore.content.instructionsPage !== 1) {
@@ -72,6 +73,8 @@ export default class StartScreen extends Component<StartScreenProps> {
     if (miscStore.content.splashScreenShowing) {
       return;
     }
+
+    miscStore.setInstructionsMode('manual');
 
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Help);

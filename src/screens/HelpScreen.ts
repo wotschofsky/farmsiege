@@ -12,6 +12,7 @@ import MiscStore from '../store/MiscStore';
 import backButtonSprite from '../assets/ui/back.png';
 import forwardButtonSprite from '../assets/ui/forward.png';
 import homeButtonSprite from '../assets/ui/home.png';
+import playButtonSprite from '../assets/ui/play.png';
 import Instructions1 from '../components/instructions/Instructions1';
 import Instructions2 from '../components/instructions/Instructions2';
 import Instructions3 from '../components/instructions/Instructions3';
@@ -188,11 +189,25 @@ export default class HelpScreen extends Component<HelpScreenProps> {
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(800, 900),
-      props: (): SpriteProps => ({
-        source: homeButtonSprite,
-        width: 300,
-        height: 200
-      }),
+      props: (): SpriteProps => {
+        const miscStore = <MiscStore>this.stores.misc;
+
+        let sprite: string;
+        switch (miscStore.content.instructionsMode) {
+          case 'manual':
+            sprite = homeButtonSprite;
+            break;
+          case 'beforeGame':
+            sprite = playButtonSprite;
+            break;
+        }
+
+        return {
+          source: sprite,
+          width: 300,
+          height: 200
+        };
+      },
       show: (): boolean => this.currentPage === this.totalPages
     }
   ];

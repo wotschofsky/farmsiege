@@ -6,6 +6,7 @@ import { ScoreData } from '../components/Highscores';
 type MiscStoreContent = {
   highscores: ScoreData[];
   instructionsPage: number;
+  instructionsMode: 'manual' | 'beforeGame';
   splashScreenShowing: boolean;
 };
 
@@ -14,6 +15,7 @@ export default class MiscStore extends Store<MiscStoreContent> {
     super('misc', {
       highscores: [],
       instructionsPage: 1,
+      instructionsMode: 'manual',
       splashScreenShowing: true
     });
   }
@@ -43,6 +45,16 @@ export default class MiscStore extends Store<MiscStoreContent> {
       const clonedState = cloneDeep(oldState);
 
       clonedState.highscores = value;
+
+      return clonedState;
+    });
+  }
+
+  public setInstructionsMode(newMode: 'manual' | 'beforeGame'): void {
+    this.update((oldState: MiscStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.instructionsMode = newMode;
 
       return clonedState;
     });
