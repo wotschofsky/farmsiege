@@ -37,6 +37,7 @@
       "rollup-plugin-eslint": "^7.0.0",
       "rollup-plugin-generate-html-template": "^1.5.0",
       "rollup-plugin-img": "^1.1.0",
+      "rollup-plugin-javascript-obfuscator": "^1.0.4",
       "rollup-plugin-livereload": "^1.0.4",
       "rollup-plugin-serve": "^1.0.1",
       "rollup-plugin-terser": "^5.1.2",
