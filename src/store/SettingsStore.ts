@@ -10,7 +10,7 @@ export type SettingsStoreContent = {
 
 export default class SettingsStore extends Store<SettingsStoreContent> {
   public constructor() {
-    let volume: VolumeValues = 1;
+    let volume: VolumeValues = 0.67;
 
     const cookieValue = Cookie.getJSON('volume');
     if (typeof cookieValue === 'number' && validVolumeValues.includes(<VolumeValues>cookieValue)) {
