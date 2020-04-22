@@ -150,7 +150,9 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           }
 
           if (settingsStore.content.volume) {
-            new Audio(shotgunSound).play();
+            const audio = new Audio(shotgunSound);
+            audio.volume = settingsStore.content.volume;
+            audio.play();
           }
 
           this.nextShotAvailable = Date.now() + 1200;

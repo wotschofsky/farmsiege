@@ -40,7 +40,7 @@ class Game extends Component<{}> {
 
     const audio = new Audio(soundtrackMoonBase);
     audio.loop = true;
-    audio.volume = settingsStore.content.volume ? 0.8 : 0;
+    audio.volume = settingsStore.content.volume * 0.8;
     audio.autoplay = true;
     audio.play().catch(() => {
       window.addEventListener(
@@ -56,7 +56,7 @@ class Game extends Component<{}> {
     });
 
     settingsStore.subscribe((state: SettingsStoreContent) => {
-      audio.volume = state.music ? 0.8 : 0;
+      audio.volume = state.volume * 0.8;
     });
 
     screensStore.subscribe((state: ScreensStoreContent) => {
