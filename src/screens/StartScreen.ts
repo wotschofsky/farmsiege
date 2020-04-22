@@ -35,10 +35,13 @@ export default class StartScreen extends Component<StartScreenProps> {
     const movablesStore = <MovablesStore>this.stores.movables;
     movablesStore.reset();
 
+    const statsStore = <StatsStore>this.stores.score;
     const screensStore = <ScreensStore>this.stores.screens;
+
     if (Cookie.getJSON('helpShown')) {
       gridStore.start();
       movablesStore.start();
+      statsStore.reset();
       screensStore.setScreen(Screens.Game);
     } else {
       miscStore.setInstructionsMode('beforeGame');
@@ -49,6 +52,7 @@ export default class StartScreen extends Component<StartScreenProps> {
 
           gridStore.start();
           movablesStore.start();
+          statsStore.reset();
           screensStore.setScreen(Screens.Game);
         } else {
           screensStore.setScreen(Screens.Start);
@@ -60,9 +64,6 @@ export default class StartScreen extends Component<StartScreenProps> {
 
     const characterStore = <CharacterStore>this.stores.character;
     characterStore.reset();
-
-    const statsStore = <StatsStore>this.stores.score;
-    statsStore.reset();
 
     const effectsStore = <EffectsStore>this.stores.effects;
     effectsStore.reset();
