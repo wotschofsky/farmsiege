@@ -2,7 +2,6 @@ import { EventTypes } from './Enums';
 import Component from './Component';
 import Coordinates from './helpers/Coordinates';
 import Dimensions from './helpers/Dimensions';
-import FPS from './utils/FPS';
 import FPSDisplay from './FPSDisplay';
 import RenderingContext from './RenderingContext';
 
@@ -26,7 +25,6 @@ class Canvas {
   private grid: Dimensions;
   private showFPS?: boolean;
 
-  private fps: FPS;
   private fpsDisplay: FPSDisplay;
 
   private lastFrameOn: number;
@@ -43,7 +41,6 @@ class Canvas {
     this.grid = config.grid;
     this.showFPS = config.showFPS || false;
 
-    this.fps = new FPS();
     this.fpsDisplay = new FPSDisplay();
     this.canvas.width = config.grid.width;
     this.canvas.height = config.grid.height;
@@ -106,9 +103,10 @@ class Canvas {
       this.fpsDisplay.render(this.canvas, this.context, timeDifference, this.scaleFactor);
     }
 
-    setTimeout(() => {
-      this.render();
-    }, 1000 / this.fps.current - (Date.now() - this.frameStart));
+    const requestAnimationFrame =
+      window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+
+    requestAnimationFrame(this.render.bind(this));
   }
 }
 
