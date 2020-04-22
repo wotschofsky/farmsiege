@@ -104,3 +104,11 @@ https://de.gravatar.com/site/implement/images/
 Skin Colors \
 16.04.2020 \
 https://www.schemecolor.com/real-skin-tones-color-palette.php
+
+rollup-plugin-javascript-obfuscator Docs \
+22.04.2020 \
+https://www.npmjs.com/package/rollup-plugin-javascript-obfuscator
+
+javascript-obfuscator Docs \
+22.04.2020 \
+https://github.com/javascript-obfuscator/javascript-obfuscator
