@@ -6,6 +6,7 @@ import copy from 'rollup-plugin-copy';
 import htmlTemplate from 'rollup-plugin-generate-html-template';
 import json from '@rollup/plugin-json';
 import livereload from 'rollup-plugin-livereload';
+import obfuscatorPlugin from 'rollup-plugin-javascript-obfuscator';
 import resolve from '@rollup/plugin-node-resolve';
 import serve from 'rollup-plugin-serve';
 import typescript from 'rollup-plugin-typescript';
@@ -42,7 +43,7 @@ export default {
     {
       file: 'dist/bundle.js',
       format: 'iife',
-      sourcemap: !process.env.PRODUCTION
+      sourcemap: !process.env.PRODUCTION ? 'inline' : false
     }
   ],
   plugins: [
@@ -75,6 +76,12 @@ export default {
       ]
     }),
     terser(),
+    obfuscatorPlugin({
+      sourceMap: !process.env.PRODUCTION,
+      compact: true,
+      selfDefending: true,
+      domainLock: ['.felisk.io', 'localhost']
+    }),
     ...devConfig
   ]
 };
