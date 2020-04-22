@@ -112,3 +112,7 @@ https://www.npmjs.com/package/rollup-plugin-javascript-obfuscator
 javascript-obfuscator Docs \
 22.04.2020 \
 https://github.com/javascript-obfuscator/javascript-obfuscator
+
+load-scripts Docs \
+23.04.2020 \
+https://www.npmjs.com/package/load-script
