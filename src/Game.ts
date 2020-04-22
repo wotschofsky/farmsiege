@@ -32,7 +32,6 @@ import SplashScreen, { SplashScreenProps } from './overlays/SplashScreen';
 
 class Game extends Component<{}> {
   private activeScreen: Screens;
-  private gameOver = false;
 
   protected onInit(): void {
     const settingsStore = <SettingsStore>this.stores.settings;
@@ -122,6 +121,12 @@ class Game extends Component<{}> {
       miscStore.fetchHighscores();
 
       effectsStore.showGameOverAnimation(new Coordinates(1000, 800), async () => {
+        movablesStore.stop();
+        movablesStore.reset();
+        gridStore.reset();
+
+        screensStore.setScreen(Screens.GameOver);
+
         const score = statsStore.content.score;
         if (score > 0) {
           const name = prompt(`Your Score is ${score}! Please enter your name (max. 22 Characters)`, '');
@@ -140,12 +145,6 @@ class Game extends Component<{}> {
             }
           }
         }
-
-        movablesStore.stop();
-        movablesStore.reset();
-        gridStore.reset();
-
-        screensStore.setScreen(Screens.GameOver);
       });
 
       gridStore.stop();
