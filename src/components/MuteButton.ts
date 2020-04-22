@@ -26,7 +26,7 @@ export default class MuteButton extends Component<MuteButtonProps> {
   private get icon(): string {
     const settingsStore = <SettingsStore>this.stores.settings;
 
-    if (settingsStore.content.music) {
+    if (settingsStore.content.volume) {
       return volumeIconSprite;
     }
     return muteIconSprite;

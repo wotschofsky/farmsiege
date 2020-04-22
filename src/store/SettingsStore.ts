@@ -2,7 +2,7 @@ import Cookie from 'js-cookie';
 import Store from '../../lib/store/Store';
 
 export type SettingsStoreContent = {
-  music: boolean;
+  volume: boolean;
 };
 
 export default class SettingsStore extends Store<SettingsStoreContent> {
@@ -13,18 +13,18 @@ export default class SettingsStore extends Store<SettingsStoreContent> {
     }
 
     super('settings', {
-      music: playMusic
+      volume: playMusic
     });
   }
 
   public toggleMusic(): void {
     this.update(
       (oldState: SettingsStoreContent): SettingsStoreContent => {
-        Cookie.set('playMusic', (!oldState.music).toString());
+        Cookie.set('playMusic', (!oldState.volume).toString());
 
         return {
           ...oldState,
-          music: !oldState.music
+          volume: !oldState.volume
         };
       }
     );

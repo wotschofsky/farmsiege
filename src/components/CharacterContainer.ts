@@ -149,7 +149,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
             }
           }
 
-          if (settingsStore.content.music) {
+          if (settingsStore.content.volume) {
             new Audio(shotgunSound).play();
           }
 
