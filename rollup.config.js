@@ -37,6 +37,11 @@ if (!process.env.PRODUCTION) {
   ];
 }
 
+const allowedDomains = ['.felisk.io'];
+if (!process.env.PRODUCTION) {
+  allowedDomains.push('localhost');
+}
+
 export default {
   input: 'src/main.ts',
   output: [
@@ -80,7 +85,7 @@ export default {
       sourceMap: !process.env.PRODUCTION,
       compact: true,
       selfDefending: true,
-      domainLock: ['.felisk.io', 'localhost']
+      domainLock: allowedDomains
     }),
     ...devConfig
   ]
