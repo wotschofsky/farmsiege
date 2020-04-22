@@ -6,9 +6,9 @@ import EventListener, { EventListenerProps } from '../../lib/components/logical/
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
 import MiscStore from '../store/MiscStore';
-import muteIconSprite from '../assets/ui/icons/mute.png';
+import muteIconSprite from '../assets/ui/icons/volume_0.png';
 import SettingsStore from '../store/SettingsStore';
-import volumeIconSprite from '../assets/ui/icons/volume.png';
+import volumeIconSprite from '../assets/ui/icons/volume_3.png';
 
 export type MuteButtonProps = {};
 
