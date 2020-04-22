@@ -6,9 +6,11 @@ import EventListener, { EventListenerProps } from '../../lib/components/logical/
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
 import MiscStore from '../store/MiscStore';
-import muteIconSprite from '../assets/ui/icons/volume_0.png';
 import SettingsStore from '../store/SettingsStore';
-import volumeIconSprite from '../assets/ui/icons/volume_3.png';
+import volume0IconSprite from '../assets/ui/icons/volume_0.png';
+import volume1IconSprite from '../assets/ui/icons/volume_1.png';
+import volume2IconSprite from '../assets/ui/icons/volume_2.png';
+import volume3IconSprite from '../assets/ui/icons/volume_3.png';
 
 export type MuteButtonProps = {};
 
@@ -26,10 +28,16 @@ export default class MuteButton extends Component<MuteButtonProps> {
   private get icon(): string {
     const settingsStore = <SettingsStore>this.stores.settings;
 
-    if (settingsStore.content.volume) {
-      return volumeIconSprite;
+    switch (settingsStore.content.volume) {
+      case 0:
+        return volume0IconSprite;
+      case 0.33:
+        return volume1IconSprite;
+      case 0.67:
+        return volume2IconSprite;
+      case 1:
+        return volume3IconSprite;
     }
-    return muteIconSprite;
   }
 
   protected template: Template = [

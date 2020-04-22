@@ -1,30 +1,48 @@
 import Cookie from 'js-cookie';
 import Store from '../../lib/store/Store';
 
+export type VolumeValues = 0 | 0.33 | 0.67 | 1;
+const validVolumeValues: VolumeValues[] = [0, 0.33, 0.67, 1];
+
 export type SettingsStoreContent = {
-  volume: boolean;
+  volume: VolumeValues;
 };
 
 export default class SettingsStore extends Store<SettingsStoreContent> {
   public constructor() {
-    let playMusic = true;
-    if (Cookie.getJSON('playMusic') === false) {
-      playMusic = false;
+    let volume: VolumeValues = 1;
+
+    const cookieValue = Cookie.getJSON('volume');
+    if (typeof cookieValue === 'number' && validVolumeValues.includes(<VolumeValues>cookieValue)) {
+      volume = <VolumeValues>cookieValue;
     }
 
     super('settings', {
-      volume: playMusic
+      volume: volume
     });
   }
 
   public toggleMusic(): void {
     this.update(
       (oldState: SettingsStoreContent): SettingsStoreContent => {
-        Cookie.set('playMusic', (!oldState.volume).toString());
+        let newVolume: VolumeValues = 0;
+        switch (oldState.volume) {
+          case 0:
+            newVolume = 0.33;
+            break;
+          case 0.33:
+            newVolume = 0.67;
+            break;
+          case 0.67:
+            newVolume = 1;
+            break;
+        }
+
+        Cookie.set('volume', newVolume.toString());
 
         return {
           ...oldState,
-          volume: !oldState.volume
+          volume: newVolume
         };
       }
     );
