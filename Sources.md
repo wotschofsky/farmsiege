@@ -116,3 +116,7 @@ https://github.com/javascript-obfuscator/javascript-obfuscator
 load-scripts Docs \
 23.04.2020 \
 https://www.npmjs.com/package/load-script
+
+Firebase Database Saving Data \
+23.04.2020 \
+https://firebase.google.com/docs/database/admin/save-data
