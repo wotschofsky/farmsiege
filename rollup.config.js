@@ -19,7 +19,7 @@ if (!process.env.PRODUCTION) {
     serve({
       contentBase: './dist/',
       open: false,
-      port: process.env.PORT || 10001
+      port: process.env.PORT || 3000
     }),
     livereload({
       watch: 'dist'
