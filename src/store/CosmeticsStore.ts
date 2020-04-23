@@ -113,9 +113,9 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
   public constructor() {
     super('cosmetics', {
-      hat: Hats.Mexican,
-      shirt: Shirts.Woodsman,
-      pants: Pants.Blue,
+      hat: Math.floor(Math.random() * hatsData.length),
+      shirt: Math.floor(Math.random() * shirtsData.length),
+      pants: Math.floor(Math.random() * pantsData.length),
       skinColor: <SkinColors>(Math.round(Math.random() * 4) + 1)
     });
 
