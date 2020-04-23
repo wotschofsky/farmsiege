@@ -9,7 +9,8 @@
     }
   ],
   "env": {
-    "RECAPTCHA_SECRET": "@garden-defense.recaptcha-secret"
+    "RECAPTCHA_SECRET": "@garden-defense.recaptcha-secret",
+    "FIREBASE_PRIVATE_KEY": "@garden-defense.firebase-private-key"
   },
   "functions": {
     "api/*.ts": {

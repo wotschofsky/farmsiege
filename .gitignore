@@ -9,4 +9,4 @@ src/assets/soundtrack/**
 
 .now
 .env
-api/firebase-account.json
+api/firebase-private-key.txt
