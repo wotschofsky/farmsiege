@@ -1,6 +1,7 @@
 import { Template } from '../lib/Types';
 import Component from '../lib/Component';
 import Coordinates from '../lib/helpers/Coordinates';
+import load from 'load-script';
 
 import Background from './components/surroundings/Background';
 import soundtrackMoonBase from './assets/soundtrack/moon_base.mp3';
@@ -68,6 +69,20 @@ class Game extends Component<{}> {
           audio.src = soundtrackMoonBase;
       }
     });
+
+    load(
+      `https://www.google.com/recaptcha/api.js?render=${'6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW'}`,
+      (err: Error) => {
+        if (err) {
+          console.error(err);
+        } else {
+          grecaptcha.ready(async () => {
+            const miscStore = <MiscStore>this.stores.misc;
+            miscStore.setRecaptchaLoaded();
+          });
+        }
+      }
+    );
   }
 
   public constructor() {
