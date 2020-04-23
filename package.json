@@ -11,16 +11,21 @@
       "lint": "eslint **/*.ts"
    },
    "dependencies": {
+      "@now/node": "^1.5.1",
       "@rollup/plugin-json": "^4.0.1",
       "@types/clone-deep": "^4.0.1",
       "@types/core-js": "^2.5.2",
       "@types/eases": "^1.0.0",
       "@types/js-cookie": "^2.2.4",
+      "@types/node": "^13.13.2",
+      "@types/node-fetch": "^2.5.6",
       "clone-deep": "^4.0.1",
       "core-js": "^3.3.5",
       "eases": "^1.0.8",
+      "firebase-admin": "^8.11.0",
       "js-cookie": "^2.2.1",
-      "load-script": "^1.0.0"
+      "load-script": "^1.0.0",
+      "node-fetch": "^2.6.0"
    },
    "devDependencies": {
       "@babel/core": "^7.6.4",
