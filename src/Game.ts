@@ -138,15 +138,24 @@ class Game extends Component<{}> {
 
       effectsStore.showGameOverAnimation(new Coordinates(1000, 800), async () => {
         const score = statsStore.content.score;
-        if (score > 0) {
+
+        if (score > 0 && miscStore.content.recaptchaLoaded) {
           const name = prompt(`Your Score is ${score}! Please enter your name (max. 22 Characters)`, '');
           if (!!name && name.trim().length >= 1) {
-            await fetch('https://garden-defense.firebaseio.com/highscores.json', {
+            const recaptchaToken = await grecaptcha.execute('6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW', {
+              action: 'highscore'
+            });
+
+            await fetch('/api/submitScore', {
               method: 'POST',
               body: JSON.stringify({
                 score: score,
-                name: name.trim().slice(0, 22)
-              })
+                name: name.trim().slice(0, 22),
+                recaptcha: recaptchaToken
+              }),
+              headers: {
+                'Content-Type': 'application/json'
+              }
             });
 
             const highscores = miscStore.content.highscores;
