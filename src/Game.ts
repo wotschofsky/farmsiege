@@ -1,6 +1,7 @@
 import { Template } from '../lib/Types';
 import Component from '../lib/Component';
 import Coordinates from '../lib/helpers/Coordinates';
+import load from 'load-script';
 
 import Background from './components/surroundings/Background';
 import soundtrackMoonBase from './assets/soundtrack/moon_base.mp3';
@@ -67,6 +68,20 @@ class Game extends Component<{}> {
           audio.src = soundtrackMoonBase;
       }
     });
+
+    load(
+      `https://www.google.com/recaptcha/api.js?render=${'6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW'}`,
+      (err: Error) => {
+        if (err) {
+          console.error(err);
+        } else {
+          grecaptcha.ready(async () => {
+            const miscStore = <MiscStore>this.stores.misc;
+            miscStore.setRecaptchaLoaded();
+          });
+        }
+      }
+    );
   }
 
   public constructor() {
@@ -128,15 +143,24 @@ class Game extends Component<{}> {
         screensStore.setScreen(Screens.GameOver);
 
         const score = statsStore.content.score;
-        if (score > 0) {
+
+        if (score > 0 && miscStore.content.recaptchaLoaded) {
           const name = prompt(`Your Score is ${score}! Please enter your name (max. 22 Characters)`, '');
           if (!!name && name.trim().length >= 1) {
-            await fetch('https://garden-defense.firebaseio.com/highscores.json', {
+            const recaptchaToken = await grecaptcha.execute('6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW', {
+              action: 'highscore'
+            });
+
+            await fetch('/api/submitScore', {
               method: 'POST',
               body: JSON.stringify({
                 score: score,
-                name: name.trim().slice(0, 22)
-              })
+                name: name.trim().slice(0, 22),
+                recaptcha: recaptchaToken
+              }),
+              headers: {
+                'Content-Type': 'application/json'
+              }
             });
 
             const highscores = miscStore.content.highscores;

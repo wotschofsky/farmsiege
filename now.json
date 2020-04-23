@@ -7,5 +7,14 @@
       },
       "continue": true
     }
-  ]
+  ],
+  "env": {
+    "RECAPTCHA_SECRET": "@garden-defense.recaptcha-secret"
+  },
+  "functions": {
+    "api/*.ts": {
+      "memory": 128,
+      "maxDuration": 10
+    }
+  }
 }
