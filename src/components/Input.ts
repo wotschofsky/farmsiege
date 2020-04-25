@@ -72,7 +72,7 @@ export default class Input extends Component<InputProps> {
       props: (ctx: PropsContext<InputProps>): TextProps => ({
         text: <string>ctx.props.placeholder,
         baseline: 'middle',
-        color: '#bbb',
+        color: '#aaa',
         font: 'Heartbit',
         size: 48
       }),
