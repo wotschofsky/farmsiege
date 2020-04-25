@@ -94,10 +94,13 @@ export default class Input extends Component<InputProps> {
       props: (ctx: PropsContext<InputProps>): EventListenerProps => ({
         size: new Dimensions(ctx.props.width, 48),
         onKeypress: (event: KeyboardEvent): void => {
-          if (event.key === 'Enter') {
-            this.onEnterCallback(this.text);
-            this.text = '';
-            return;
+          switch (event.key) {
+            case 'Enter':
+              this.onEnterCallback(this.text);
+              this.text = '';
+              return;
+            case 'Delete':
+              return;
           }
 
           if (!this.limitReached) {
