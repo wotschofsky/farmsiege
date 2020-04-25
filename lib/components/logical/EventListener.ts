@@ -4,14 +4,17 @@ import Coordinates from '../../helpers/Coordinates';
 import { EventTypes } from '../../Enums';
 import Dimensions from '../../helpers/Dimensions';
 
+export type ClickListener = (position: Coordinates) => void;
+
 export type EventListenerProps = {
   size: Dimensions;
-  onClick?: (position: Coordinates) => void;
+  onClick?: ClickListener;
   visualize?: boolean;
 };
 
 export default class EventListener extends Component<EventListenerProps> {
-  private clickListener: ((position: Coordinates) => void) | null = null;
+  private clickListener: ClickListener | null = null;
+
   private componentPosition: Coordinates;
   private componentSize: Dimensions;
   private renderContext: RenderingContext;
@@ -20,21 +23,28 @@ export default class EventListener extends Component<EventListenerProps> {
     super();
   }
 
-  public propagateEvent(type: EventTypes, position: Coordinates): void {
-    if (
+  private isWithinBoundaries(position: Coordinates): boolean {
+    return (
       position.x < this.componentPosition.x + this.componentSize.width + this.renderContext.parentX &&
       position.y < this.componentPosition.y + this.componentSize.height + this.renderContext.parentY &&
       position.x > this.componentPosition.x + this.renderContext.parentX &&
       position.y > this.componentPosition.y + this.renderContext.parentY
-    ) {
-      if (type === EventTypes.Click && this.clickListener) {
-        this.clickListener(position);
-      }
+    );
+  }
+
+  public propagateEvent(type: EventTypes, position: Coordinates): void {
+    switch (type) {
+      case EventTypes.Click:
+        if (this.clickListener && this.isWithinBoundaries(position)) {
+          this.clickListener(position);
+        }
+        break;
     }
   }
 
   public render(context: RenderingContext, position: Coordinates, props: EventListenerProps): void {
     this.clickListener = props.onClick || null;
+
     this.componentPosition = position;
     this.componentSize = props.size;
     this.renderContext = context;
