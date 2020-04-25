@@ -5,15 +5,18 @@ import { EventTypes } from '../../Enums';
 import Dimensions from '../../helpers/Dimensions';
 
 export type ClickListener = (position: Coordinates) => void;
+export type KeypressListener = (event: KeyboardEvent) => void;
 
 export type EventListenerProps = {
   size: Dimensions;
   onClick?: ClickListener;
+  onKeypress?: KeypressListener;
   visualize?: boolean;
 };
 
 export default class EventListener extends Component<EventListenerProps> {
   private clickListener: ClickListener | null = null;
+  private keypressListener: KeypressListener | null = null;
 
   private componentPosition: Coordinates;
   private componentSize: Dimensions;
@@ -50,11 +53,17 @@ export default class EventListener extends Component<EventListenerProps> {
           this.clickListener(position);
         }
         break;
+      case EventTypes.Keypress:
+        if (this.keypressListener) {
+          this.keypressListener(<KeyboardEvent>event);
+        }
+        break;
     }
   }
 
   public render(context: RenderingContext, position: Coordinates, props: EventListenerProps): void {
     this.clickListener = props.onClick || null;
+    this.keypressListener = props.onKeypress || null;
 
     this.componentPosition = position;
     this.componentSize = props.size;

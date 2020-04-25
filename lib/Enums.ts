@@ -11,5 +11,6 @@ export enum Directions {
 }
 
 export enum EventTypes {
-  Click
+  Click,
+  Keypress
 }
