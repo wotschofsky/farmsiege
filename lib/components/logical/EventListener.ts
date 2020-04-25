@@ -4,7 +4,7 @@ import Coordinates from '../../helpers/Coordinates';
 import { EventTypes } from '../../Enums';
 import Dimensions from '../../helpers/Dimensions';
 
-export type MouseListener = (position: Coordinates) => void;
+export type MouseListener = (event: MouseEvent) => void;
 export type KeyboardListener = (event: KeyboardEvent) => void;
 
 export type EventListenerProps = {
@@ -54,7 +54,7 @@ export default class EventListener extends Component<EventListenerProps> {
       case EventTypes.Click:
         const position = this.getMouseEventPosition(<MouseEvent>event);
         if (this.clickListener && this.isWithinBoundaries(position)) {
-          this.clickListener(position);
+          this.clickListener(<MouseEvent>event);
         }
         break;
       case EventTypes.Keypress:
