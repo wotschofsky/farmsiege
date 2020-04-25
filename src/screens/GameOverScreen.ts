@@ -1,4 +1,4 @@
-import { Template } from '../../lib/Types';
+import { Template, TransformationConfig } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Dimensions from '../../lib/helpers/Dimensions';
