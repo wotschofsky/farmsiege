@@ -29,10 +29,10 @@ export default abstract class Component<P> {
     });
   }
 
-  public propagateEvent(type: EventTypes, position: Coordinates): void {
+  public propagateEvent(type: EventTypes, event: Event): void {
     this._template.forEach(el => {
       if (typeof el.show === 'function' && !el.show()) return;
-      el.component.propagateEvent(type, position);
+      el.component.propagateEvent(type, event);
     });
   }
 

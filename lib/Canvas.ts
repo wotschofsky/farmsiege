@@ -59,14 +59,7 @@ class Canvas {
     });
 
     this.canvas.addEventListener('click', event => {
-      const rect = this.canvas.getBoundingClientRect();
-      this.root.propagateEvent(
-        EventTypes.Click,
-        new Coordinates(
-          ((event.clientX - rect.left) / rect.width) * this.grid.width,
-          ((event.clientY - rect.top) / rect.height) * this.grid.height
-        )
-      );
+      this.root.propagateEvent(EventTypes.Click, event);
     });
   }
 

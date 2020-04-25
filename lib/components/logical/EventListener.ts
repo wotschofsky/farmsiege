@@ -18,6 +18,7 @@ export default class EventListener extends Component<EventListenerProps> {
   private componentPosition: Coordinates;
   private componentSize: Dimensions;
   private renderContext: RenderingContext;
+  private gridSize: Dimensions;
 
   public constructor() {
     super();
@@ -32,9 +33,19 @@ export default class EventListener extends Component<EventListenerProps> {
     );
   }
 
-  public propagateEvent(type: EventTypes, position: Coordinates): void {
+  private getMouseEventPosition(event: MouseEvent): Coordinates {
+    const rect = this.renderContext.canvas.getBoundingClientRect();
+    const position = new Coordinates(
+      ((event.clientX - rect.left) / rect.width) * this.gridSize.width,
+      ((event.clientY - rect.top) / rect.height) * this.gridSize.height
+    );
+    return position;
+  }
+
+  public propagateEvent(type: EventTypes, event: Event): void {
     switch (type) {
       case EventTypes.Click:
+        const position = this.getMouseEventPosition(<MouseEvent>event);
         if (this.clickListener && this.isWithinBoundaries(position)) {
           this.clickListener(position);
         }
@@ -48,6 +59,7 @@ export default class EventListener extends Component<EventListenerProps> {
     this.componentPosition = position;
     this.componentSize = props.size;
     this.renderContext = context;
+    this.gridSize = context.grid;
 
     if (props.visualize) {
       context.renderContext.beginPath();
