@@ -120,3 +120,7 @@ https://www.npmjs.com/package/load-script
 Firebase Database Saving Data \
 23.04.2020 \
 https://firebase.google.com/docs/database/admin/save-data
+
+Canvas measureText \
+25.04.2020 \
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/measureText
