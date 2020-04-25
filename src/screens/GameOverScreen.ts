@@ -1,4 +1,4 @@
-import { Template } from '../../lib/Types';
+import { Template, TransformationConfig } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Dimensions from '../../lib/helpers/Dimensions';
@@ -127,6 +127,21 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
         const statsStore = <StatsStore>this.stores.score;
         const miscStore = <MiscStore>this.stores.misc;
         return statsStore.content.score > 0 && !statsStore.content.scoreSubmitted && miscStore.content.recaptchaLoaded;
+      }
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(550, 300 + 24),
+      props: (): TextProps => ({
+        text: 'Score submitted',
+        baseline: 'middle',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 48
+      }),
+      show: (): boolean => {
+        const statsStore = <StatsStore>this.stores.score;
+        return statsStore.content.scoreSubmitted;
       }
     },
 
