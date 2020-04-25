@@ -12,7 +12,7 @@ export type StatsStoreContent = {
 export default class StatsStore extends Store<StatsStoreContent> {
   public constructor() {
     super('score', {
-      score: 10,
+      score: 0,
       scoreSubmitted: false,
       duration: 0
     });
