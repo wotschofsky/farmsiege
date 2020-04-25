@@ -13,6 +13,7 @@ type OnEnterCallback = (value: string) => void;
 export type InputProps = {
   width: number;
   maxLength?: number;
+  placeholder?: string;
   onEnter?: OnEnterCallback;
 };
 
@@ -64,6 +65,23 @@ export default class Input extends Component<InputProps> {
         font: 'Heartbit',
         size: 48
       })
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(8, 24),
+      props: (ctx: PropsContext<InputProps>): TextProps => ({
+        text: <string>ctx.props.placeholder,
+        baseline: 'middle',
+        color: '#bbb',
+        font: 'Heartbit',
+        size: 48
+      }),
+      show: (ctx: PropsContext<InputProps> | undefined): boolean => {
+        if (!ctx) {
+          return false;
+        }
+        return !!ctx.props.placeholder && !this.text;
+      }
     },
 
     {
