@@ -4,19 +4,23 @@ import Coordinates from '../../helpers/Coordinates';
 import { EventTypes } from '../../Enums';
 import Dimensions from '../../helpers/Dimensions';
 
-export type ClickListener = (position: Coordinates) => void;
-export type KeypressListener = (event: KeyboardEvent) => void;
+export type MouseListener = (position: Coordinates) => void;
+export type KeyboardListener = (event: KeyboardEvent) => void;
 
 export type EventListenerProps = {
   size: Dimensions;
-  onClick?: ClickListener;
-  onKeypress?: KeypressListener;
+  onClick?: MouseListener;
+  onKeypress?: KeyboardListener;
+  onKeydown?: KeyboardListener;
+  onKeyup?: KeyboardListener;
   visualize?: boolean;
 };
 
 export default class EventListener extends Component<EventListenerProps> {
-  private clickListener: ClickListener | null = null;
-  private keypressListener: KeypressListener | null = null;
+  private clickListener: MouseListener | null = null;
+  private keypressListener: KeyboardListener | null = null;
+  private keydownListener: KeyboardListener | null = null;
+  private keyupListener: KeyboardListener | null = null;
 
   private componentPosition: Coordinates;
   private componentSize: Dimensions;
@@ -58,12 +62,24 @@ export default class EventListener extends Component<EventListenerProps> {
           this.keypressListener(<KeyboardEvent>event);
         }
         break;
+      case EventTypes.Keydown:
+        if (this.keydownListener) {
+          this.keydownListener(<KeyboardEvent>event);
+        }
+        break;
+      case EventTypes.Keyup:
+        if (this.keyupListener) {
+          this.keyupListener(<KeyboardEvent>event);
+        }
+        break;
     }
   }
 
   public render(context: RenderingContext, position: Coordinates, props: EventListenerProps): void {
     this.clickListener = props.onClick || null;
     this.keypressListener = props.onKeypress || null;
+    this.keydownListener = props.onKeydown || null;
+    this.keyupListener = props.onKeyup || null;
 
     this.componentPosition = position;
     this.componentSize = props.size;

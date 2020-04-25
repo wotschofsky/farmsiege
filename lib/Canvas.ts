@@ -65,6 +65,14 @@ class Canvas {
     window.addEventListener('keypress', event => {
       this.root.propagateEvent(EventTypes.Keypress, event);
     });
+
+    window.addEventListener('keydown', event => {
+      this.root.propagateEvent(EventTypes.Keydown, event);
+    });
+
+    window.addEventListener('keyup', event => {
+      this.root.propagateEvent(EventTypes.Keyup, event);
+    });
   }
 
   private adjustToScreen(): void {
