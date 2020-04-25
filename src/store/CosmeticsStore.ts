@@ -129,7 +129,7 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
   public saveConfiguration(): void {
     const data = this.content;
-    Cookie.set(this.cookieName, data);
+    Cookie.set(this.cookieName, data, { expires: 365 });
   }
 
   public retrieveConfiguration(): CosmeticsStoreContent | void {

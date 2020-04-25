@@ -38,7 +38,7 @@ export default class SettingsStore extends Store<SettingsStoreContent> {
             break;
         }
 
-        Cookie.set('volume', newVolume.toString());
+        Cookie.set('volume', newVolume.toString(), { expires: 365 });
 
         return {
           ...oldState,
