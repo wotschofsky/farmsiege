@@ -27,10 +27,6 @@ export default class EventListener extends Component<EventListenerProps> {
   private renderContext: RenderingContext;
   private gridSize: Dimensions;
 
-  public constructor() {
-    super();
-  }
-
   private isWithinBoundaries(position: Coordinates): boolean {
     return (
       position.x < this.componentPosition.x + this.componentSize.width + this.renderContext.parentX &&
