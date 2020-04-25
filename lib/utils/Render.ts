@@ -56,7 +56,7 @@ export default class RenderUtils {
 
     item.component.render(
       new RenderingContext(
-        context.frame,
+        context.grid,
         computedParentX,
         computedParentY,
         context.canvas,

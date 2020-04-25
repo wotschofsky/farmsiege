@@ -1,7 +1,7 @@
 import Dimensions from './helpers/Dimensions';
 
 export default class RenderingContext {
-  private _frame: Dimensions;
+  private _grid: Dimensions;
   private _parentX: number;
   private _parentY: number;
   private _canvas: HTMLCanvasElement;
@@ -10,8 +10,8 @@ export default class RenderingContext {
   private _timeDifference: number;
   private _frameStart: number;
 
-  public get frame(): Dimensions {
-    return this._frame;
+  public get grid(): Dimensions {
+    return this._grid;
   }
 
   public get parentX(): number {
@@ -43,7 +43,7 @@ export default class RenderingContext {
   }
 
   public constructor(
-    frame: Dimensions,
+    grid: Dimensions,
     parentX: number,
     parentY: number,
     canvas: HTMLCanvasElement,
@@ -52,7 +52,7 @@ export default class RenderingContext {
     timeDifference: number,
     frameStart: number
   ) {
-    this._frame = frame;
+    this._grid = grid;
     this._parentX = parentX;
     this._parentY = parentY;
     this._canvas = canvas;
