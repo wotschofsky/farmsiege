@@ -11,11 +11,13 @@ import Dialog, { DialogProps } from '../components/Dialog';
 import EffectsStore from '../store/EffectsStore';
 import GridStore from '../store/GridStore';
 import Highscores from '../components/Highscores';
+import homeButtonSprite from '../assets/ui/home.png';
+import Input, { InputProps } from '../components/Input';
+import MiscStore from '../store/MiscStore';
 import MovablesStore from '../store/MovablesStore';
+import playButtonSprite from '../assets/ui/play.png';
 import ScreensStore, { Screens } from '../store/ScreensStore';
 import StatsStore from '../store/StatsStore';
-import playButtonSprite from '../assets/ui/play.png';
-import homeButtonSprite from '../assets/ui/home.png';
 
 export type GameOverScreenProps = {};
 
@@ -40,6 +42,49 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     effectsStore.reset();
   }
 
+  private async submitScore(name: string): Promise<void> {
+    const miscStore = <MiscStore>this.stores.misc;
+    const statsStore = <StatsStore>this.stores.score;
+
+    const score = statsStore.content.score;
+
+    if (
+      score <= 0 ||
+      name.trim().length < 1 ||
+      statsStore.content.scoreSubmitted ||
+      !miscStore.content.recaptchaLoaded
+    ) {
+      return;
+    }
+
+    statsStore.setScoreSubmitted(true);
+
+    try {
+      const recaptchaToken = await grecaptcha.execute('6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW', {
+        action: 'highscore'
+      });
+
+      await fetch('/api/submitScore', {
+        method: 'POST',
+        body: JSON.stringify({
+          score: score,
+          name: name.trim().slice(0, 22),
+          recaptcha: recaptchaToken
+        }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+    } catch {
+      statsStore.setScoreSubmitted(false);
+    }
+
+    const highscores = miscStore.content.highscores;
+    if (highscores[highscores.length - 1].score < score) {
+      miscStore.fetchHighscores();
+    }
+  }
+
   private goBack(): void {
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.setScreen(Screens.Start);
@@ -56,15 +101,32 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     },
     {
       component: new Text(),
-      position: (): Coordinates => new Coordinates(550, 350),
+      position: (): Coordinates => new Coordinates(550, 220),
       props: (): TextProps => {
         const statsStore = <StatsStore>this.stores.score;
         return {
           text: `YOUR SCORE: ${statsStore.content.score}`,
+          baseline: 'top',
           color: '#fff',
           font: 'Heartbit',
           size: 64
         };
+      }
+    },
+
+    {
+      component: new Input(),
+      position: (): Coordinates => new Coordinates(550, 300),
+      props: (): InputProps => ({
+        width: 500,
+        maxLength: 22,
+        placeholder: 'Enter your name and press "enter"',
+        onEnter: this.submitScore
+      }),
+      show: (): boolean => {
+        const statsStore = <StatsStore>this.stores.score;
+        const miscStore = <MiscStore>this.stores.misc;
+        return statsStore.content.score > 0 && !statsStore.content.scoreSubmitted && miscStore.content.recaptchaLoaded;
       }
     },
 

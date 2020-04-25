@@ -134,6 +134,7 @@ class Game extends Component<{}> {
     if (gridStore.friendlyPlants === 0 && !effectsStore.directContent.gameOver.active) {
       const miscStore = <MiscStore>this.stores.misc;
       miscStore.fetchHighscores();
+      gridStore.stop();
 
       effectsStore.showGameOverAnimation(new Coordinates(1000, 800), async () => {
         movablesStore.stop();
@@ -141,37 +142,7 @@ class Game extends Component<{}> {
         gridStore.reset();
 
         screensStore.setScreen(Screens.GameOver);
-
-        const score = statsStore.content.score;
-
-        if (score > 0 && miscStore.content.recaptchaLoaded) {
-          const name = prompt(`Your Score is ${score}! Please enter your name (max. 22 Characters)`, '');
-          if (!!name && name.trim().length >= 1) {
-            const recaptchaToken = await grecaptcha.execute('6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW', {
-              action: 'highscore'
-            });
-
-            await fetch('/api/submitScore', {
-              method: 'POST',
-              body: JSON.stringify({
-                score: score,
-                name: name.trim().slice(0, 22),
-                recaptcha: recaptchaToken
-              }),
-              headers: {
-                'Content-Type': 'application/json'
-              }
-            });
-
-            const highscores = miscStore.content.highscores;
-            if (highscores[highscores.length - 1].score < score) {
-              miscStore.fetchHighscores();
-            }
-          }
-        }
       });
-
-      gridStore.stop();
     }
 
     // Update speedMultiplier in stores

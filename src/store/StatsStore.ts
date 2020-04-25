@@ -5,13 +5,15 @@ import values from '../values.json';
 
 export type StatsStoreContent = {
   score: number;
+  scoreSubmitted: boolean;
   duration: number;
 };
 
 export default class StatsStore extends Store<StatsStoreContent> {
   public constructor() {
     super('score', {
-      score: 0,
+      score: 10,
+      scoreSubmitted: false,
       duration: 0
     });
   }
@@ -33,6 +35,16 @@ export default class StatsStore extends Store<StatsStoreContent> {
       const clonedState = cloneDeep(oldState);
 
       clonedState.duration += amount;
+
+      return clonedState;
+    });
+  }
+
+  public setScoreSubmitted(value: boolean): void {
+    this.update((oldState: StatsStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.scoreSubmitted = value;
 
       return clonedState;
     });
