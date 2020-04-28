@@ -124,3 +124,11 @@ https://firebase.google.com/docs/database/admin/save-data
 Canvas measureText \
 25.04.2020 \
 https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/measureText
+
+keycode-to-codes Docs \
+28.04.2020 \
+https://www.npmjs.com/package/keycode-to-codes
+
+core-js Docs \
+28.04.2020 \
+https://www.npmjs.com/package/core-js
