@@ -42,18 +42,22 @@ class Game extends Component<{}> {
     audio.loop = true;
     audio.volume = settingsStore.content.volume * 0.8;
     audio.autoplay = true;
-    audio.play().catch(() => {
-      window.addEventListener(
-        'click',
-        () => {
-          audio.play();
-        },
-        {
-          once: true,
-          passive: true
-        }
-      );
-    });
+    const playPromise = audio.play();
+    // Ensure IE Compatibility
+    if (playPromise) {
+      playPromise.catch(() => {
+        window.addEventListener(
+          'click',
+          () => {
+            audio.play();
+          },
+          {
+            once: true,
+            passive: true
+          }
+        );
+      });
+    }
 
     settingsStore.subscribe((state: SettingsStoreContent) => {
       audio.volume = state.volume * 0.8;
