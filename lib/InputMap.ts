@@ -52,21 +52,47 @@ export default class InputMap {
     }
 
     window.addEventListener('keydown', event => {
-      if (this.usedKeys.includes(event.code)) {
-        event.preventDefault();
-      }
+      if (event.code) {
+        if (this.usedKeys.includes(event.code)) {
+          event.preventDefault();
+        }
 
-      if (!this.activeKeys.includes(event.code)) {
-        this.activeKeys.push(event.code);
+        if (!this.activeKeys.includes(event.code)) {
+          this.activeKeys.push(event.code);
+        }
+      } else {
+        // MS Edge Fallback
+        const code = this.keyCodeToCodes(event.keyCode)[0];
+
+        if (code) {
+          if (this.usedKeys.includes(code)) {
+            event.preventDefault();
+          }
+
+          if (!this.activeKeys.includes(code)) {
+            this.activeKeys.push(code);
+          }
+        }
       }
     });
 
     window.addEventListener('keyup', event => {
       event.preventDefault();
 
-      this.activeKeys = this.activeKeys.filter(key => {
-        return key !== event.code;
-      });
+      if (event.code) {
+        this.activeKeys = this.activeKeys.filter(key => {
+          return key !== event.code;
+        });
+      } else {
+        // MS Edge Fallback
+        const code = this.keyCodeToCodes(event.keyCode)[0];
+
+        if (code) {
+          this.activeKeys = this.activeKeys.filter(key => {
+            return key !== code;
+          });
+        }
+      }
     });
 
     window.addEventListener('blur', () => {
