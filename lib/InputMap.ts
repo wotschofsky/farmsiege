@@ -121,7 +121,7 @@ export default class InputMap {
           }
         }
 
-        if (code in GamepadButtons) {
+        if (code in GamepadButtons && 'getGamepads' in navigator) {
           for (const gamepad of navigator.getGamepads()) {
             if (gamepad) {
               if (code === GamepadButtons.ButtonA && gamepad.buttons[0].pressed) {
@@ -195,7 +195,7 @@ export default class InputMap {
           }
         }
 
-        if (code in GamepadStickDirections) {
+        if (code in GamepadStickDirections && 'getGamepads' in navigator) {
           for (const gamepad of navigator.getGamepads()) {
             if (gamepad) {
               const { axes } = gamepad;

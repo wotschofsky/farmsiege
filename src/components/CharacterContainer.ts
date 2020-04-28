@@ -127,24 +127,26 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           const settingsStore = <SettingsStore>this.stores.settings;
           characterStore.fireGun();
 
-          for (const gamepad of navigator.getGamepads()) {
-            if (gamepad) {
-              let feedbackGiven = false;
+          if ('getGamepads' in navigator) {
+            for (const gamepad of navigator.getGamepads()) {
+              if (gamepad) {
+                let feedbackGiven = false;
 
-              if ('hapticActuators' in gamepad) {
-                for (const actuator of gamepad.hapticActuators) {
-                  actuator.pulse(0.7, 100);
-                  feedbackGiven = true;
+                if ('hapticActuators' in gamepad) {
+                  for (const actuator of gamepad.hapticActuators) {
+                    actuator.pulse(0.7, 100);
+                    feedbackGiven = true;
+                  }
                 }
-              }
 
-              if (!feedbackGiven && 'vibrationActuator' in gamepad) {
-                (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
-                  startDelay: 0,
-                  duration: 100,
-                  weakMagnitude: 0.7,
-                  strongMagnitude: 0.7
-                });
+                if (!feedbackGiven && 'vibrationActuator' in gamepad) {
+                  (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
+                    startDelay: 0,
+                    duration: 100,
+                    weakMagnitude: 0.7,
+                    strongMagnitude: 0.7
+                  });
+                }
               }
             }
           }
