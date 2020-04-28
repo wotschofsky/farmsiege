@@ -3168,6 +3168,11 @@ jws@^4.0.0:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
 
+keycode-to-codes@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/keycode-to-codes/-/keycode-to-codes-1.0.0.tgz#e1c9f1843f47ff4f814b19ad3b6fe0afa0d543d0"
+  integrity sha512-EWBg6fIMOhhPumVs7tEJ0qM0UhtVdLEpQpK2+x2EMSy/1MOeN1C6NDq24bf4k8gxQsHqsdEbIlmrvpshPxv/ng==
+
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
