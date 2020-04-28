@@ -231,6 +231,16 @@ export default class InputMap {
     return mappedKeys;
   }
 
+  private keyCodeToCodes(keyCode: number): string[] {
+    const codes: string[] = [];
+    for (const key in this.keyCodes) {
+      if (keyCode === this.keyCodes[key]) {
+        codes.push(key);
+      }
+    }
+    return codes;
+  }
+
   // Based on https://gist.github.com/jiyinyiyong/5915004
   private readonly keyCodes: { [code: string]: number } = {
     Digit0: 48,
