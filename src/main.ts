@@ -1,4 +1,6 @@
-// import 'core-js/stable'
+import 'core-js/features/array/find';
+import 'core-js/features/array/includes';
+import 'core-js/features/symbol';
 
 import Canvas from '../lib/Canvas';
 import Game from './Game';
