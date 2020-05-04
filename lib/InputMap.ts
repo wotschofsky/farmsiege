@@ -45,6 +45,7 @@ export default class InputMap {
   private activeKeys: string[] = [];
   private template: InputMapConfig;
   private usedKeys: string[] = [];
+  private disabled: boolean = false;
 
   public constructor(template: InputMapConfig) {
     this.template = template;
@@ -54,6 +55,10 @@ export default class InputMap {
     }
 
     window.addEventListener('keydown', event => {
+      if (this.disabled) {
+        return;
+      }
+
       if (event.code) {
         if (this.usedKeys.includes(event.code)) {
           event.preventDefault();
@@ -79,6 +84,10 @@ export default class InputMap {
     });
 
     window.addEventListener('keyup', event => {
+      if (this.disabled) {
+        return;
+      }
+
       event.preventDefault();
 
       if (event.code) {
@@ -257,5 +266,14 @@ export default class InputMap {
     }
 
     return mappedKeys;
+  }
+
+  public enable(): void {
+    this.disabled = false;
+  }
+
+  public disable(): void {
+    this.disabled = true;
+    this.activeKeys = [];
   }
 }

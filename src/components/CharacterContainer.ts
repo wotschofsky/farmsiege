@@ -11,6 +11,7 @@ import StatsStore from '../store/StatsStore';
 import TileContents from '../TileContents';
 import SettingsStore from '../store/SettingsStore';
 import EffectsStore from '../store/EffectsStore';
+import ScreensStore, { ScreensStoreContent, Screens } from '../store/ScreensStore';
 
 import values from '../values.json';
 
@@ -49,6 +50,15 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       fire: {
         keys: ['KeyC', GamepadButtons.ButtonX],
         singlePress: true
+      }
+    });
+
+    const screensStore = <ScreensStore>this.stores.screens;
+    screensStore.subscribe((state: ScreensStoreContent) => {
+      if (state.active === Screens.Game) {
+        this.inputMap.enable();
+      } else {
+        this.inputMap.disable();
       }
     });
   }
