@@ -44,6 +44,7 @@ class Game extends Component<GameProps> {
     const settingsStore = <SettingsStore>this.stores.settings;
     const screensStore = <ScreensStore>this.stores.screens;
 
+    // Musik abspielen
     const audio = new Audio(soundtrackMoonBase);
     audio.loop = true;
     audio.volume = settingsStore.content.volume * 0.8;
@@ -66,10 +67,12 @@ class Game extends Component<GameProps> {
       });
     }
 
+    // Bei Lautstärkeänderung Musik anpassen
     settingsStore.subscribe((state: SettingsStoreContent) => {
       audio.volume = state.volume * 0.8;
     });
 
+    // Musik bei Spielanfang / -ende wechseln
     screensStore.subscribe((state: ScreensStoreContent) => {
       switch (state.active) {
         case Screens.Game:
@@ -80,12 +83,14 @@ class Game extends Component<GameProps> {
       }
     });
 
+    // ReCaptcha Skript laden
     load(
       `https://www.google.com/recaptcha/api.js?render=${'6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW'}`,
       (err: Error) => {
         if (err) {
           console.error(err);
         } else {
+          // Wenn geladen, in MiscStore speichern
           grecaptcha.ready(async () => {
             const miscStore = <MiscStore>this.stores.misc;
             miscStore.setRecaptchaLoaded();
