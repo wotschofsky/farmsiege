@@ -3,8 +3,8 @@ import { Template } from './Types';
 import Coordinates from './helpers/Coordinates';
 import PropsContext from './PropsContext';
 import RenderingContext from './RenderingContext';
-import Store from './store/Store';
 import RenderUtils from './utils/Render';
+import Store from './store/Store';
 
 export default abstract class Component<P> {
   private _template: Template = [];

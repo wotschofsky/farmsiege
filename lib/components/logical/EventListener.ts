@@ -1,8 +1,8 @@
-import Component from '../../Component';
-import RenderingContext from '../../RenderingContext';
-import Coordinates from '../../helpers/Coordinates';
 import { EventTypes } from '../../Enums';
+import Component from '../../Component';
+import Coordinates from '../../helpers/Coordinates';
 import Dimensions from '../../helpers/Dimensions';
+import RenderingContext from '../../RenderingContext';
 
 export type MouseListener = (event: MouseEvent) => void;
 export type KeyboardListener = (event: KeyboardEvent) => void;

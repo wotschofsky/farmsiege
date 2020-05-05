@@ -1,6 +1,6 @@
 import Component from '../../Component';
-import RenderingContext from '../../RenderingContext';
 import Coordinates from '../../helpers/Coordinates';
+import RenderingContext from '../../RenderingContext';
 
 export type AnimatedSpriteProps = {
   source: string;

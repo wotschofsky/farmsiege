@@ -1,6 +1,6 @@
-import RenderingContext from '../../RenderingContext';
 import Component from '../../Component';
 import Coordinates from '../../helpers/Coordinates';
+import RenderingContext from '../../RenderingContext';
 
 export type ArcProps = {
   radius: number;
