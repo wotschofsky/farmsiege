@@ -10,14 +10,14 @@ import GridStore from '../../store/GridStore';
 
 import Lightning from '../Lightning';
 
-import dirt from '../assets/dirt.png';
-import mole from '../assets/mole.png';
-import molehill from '../assets/molehill.png';
-import tomato0 from '../assets/plants/tomato_0.png';
-import tomato1 from '../assets/plants/tomato_1.png';
-import tomato2 from '../assets/plants/tomato_2.png';
-import tomato3 from '../assets/plants/tomato_3.png';
-import weed from '../assets/plants/weed.png';
+import dirt from '../../assets/dirt.png';
+import mole from '../../assets/mole.png';
+import molehill from '../../assets/molehill.png';
+import tomato0 from '../../assets/plants/tomato_0.png';
+import tomato1 from '../../assets/plants/tomato_1.png';
+import tomato2 from '../../assets/plants/tomato_2.png';
+import tomato3 from '../../assets/plants/tomato_3.png';
+import weed from '../../assets/plants/weed.png';
 
 import TileContents from '../../TileContents';
 import values from '../../values.json';
