@@ -7,8 +7,6 @@ import RenderingContext from './RenderingContext';
 
 type CanvasConfig = {
   el: HTMLCanvasElement;
-  aspectRatio: number;
-  width: number;
   grid: Dimensions;
   root: Component<any>;
   showFPS: boolean;
@@ -18,8 +16,6 @@ class Canvas {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
   private aspectRatio: number;
-  private width: number;
-  private height: number;
   private root: Component<any>;
   private scaleFactor: number;
   private grid: Dimensions;
@@ -34,18 +30,12 @@ class Canvas {
     this.scaleFactor = 1;
 
     this.canvas = config.el;
-    this.aspectRatio = config.aspectRatio;
-    this.width = config.width;
-    this.height = this.width * (1 / this.aspectRatio);
+    this.aspectRatio = config.grid.width / config.grid.height;
     this.root = config.root;
     this.grid = config.grid;
     this.showFPS = config.showFPS || false;
 
     this.fpsDisplay = new FPSDisplay();
-    this.canvas.width = config.grid.width;
-    this.canvas.height = config.grid.height;
-
-    this.adjustToScreen();
 
     this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
 
@@ -78,8 +68,8 @@ class Canvas {
   private adjustToScreen(): void {
     const scaleFactor = 1;
     const rect = this.canvas.getBoundingClientRect();
-    this.canvas.width = this.width = rect.width * window.devicePixelRatio * scaleFactor;
-    this.canvas.height = this.height = rect.width * (1 / this.aspectRatio) * window.devicePixelRatio * scaleFactor;
+    this.canvas.width = rect.width * window.devicePixelRatio * scaleFactor;
+    this.canvas.height = rect.width * (1 / this.aspectRatio) * window.devicePixelRatio * scaleFactor;
     this.scaleFactor = (rect.width / this.grid.width) * window.devicePixelRatio * scaleFactor;
   }
 
