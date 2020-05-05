@@ -7,7 +7,7 @@ import PropsContext from '../../../lib/PropsContext';
 
 import { HoldableItems } from '../../store/CharacterStore';
 import ArrowButtons, { ArrowButtonsProps } from '../inputButtons/KeyboardArrowButtons';
-import ControllerStick, { ControllerStickProps } from '../inputButtons/ContollerStick';
+import ControllerStick, { ControllerStickProps } from '../inputButtons/ControllerStick';
 import WASDButtons, { WASDButtonsProps } from '../inputButtons/KeyboardWASDButtons';
 
 export type Instructions1Props = {};
