@@ -3,12 +3,14 @@ import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
 import Text, { TextProps } from '../../lib/components/native/Text';
+
 import StatsStore from '../store/StatsStore';
 
 export type ScoreCounterProps = {};
 
 export default class ScoreCounter extends Component<ScoreCounterProps> {
   protected template: Template = [
+    // Hintergrund
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(-75, 0),
@@ -18,6 +20,8 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
         color: 'rgba(0, 0, 0, 0.5)'
       })
     },
+
+    // Anzeige
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(2, 30),

@@ -1,11 +1,11 @@
-import Component from '../../lib/Component';
 import { Template } from '../../lib/Types';
-import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
+import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
-
-import logoGardenSprite from '../assets/ui/logo/logo_garden.png';
-import logoDefenseSprite from '../assets/ui/logo/logo_defense.png';
 import PropsContext from '../../lib/PropsContext';
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
+
+import logoDefenseSprite from '../assets/ui/logo/logo_defense.png';
+import logoGardenSprite from '../assets/ui/logo/logo_garden.png';
 
 export type LogoProps = {
   progress?: number;
