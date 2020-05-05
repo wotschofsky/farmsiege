@@ -4,6 +4,7 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 
 import BaseButton, { ButtonPropsTemplate, BaseButtonProps } from './BaseButton';
+
 import keyboardSpaceSprite from '../../assets/inputs/keyboard_space.png';
 import keyboardSpacePressedSprite from '../../assets/inputs/keyboard_space_pressed.png';
 
