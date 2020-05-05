@@ -42,8 +42,7 @@ export default class GridTile extends Component<GridTileProps> {
     // Basissprite
     {
       component: new Sprite(),
-      position: (ctx: PropsContext<GridTileProps>): Coordinates =>
-        new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize),
+      position: (): Coordinates => new Coordinates(0, 0),
       props: (): SpriteProps => ({
         source: dirt,
         width: this.tileSize,
@@ -54,8 +53,7 @@ export default class GridTile extends Component<GridTileProps> {
     // Schwarzes Overlay für Schachbrettmuster
     {
       component: new Rectangle(),
-      position: (ctx: PropsContext<GridTileProps>): Coordinates =>
-        new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize),
+      position: (): Coordinates => new Coordinates(0, 0),
       props: (): RectangleProps => ({
         width: this.tileSize,
         height: this.tileSize,
@@ -74,8 +72,7 @@ export default class GridTile extends Component<GridTileProps> {
     // Feldinhalt
     {
       component: new Sprite(),
-      position: (ctx: PropsContext<GridTileProps>): Coordinates =>
-        new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize),
+      position: (): Coordinates => new Coordinates(0, 0),
       props: (): SpriteProps => {
         let sprite = null;
 
@@ -111,16 +108,14 @@ export default class GridTile extends Component<GridTileProps> {
     },
     {
       component: new Lightning(),
-      position: (ctx: PropsContext<GridTileProps>): Coordinates =>
-        new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize - 128),
+      position: (): Coordinates => new Coordinates(0, -128),
       show: (): boolean => this.content === TileContents.Lightning
     },
 
     // Weißés Overlay, das anzeigt, dass das Feld ausgewählt ist
     {
       component: new Rectangle(),
-      position: (ctx: PropsContext<GridTileProps>): Coordinates =>
-        new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize),
+      position: (): Coordinates => new Coordinates(0, 0),
       props: (): RectangleProps => ({
         width: this.tileSize,
         height: this.tileSize,
