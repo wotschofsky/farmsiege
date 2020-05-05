@@ -6,7 +6,7 @@ import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
 
-import Tomato, { TomatoProps } from '../plants/Tomato';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 import KeyboardVButton, { KeyboardVButtonProps } from '../inputButtons/KeyboardVButton';
 import ControllerAButton, { ControllerAButtonProps } from '../inputButtons/ControllerAButton';
 

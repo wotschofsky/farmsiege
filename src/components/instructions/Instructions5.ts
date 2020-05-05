@@ -5,9 +5,9 @@ import Text, { TextProps } from '../../../lib/components/native/Text';
 import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
 import PropsContext from '../../../lib/PropsContext';
-import Tomato, { TomatoProps } from '../plants/Tomato';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 import Lightning from '../Lightning';
-import Molehill, { MolehillProps } from '../MoleHill';
+import Molehill, { MolehillProps } from '../tileContents/MoleHill';
 import Rabbit, { RabbitProps } from '../animals/Rabbit';
 
 export type Instructions5Props = {};

@@ -4,7 +4,7 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 import Text, { TextProps } from '../../../lib/components/native/Text';
 
-import Tomato, { TomatoProps } from '../plants/Tomato';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 import Lightning from '../Lightning';
 
 export type Instructions9Props = {};

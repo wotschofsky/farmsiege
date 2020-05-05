@@ -9,7 +9,7 @@ import { HoldableItems } from '../../store/CharacterStore';
 import Character, { CharacterProps } from '../character/Character';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
-import Molehill, { MolehillProps } from '../MoleHill';
+import Molehill, { MolehillProps } from '../tileContents/MoleHill';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
 import values from '../../values.json';
 

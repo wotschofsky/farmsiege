@@ -1,7 +1,7 @@
-import Component from '../../../lib/Component';
 import { Template } from '../../../lib/Types';
-import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
+import Component from '../../../lib/Component';
 import Coordinates from '../../../lib/helpers/Coordinates';
+import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
 import weed from '../../assets/plants/weed.png';
 

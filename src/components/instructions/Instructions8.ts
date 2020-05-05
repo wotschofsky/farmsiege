@@ -10,7 +10,7 @@ import Character, { CharacterProps } from '../character/Character';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
-import Weed from '../plants/Weed';
+import Weed from '../tileContents/Weed';
 import values from '../../values.json';
 
 export type Instructions8Props = {};

@@ -7,7 +7,7 @@ import Text, { TextProps } from '../../../lib/components/native/Text';
 
 import Character, { CharacterProps } from '../character/Character';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
-import Tomato, { TomatoProps } from '../plants/Tomato';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 
 export type Instructions4Props = {};
 

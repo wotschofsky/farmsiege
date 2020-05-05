@@ -9,7 +9,7 @@ import PropsContext from '../../../lib/PropsContext';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
-import Tomato, { TomatoProps } from '../plants/Tomato';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 import values from '../../values.json';
 
 export type Instructions3Props = {};
