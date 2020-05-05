@@ -33,6 +33,8 @@
       "@babel/preset-env": "^7.6.3",
       "@rollup/plugin-commonjs": "^11.0.2",
       "@rollup/plugin-node-resolve": "^7.1.1",
+      "@rollup/plugin-typescript": "^4.1.1",
+      "@rollup/plugin-url": "^4.0.2",
       "@typescript-eslint/eslint-plugin": "^2.21.0",
       "@typescript-eslint/parser": "^2.21.0",
       "eslint-config-prettier": "^6.10.0",
@@ -43,13 +45,10 @@
       "rollup-plugin-copy": "^3.1.0",
       "rollup-plugin-eslint": "^7.0.0",
       "rollup-plugin-generate-html-template": "^1.5.0",
-      "rollup-plugin-img": "^1.1.0",
       "rollup-plugin-javascript-obfuscator": "^1.0.4",
       "rollup-plugin-livereload": "^1.0.4",
       "rollup-plugin-serve": "^1.0.1",
       "rollup-plugin-terser": "^5.1.2",
-      "rollup-plugin-typescript": "^1.0.1",
-      "rollup-plugin-url": "^3.0.0",
       "rollup-plugin-visualizer": "^2.6.0",
       "typescript": "^3.6.4"
    }

@@ -9,8 +9,8 @@ import livereload from 'rollup-plugin-livereload';
 import obfuscatorPlugin from 'rollup-plugin-javascript-obfuscator';
 import resolve from '@rollup/plugin-node-resolve';
 import serve from 'rollup-plugin-serve';
-import typescript from 'rollup-plugin-typescript';
-import url from 'rollup-plugin-url';
+import typescript from '@rollup/plugin-typescript';
+import url from '@rollup/plugin-url';
 import visualizer from 'rollup-plugin-visualizer';
 
 let devConfig = [];
@@ -28,12 +28,8 @@ if (!process.env.PRODUCTION) {
       filename: 'dist/stats.html'
     })
     // eslint({
-    //    exclude: [
-    //       'node_modules/**',
-    //       '**/**.png',
-    //       '**/**.mp3'
-    //    ]
-    // }),
+    //   exclude: ['node_modules/**', 'api/', '**/**.png', '**/**.mp3']
+    // })
   ];
 }
 
@@ -61,7 +57,8 @@ export default {
     }),
     json(),
     typescript({
-      // clean: true
+      exclude: ['api/**'],
+      noEmitOnError: false
     }),
     commonjs(),
     babel({
