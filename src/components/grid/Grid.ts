@@ -1,7 +1,7 @@
-import { Template } from '../../lib/Types';
-import Component from '../../lib/Component';
+import { Template } from '../../../lib/Types';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 import GridRow, { GridRowProps } from './GridRow';
-import Coordinates from '../../lib/helpers/Coordinates';
 
 export type GridProps = {};
 

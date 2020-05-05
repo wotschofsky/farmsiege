@@ -1,15 +1,14 @@
-import { Template } from '../../lib/Types';
-import AnimatedSprite, { AnimatedSpriteProps } from '../../lib/components/native/AnimatedSprite';
-import Component from '../../lib/Component';
-import Coordinates from '../../lib/helpers/Coordinates';
-import PropsContext from '../../lib/PropsContext';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
-import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
+import { Template } from '../../../lib/Types';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
+import PropsContext from '../../../lib/PropsContext';
+import Rectangle, { RectangleProps } from '../../../lib/components/native/Rectangle';
+import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
-import CharacterStore from '../store/CharacterStore';
-import GridStore from '../store/GridStore';
-import TileContents from '../TileContents';
-import values from '../values.json';
+import CharacterStore from '../../store/CharacterStore';
+import GridStore from '../../store/GridStore';
+
+import Lightning from '../Lightning';
 
 import dirt from '../assets/dirt.png';
 import mole from '../assets/mole.png';
@@ -19,7 +18,9 @@ import tomato1 from '../assets/plants/tomato_1.png';
 import tomato2 from '../assets/plants/tomato_2.png';
 import tomato3 from '../assets/plants/tomato_3.png';
 import weed from '../assets/plants/weed.png';
-import Lightning from './Lightning';
+
+import TileContents from '../../TileContents';
+import values from '../../values.json';
 
 export type GridTileProps = {
   row: number;
@@ -27,7 +28,7 @@ export type GridTileProps = {
 };
 
 export default class GridTile extends Component<GridTileProps> {
-  private tileSize = 128;
+  private readonly tileSize = 128;
   private content: TileContents = TileContents.Empty;
   private contentData: Record<string, any> = {};
 
@@ -38,6 +39,7 @@ export default class GridTile extends Component<GridTileProps> {
   }
 
   protected template: Template = [
+    // Basissprite
     {
       component: new Sprite(),
       position: (ctx: PropsContext<GridTileProps>): Coordinates =>
@@ -48,48 +50,55 @@ export default class GridTile extends Component<GridTileProps> {
         height: this.tileSize
       })
     },
+
+    // Schwarzes Overlay für Schachbrettmuster
     {
       component: new Rectangle(),
       position: (ctx: PropsContext<GridTileProps>): Coordinates =>
         new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize),
-      props: (ctx: PropsContext<GridTileProps>): RectangleProps => {
+      props: (): RectangleProps => ({
+        width: this.tileSize,
+        height: this.tileSize,
+        color: `rgba(0, 0, 0, 0.3)`
+      }),
+      show: (ctx: PropsContext<GridTileProps> | undefined): boolean => {
+        if (!ctx) {
+          return false;
+        }
+
         const isDark = (ctx.props.row + ctx.props.column) % 2 === 1;
-        return {
-          width: this.tileSize,
-          height: this.tileSize,
-          color: `rgba(0, 0, 0, ${isDark ? 0.3 : 0})`
-        };
+        return isDark;
       }
     },
+
+    // Feldinhalt
     {
       component: new Sprite(),
       position: (ctx: PropsContext<GridTileProps>): Coordinates =>
         new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize),
       props: (): SpriteProps => {
-        let child;
+        let sprite = null;
+
         switch (this.content) {
           case TileContents.Mole:
-            child = mole;
+            sprite = mole;
             break;
           case TileContents.Molehill:
-            child = molehill;
+            sprite = molehill;
             break;
           case TileContents.Plant:
-            child = tomato0;
-            if (this.contentData.age >= (values.plant.age.fullyGrown * 1) / 3) child = tomato1;
-            if (this.contentData.age >= (values.plant.age.fullyGrown * 2) / 3) child = tomato2;
-            if (this.contentData.age >= values.plant.age.fullyGrown) child = tomato3;
+            sprite = tomato0;
+            if (this.contentData.age >= (values.plant.age.fullyGrown * 1) / 3) sprite = tomato1;
+            if (this.contentData.age >= (values.plant.age.fullyGrown * 2) / 3) sprite = tomato2;
+            if (this.contentData.age >= values.plant.age.fullyGrown) sprite = tomato3;
             break;
           case TileContents.Weed:
-            child = weed;
-            break;
-          default:
-            child = null;
+            sprite = weed;
             break;
         }
 
         return {
-          source: child,
+          source: sprite,
           width: this.tileSize,
           height: this.tileSize
         };
@@ -106,6 +115,8 @@ export default class GridTile extends Component<GridTileProps> {
         new Coordinates(ctx.props.row * this.tileSize, ctx.props.column * this.tileSize - 128),
       show: (): boolean => this.content === TileContents.Lightning
     },
+
+    // Weißés Overlay, das anzeigt, dass das Feld ausgewählt ist
     {
       component: new Rectangle(),
       position: (ctx: PropsContext<GridTileProps>): Coordinates =>
@@ -119,6 +130,7 @@ export default class GridTile extends Component<GridTileProps> {
         if (!ctx) {
           return false;
         }
+
         const characterStore = <CharacterStore>this.stores.character;
         return ctx.props.row === characterStore.content.fieldX && ctx.props.column === characterStore.content.fieldY;
       }

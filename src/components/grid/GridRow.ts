@@ -1,8 +1,8 @@
-import Component from '../../lib/Component';
-import { Template } from '../../lib/Types';
+import { Template } from '../../../lib/Types';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 import GridTile, { GridTileProps } from './GridTile';
-import PropsContext from '../../lib/PropsContext';
-import Coordinates from '../../lib/helpers/Coordinates';
+import PropsContext from '../../../lib/PropsContext';
 
 export type GridRowProps = {
   index: number;
