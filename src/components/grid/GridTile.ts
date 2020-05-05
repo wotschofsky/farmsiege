@@ -8,7 +8,7 @@ import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 import CharacterStore from '../../store/CharacterStore';
 import GridStore from '../../store/GridStore';
 
-import Lightning from '../Lightning';
+import Lightning from '../tileContents/Lightning';
 
 import dirt from '../../assets/dirt.png';
 import mole from '../../assets/mole.png';

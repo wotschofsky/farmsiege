@@ -5,7 +5,7 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 import Text, { TextProps } from '../../../lib/components/native/Text';
 
-import Lightning from '../Lightning';
+import Lightning from '../tileContents/Lightning';
 import Molehill, { MolehillProps } from '../tileContents/MoleHill';
 import Rabbit, { RabbitProps } from '../animals/Rabbit';
 import Tomato, { TomatoProps } from '../tileContents/Tomato';
