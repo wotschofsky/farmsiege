@@ -15,9 +15,9 @@ export default class Repeating extends Component<RepeatingProps> {
   private listLength: number;
   private listComponents: Component<any>[] = [];
 
-  public propagateEvent(type: EventTypes, position: Coordinates): void {
+  public propagateEvent(type: EventTypes, event: Event): void {
     this.listComponents.forEach(el => {
-      el.propagateEvent(type, position);
+      el.propagateEvent(type, event);
     });
   }
 
