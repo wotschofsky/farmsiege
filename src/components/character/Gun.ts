@@ -7,6 +7,7 @@ import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
 import shotgunLeftSprite from '../../assets/character/items/shotgun_left.png';
 import shotgunRightSprite from '../../assets/character/items/shotgun_right.png';
+
 import values from '../../values.json';
 
 export type GunProps = {

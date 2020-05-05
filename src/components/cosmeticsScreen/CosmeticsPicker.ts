@@ -15,7 +15,9 @@ import CosmeticsStore, {
   ShirtData,
   shirtsData
 } from '../../store/CosmeticsStore';
+
 import CosmeticsTypePicker, { CosmeticsTypePickerProps } from './CosmeticsTypePicker';
+
 import xIconSprite from '../../assets/ui/icons/x.png';
 
 export type CosmeticsPickerProps = {};
@@ -34,11 +36,13 @@ export default class CosmeticsPicker extends Component<CosmeticsPickerProps> {
     }
   }
 
+  // Berechnet X Position des linkesten Elements
   private calculateXOffset(count: number): number {
     return -(128 * count) / 2 + 300;
   }
 
   protected template: Template = [
+    // Type Icons
     {
       component: new CosmeticsTypePicker(),
       position: (): Coordinates => new Coordinates(300 - 120, 0),
@@ -49,6 +53,7 @@ export default class CosmeticsPicker extends Component<CosmeticsPickerProps> {
       })
     },
 
+    // Sprites
     {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 96),
@@ -61,24 +66,29 @@ export default class CosmeticsPicker extends Component<CosmeticsPickerProps> {
             data.sprite ? 0 : 28
           ),
         props: (data: ShirtData): SpriteProps => ({
+          // xIconSprite als Sprite für Option "None"
           source: data.sprite || xIconSprite,
           width: data.sprite ? 128 : 72,
           height: data.sprite ? 128 : 72
         })
       })
     },
+
+    // Click Listeners
     {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 96),
       props: (): RepeatingProps => ({
         list: this.activeList,
         component: (): EventListener => new EventListener(),
-        position: (data: ShirtData, index: number): Coordinates =>
+        position: (data: HatData | ShirtData | PantsData, index: number): Coordinates =>
           new Coordinates(index * 128 + this.calculateXOffset(this.activeList.length), 0),
         props: (data: HatData | ShirtData | PantsData): EventListenerProps => ({
           size: new Dimensions(128, 128),
           onClick: (): void => {
             const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
+
+            // Änderung im CosmeticsStore speichern
             switch (this.active) {
               case 'hat':
                 cosmeticsStore.setHat((<HatData>data).id);
