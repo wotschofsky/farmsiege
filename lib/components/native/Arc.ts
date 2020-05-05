@@ -14,6 +14,7 @@ export type ArcProps = {
 
 export default class Arc extends Component<ArcProps> {
   public render(context: RenderingContext, position: Coordinates, props: ArcProps): void {
+    // Kreis festlegen
     context.renderContext.beginPath();
     context.renderContext.arc(
       (position.x + context.parentX) * context.scaleFactor,
@@ -23,9 +24,12 @@ export default class Arc extends Component<ArcProps> {
       props.endingAngle,
       props.anticlockwise || false
     );
+
+    // Fläche füllen
     context.renderContext.fillStyle = props.color;
     context.renderContext.fill();
 
+    // Umrandung zeichnen
     context.renderContext.lineWidth = props.borderWidth || 0;
     context.renderContext.strokeStyle = props.borderColor || 'transparent';
     context.renderContext.stroke();

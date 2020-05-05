@@ -23,13 +23,17 @@ export default abstract class Component<P> {
   }
 
   public registerStore(store: Store<any>): void {
+    // Store in dieser Klasse verlinken
     this._stores[store.name] = store;
+
+    // Bei allen Sub-Components registerStore ausführen
     this._template.forEach(el => {
       el.component.registerStore(store);
     });
   }
 
   public propagateEvent(type: EventTypes, event: Event): void {
+    // Event an alle Sub-Components weitergeben
     this._template.forEach(el => {
       if (typeof el.show === 'function' && !el.show()) return;
       el.component.propagateEvent(type, event);
@@ -41,6 +45,7 @@ export default abstract class Component<P> {
   }
 
   public render(context: RenderingContext, position: Coordinates, props: P): void {
+    // Beim ersten Ausführen onInit Methode ausführen
     if (!this.initialized) {
       this.onInit();
       this.initialized = true;
@@ -48,8 +53,10 @@ export default abstract class Component<P> {
 
     const propsContext = new PropsContext<P>(props);
 
+    // Platzhalter- oder ersetzte onTick Methode ausführen
     this.onTick(propsContext, context.timeDifference);
 
+    // Template rendern
     this._template.forEach((el): void => {
       RenderUtils.renderTemplateItem(el, context, position, propsContext);
     });

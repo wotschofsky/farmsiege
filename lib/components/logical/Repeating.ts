@@ -12,7 +12,6 @@ export type RepeatingProps = {
 };
 
 export default class Repeating extends Component<RepeatingProps> {
-  private listLength: number;
   private listComponents: Component<any>[] = [];
 
   public propagateEvent(type: EventTypes, event: Event): void {
@@ -22,9 +21,9 @@ export default class Repeating extends Component<RepeatingProps> {
   }
 
   public render(context: RenderingContext, position: Coordinates, props: RepeatingProps): void {
-    this.listLength = props.list.length;
-    if (this.listLength < this.listComponents.length) {
-      this.listComponents = this.listComponents.splice(this.listLength);
+    const listLength = props.list.length;
+    if (listLength < this.listComponents.length) {
+      this.listComponents = this.listComponents.splice(listLength);
     }
 
     props.list.forEach((data, index) => {

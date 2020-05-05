@@ -12,32 +12,39 @@ export type AnimatedSpriteProps = {
 };
 
 export default class AnimatedSprite extends Component<AnimatedSpriteProps> {
-  private lastSource: string | null = null;
+  private currentSource: string | null = null;
   private imageElement: HTMLImageElement | null = null;
 
-  private index = 0;
-  private size = 1;
+  private currentIndex = 0;
+  private length = 1;
   private nextUpdate = Date.now();
 
   public render(context: RenderingContext, position: Coordinates, props: AnimatedSpriteProps): void {
     // Abbrechen, wenn kein Sprite angegeben ist
-    if (!props.source) return;
-
-    // Bild neu laden, wenn sich Quelle geändert hat
-    if (this.lastSource !== props.source) {
-      this.imageElement = <HTMLImageElement>document.createElement('img');
-      this.imageElement.src = props.source;
-      this.imageElement.addEventListener('load', () => {
-        this.size = (<HTMLImageElement>this.imageElement).naturalWidth / props.spriteWidth;
-      });
+    if (!props.source) {
+      return;
     }
 
-    this.lastSource = props.source;
+    // Sprite laden, wenn sich die Source geändert hat
+    if (this.currentSource !== props.source) {
+      this.imageElement = <HTMLImageElement>document.createElement('img');
+      this.imageElement.src = props.source;
 
+      this.imageElement.addEventListener('load', () => {
+        // Anzahl an Sprites errechnen
+        this.length = (<HTMLImageElement>this.imageElement).naturalWidth / props.spriteWidth;
+      });
+
+      // Source als Referenz für nächsten Renderzyklus speichern
+      this.currentSource = props.source;
+    }
+
+    // Verhindern, dass Sprite skaliert und unscharf wird
     context.renderContext.imageSmoothingEnabled = false;
+
     context.renderContext.drawImage(
       <HTMLImageElement>this.imageElement,
-      this.index * props.spriteWidth,
+      this.currentIndex * props.spriteWidth,
       0,
       props.spriteWidth,
       props.spriteHeight,
@@ -47,14 +54,18 @@ export default class AnimatedSprite extends Component<AnimatedSpriteProps> {
       props.height * context.scaleFactor
     );
 
+    // Wenn nächster Frame angezeigt werden soll...
     while (this.nextUpdate <= context.frameStart) {
-      if (this.index + 1 === this.size) {
-        this.index = 0;
-        this.nextUpdate = this.nextUpdate + props.interval;
+      if (this.currentIndex + 1 === this.length) {
+        // Index zurücksetzen, wenn alle Sprites angezeigt wurden
+        this.currentIndex = 0;
       } else {
-        this.index = this.index + 1;
-        this.nextUpdate = this.nextUpdate + props.interval;
+        // Index inkrementieren
+        this.currentIndex++;
       }
+
+      // Timestamp für nächsten Sprite errechnen
+      this.nextUpdate = this.nextUpdate + props.interval;
     }
   }
 }

@@ -10,25 +10,30 @@ export default class RenderUtils {
     position: Coordinates,
     propsContext: PropsContext<any>
   ): void {
-    if (typeof item.show === 'function' && !item.show(propsContext)) return;
+    // Abbrechen, wenn Component nicht angezeigt werden soll
+    if (typeof item.show === 'function' && !item.show(propsContext)) {
+      return;
+    }
 
     let computedParentX = context.parentX + position.x;
     let computedParentY = context.parentY + position.y;
 
-    const applyTransformations = !!item.transform;
-
-    if (applyTransformations && item.transform) {
+    if (item.transform) {
+      // Konfiguration Speichern
       context.renderContext.save();
 
       const transformConfig = item.transform(propsContext);
 
       if (transformConfig.rotate) {
         const { center } = transformConfig.rotate;
+
+        // Ursprung verschieben an den Drehpunkt verschieben
         context.renderContext.translate(
-          context.scaleFactor * (context.parentX + position.x + center.x),
-          context.scaleFactor * (context.parentY + position.y + center.y)
+          context.scaleFactor * (computedParentX + center.x),
+          context.scaleFactor * (computedParentY + center.y)
         );
 
+        // Parent-Koordinaten an neues Koordinatensystem anpassen
         computedParentX = -center.x;
         computedParentY = -center.y;
 
@@ -44,8 +49,8 @@ export default class RenderUtils {
 
         context.renderContext.beginPath();
         context.renderContext.arc(
-          (transformConfig.clip.circle.center.x + ownPosition.x + computedParentX) * context.scaleFactor,
-          (transformConfig.clip.circle.center.y + ownPosition.y + computedParentY) * context.scaleFactor,
+          (computedParentX + ownPosition.x + transformConfig.clip.circle.center.x) * context.scaleFactor,
+          (computedParentY + ownPosition.y + transformConfig.clip.circle.center.y) * context.scaleFactor,
           transformConfig.clip.circle.radius * context.scaleFactor,
           0,
           2 * Math.PI
@@ -54,6 +59,7 @@ export default class RenderUtils {
       }
     }
 
+    // TemplateItem rendern
     item.component.render(
       new RenderingContext(
         context.grid,
@@ -66,11 +72,22 @@ export default class RenderUtils {
         context.frameStart
       ),
       item.position(propsContext),
-      typeof item.props === 'function' ? item.props(propsContext) : {}
+      this.getProps(propsContext, item.props)
     );
 
-    if (applyTransformations) {
+    if (item.transform) {
+      // Konfiguration wiederherstellen
       context.renderContext.restore();
     }
+  }
+
+  private static getProps(
+    propsContext: PropsContext<any>,
+    propsFunction?: (context: PropsContext<any>) => { [key: string]: any }
+  ): object {
+    if (typeof propsFunction === 'function') {
+      return propsFunction(propsContext);
+    }
+    return {};
   }
 }

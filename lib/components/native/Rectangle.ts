@@ -12,14 +12,8 @@ export type RectangleProps = {
 
 export default class Rectangle extends Component<RectangleProps> {
   public render(context: RenderingContext, position: Coordinates, props: RectangleProps): void {
-    context.renderContext.beginPath();
+    // Fläche füllen
     context.renderContext.fillStyle = props.color;
-    context.renderContext.rect(
-      (position.x + context.parentX) * context.scaleFactor,
-      (position.y + context.parentY) * context.scaleFactor,
-      props.width * context.scaleFactor,
-      props.height * context.scaleFactor
-    );
     context.renderContext.fillRect(
       (position.x + context.parentX) * context.scaleFactor,
       (position.y + context.parentY) * context.scaleFactor,
@@ -27,6 +21,14 @@ export default class Rectangle extends Component<RectangleProps> {
       props.height * context.scaleFactor
     );
 
+    // Umrandung zeichnen
+    context.renderContext.beginPath();
+    context.renderContext.rect(
+      (position.x + context.parentX) * context.scaleFactor,
+      (position.y + context.parentY) * context.scaleFactor,
+      props.width * context.scaleFactor,
+      props.height * context.scaleFactor
+    );
     context.renderContext.lineWidth = props.borderWidth || 0;
     context.renderContext.strokeStyle = props.borderColor || 'transparent';
     context.renderContext.stroke();
