@@ -7,6 +7,7 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
 import MiscStore from '../store/MiscStore';
 import SettingsStore from '../store/SettingsStore';
+
 import volume0IconSprite from '../assets/ui/icons/volume_0.png';
 import volume1IconSprite from '../assets/ui/icons/volume_1.png';
 import volume2IconSprite from '../assets/ui/icons/volume_2.png';
@@ -15,14 +16,14 @@ import volume3IconSprite from '../assets/ui/icons/volume_3.png';
 export type MuteButtonProps = {};
 
 export default class MuteButton extends Component<MuteButtonProps> {
-  private toggleMusic(): void {
+  private toggleSounds(): void {
     const miscStore = <MiscStore>this.stores.misc;
     if (miscStore.content.splashScreenShowing) {
       return;
     }
 
     const settingsStore = <SettingsStore>this.stores.settings;
-    settingsStore.toggleMusic();
+    settingsStore.toggleSounds();
   }
 
   private get icon(): string {
@@ -46,7 +47,7 @@ export default class MuteButton extends Component<MuteButtonProps> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): EventListenerProps => ({
         size: new Dimensions(40, 40),
-        onClick: this.toggleMusic
+        onClick: this.toggleSounds
       })
     },
     {

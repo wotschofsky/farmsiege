@@ -2,6 +2,7 @@ import Cookie from 'js-cookie';
 import Store from '../../lib/store/Store';
 
 export type VolumeValues = 0 | 0.33 | 0.67 | 1;
+
 const validVolumeValues: VolumeValues[] = [0, 0.33, 0.67, 1];
 
 export type SettingsStoreContent = {
@@ -22,7 +23,7 @@ export default class SettingsStore extends Store<SettingsStoreContent> {
     });
   }
 
-  public toggleMusic(): void {
+  public toggleSounds(): void {
     this.update(
       (oldState: SettingsStoreContent): SettingsStoreContent => {
         let newVolume: VolumeValues = 0;
