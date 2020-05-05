@@ -1,12 +1,13 @@
-import eases from 'eases';
 import { Directions } from '../../../lib/Enums';
 import { Template, TransformationConfig } from '../../../lib/Types';
 import Component from '../../../lib/Component';
 import Coordinates from '../../../lib/helpers/Coordinates';
+import eases from 'eases';
 import PropsContext from '../../../lib/PropsContext';
 import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
 import hammerSprite from '../../assets/character/items/hammer.png';
+
 import values from '../../values.json';
 
 export type HammerProps = {
@@ -32,17 +33,12 @@ export default class Hammer extends Component<HammerProps> {
         width: 128 * values.character.size,
         height: 128 * values.character.size
       }),
-      transform: (ctx: PropsContext<HammerProps>): TransformationConfig => {
-        return {
-          rotate: {
-            angle: this.getAngle(ctx.props.direction, ctx.props.position),
-            center: new Coordinates(
-              (13.5 / 16) * 128 * values.character.size,
-              (13.5 / 16) * 128 * values.character.size
-            )
-          }
-        };
-      }
+      transform: (ctx: PropsContext<HammerProps>): TransformationConfig => ({
+        rotate: {
+          angle: this.getAngle(ctx.props.direction, ctx.props.position),
+          center: new Coordinates((13.5 / 16) * 128 * values.character.size, (13.5 / 16) * 128 * values.character.size)
+        }
+      })
     }
   ];
 }

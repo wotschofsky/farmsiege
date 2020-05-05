@@ -1,10 +1,11 @@
-import Component from '../../../lib/Component';
-import { Template } from '../../../lib/Types';
-import Coordinates from '../../../lib/helpers/Coordinates';
 import { Directions } from '../../../lib/Enums';
+import { Template } from '../../../lib/Types';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 
 import { HoldableItems } from '../../store/CharacterStore';
+
 import CharacterBase, { CharacterBaseProps } from './CharacterBase';
 import Gun, { GunProps } from './Gun';
 import Hammer, { HammerProps } from './Hammer';
@@ -12,6 +13,7 @@ import Hat from './Hat';
 import Pants from './Pants';
 import Shirt from './Shirt';
 import Shovel, { ShovelProps } from './Shovel';
+
 import values from '../../values.json';
 
 export type CharacterProps = {
@@ -22,6 +24,7 @@ export type CharacterProps = {
 
 export default class Character extends Component<CharacterProps> {
   protected template: Template = [
+    // Körper
     {
       component: new CharacterBase(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -29,6 +32,8 @@ export default class Character extends Component<CharacterProps> {
         direction: ctx.props.direction
       })
     },
+
+    // Cosmetics
     {
       component: new Pants(),
       position: (): Coordinates => new Coordinates(0, 72 * values.character.size)
@@ -41,6 +46,8 @@ export default class Character extends Component<CharacterProps> {
       component: new Hat(),
       position: (): Coordinates => new Coordinates(0, -48 * values.character.size)
     },
+
+    // Haltbare Gegenstände
     {
       component: new Gun(),
       position: (): Coordinates => new Coordinates(0, 120 * values.character.size),
