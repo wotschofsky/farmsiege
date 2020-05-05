@@ -11,6 +11,7 @@ import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/Contr
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
 import Weed from '../tileContents/Weed';
+
 import values from '../../values.json';
 
 export type Instructions8Props = {};
@@ -48,6 +49,7 @@ export default class Instructions8 extends Component<Instructions8Props> {
   }
 
   protected template: Template = [
+    // Anweisung
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -58,6 +60,8 @@ export default class Instructions8 extends Component<Instructions8Props> {
         size: 40
       })
     },
+
+    // Animation
     {
       component: new Weed(),
       position: (): Coordinates => new Coordinates(220, 100),
@@ -89,6 +93,8 @@ export default class Instructions8 extends Component<Instructions8Props> {
         heldItem: HoldableItems.Shovel
       })
     },
+
+    // Buttons
     {
       component: new KeyboardSpaceButton(),
       position: (): Coordinates => new Coordinates(373, 75),

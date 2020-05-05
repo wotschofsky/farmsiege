@@ -6,11 +6,13 @@ import PropsContext from '../../../lib/PropsContext';
 import Text, { TextProps } from '../../../lib/components/native/Text';
 
 import { HoldableItems } from '../../store/CharacterStore';
+
 import Character, { CharacterProps } from '../character/Character';
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
 import Molehill, { MolehillProps } from '../tileContents/MoleHill';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
+
 import values from '../../values.json';
 
 export type Instructions6Props = {};
@@ -28,8 +30,8 @@ export default class Instructions6 extends Component<Instructions6Props> {
   }
 
   private get buttonPressed(): boolean {
-    const currentTimer = this.timer % 3000;
-    return currentTimer >= 1900 && currentTimer < 2150;
+    const time = this.timer % 3000;
+    return time >= 1900 && time < 2150;
   }
 
   private get hammerPosition(): number {
@@ -46,6 +48,7 @@ export default class Instructions6 extends Component<Instructions6Props> {
   }
 
   protected template: Template = [
+    // Anweisung
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -56,6 +59,8 @@ export default class Instructions6 extends Component<Instructions6Props> {
         size: 40
       })
     },
+
+    // Animation
     {
       component: new Molehill(),
       position: (): Coordinates => new Coordinates(180, 100),
@@ -81,6 +86,8 @@ export default class Instructions6 extends Component<Instructions6Props> {
         hammerPosition: this.hammerPosition
       })
     },
+
+    // Buttons
     {
       component: new KeyboardSpaceButton(),
       position: (): Coordinates => new Coordinates(373, 75),

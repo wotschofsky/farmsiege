@@ -4,8 +4,8 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 import Text, { TextProps } from '../../../lib/components/native/Text';
 
-import Tomato, { TomatoProps } from '../tileContents/Tomato';
 import Lightning from '../Lightning';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 
 export type Instructions9Props = {};
 
@@ -28,6 +28,7 @@ export default class Instructions9 extends Component<Instructions9Props> {
   }
 
   protected template: Template = [
+    // Anweisung
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -38,6 +39,8 @@ export default class Instructions9 extends Component<Instructions9Props> {
         size: 40
       })
     },
+
+    // Animation
     {
       component: new Tomato(),
       position: (): Coordinates => new Coordinates(58, 100),

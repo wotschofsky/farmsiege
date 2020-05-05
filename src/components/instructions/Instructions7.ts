@@ -9,11 +9,13 @@ import Text, { TextProps } from '../../../lib/components/native/Text';
 
 import { HoldableItems } from '../../store/CharacterStore';
 import BulletData from '../../store/models/BulletData';
+
 import Character, { CharacterProps } from '../character/Character';
 import ControllerXButton, { ControllerXButtonProps } from '../inputButtons/ControllerXButton';
 import KeyboardCButton, { KeyboardCButtonProps } from '../inputButtons/KeyboardCButton';
 import Rabbit, { RabbitProps } from '../animals/Rabbit';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
+
 import values from '../../values.json';
 
 export type Instructions7Props = {};
@@ -64,6 +66,7 @@ export default class Instructions7 extends Component<Instructions7Props> {
   }
 
   protected template: Template = [
+    // Anweisung
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -74,6 +77,8 @@ export default class Instructions7 extends Component<Instructions7Props> {
         size: 40
       })
     },
+
+    // Animation
     {
       component: new Rabbit(),
       position: (): Coordinates => new Coordinates(180, 15),
@@ -115,6 +120,8 @@ export default class Instructions7 extends Component<Instructions7Props> {
         };
       }
     },
+
+    // Buttons
     {
       component: new KeyboardCButton(),
       position: (): Coordinates => new Coordinates(425, 75),
