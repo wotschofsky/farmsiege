@@ -1,5 +1,9 @@
 export default class Random {
-  static between(min: number, max: number): number {
+  public static between(min: number, max: number): number {
     return Math.random() * (max - min) + min;
+  }
+
+  public static roundedBetween(min: number, max: number): number {
+    return Math.round(this.between(min, max));
   }
 }
