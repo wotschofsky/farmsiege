@@ -6,4 +6,8 @@ export default class Random {
   public static roundedBetween(min: number, max: number): number {
     return Math.round(this.between(min, max));
   }
+
+  public static randomBoolean(): boolean {
+    return Math.round(Math.random()) === 1;
+  }
 }
