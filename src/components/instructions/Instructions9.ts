@@ -11,19 +11,18 @@ export type Instructions9Props = {};
 
 export default class Instructions9 extends Component<Instructions9Props> {
   private timer = 0;
-  private readonly animationDuration = 4000;
 
   protected onTick(ctx: PropsContext<Instructions9>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 
   private get showPlants(): boolean {
-    const time = this.timer % this.animationDuration;
+    const time = this.timer % 4000;
     return time < 2000;
   }
 
   private get showLightning(): boolean {
-    const time = this.timer % this.animationDuration;
+    const time = this.timer % 4000;
     return time > 2000 && time < 3400;
   }
 

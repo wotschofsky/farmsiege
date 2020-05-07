@@ -6,13 +6,14 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 import Text, { TextProps } from '../../../lib/components/native/Text';
 
+import { HoldableItems } from '../../store/CharacterStore';
+
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
 import Tomato, { TomatoProps } from '../tileContents/Tomato';
 
 import values from '../../values.json';
-import { HoldableItems } from '../../store/CharacterStore';
 
 export type Instructions3Props = {};
 
