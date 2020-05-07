@@ -40,7 +40,8 @@ export default class CreditItem extends Component<CreditItemProps> {
         source: linkIconSprite,
         width: 32,
         height: 32
-      })
+      }),
+      show: (ctx?: PropsContext<CreditItemProps>): boolean => !!ctx && !!ctx.props.url
     },
     {
       component: new Text(),
