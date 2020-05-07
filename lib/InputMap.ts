@@ -1,5 +1,6 @@
 import keyCodeToCodes from 'keycode-to-codes';
 
+// Verfügbare Stick-Richtungen am Controller als Enum exportieren
 export enum GamepadStickDirections {
   LeftStickLeft = 'LeftStickLeft',
   LeftStickRight = 'LeftStickRight',
@@ -11,6 +12,7 @@ export enum GamepadStickDirections {
   RightStickDown = 'RightStickDown'
 }
 
+// Verfügbare Knöpfe am Controller als Enum exportieren
 export enum GamepadButtons {
   ButtonA = 'ButtonA',
   ButtonB = 'ButtonB',
@@ -28,6 +30,7 @@ export enum GamepadButtons {
   DpadDown = 'DpadDown',
   DpadLeft = 'DpadLeft',
   DpadRight = 'DpadRight',
+  // Wo auch immer dieser Knopf ist...?
   Button16 = 'Button16'
 }
 
@@ -50,80 +53,84 @@ export default class InputMap {
     this.template = template;
 
     for (const key in this.template) {
+      // Alle verwendeten Tastencodes als Array speichern
       this.usedKeys = [...this.usedKeys, ...this.template[key].keys];
     }
 
+    // Tastencode speichern, wenn eine Taste gedrückt wird
     window.addEventListener('keydown', event => {
-      if (event.code) {
-        if (this.usedKeys.includes(event.code)) {
-          event.preventDefault();
-        }
+      event.preventDefault();
 
-        if (!this.activeKeys.includes(event.code)) {
-          this.activeKeys.push(event.code);
-        }
+      let code: string;
+      if (event.code) {
+        code = event.code;
       } else {
         // MS Edge Fallback
-        const code = keyCodeToCodes(event.keyCode)[0];
+        code = keyCodeToCodes(event.keyCode)[0];
+      }
 
-        if (code) {
-          if (this.usedKeys.includes(code)) {
-            event.preventDefault();
-          }
-
-          if (!this.activeKeys.includes(code)) {
-            this.activeKeys.push(code);
-          }
-        }
+      if (this.usedKeys.includes(code)) {
+        // Taste zu Array von gedrückten Tasten hinzufügen
+        this.activeKeys.push(code);
       }
     });
 
+    // Tastencode aus Liste entfernen, wenn eine Taste losgelassen wird
     window.addEventListener('keyup', event => {
       event.preventDefault();
 
+      let code: string;
       if (event.code) {
-        this.activeKeys = this.activeKeys.filter(key => {
-          return key !== event.code;
-        });
+        code = event.code;
       } else {
         // MS Edge Fallback
-        const code = keyCodeToCodes(event.keyCode)[0];
-
-        if (code) {
-          this.activeKeys = this.activeKeys.filter(key => {
-            return key !== code;
-          });
-        }
+        code = keyCodeToCodes(event.keyCode)[0];
       }
+
+      this.removeActiveKey(code);
     });
 
+    // Gedrückte Tasten zurücksetzen, wenn der Nutzer ein anderes Fenster/Tab fokussiert
     window.addEventListener('blur', () => {
       this.activeKeys = [];
     });
   }
 
   public removeActiveKey(code: string): void {
-    this.activeKeys = this.activeKeys.filter(key => {
-      return key !== code;
-    });
+    // Tastencode aus dem Array der gedrückten Tasten entfernen
+    this.activeKeys = this.activeKeys.filter(key => key !== code);
   }
 
+  // Wird ausgeführt, um zu ermitteln, welche Inputs aktiv sind
   public get pressed(): { [key: string]: number } {
+    // Wenn die Gamepad API verfügbar ist, Gamepads laden
+    let gamepads: (Gamepad | null)[] = [];
+    if ('getGamepads' in navigator) {
+      gamepads = navigator.getGamepads();
+    }
+
+    // Objekt, in welchem die Ergebnisse der Tastendrucke gespeichert werden
     const mappedKeys: { [key: string]: number } = {};
+
     for (const key in this.template) {
+      // Fallback value
       let value = 0;
-      this.template[key].keys.forEach(code => {
+
+      // Alle möglichen Eingabemethoden überprüfen
+      codesLoop: for (const code of this.template[key].keys) {
         if (this.activeKeys.includes(code)) {
           value = 1;
 
+          // Wenn singlePress konfiguriert wurde, die entsprechende Taste von den gedrückten entfernen
           if (this.template[key].singlePress) {
             this.removeActiveKey(code);
           }
         }
 
-        if (code in GamepadButtons && 'getGamepads' in navigator) {
-          for (const gamepad of navigator.getGamepads()) {
+        if (code in GamepadButtons) {
+          for (const gamepad of gamepads) {
             if (gamepad) {
+              // Wenn der Tastencode dem jeweiligen Button entspricht und dieser gedrückt ist Wert auf 1 setzen
               if (code === GamepadButtons.ButtonA && gamepad.buttons[0].pressed) {
                 value = 1;
               }
@@ -148,6 +155,7 @@ export default class InputMap {
                 value = 1;
               }
 
+              // Sonderfall: Diese Tasten sind analog und liefern einen Wert zwischen von einschließlich 0-1
               if (code === GamepadButtons.TriggerLeft && gamepad.buttons[6].value > this.analogDeadzone) {
                 value = gamepad.buttons[6].value;
               }
@@ -195,11 +203,14 @@ export default class InputMap {
           }
         }
 
-        if (code in GamepadStickDirections && 'getGamepads' in navigator) {
-          for (const gamepad of navigator.getGamepads()) {
+        if (code in GamepadStickDirections) {
+          for (const gamepad of gamepads) {
             if (gamepad) {
               const { axes } = gamepad;
+
               switch (code) {
+                // Wenn der Tastencode übereinstimmt und der Controller Stick außerhalb der Deadzone ist
+                // wird value auf den absoluten Wert der aktuellen Stickposition gesetzt
                 case GamepadStickDirections.LeftStickLeft:
                   if (axes[0] < -this.analogDeadzone) {
                     value = Math.abs(axes[0]);
@@ -245,11 +256,18 @@ export default class InputMap {
           }
         }
 
-        mappedKeys[key] = value;
-      });
+        // Wert übertragen & verhindern, dass der Wert kleiner wird
+        mappedKeys[key] = Math.max(mappedKeys[key] ?? 0, value);
 
+        // Abbrechen, wenn bereits der Maximalwert erreicht wurde um Leistung zu sparen
+        if (mappedKeys[key] === 1) {
+          break codesLoop;
+        }
+      }
+
+      // Wenn overrides konfiguriert sind, diese keys überschreiben und auf 0 setzen
       const overridesKey = this.template[key].overrides;
-      if (mappedKeys[key] > 0 && overridesKey && overridesKey.length > 0) {
+      if (mappedKeys[key] > 0 && overridesKey) {
         for (const key of overridesKey) {
           mappedKeys[key] = 0;
         }
