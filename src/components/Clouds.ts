@@ -1,6 +1,7 @@
 import { Template } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
+import PropsContext from '../../lib/PropsContext';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
 import cloud1 from '../assets/clouds/cloud_1.png';
@@ -14,7 +15,7 @@ export default class Clouds extends Component<CloudProps> {
   private pos2 = 1000;
   private pos3 = 400;
 
-  protected onTick(_, timeDifference: number): void {
+  protected onTick(ctx: PropsContext<CloudProps>, timeDifference: number): void {
     // Wolken nach rechts verschieben und bei Bedarf nach links zurücksetzen
     this.pos1 = this.pos1 > 500 + 1600 ? -610 / 1.5 : this.pos1 + (timeDifference / 1000) * 50;
     this.pos2 = this.pos2 > 500 + 1600 ? -580 / 1.5 : this.pos2 + (timeDifference / 1000) * 50;
