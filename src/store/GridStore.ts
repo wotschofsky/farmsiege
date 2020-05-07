@@ -7,12 +7,12 @@ import Random from '../utils/Random';
 
 import values from '../values.json';
 
-type TileData = {
+export type TileData = {
   type: TileContents;
-  data: Record<string, any>;
+  data: Record<string, string | number>;
 };
 
-type RowData = [TileData, TileData, TileData, TileData, TileData, TileData, TileData, TileData];
+export type RowData = [TileData, TileData, TileData, TileData, TileData, TileData, TileData, TileData];
 
 export type GridStoreContent = [RowData, RowData, RowData, RowData, RowData, RowData, RowData, RowData];
 
