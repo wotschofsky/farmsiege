@@ -61,7 +61,8 @@
     "divideBy": 10e8
   },
   "character": {
-    "size": 1.2
+    "size": 1.2,
+    "movementSpeed": 1000
   },
   "guns": {
     "pumpgun": {

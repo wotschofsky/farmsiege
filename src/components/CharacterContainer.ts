@@ -2,27 +2,30 @@ import { Template } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import InputMap, { GamepadButtons, GamepadStickDirections } from '../../lib/InputMap';
+import PropsContext from '../../lib/PropsContext';
+
+import CharacterStore, { HoldableItems } from '../store/CharacterStore';
+import EffectsStore from '../store/EffectsStore';
+import GridStore from '../store/GridStore';
+import SettingsStore from '../store/SettingsStore';
+import StatsStore from '../store/StatsStore';
 
 import Character, { CharacterProps } from './character/Character';
-import CharacterStore, { HoldableItems } from '../store/CharacterStore';
-import GridStore from '../store/GridStore';
-import shotgunSound from '../assets/sounds/shotgun.mp3';
-import StatsStore from '../store/StatsStore';
-import TileContents from '../TileContents';
-import SettingsStore from '../store/SettingsStore';
-import EffectsStore from '../store/EffectsStore';
 
+import shotgunSound from '../assets/sounds/shotgun.mp3';
+
+import TileContents from '../TileContents';
 import values from '../values.json';
 
 export type CharacterContainerProps = {};
 
 export default class CharacterContainer extends Component<CharacterContainerProps> {
   private inputMap: InputMap;
-  private positionX = (1024 - 128) / 2;
-  private positionY = 1024 / 2;
+  private nextShotAvailableAt = 0;
 
-  private hasMoved = false;
-  private nextShotAvailable = 0;
+  private get nextShotAvailable(): boolean {
+    return this.nextShotAvailableAt <= Date.now();
+  }
 
   protected onInit(): void {
     this.inputMap = new InputMap({
@@ -53,23 +56,30 @@ export default class CharacterContainer extends Component<CharacterContainerProp
     });
   }
 
-  protected onTick(_, timeDifference: number): void {
+  protected onTick(ctx: PropsContext<CharacterContainerProps>, timeDifference: number): void {
     const characterStore = <CharacterStore>this.stores.character;
     const effectsStore = <EffectsStore>this.stores.effects;
     const gridStore = <GridStore>this.stores.grid;
     const statsStore = <StatsStore>this.stores.score;
 
+    // Eingaben auslesen
     const inputs = this.inputMap.pressed;
 
     if (!effectsStore.directContent.gameOver.active) {
       let moveX = 0;
       let moveY = 0;
-      if (inputs.up) moveY -= inputs.up * 1000 * (timeDifference / 1000);
-      if (inputs.down) moveY += inputs.down * 1000 * (timeDifference / 1000);
-      if (inputs.right) moveX += inputs.right * 1000 * (timeDifference / 1000);
-      if (inputs.left) moveX -= inputs.left * 1000 * (timeDifference / 1000);
-
-      this.hasMoved = moveX !== 0;
+      if (inputs.up) {
+        moveY -= inputs.up * values.character.movementSpeed * (timeDifference / 1000);
+      }
+      if (inputs.down) {
+        moveY += inputs.down * values.character.movementSpeed * (timeDifference / 1000);
+      }
+      if (inputs.right) {
+        moveX += inputs.right * values.character.movementSpeed * (timeDifference / 1000);
+      }
+      if (inputs.left) {
+        moveX -= inputs.left * values.character.movementSpeed * (timeDifference / 1000);
+      }
 
       characterStore.move(moveX, moveY);
 
@@ -81,6 +91,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         }
 
         gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY, removedContent => {
+          // Ermitteln, was Entfernt wurde und den entsprechenden Gegenstand anzeigen und Punkte hinzufügen
           let addedScore = 0;
           switch (removedContent) {
             case TileContents.Mole:
@@ -106,7 +117,10 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           if (addedScore > 0) {
             const effectsStore = <EffectsStore>this.stores.effects;
 
+            // Punkte hinzufügen
             statsStore.addScore(addedScore);
+
+            // Punkteanimation anzeigen
             effectsStore.showScoreEffect(
               characterStore.content.fieldX * 128 + 288 + 32,
               characterStore.content.fieldY * 128 + 176 + 64,
@@ -121,44 +135,44 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         gridStore.placePlant(characterStore.content.fieldX, characterStore.content.fieldY);
       }
 
-      if (inputs.fire) {
-        if (this.nextShotAvailable <= Date.now()) {
-          const characterStore = <CharacterStore>this.stores.character;
-          const settingsStore = <SettingsStore>this.stores.settings;
-          characterStore.fireGun();
+      if (inputs.fire && this.nextShotAvailable) {
+        characterStore.fireGun();
 
-          if ('getGamepads' in navigator) {
-            for (const gamepad of navigator.getGamepads()) {
-              if (gamepad) {
-                let feedbackGiven = false;
+        // Controller vibrieren lassen
+        // Testen ob die Gamepad API vom Browser unterstützt wird
+        if ('getGamepads' in navigator) {
+          const allGamepads = navigator.getGamepads();
+          for (const gamepad of allGamepads) {
+            if (!gamepad) {
+              continue;
+            }
 
-                if ('hapticActuators' in gamepad) {
-                  for (const actuator of gamepad.hapticActuators) {
-                    actuator.pulse(0.7, 100);
-                    feedbackGiven = true;
-                  }
-                }
-
-                if (!feedbackGiven && 'vibrationActuator' in gamepad) {
-                  (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
-                    startDelay: 0,
-                    duration: 100,
-                    weakMagnitude: 0.7,
-                    strongMagnitude: 0.7
-                  });
-                }
+            // Testen ob und welche API für haptisches Feedback verfügbar ist
+            if ('hapticActuators' in gamepad) {
+              for (const actuator of gamepad.hapticActuators) {
+                actuator.pulse(0.7, 100);
               }
+            } else if ('vibrationActuator' in gamepad) {
+              (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
+                startDelay: 0,
+                duration: 100,
+                weakMagnitude: 0.7,
+                strongMagnitude: 0.7
+              });
             }
           }
-
-          if (settingsStore.content.volume) {
-            const audio = new Audio(shotgunSound);
-            audio.volume = settingsStore.content.volume;
-            audio.play();
-          }
-
-          this.nextShotAvailable = Date.now() + 1200;
         }
+
+        // Soundeffekt abspielen
+        const settingsStore = <SettingsStore>this.stores.settings;
+        if (settingsStore.content.volume > 0) {
+          const audio = new Audio(shotgunSound);
+          audio.volume = settingsStore.content.volume * 0.6;
+          audio.play();
+        }
+
+        // Neuen Timestamp speichern
+        this.nextShotAvailableAt = Date.now() + 1200;
       }
     }
   }
@@ -170,10 +184,11 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         new Coordinates(this.stores.character.content.posX - 32, this.stores.character.content.posY - 128),
       props: (): CharacterProps => {
         const characterStore = <CharacterStore>this.stores.character;
+        const characterStoreContent = characterStore.content;
 
         return {
-          direction: characterStore.content.direction,
-          heldItem: characterStore.content.heldItem,
+          direction: characterStoreContent.direction,
+          heldItem: characterStoreContent.heldItem,
           hammerPosition: characterStore.hammerPosition
         };
       }
