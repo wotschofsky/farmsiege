@@ -1,11 +1,11 @@
-import Component from '../../lib/Component';
 import { Template } from '../../lib/Types';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
+import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
-import PropsContext from '../../lib/PropsContext';
-import Text, { TextProps } from '../../lib/components/native/Text';
-import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
 import Dimensions from '../../lib/helpers/Dimensions';
+import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
+import PropsContext from '../../lib/PropsContext';
+import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
+import Text, { TextProps } from '../../lib/components/native/Text';
 import TextWidthCalculator, { TextWidthCalculatorProps } from '../../lib/components/helpers/TextWidthCalculator';
 
 type OnEnterCallback = (value: string) => void;
