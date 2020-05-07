@@ -6,7 +6,7 @@ import Rabbit, { RabbitProps } from '../components/animals/Rabbit';
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
 import MovablesStore from '../store/MovablesStore';
 import CharacterStore from '../store/CharacterStore';
-import GridStore from '../store/GridStore';
+import GridStore, { TileData } from '../store/GridStore';
 import GridUtils from '../utils/Grid';
 import EffectsStore from '../store/EffectsStore';
 import StatsStore from '../store/StatsStore';
@@ -33,10 +33,8 @@ export default class Rabbits extends Component<RabbitsProps> {
         offset = Math.max(0, 8 - offset);
       }
 
-      // x-y-Raster in Array mit bestimmeter Reihe umwandeln
-      let contentRow = gridStore.content.map(column => {
-        return column[row];
-      });
+      // Referenz zur Reihe des Hasen speichern
+      let contentRow: TileData[] = gridStore.content[row];
 
       // Bei Bedarf Startpunkt ändern
       if (direction === Directions.Right) {

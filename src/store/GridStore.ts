@@ -109,7 +109,7 @@ export default class GridStore extends Store<GridStoreContent> {
   public removeContent(x: number, y: number, callback?: (removedContent: TileContents) => void): void {
     if (!this.isValidField(x, y)) return;
 
-    if (this.directContent[x][y].type === TileContents.Plant) {
+    if (this.directContent[y][x].type === TileContents.Plant) {
       this.removePlant(x, y);
       if (callback) {
         callback(TileContents.Plant);
@@ -121,10 +121,10 @@ export default class GridStore extends Store<GridStoreContent> {
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        if (clonedState[x][y].type === TileContents.Lightning) return clonedState;
+        if (clonedState[y][x].type === TileContents.Lightning) return clonedState;
 
-        const tileContent = clonedState[x][y].type;
-        clonedState[x][y].type = TileContents.Empty;
+        const tileContent = clonedState[y][x].type;
+        clonedState[y][x].type = TileContents.Empty;
         if (tileContent !== TileContents.Empty && callback) {
           callback(tileContent);
         }
@@ -135,12 +135,12 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   public removePlant(x: number, y: number): void {
-    if (!this.isValidField(x, y) || this.directContent[x][y].type !== TileContents.Plant) return;
+    if (!this.isValidField(x, y) || this.directContent[y][x].type !== TileContents.Plant) return;
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        clonedState[x][y].type = TileContents.Empty;
+        clonedState[y][x].type = TileContents.Empty;
         this._lastRemovedPlant = new Coordinates(x, y);
 
         return clonedState;
@@ -152,11 +152,11 @@ export default class GridStore extends Store<GridStoreContent> {
     if (!this.isValidField(x, y)) return;
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
-        if (oldState[x][y].type !== TileContents.Empty) return oldState;
+        if (oldState[y][x].type !== TileContents.Empty) return oldState;
 
         const clonedState = cloneDeep(oldState);
-        clonedState[x][y].type = TileContents.Plant;
-        clonedState[x][y].data = {
+        clonedState[y][x].type = TileContents.Plant;
+        clonedState[y][x].data = {
           age: 0
         };
         return clonedState;
