@@ -13,7 +13,10 @@ export default class SettingsStore extends Store<SettingsStoreContent> {
   public constructor() {
     let volume: VolumeValues = 0.67;
 
+    // Cookie auslesen
     const cookieValue = Cookie.getJSON('volume');
+
+    // Cookie-Wert validieren
     if (typeof cookieValue === 'number' && validVolumeValues.includes(<VolumeValues>cookieValue)) {
       volume = <VolumeValues>cookieValue;
     }
@@ -39,6 +42,7 @@ export default class SettingsStore extends Store<SettingsStoreContent> {
             break;
         }
 
+        // Neuen Lautstärkewert als Cookie abspeichern
         Cookie.set('volume', newVolume.toString(), { expires: 365 });
 
         return {

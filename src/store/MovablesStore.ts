@@ -4,17 +4,19 @@ import Coordinates from '../../lib/helpers/Coordinates';
 import Store from '../../lib/store/Store';
 
 import BulletData from './models/BulletData';
-import GridUtils from '../utils/Grid';
 import RabbitData from './models/RabbitData';
-import values from '../values.json';
+
+import GridUtils from '../utils/Grid';
 import Random from '../utils/Random';
+
+import values from '../values.json';
 
 type MovablesStoreContent = {
   rabbits: RabbitData[];
 };
 
 export default class MovablesStore extends Store<MovablesStoreContent> {
-  private timers: number[];
+  private timers: NodeJS.Timeout[];
   private _speedMultiplier: number;
 
   public constructor() {
@@ -38,9 +40,11 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
   }
 
   public stop(): void {
+    // Timer löschen, um zu verhindern, dass diese Code ausführen, nachdem das Spiel vorbei ist2
     this.timers.forEach(timer => {
       clearTimeout(timer);
     });
+    this.timers = [];
   }
 
   public updateRabbits(timeDifference: number): void {
@@ -51,23 +55,26 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
         // Nicht mehr sichtbare Hasen entfernen
         clonedState.rabbits = clonedState.rabbits.filter(data => {
           let outsideScreen = false;
+
+          // Verschiedene x Werte basierend auf der Laufrichtung wählen
           if (data.direction === Directions.Left && data.x <= -256) {
             outsideScreen = true;
           } else if (data.direction === Directions.Right && data.x >= 1600) {
             outsideScreen = true;
           }
+
           return !outsideScreen;
         });
 
         for (const rabbit of clonedState.rabbits) {
-          const speed = rabbit.direction === Directions.Left ? values.rabbits.speed : -values.rabbits.speed;
-          const relativeX = timeDifference * speed;
-
-          const shouldMove = rabbit.distanceToTarget > 0;
-
-          rabbit.move(shouldMove ? relativeX : 0);
-
-          if (rabbit.targetReached) {
+          // Ermitteln, ob der Hase schon sein Ziel erreicht hat
+          if (!rabbit.targetReached) {
+            // Hase in Laufrichtung bewegen
+            const speed = rabbit.direction === Directions.Left ? values.rabbits.speed : -values.rabbits.speed;
+            const relativeX = timeDifference * speed;
+            rabbit.move(relativeX);
+          } else {
+            // Timer des Hasen updaten
             rabbit.reduceTimeLeft(timeDifference);
           }
         }
@@ -82,24 +89,18 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       (oldState: MovablesStoreContent): MovablesStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        clonedState.rabbits.map(
-          (rabbit): RabbitData => {
-            // Spalte mit Hilfe der x-Koordinate berechnen
-            const { x: currentColumn } = GridUtils.coordsToExactField(
-              new Coordinates(
-                // rabbit.x - (288 - 128),
-                rabbit.x - 128,
-                0
-              )
-            );
+        for (const rabbit of clonedState.rabbits) {
+          // Feld basierend auf Koordinaten des Hasen berechnen
+          const { x: currentColumn, y: rabbitRow } = GridUtils.coordsToExactField(
+            new Coordinates(rabbit.x - 128, rabbit.y + 96)
+          );
 
-            const rabbitRow = (rabbit.y + 96) / 128;
+          // Callback Funktion aufrufen und Rückgabewert
+          const targetCol = callback(rabbitRow, rabbit.direction, currentColumn);
 
-            const value = callback(rabbitRow, rabbit.direction, currentColumn);
-            rabbit.targetX = value * 128 + 288 - 128;
-            return rabbit;
-          }
-        );
+          // Spalte in Koordinaten umrechnen und beim Hasen speichern
+          rabbit.targetX = targetCol * 128 + 288 - 128;
+        }
 
         return clonedState;
       }
@@ -111,34 +112,53 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       (oldState: MovablesStoreContent): MovablesStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        const rabbitAmount =
-          Math.round(Math.random() * (values.rabbits.amount.max - values.rabbits.amount.min)) +
-          values.rabbits.amount.min;
+        // Menge an neuen Hasen errechnen
+        const rabbitAmount = Random.roundedBetween(values.rabbits.amount.min, values.rabbits.amount.max);
+
+        // Reihen, in den Hasen gespawnt werden ermitteln
         const rabbitRows: number[] = [];
         for (let i = 0; i < rabbitAmount; i++) {
           let row: number;
           do {
-            row = Math.round(Math.random() * 7);
+            row = Random.roundedBetween(0, 7);
+            // Verhindern, dass zwei Hasen in der selben Reihe spawnen
           } while (rabbitRows.includes(row));
           rabbitRows.push(row);
         }
 
-        const direction = Math.random() > 0.5 ? Directions.Left : Directions.Right;
+        // Richtung aller Hasen zufällig auswählen
+        const direction = Random.randomBoolean() ? Directions.Left : Directions.Right;
+
+        // Für jede
         const mappedRabbits: RabbitData[] = rabbitRows.map(
           (row): RabbitData => {
-            const offset = Math.random() * 252;
-            const x = direction === Directions.Left ? 1600 + offset : -128 - offset;
+            // Zufälligen Offset-Wert generieren
+            const offset = Random.between(0, 256);
+
+            // Koordinaten berechnen
+            let x: number;
+            switch (direction) {
+              case Directions.Left:
+                x = 1600 + offset;
+                break;
+              case Directions.Right:
+                x = -128 - offset;
+                break;
+            }
             const y = row * 128 - 96;
+
             return new RabbitData(x, y, direction);
           }
         );
 
+        // Neue Hasen zu den bereits exisitieren hinzufügen
         clonedState.rabbits = clonedState.rabbits.concat(mappedRabbits);
 
         return clonedState;
       }
     );
 
+    // Timer für nächsten Hasenzyklus starten
     const timeout = setTimeout(() => {
       this.spawnRabbits();
     }, Random.between(values.rabbits.spawning.min, values.rabbits.spawning.max) / this._speedMultiplier);
@@ -150,9 +170,12 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       (oldState: MovablesStoreContent): MovablesStoreContent => {
         const clonedState = cloneDeep(oldState);
 
+        // Getroffene Hasen entfernen
         clonedState.rabbits = clonedState.rabbits.filter(rabbit => {
+          // Testen, ob der Hase getroffen wurde
           const rabbitHit = rabbit.detectHit(bullets);
 
+          // Bei einem Treffer Callback ausführen
           if (rabbitHit) {
             callback(rabbit.x, rabbit.y);
           }
@@ -166,14 +189,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
   }
 
   public get stillRabbits(): RabbitData[] {
-    return this.content.rabbits.filter(rabbit => {
-      return rabbit.x === rabbit.targetX;
-    });
+    return this.content.rabbits.filter(rabbit => rabbit.targetReached);
   }
 
   public get directStillRabbits(): RabbitData[] {
-    return this.directContent.rabbits.filter(rabbit => {
-      return rabbit.x === rabbit.targetX;
-    });
+    return this.directContent.rabbits.filter(rabbit => rabbit.targetReached);
   }
 }

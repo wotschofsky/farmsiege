@@ -37,11 +37,4 @@ export default class ScreensStore extends Store<ScreensStoreContent> {
       onReturn: onReturn
     }));
   }
-
-  public resetOnReturn(): void {
-    this.update((oldState: ScreensStoreContent) => ({
-      ...oldState,
-      onReturn: (): void => {}
-    }));
-  }
 }

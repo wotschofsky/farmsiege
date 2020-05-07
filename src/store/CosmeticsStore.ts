@@ -112,6 +112,7 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
   cookieName = 'cosmetics';
 
   public constructor() {
+    // Zufällige Konfiguration generieren
     super('cosmetics', {
       hat: Math.floor(Math.random() * hatsData.length),
       shirt: Math.floor(Math.random() * shirtsData.length),
@@ -121,8 +122,10 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
     const cookieData = this.retrieveConfiguration();
     if (cookieData) {
+      // Wenn Konfiguration als Cookie gespeichert ist, diese laden
       this.update(() => cookieData);
     } else {
+      // Sonst zufällige Konfiguration als Cookie speichern
       this.saveConfiguration();
     }
   }
@@ -133,12 +136,16 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
   }
 
   public retrieveConfiguration(): CosmeticsStoreContent | void {
+    // Cookie Daten auslesen
     const data = <CosmeticsStoreContent | undefined>Cookie.getJSON(this.cookieName);
 
+    // Abbrechen wenn...
+    // Cookie nicht vorhanden ist
     if (!data) {
       return;
     }
 
+    // Ein Cosmetics Item nicht verfügbar ist
     if (!data.hat || !hatsData.find(val => val.id === data.hat)) {
       return;
     }
@@ -151,13 +158,16 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
       return;
     }
 
+    // Die Hautfarbe nicht verfügbar ist
     if (!data.skinColor || data.skinColor < 0 || data.skinColor > 5) {
       return;
     }
 
+    // Sonst validierte Cookiedaten zurückgeben
     return data;
   }
 
+  // Gesamte Daten für Cosmetics Item mit ID heraussuchen
   public get activeHat(): HatData {
     const storeHat = this.content.hat;
     return <HatData>hatsData.find((hat): boolean => {

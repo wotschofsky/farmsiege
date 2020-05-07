@@ -41,17 +41,6 @@ export default class MiscStore extends Store<MiscStoreContent> {
       return clonedState;
     });
   }
-
-  public setHighscores(value: ScoreData[]): void {
-    this.update((oldState: MiscStoreContent) => {
-      const clonedState = cloneDeep(oldState);
-
-      clonedState.highscores = value;
-
-      return clonedState;
-    });
-  }
-
   public setInstructionsMode(newMode: 'manual' | 'beforeGame'): void {
     this.update((oldState: MiscStoreContent) => {
       const clonedState = cloneDeep(oldState);
@@ -63,23 +52,31 @@ export default class MiscStore extends Store<MiscStoreContent> {
   }
 
   public async fetchHighscores(): Promise<void> {
+    // HTTP Anfrage an Highscore Server schicken
     const response = await fetch(
       'https://garden-defense.firebaseio.com/highscores.json?orderBy="score"&limitToLast=10'
     );
+
+    // Antwort im JSON Format extrahieren
     const json = await response.json();
 
+    // Antwort im Objektformat in Array umwandeln
     const scores: ScoreData[] = [];
     for (const score in json) {
       scores.push(json[score]);
     }
 
-    const sorted = scores.sort((a, b): number => {
-      if (a.score < b.score) return 1;
-      if (a.score > b.score) return -1;
-      return 0;
-    });
+    // Ergebnisse sortieren
+    const sorted = scores.sort((a: ScoreData, b: ScoreData): number => b.score - a.score);
 
-    this.setHighscores(sorted);
+    // Highscores im Store speichern
+    this.update((oldState: MiscStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      clonedState.highscores = sorted;
+
+      return clonedState;
+    });
   }
 
   public setSplashScreenShown(): void {

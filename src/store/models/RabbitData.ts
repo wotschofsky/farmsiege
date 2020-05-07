@@ -1,5 +1,7 @@
 import { Directions } from '../../../lib/Enums';
+
 import BulletData from './BulletData';
+
 import values from '../../values.json';
 
 export default class RabbitData {
@@ -20,10 +22,8 @@ export default class RabbitData {
   }
 
   public move(amount: number): void {
-    const distanceToTarget = (this._targetX - this._x) * (this._direction === Directions.Left ? -1 : 1);
-
     let x = this._x - amount;
-    if (distanceToTarget < 0) {
+    if (this.distanceToTarget < 0) {
       x = this._targetX;
     }
 
@@ -68,12 +68,15 @@ export default class RabbitData {
 
   public detectHit(bullets: BulletData[]): boolean {
     let rabbitHit = false;
+
     for (const bullet of bullets) {
-      if (Math.abs(this._x + 128 - bullet.x) < 50 && Math.abs(this._y + 256 - bullet.y) < 50) {
+      // Testen ob der Hase auf je der x- & y-Achse höchstens 50px entfernt ist
+      if (Math.abs(this._x + 128 - bullet.x) <= 50 && Math.abs(this._y + 256 - bullet.y) <= 50) {
         rabbitHit = true;
         break;
       }
     }
+
     return rabbitHit;
   }
 }

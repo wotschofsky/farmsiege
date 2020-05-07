@@ -3,8 +3,9 @@ import cloneDeep from 'clone-deep';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Store from '../../lib/store/Store';
 
-import GridUtils from '../utils/Grid';
 import BulletData from './models/BulletData';
+import GridUtils from '../utils/Grid';
+
 import values from '../values.json';
 
 export enum HoldableItems {
@@ -45,22 +46,17 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
   public move(x: number, y: number): void {
     this.update(
       (oldState: CharacterStoreContent): CharacterStoreContent => {
+        // Neue Position berechnen
         let newX = oldState.posX + x;
         let newY = oldState.posY + y;
 
-        if (newX <= 0) {
-          newX = 0;
-        }
-        if (newX >= 1024 - 96) {
-          newX = 1024 - 96;
-        }
-        if (newY <= 0) {
-          newY = 0;
-        }
-        if (newY >= 1024 - 96) {
-          newY = 1024 - 96;
-        }
+        // Verhindern, dass der Spieler das Spielfeld verlässt
+        newX = Math.max(newX, 0);
+        newX = Math.min(newX, 1024 - 96);
+        newY = Math.max(newY, 0);
+        newY = Math.min(newY, 1024 - 96);
 
+        // Position auf dem Raster ausrechnen
         const gridPosition = GridUtils.coordsToField(new Coordinates(newX, newY));
 
         return {
@@ -85,6 +81,8 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
         for (let i = 0; i < values.guns.pumpgun.amount; i++) {
           let direction: number;
           let xOffset: number;
+
+          // Winkel zufällig innerhalb eines Rahmens berechnen
           if (clonedState.direction === Directions.Right) {
             direction =
               Math.PI * (-0.5 * values.guns.pumpgun.spread) + Math.random() * Math.PI * values.guns.pumpgun.spread;
@@ -95,8 +93,10 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
             xOffset = -156;
           }
 
+          // BulletData Objekt erstellen
           const bullet = new BulletData(oldState.posX + 320 + xOffset, oldState.posY + 196, direction);
 
+          // Objekt zum Array hinzufügen
           clonedState.bullets.push(bullet);
         }
 
@@ -110,16 +110,20 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
       (oldState: CharacterStoreContent): CharacterStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        clonedState.bullets = clonedState.bullets.filter((bullet: BulletData): boolean => bullet.endOfLifeReached);
+        // Projektile, die das Ende des Lebenszyklus erreicht haben entfernen
+        clonedState.bullets = clonedState.bullets.filter((bullet: BulletData): boolean => !bullet.endOfLifeReached);
 
+        // Timer in allen Projektilen erhöhen
         for (const bullet of clonedState.bullets) {
           bullet.update(timeDifference);
         }
 
+        // hammerTimer zurücksetzen, wenn Animation fertig ist
         if (clonedState.hammerTimer > this.hammerAnimationDuration) {
           clonedState.hammerTimer = 0;
         }
 
+        // Timer erhöhen, wenn Animation läuft
         if (clonedState.hammerTimer > 0) {
           clonedState.hammerTimer += timeDifference;
         }
@@ -136,6 +140,7 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
 
         clonedState.heldItem = value;
 
+        // Wenn Hammer ausgewählt wird, Animation starten
         if (value === HoldableItems.Hammer) {
           clonedState.hammerTimer = 1;
         }
