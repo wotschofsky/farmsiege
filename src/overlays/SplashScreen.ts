@@ -19,12 +19,15 @@ export default class SplashScreen extends Component<SplashScreenProps> {
 
   protected onTick(ctx: PropsContext<SplashScreenProps>, timeDifference: number): void {
     this.timer += timeDifference;
+
+    // Sobald die Animation fertig ist, Callback ausführen
     if (this.timer >= this.totalDuration && !this.callbackExecuted) {
       ctx.props.finishedCallback();
       this.callbackExecuted = true;
     }
   }
 
+  // Animationsfortschritt errechnen
   private get logoProgress(): number {
     return Math.min(1.5, this.timer / 500);
   }
@@ -37,6 +40,7 @@ export default class SplashScreen extends Component<SplashScreenProps> {
   }
 
   protected template: Template = [
+    // Hintergrund
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -46,6 +50,8 @@ export default class SplashScreen extends Component<SplashScreenProps> {
         color: `rgba(255, 255, 255, ${this.opacity})`
       })
     },
+
+    // Logo
     {
       component: new Logo(),
       position: (): Coordinates => new Coordinates(444, 150),
@@ -58,6 +64,8 @@ export default class SplashScreen extends Component<SplashScreenProps> {
         }
       })
     },
+
+    // Branding
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(600, 800 - 30),

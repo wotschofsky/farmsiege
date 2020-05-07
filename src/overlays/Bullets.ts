@@ -1,10 +1,12 @@
 import Component from '../../lib/Component';
 import { Template } from '../../lib/Types';
-import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
+import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
-import PropsContext from '../../lib/PropsContext';
-import CharacterStore, { BulletData } from '../store/CharacterStore';
+import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
+
+import BulletData from '../store/models/BulletData';
+import CharacterStore from '../store/CharacterStore';
 
 export type BulletsProps = {};
 
@@ -15,13 +17,12 @@ export default class Bullets extends Component<BulletsProps> {
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): RepeatingProps => {
         const characterStore = <CharacterStore>this.stores.character;
+
         return {
           list: characterStore.content.bullets,
           component: (): Rectangle => new Rectangle(),
-          position: (data: BulletData): Coordinates => {
-            return new Coordinates(data.x, data.y);
-          },
-          props: (data: BulletData): RectangleProps => ({
+          position: (data: BulletData): Coordinates => new Coordinates(data.x, data.y),
+          props: (): RectangleProps => ({
             color: '#000',
             width: 12,
             height: 12
