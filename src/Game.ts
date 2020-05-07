@@ -118,7 +118,12 @@ class Game extends Component<GameProps> {
       miscStore.fetchHighscores();
       gridStore.stop();
 
-      effectsStore.showGameOverAnimation(new Coordinates(1000, 800), async () => {
+      const center: Coordinates = new Coordinates(
+        gridStore.lastRemovedPlant.x * 128 + 64 + 288,
+        gridStore.lastRemovedPlant.y * 128 + 64 + 176
+      );
+
+      effectsStore.showGameOverAnimation(center, async () => {
         movablesStore.stop();
         movablesStore.reset();
         gridStore.reset();

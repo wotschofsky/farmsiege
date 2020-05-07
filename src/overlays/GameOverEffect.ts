@@ -1,9 +1,7 @@
 import Component from '../../lib/Component';
-import Coordinates from '../../lib/helpers/Coordinates';
 import RenderingContext from '../../lib/RenderingContext';
 
 import EffectsStore from '../store/EffectsStore';
-import GridStore from '../store/GridStore';
 
 export type GameOverEffectProps = {};
 
@@ -45,16 +43,13 @@ export default class GameOverEffect extends Component<GameOverEffectProps> {
         Math.sqrt((1600 - effectData.center.x) ** 2 + (1200 - effectData.center.y) ** 2)
       );
 
-      const gridStore = <GridStore>this.stores.grid;
-      const position: Coordinates = new Coordinates(
-        gridStore.lastRemovedPlant.x * 128 + 64 + 288,
-        gridStore.lastRemovedPlant.y * 128 + 64 + 176
-      );
+      const effectsStore = <EffectsStore>this.stores.effects;
+      const { center } = effectsStore.content.gameOver;
 
       // Kreis zeichnen
       maskCtx.arc(
-        (position.x + context.parentX) * context.scaleFactor,
-        (position.y + context.parentY) * context.scaleFactor,
+        (center.x + context.parentX) * context.scaleFactor,
+        (center.y + context.parentY) * context.scaleFactor,
         distanceToCorner * (1 - effectsStore.endAnimationProgress),
         0,
         2 * Math.PI
