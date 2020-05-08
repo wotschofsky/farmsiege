@@ -33,9 +33,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
   }
 
   public start(): void {
-    const timeout = setTimeout(() => {
-      this.spawnRabbits();
-    }, Random.between(values.rabbits.grace.min, values.rabbits.grace.max));
+    const timeout = setTimeout(
+      this.spawnRabbits.bind(this),
+      Random.between(values.rabbits.grace.min, values.rabbits.grace.max)
+    );
     this.timers.push(timeout);
   }
 
@@ -159,9 +160,10 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
     );
 
     // Timer für nächsten Hasenzyklus starten
-    const timeout = setTimeout(() => {
-      this.spawnRabbits();
-    }, Random.between(values.rabbits.spawning.min, values.rabbits.spawning.max) / this._speedMultiplier);
+    const timeout = setTimeout(
+      this.spawnRabbits.bind(this),
+      Random.between(values.rabbits.spawning.min, values.rabbits.spawning.max) / this._speedMultiplier
+    );
     this.timers.push(timeout);
   }
 

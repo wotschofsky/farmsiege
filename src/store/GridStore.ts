@@ -72,10 +72,7 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   public reset(): void {
-    this.update(() => {
-      const initialGrid = generateInitialGrid();
-      return initialGrid;
-    });
+    this.update(generateInitialGrid);
   }
 
   public set speedMultiplier(value: number) {
@@ -90,23 +87,26 @@ export default class GridStore extends Store<GridStoreContent> {
     this.growPlants();
 
     {
-      const timeout = setTimeout(() => {
-        this.updateMole();
-      }, Random.between(values.mole.grace.min, values.mole.grace.max));
+      const timeout = setTimeout(
+        this.updateMole.bind(this),
+        Random.between(values.mole.grace.min, values.mole.grace.max)
+      );
       this.timers.push(timeout);
     }
 
     {
-      const timeout = setTimeout(() => {
-        this.updateWeed();
-      }, Random.between(values.weed.grace.min, values.weed.grace.max));
+      const timeout = setTimeout(
+        this.updateWeed.bind(this),
+        Random.between(values.weed.grace.min, values.weed.grace.max)
+      );
       this.timers.push(timeout);
     }
 
     {
-      const timeout = setTimeout(() => {
-        this.updateLightning();
-      }, Random.between(values.lightning.grace.min, values.lightning.grace.max));
+      const timeout = setTimeout(
+        this.updateLightning.bind(this),
+        Random.between(values.lightning.grace.min, values.lightning.grace.max)
+      );
       this.timers.push(timeout);
     }
   }
@@ -186,9 +186,7 @@ export default class GridStore extends Store<GridStoreContent> {
     );
 
     // Timer für nächsten Pflanzenzyklus starten
-    const timeout = setTimeout(() => {
-      this.growPlants();
-    }, 100);
+    const timeout = setTimeout(this.growPlants.bind(this), 100);
     this.timers.push(timeout);
   }
 
@@ -245,9 +243,10 @@ export default class GridStore extends Store<GridStoreContent> {
     );
 
     // Timer für nächsten Maulwurfszyklus starten
-    const timeout = setTimeout(() => {
-      this.updateMole();
-    }, Random.between(values.mole.spawning.min, values.mole.spawning.max) / this._speedMultiplier);
+    const timeout = setTimeout(
+      this.updateMole.bind(this),
+      Random.between(values.mole.spawning.min, values.mole.spawning.max) / this._speedMultiplier
+    );
     this.timers.push(timeout);
   }
 
@@ -300,9 +299,10 @@ export default class GridStore extends Store<GridStoreContent> {
     );
 
     // Timer für nächsten Unkrautszyklus starten
-    const timeout = setTimeout(() => {
-      this.updateWeed();
-    }, Random.between(values.weed.spawning.min, values.weed.spawning.max) / this._speedMultiplier);
+    const timeout = setTimeout(
+      this.updateWeed.bind(this),
+      Random.between(values.weed.spawning.min, values.weed.spawning.max) / this._speedMultiplier
+    );
     this.timers.push(timeout);
   }
 
@@ -372,9 +372,10 @@ export default class GridStore extends Store<GridStoreContent> {
     }
 
     {
-      const timeout = setTimeout(() => {
-        this.updateLightning();
-      }, Random.between(values.lightning.spawning.min, values.lightning.spawning.max) / this._speedMultiplier);
+      const timeout = setTimeout(
+        this.updateLightning.bind(this),
+        Random.between(values.lightning.spawning.min, values.lightning.spawning.max) / this._speedMultiplier
+      );
       this.timers.push(timeout);
     }
   }

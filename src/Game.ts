@@ -54,16 +54,10 @@ class Game extends Component<GameProps> {
     // Ensure IE Compatibility
     if (playPromise) {
       playPromise.catch(() => {
-        window.addEventListener(
-          'click',
-          () => {
-            audio.play();
-          },
-          {
-            once: true,
-            passive: true
-          }
-        );
+        window.addEventListener('click', audio.play.bind(audio), {
+          once: true,
+          passive: true
+        });
       });
     }
 
@@ -91,10 +85,8 @@ class Game extends Component<GameProps> {
           console.error(err);
         } else {
           // Wenn geladen, in MiscStore speichern
-          grecaptcha.ready(async () => {
-            const miscStore = <MiscStore>this.stores.misc;
-            miscStore.setRecaptchaLoaded();
-          });
+          const miscStore = <MiscStore>this.stores.misc;
+          grecaptcha.ready(miscStore.setRecaptchaLoaded.bind(miscStore));
         }
       }
     );
