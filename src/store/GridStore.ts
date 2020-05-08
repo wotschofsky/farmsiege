@@ -315,7 +315,7 @@ export default class GridStore extends Store<GridStoreContent> {
         const clonedState = cloneDeep(oldState);
 
         let plantDestroyed = false;
-        outerLoop: for (let rowIndex = -1; rowIndex <= 1; rowIndex++) {
+        for (let rowIndex = -1; rowIndex <= 1; rowIndex++) {
           if (!GridUtils.rowExists(lightningRow + rowIndex)) {
             continue;
           }
@@ -330,16 +330,10 @@ export default class GridStore extends Store<GridStoreContent> {
 
             if (tile.type === TileContents.Plant) {
               plantDestroyed = true;
-              break;
             }
 
             // Feld leeren
             tile.type = TileContents.Empty;
-
-            // Weitere Durchgänge verhindern, um Leistung zu sparen
-            if (plantDestroyed) {
-              break outerLoop;
-            }
           }
         }
 
