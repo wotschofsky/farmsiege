@@ -177,7 +177,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         const settingsStore = <SettingsStore>this.stores.settings;
         if (settingsStore.content.volume > 0) {
           const audio = new Audio(shotgunSound);
-          audio.volume = settingsStore.content.volume * 0.6;
+          audio.volume = settingsStore.content.volume * 0.4;
           audio.play();
         }
 

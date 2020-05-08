@@ -47,7 +47,7 @@ class Game extends Component<GameProps> {
     // Musik abspielen
     const audio = new Audio(soundtrackMoonBase);
     audio.loop = true;
-    audio.volume = settingsStore.content.volume * 0.8;
+    audio.volume = settingsStore.content.volume * 0.5;
     audio.autoplay = true;
 
     const playPromise = audio.play();
@@ -69,7 +69,7 @@ class Game extends Component<GameProps> {
 
     // Bei Lautstärkeänderung Musik anpassen
     settingsStore.subscribe((state: SettingsStoreContent) => {
-      audio.volume = state.volume * 0.8;
+      audio.volume = state.volume * 0.5;
     });
 
     // Musik bei Spielanfang / -ende wechseln
