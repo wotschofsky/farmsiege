@@ -13,9 +13,12 @@ export default class BulletData {
   }
 
   public update(timeDifference: number): void {
-    this._x = this._x + Math.cos(this._direction) * timeDifference * 3;
-    this._y = this._y + Math.sin(this._direction) * timeDifference * 3;
-    this._age = this._age + timeDifference;
+    // Projektil basierend auf der Richtung verschieben
+    this._x += Math.cos(this._direction) * timeDifference * 3;
+    this._y += Math.sin(this._direction) * timeDifference * 3;
+
+    // Alter erhöhen
+    this._age += timeDifference;
   }
 
   public get x(): number {
@@ -35,6 +38,6 @@ export default class BulletData {
   }
 
   public get endOfLifeReached(): boolean {
-    return this._age < values.guns.pumpgun.maxAge;
+    return this._age > values.guns.pumpgun.maxAge;
   }
 }

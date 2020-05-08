@@ -4,15 +4,17 @@ import Coordinates from '../../lib/helpers/Coordinates';
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
 
 import EffectsStore from '../store/EffectsStore';
-import ScoreEffect, { ScoreEffectProps } from '../components/ScoreEffect';
 import ScoreEffectData from '../store/effects/ScoreEffectData';
-import Smoke from '../components/Smoke';
 import SmokeData from '../store/effects/SmokeData';
+
+import ScoreEffect, { ScoreEffectProps } from '../components/ScoreEffect';
+import Smoke from '../components/Smoke';
 
 type EffectsProps = {};
 
 export default class Effects extends Component<EffectsProps> {
   protected template: Template = [
+    // Raucheffekte
     {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -27,6 +29,8 @@ export default class Effects extends Component<EffectsProps> {
         };
       }
     },
+
+    // Punkteeffekte
     {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),

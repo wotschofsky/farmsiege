@@ -7,8 +7,6 @@ import RenderingContext from './RenderingContext';
 
 type CanvasConfig = {
   el: HTMLCanvasElement;
-  aspectRatio: number;
-  width: number;
   grid: Dimensions;
   root: Component<any>;
   showFPS: boolean;
@@ -17,9 +15,6 @@ type CanvasConfig = {
 class Canvas {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
-  private aspectRatio: number;
-  private width: number;
-  private height: number;
   private root: Component<any>;
   private scaleFactor: number;
   private grid: Dimensions;
@@ -34,30 +29,22 @@ class Canvas {
     this.scaleFactor = 1;
 
     this.canvas = config.el;
-    this.aspectRatio = config.aspectRatio;
-    this.width = config.width;
-    this.height = this.width * (1 / this.aspectRatio);
     this.root = config.root;
     this.grid = config.grid;
     this.showFPS = config.showFPS || false;
 
+    // FPSDisplay initialisieren
     this.fpsDisplay = new FPSDisplay();
-    this.canvas.width = config.grid.width;
-    this.canvas.height = config.grid.height;
-
-    this.adjustToScreen();
 
     this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
 
-    this.lastFrameOn = Date.now();
-    this.frameStart = Date.now();
-    this.render();
+    // Auflösung anpassen
+    this.adjustToScreen();
 
-    window.addEventListener('resize', () => {
-      // Gerenderte Auflösung anpassen, wenn sich die Fenstergröße ändert
-      this.adjustToScreen();
-    });
+    // Auflösung anpassen, wenn sich die Fenstergröße ändert
+    window.addEventListener('resize', this.adjustToScreen.bind(this));
 
+    // EventListener erstellen und Events an Root-Component weiterleiten
     this.canvas.addEventListener('click', event => {
       this.root.propagateEvent(EventTypes.Click, event);
     });
@@ -73,14 +60,25 @@ class Canvas {
     window.addEventListener('keyup', event => {
       this.root.propagateEvent(EventTypes.Keyup, event);
     });
+
+    // Renderprozess starten
+    this.lastFrameOn = Date.now();
+    this.frameStart = Date.now();
+    this.render();
   }
 
   private adjustToScreen(): void {
-    const scaleFactor = 1;
+    // Maße des Canvas Elements im Browser errechnen
     const rect = this.canvas.getBoundingClientRect();
-    this.canvas.width = this.width = rect.width * window.devicePixelRatio * scaleFactor;
-    this.canvas.height = this.height = rect.width * (1 / this.aspectRatio) * window.devicePixelRatio * scaleFactor;
-    this.scaleFactor = (rect.width / this.grid.width) * window.devicePixelRatio * scaleFactor;
+
+    // Seitenverhältnis errechnen
+    const aspectRatio = this.grid.width / this.grid.height;
+
+    this.canvas.width = rect.width * window.devicePixelRatio;
+    this.canvas.height = this.canvas.width * (1 / aspectRatio);
+
+    // Skalierungsfaktor berechnen
+    this.scaleFactor = (rect.width / this.grid.width) * window.devicePixelRatio;
   }
 
   private render(): void {
@@ -104,13 +102,16 @@ class Canvas {
       {}
     );
 
+    // Wenn aktiviert, FPSDisplay rendern
     if (this.showFPS) {
       this.fpsDisplay.render(this.canvas, this.context, timeDifference, this.scaleFactor);
     }
 
+    // Fallback, wenn window.requestAnimationFrame nicht verfügbar ist
     const requestAnimationFrame =
       window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
 
+    // Beim nächtsten Renderzyklus des Browsers Spiel neu rendern
     requestAnimationFrame(this.render.bind(this));
   }
 }

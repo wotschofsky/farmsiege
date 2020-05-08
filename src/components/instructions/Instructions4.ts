@@ -5,9 +5,11 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 import Text, { TextProps } from '../../../lib/components/native/Text';
 
+import { HoldableItems } from '../../store/CharacterStore';
+
 import Character, { CharacterProps } from '../character/Character';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
-import Tomato, { TomatoProps } from '../plants/Tomato';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 
 export type Instructions4Props = {};
 
@@ -19,14 +21,29 @@ export default class Instructions4 extends Component<Instructions4Props> {
   }
 
   private get showPlant(): boolean {
-    return this.timer % 2000 < 1000;
+    const time = this.timer % 2000;
+    return time < 1000;
   }
 
   private get showScore(): boolean {
-    return this.timer % 2000 >= 1000;
+    const time = this.timer % 2000;
+    return time >= 1000;
   }
 
   protected template: Template = [
+    // Anweisung
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(0, 0),
+      props: (): TextProps => ({
+        text: 'Note: You only grown plants give you points!',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
+      })
+    },
+
+    // Animation
     {
       component: new Tomato(),
       position: (): Coordinates => new Coordinates(200, 100),
@@ -39,7 +56,8 @@ export default class Instructions4 extends Component<Instructions4Props> {
       component: new Character(),
       position: (): Coordinates => new Coordinates(125, 0),
       props: (): CharacterProps => ({
-        direction: Directions.Right
+        direction: Directions.Right,
+        heldItem: HoldableItems.Shovel
       })
     },
     {
@@ -49,16 +67,6 @@ export default class Instructions4 extends Component<Instructions4Props> {
         value: 0
       }),
       show: (): boolean => this.showScore
-    },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(0, 0),
-      props: (): TextProps => ({
-        text: 'Note: You only grown plants give you points!',
-        color: '#fff',
-        font: 'Heartbit',
-        size: 40
-      })
     }
   ];
 }

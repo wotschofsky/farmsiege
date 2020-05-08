@@ -4,6 +4,7 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 
 import BaseButton, { ButtonPropsTemplate, BaseButtonProps } from './BaseButton';
+
 import controllerBSprite from '../../assets/inputs/controller_b.png';
 import controllerBPressedSprite from '../../assets/inputs/controller_b_pressed.png';
 

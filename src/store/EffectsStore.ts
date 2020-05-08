@@ -1,10 +1,10 @@
 import cloneDeep from 'clone-deep';
+import Coordinates from '../../lib/helpers/Coordinates';
 import eases from 'eases';
 import Store from '../../lib/store/Store';
 
 import EffectData from './effects/EffectData';
 import ScoreEffectData from './effects/ScoreEffectData';
-import Coordinates from '../../lib/helpers/Coordinates';
 
 type EffectsStoreContent = {
   smoke: EffectData[];
@@ -70,10 +70,12 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
     this.update(oldState => {
       const clonedState = cloneDeep(oldState);
 
+      // Timer bei allen Effekten updaten
       clonedState.smoke.forEach(smoke => {
         smoke.reduceRemainingTime(timeDifference);
       });
 
+      // Abgelaufene Effekte entfernen
       clonedState.smoke = clonedState.smoke.filter(smoke => {
         return !smoke.expired;
       });
@@ -86,11 +88,13 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
         return !score.expired;
       });
 
+      // gameOver Timer zurücksetzen
       if (clonedState.gameOver.timer > 1500) {
         clonedState.gameOver.active = false;
         clonedState.gameOver.timer = 0;
       }
 
+      // Timer für gameOver erhöhen, wenn Animation aktiv ist
       if (clonedState.gameOver.active) {
         clonedState.gameOver.timer += timeDifference;
       }
@@ -110,12 +114,16 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
     const pauseOffset = 0.92;
 
     if (timer <= animationDuration * 0.5) {
+      // Großteil der Animation in der ersten kurzen Phase abspielen
       return eases.expoOut(timer / (animationDuration * 0.5)) * pauseOffset;
     } else if (timer < animationDuration * 0.75) {
+      // Pausieren
       return pauseOffset;
     } else if (timer < animationDuration * 1) {
+      // Letzten Sichtbaren Bereich schnell schließen
       return pauseOffset + eases.expoInOut(1 - (animationDuration - timer) / 250) * (1 - pauseOffset);
     } else {
+      // Wenn die Animation abgeschlossen ist
       return 1;
     }
   }

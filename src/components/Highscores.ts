@@ -2,10 +2,10 @@ import { Template } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
-import Text, { TextProps } from '../../lib/components/native/Text';
+
+import MiscStore from '../store/MiscStore';
 
 import HighscoreItem, { HighscoreItemProps } from './HighscoreItem';
-import MiscStore from '../store/MiscStore';
 
 export type ScoreData = {
   score: number;

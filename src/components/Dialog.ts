@@ -1,18 +1,18 @@
-import Component from '../../lib/Component';
 import { Template } from '../../lib/Types';
-import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
+import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
+import PropsContext from '../../lib/PropsContext';
+import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
-import spriteCornerTopLeft from '../assets/ui/dialog/corner_top_left.png';
-import spriteCornerTopRight from '../assets/ui/dialog/corner_top_right.png';
+import spriteBackground from '../assets/ui/dialog/background.png';
+import spriteBottom from '../assets/ui/dialog/bottom.png';
 import spriteCornerBottomLeft from '../assets/ui/dialog/corner_bottom_left.png';
 import spriteCornerBottomRight from '../assets/ui/dialog/corner_bottom_right.png';
-import spriteTop from '../assets/ui/dialog/top.png';
-import spriteBottom from '../assets/ui/dialog/bottom.png';
+import spriteCornerTopLeft from '../assets/ui/dialog/corner_top_left.png';
+import spriteCornerTopRight from '../assets/ui/dialog/corner_top_right.png';
 import spriteLeft from '../assets/ui/dialog/left.png';
 import spriteRight from '../assets/ui/dialog/right.png';
-import spriteBackground from '../assets/ui/dialog/background.png';
-import PropsContext from '../../lib/PropsContext';
+import spriteTop from '../assets/ui/dialog/top.png';
 
 export type DialogProps = {
   width: number;
@@ -21,6 +21,7 @@ export type DialogProps = {
 
 export default class Dialog extends Component<DialogProps> {
   protected template: Template = [
+    // Kante Links
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -30,6 +31,8 @@ export default class Dialog extends Component<DialogProps> {
         height: 16
       })
     },
+
+    // Kante Oben
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(16, 0),
@@ -39,6 +42,8 @@ export default class Dialog extends Component<DialogProps> {
         height: 16
       })
     },
+
+    // Ecke Rechts Oben
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(ctx.props.width - 16, 0),
@@ -48,6 +53,8 @@ export default class Dialog extends Component<DialogProps> {
         height: 16
       })
     },
+
+    // Kante Links
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 16),
@@ -57,6 +64,8 @@ export default class Dialog extends Component<DialogProps> {
         height: ctx.props.height - 32
       })
     },
+
+    // Kante Rechts
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(ctx.props.width - 16, 16),
@@ -66,6 +75,8 @@ export default class Dialog extends Component<DialogProps> {
         height: ctx.props.height - 32
       })
     },
+
+    // Ecke Unten Links
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(0, ctx.props.height - 16),
@@ -75,6 +86,8 @@ export default class Dialog extends Component<DialogProps> {
         height: 16
       })
     },
+
+    // Kante Unten
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(16, ctx.props.height - 16),
@@ -84,6 +97,8 @@ export default class Dialog extends Component<DialogProps> {
         height: 16
       })
     },
+
+    // Ecke Unten Rechts
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates =>
@@ -94,6 +109,8 @@ export default class Dialog extends Component<DialogProps> {
         height: 16
       })
     },
+
+    // Hintergrund
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(16, 16),

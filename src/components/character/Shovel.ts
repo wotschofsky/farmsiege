@@ -5,6 +5,7 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
 import shovelSprite from '../../assets/character/items/shovel.png';
+
 import values from '../../values.json';
 
 export type ShovelProps = {

@@ -1,8 +1,8 @@
-import Component from '../../Component';
-import RenderingContext from '../../RenderingContext';
-import Coordinates from '../../helpers/Coordinates';
 import { EventTypes } from '../../Enums';
+import Component from '../../Component';
+import Coordinates from '../../helpers/Coordinates';
 import Dimensions from '../../helpers/Dimensions';
+import RenderingContext from '../../RenderingContext';
 
 export type MouseListener = (event: MouseEvent) => void;
 export type KeyboardListener = (event: KeyboardEvent) => void;
@@ -22,32 +22,43 @@ export default class EventListener extends Component<EventListenerProps> {
   private keydownListener: KeyboardListener | null = null;
   private keyupListener: KeyboardListener | null = null;
 
-  private componentPosition: Coordinates;
-  private componentSize: Dimensions;
+  private position: Coordinates;
+  private dimensions: Dimensions;
   private renderContext: RenderingContext;
-  private gridSize: Dimensions;
+
+  constructor() {
+    super();
+
+    this.position = new Coordinates(0, 0);
+    this.dimensions = new Dimensions(0, 0);
+  }
 
   private isWithinBoundaries(position: Coordinates): boolean {
     return (
-      position.x < this.componentPosition.x + this.componentSize.width + this.renderContext.parentX &&
-      position.y < this.componentPosition.y + this.componentSize.height + this.renderContext.parentY &&
-      position.x > this.componentPosition.x + this.renderContext.parentX &&
-      position.y > this.componentPosition.y + this.renderContext.parentY
+      position.x < this.position.x + this.dimensions.width + this.renderContext.parentX &&
+      position.y < this.position.y + this.dimensions.height + this.renderContext.parentY &&
+      position.x > this.position.x + this.renderContext.parentX &&
+      position.y > this.position.y + this.renderContext.parentY
     );
   }
 
   private getMouseEventPosition(event: MouseEvent): Coordinates {
+    // Maße des Canvas Elements errechnen
     const rect = this.renderContext.canvas.getBoundingClientRect();
+
     const position = new Coordinates(
-      ((event.clientX - rect.left) / rect.width) * this.gridSize.width,
-      ((event.clientY - rect.top) / rect.height) * this.gridSize.height
+      ((event.clientX - rect.left) / rect.width) * this.renderContext.grid.width,
+      ((event.clientY - rect.top) / rect.height) * this.renderContext.grid.height
     );
+
     return position;
   }
 
   public propagateEvent(type: EventTypes, event: Event): void {
+    // EventListener Funktionen ausführen
     switch (type) {
       case EventTypes.Click:
+        // Überprüfen, ob das Event innerhalb des Bereichs ist
         const position = this.getMouseEventPosition(<MouseEvent>event);
         if (this.clickListener && this.isWithinBoundaries(position)) {
           this.clickListener(<MouseEvent>event);
@@ -72,16 +83,18 @@ export default class EventListener extends Component<EventListenerProps> {
   }
 
   public render(context: RenderingContext, position: Coordinates, props: EventListenerProps): void {
+    // EventListener Funktionen speichern
     this.clickListener = props.onClick || null;
     this.keypressListener = props.onKeypress || null;
     this.keydownListener = props.onKeydown || null;
     this.keyupListener = props.onKeyup || null;
 
-    this.componentPosition = position;
-    this.componentSize = props.size;
+    // Daten für Verwendung außerhalb des Renderprozesses übertragen
+    this.position = position;
+    this.dimensions = props.size;
     this.renderContext = context;
-    this.gridSize = context.grid;
 
+    // Option zur Visualisierung des EventListeners mit grüner Box
     if (props.visualize) {
       context.renderContext.beginPath();
       context.renderContext.rect(

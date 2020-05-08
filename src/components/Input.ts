@@ -1,11 +1,11 @@
-import Component from '../../lib/Component';
 import { Template } from '../../lib/Types';
-import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
+import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
-import PropsContext from '../../lib/PropsContext';
-import Text, { TextProps } from '../../lib/components/native/Text';
-import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
 import Dimensions from '../../lib/helpers/Dimensions';
+import EventListener, { EventListenerProps } from '../../lib/components/logical/EventListener';
+import PropsContext from '../../lib/PropsContext';
+import Rectangle, { RectangleProps } from '../../lib/components/native/Rectangle';
+import Text, { TextProps } from '../../lib/components/native/Text';
 import TextWidthCalculator, { TextWidthCalculatorProps } from '../../lib/components/helpers/TextWidthCalculator';
 
 type OnEnterCallback = (value: string) => void;
@@ -34,6 +34,7 @@ export default class Input extends Component<InputProps> {
   }
 
   private get limitReached(): boolean {
+    // true wenn Text nicht mehr in das Feld passt oder das fixe Limit erreicht hat
     return this.textWidth > this.inputWidth - 32 || this.text.length >= this.maxLength;
   }
 
@@ -42,10 +43,12 @@ export default class Input extends Component<InputProps> {
 
     const time = this.timer % duration;
     const isShown = time >= duration / 2;
+
     return isShown ? 1 : 0;
   }
 
   protected template: Template = [
+    // Hintergrund
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -55,6 +58,8 @@ export default class Input extends Component<InputProps> {
         color: '#fff'
       })
     },
+
+    // Eingegebener Text
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(8, 24),
@@ -66,6 +71,8 @@ export default class Input extends Component<InputProps> {
         size: 48
       })
     },
+
+    // Placeholder
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(8, 24),
@@ -84,6 +91,7 @@ export default class Input extends Component<InputProps> {
       }
     },
 
+    // Berechnet Textbreite in Pixel
     {
       component: new TextWidthCalculator(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -96,6 +104,8 @@ export default class Input extends Component<InputProps> {
         }
       })
     },
+
+    // Caret
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(this.textWidth + 8, 8),
@@ -106,6 +116,7 @@ export default class Input extends Component<InputProps> {
       })
     },
 
+    // Event Listener
     {
       component: new EventListener(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -119,12 +130,16 @@ export default class Input extends Component<InputProps> {
               return;
             case 'Delete':
               return;
+            case 'Backspace':
+              return;
           }
 
+          // Tastendruck
           if (!this.limitReached) {
             this.text += event.key;
           }
         },
+        // Zusätzliches Keydown Event, da Backspace nicht in allen Browsern von onKeypress übermittelt wird
         onKeydown: (event: KeyboardEvent): void => {
           if (event.key === 'Backspace') {
             this.text = this.text.slice(0, this.text.length - 1);

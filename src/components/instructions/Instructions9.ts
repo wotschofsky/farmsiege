@@ -4,30 +4,30 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 import Text, { TextProps } from '../../../lib/components/native/Text';
 
-import Tomato, { TomatoProps } from '../plants/Tomato';
-import Lightning from '../Lightning';
+import Lightning from '../tileContents/Lightning';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 
 export type Instructions9Props = {};
 
 export default class Instructions9 extends Component<Instructions9Props> {
   private timer = 0;
-  private readonly animationDuration = 4000;
 
   protected onTick(ctx: PropsContext<Instructions9>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 
   private get showPlants(): boolean {
-    const time = this.timer % this.animationDuration;
+    const time = this.timer % 4000;
     return time < 2000;
   }
 
   private get showLightning(): boolean {
-    const time = this.timer % this.animationDuration;
+    const time = this.timer % 4000;
     return time > 2000 && time < 3400;
   }
 
   protected template: Template = [
+    // Anweisung
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -38,6 +38,8 @@ export default class Instructions9 extends Component<Instructions9Props> {
         size: 40
       })
     },
+
+    // Animation
     {
       component: new Tomato(),
       position: (): Coordinates => new Coordinates(58, 100),

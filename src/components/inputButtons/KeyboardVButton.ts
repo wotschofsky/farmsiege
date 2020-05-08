@@ -4,6 +4,7 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 
 import BaseButton, { ButtonPropsTemplate, BaseButtonProps } from './BaseButton';
+
 import keyboardVSprite from '../../assets/inputs/keyboard_v.png';
 import keyboardVPressedSprite from '../../assets/inputs/keyboard_v_pressed.png';
 

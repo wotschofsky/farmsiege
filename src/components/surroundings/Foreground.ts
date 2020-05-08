@@ -1,5 +1,5 @@
-import Component from '../../../lib/Component';
 import { Template } from '../../../lib/Types';
+import Component from '../../../lib/Component';
 import Coordinates from '../../../lib/helpers/Coordinates';
 
 import Clouds from '../Clouds';

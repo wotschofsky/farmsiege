@@ -1,13 +1,12 @@
 import Component from '../../lib/Component';
-import Coordinates from '../../lib/helpers/Coordinates';
 import RenderingContext from '../../lib/RenderingContext';
 
 import EffectsStore from '../store/EffectsStore';
-import GridStore from '../store/GridStore';
 
-export type GameOverEffectProps = {}
+export type GameOverEffectProps = {};
 
 export default class GameOverEffect extends Component<GameOverEffectProps> {
+  // Based on https://stackoverflow.com/a/6271865
   public render(context: RenderingContext): void {
     // Abbrechen, wenn der Effekt nicht aktiv ist
     const effectsStore = <EffectsStore>this.stores.effects;
@@ -25,15 +24,14 @@ export default class GameOverEffect extends Component<GameOverEffectProps> {
     const maskCtx = maskCanvas.getContext('2d');
 
     if (maskCtx) {
-      // This color is the one of the filled shape
+      // Gesamten Bildschirm Schwarz färben
       maskCtx.fillStyle = '#000';
-      // Fill the mask
       maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
 
-      // Set xor operation
+      // Maskierungsmodus festlegen
       maskCtx.globalCompositeOperation = 'xor';
 
-      // Draw the shape you want to take out
+      // Sichtbaren Bereich festlegen
       const distanceToCorner = Math.max(
         // Abstand nach links oben
         Math.sqrt(effectData.center.x ** 2 + effectData.center.y ** 2),
@@ -45,25 +43,21 @@ export default class GameOverEffect extends Component<GameOverEffectProps> {
         Math.sqrt((1600 - effectData.center.x) ** 2 + (1200 - effectData.center.y) ** 2)
       );
 
-      const gridStore = <GridStore>this.stores.grid;
-      const position: Coordinates = new Coordinates(
-        gridStore.lastRemovedPlant.x * 128 + 64 + 288,
-        gridStore.lastRemovedPlant.y * 128 + 64 + 176
-      );
+      const effectsStore = <EffectsStore>this.stores.effects;
+      const { center } = effectsStore.content.gameOver;
 
+      // Kreis zeichnen
       maskCtx.arc(
-        (position.x + context.parentX) * context.scaleFactor,
-        (position.y + context.parentY) * context.scaleFactor,
+        (center.x + context.parentX) * context.scaleFactor,
+        (center.y + context.parentY) * context.scaleFactor,
         distanceToCorner * (1 - effectsStore.endAnimationProgress),
         0,
         2 * Math.PI
       );
       maskCtx.fill();
 
-      // Draw mask on the image, and done !
+      // Overlay auf Hauptcanvas übertragen
       context.renderContext.drawImage(maskCanvas, 0, 0);
     }
-
-    // Based on https://stackoverflow.com/a/6271865
   }
 }

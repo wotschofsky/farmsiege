@@ -2,17 +2,18 @@ import cloneDeep from 'clone-deep';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Store from '../../lib/store/Store';
 
-import TileContents from '../TileContents';
+import GridUtils from '../utils/Grid';
 import Random from '../utils/Random';
 
+import TileContents from '../TileContents';
 import values from '../values.json';
 
-type TileData = {
+export type TileData = {
   type: TileContents;
-  data: Record<string, any>;
+  data: Record<string, string | number>;
 };
 
-type RowData = [TileData, TileData, TileData, TileData, TileData, TileData, TileData, TileData];
+export type RowData = [TileData, TileData, TileData, TileData, TileData, TileData, TileData, TileData];
 
 export type GridStoreContent = [RowData, RowData, RowData, RowData, RowData, RowData, RowData, RowData];
 
@@ -22,37 +23,43 @@ const initialTile: TileData = {
 };
 
 const generateInitialGrid = (): GridStoreContent => {
-  const grid: GridStoreContent = [];
+  const grid: RowData[] = [];
   for (let i = 0; i < 8; i++) {
-    const row: RowData = [];
+    // Reihe erstellen
+    const row: TileData[] = [];
     for (let j = 0; j < 8; j++) {
       const tile = cloneDeep(initialTile);
       row.push(tile);
     }
-    grid.push(row);
+    grid.push(<RowData>row);
   }
 
   let plantsPlaced = 0;
   do {
-    const row = Math.floor(Math.random() * 8);
-    const col = Math.floor(Math.random() * 8);
+    // Koordinaten zufällig auswählen
+    const row = Random.roundedBetween(0, 7);
+    const col = Random.roundedBetween(0, 7);
 
+    // Verhindern, dass ein Feld doppelt verwendet wird
     if (grid[row][col].type === TileContents.Plant) {
       continue;
     }
 
+    // Feld befüllen
     grid[row][col].type = TileContents.Plant;
     grid[row][col].data = {
       age: Math.random() * values.plant.age.maxStart
     };
+
+    // Anzahl inkrementieren
     plantsPlaced++;
   } while (plantsPlaced < values.plant.startAmount);
 
-  return grid;
+  return <GridStoreContent>grid;
 };
 
 export default class GridStore extends Store<GridStoreContent> {
-  private timers: number[];
+  private timers: NodeJS.Timeout[];
   private _speedMultiplier: number;
   private _lastRemovedPlant: Coordinates;
 
@@ -72,6 +79,10 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   public set speedMultiplier(value: number) {
+    if (value < 1) {
+      return;
+    }
+
     this._speedMultiplier = value;
   }
 
@@ -101,19 +112,15 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   public stop(): void {
-    this.timers.forEach(timer => {
+    // Timer löschen, um zu verhindern, dass diese Code ausführen, nachdem das Spiel vorbei ist
+    for (const timer of this.timers) {
       clearTimeout(timer);
-    });
+    }
+    this.timers = [];
   }
 
   public removeContent(x: number, y: number, callback?: (removedContent: TileContents) => void): void {
-    if (!this.isValidField(x, y)) return;
-
-    if (this.directContent[x][y].type === TileContents.Plant) {
-      this.removePlant(x, y);
-      if (callback) {
-        callback(TileContents.Plant);
-      }
+    if (!GridUtils.isValidField(x, y) || this.content[y][x].type === TileContents.Lightning) {
       return;
     }
 
@@ -121,10 +128,18 @@ export default class GridStore extends Store<GridStoreContent> {
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        if (clonedState[x][y].type === TileContents.Lightning) return clonedState;
+        // Feldinhaltstyp kopieren
+        const tileContent = clonedState[y][x].type;
 
-        const tileContent = clonedState[x][y].type;
-        clonedState[x][y].type = TileContents.Empty;
+        // Feldinhalt leeren
+        clonedState[y][x].type = TileContents.Empty;
+
+        // Wenn es eine Pflanze war, Koordinaten für die Game Over Animation speichern
+        if (tileContent === TileContents.Plant) {
+          this._lastRemovedPlant = new Coordinates(x, y);
+        }
+
+        // Callback ausführen
         if (tileContent !== TileContents.Empty && callback) {
           callback(tileContent);
         }
@@ -134,31 +149,20 @@ export default class GridStore extends Store<GridStoreContent> {
     );
   }
 
-  public removePlant(x: number, y: number): void {
-    if (!this.isValidField(x, y) || this.directContent[x][y].type !== TileContents.Plant) return;
-    this.update(
-      (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState = cloneDeep(oldState);
-
-        clonedState[x][y].type = TileContents.Empty;
-        this._lastRemovedPlant = new Coordinates(x, y);
-
-        return clonedState;
-      }
-    );
-  }
-
   public placePlant(x: number, y: number): void {
-    if (!this.isValidField(x, y)) return;
+    if (!GridUtils.isValidField(x, y) || this.content[y][x].type !== TileContents.Empty) {
+      return;
+    }
+
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
-        if (oldState[x][y].type !== TileContents.Empty) return oldState;
-
         const clonedState = cloneDeep(oldState);
-        clonedState[x][y].type = TileContents.Plant;
-        clonedState[x][y].data = {
+
+        clonedState[y][x].type = TileContents.Plant;
+        clonedState[y][x].data = {
           age: 0
         };
+
         return clonedState;
       }
     );
@@ -169,18 +173,19 @@ export default class GridStore extends Store<GridStoreContent> {
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        clonedState.forEach(row => {
-          row.forEach(tile => {
+        for (const row of clonedState) {
+          for (const tile of row) {
             if (tile.type === TileContents.Plant) {
-              tile.data.age += 100;
+              (<number>tile.data.age) += 100;
             }
-          });
-        });
+          }
+        }
 
         return clonedState;
       }
     );
 
+    // Timer für nächsten Pflanzenzyklus starten
     const timeout = setTimeout(() => {
       this.growPlants();
     }, 100);
@@ -195,37 +200,51 @@ export default class GridStore extends Store<GridStoreContent> {
         // Überprüfen, ob bereits ein Maulwurf im Spiel ist
         let moleActive = false;
         let molePosition = new Coordinates(0, 0);
-        clonedState.forEach((row, rowIndex) => {
-          row.forEach((tile, columnIndex) => {
+
+        rowsLoop: for (let rowIndex = 0; rowIndex < clonedState.length; rowIndex++) {
+          for (let columnIndex = 0; columnIndex < clonedState[rowIndex].length; columnIndex++) {
+            // Referenz zu Feld speichern
+            const tile = clonedState[rowIndex][columnIndex];
+
+            // Überprüfen ob auf dem Feld ein Maulwurf ist
             if (tile.type === TileContents.Mole) {
               moleActive = true;
               molePosition = new Coordinates(columnIndex, rowIndex);
+
+              // Weitere Durchgänge vermeiden
+              break rowsLoop;
             }
-          });
-        });
+          }
+        }
 
-        const row = Math.floor(Math.random() * 8);
-        const col = Math.floor(Math.random() * 8);
+        // Neue Position
+        const row = Random.roundedBetween(0, 7);
+        const col = Random.roundedBetween(0, 7);
 
-        if (!moleActive) {
-          // Mit festgelegter Wahrscheinlichkeit Maulwurf an zufälliger Stelle erscheinen lassen
-          if (Math.random() > values.mole.newChance) return oldState;
+        if (moleActive) {
+          // Maulwurf verschieben und Hügel hinterlassen
+          clonedState[row][col].type = TileContents.Mole;
+          clonedState[molePosition.y][molePosition.x].type = TileContents.Molehill;
+        } else {
+          // Abbrechen, wenn Mindestwert für neuen Maulwurf nicht erreicht wird
+          if (Math.random() > values.mole.newChance) {
+            return clonedState;
+          }
 
+          // Koordinaten von evtl. Pflanze für GameOver Animation speichern
           if (clonedState[row][col].type === TileContents.Plant) {
             this._lastRemovedPlant = new Coordinates(col, row);
           }
 
+          // Maulwurf erscheinen lassen
           clonedState[row][col].type = TileContents.Mole;
-        } else {
-          // Maulwurf verschieben und Hügel hinterlassen
-          clonedState[row][col].type = TileContents.Mole;
-          clonedState[molePosition.y][molePosition.x].type = TileContents.Molehill;
         }
 
         return clonedState;
       }
     );
 
+    // Timer für nächsten Maulwurfszyklus starten
     const timeout = setTimeout(() => {
       this.updateMole();
     }, Random.between(values.mole.spawning.min, values.mole.spawning.max) / this._speedMultiplier);
@@ -240,32 +259,47 @@ export default class GridStore extends Store<GridStoreContent> {
         const foundWeed: Coordinates[] = [];
         clonedState.forEach((row, rowIndex) => {
           row.forEach((tile, columnIndex) => {
+            // Überprüfen, ob auf dem Feld Unkraut ist
             if (tile.type === TileContents.Weed) {
               foundWeed.push(new Coordinates(columnIndex, rowIndex));
             }
           });
         });
 
+        // Wenn Bedingung erfüllt wird an zufälliger Stelle neues Unkraut platzieren
         if (Math.random() < values.weed.newChance) {
-          const row = Math.floor(Math.random() * 8);
-          const col = Math.floor(Math.random() * 8);
+          const row = Random.roundedBetween(0, 7);
+          const col = Random.roundedBetween(0, 7);
           clonedState[row][col].type = TileContents.Weed;
         }
 
-        foundWeed.forEach(coords => {
-          if (Math.random() > 1 / Math.sqrt(foundWeed.length)) return;
+        for (const coords of foundWeed) {
+          // Wahrscheinlichkeit, dass sich Unkraut ausbreitet, nimmt mit der Anzahl ab
+          if (Math.random() > 1 / Math.sqrt(foundWeed.length)) {
+            break;
+          }
 
-          const row = clonedState[coords.y + Math.round(Math.random() * 2) - 1];
-          if (!row) return;
-          const tile = row[coords.x + Math.round(Math.random() * 2) - 1];
-          if (!tile || tile.type !== TileContents.Empty) return;
+          // Abbrechen, wenn Reihe nicht existiert
+          const row = clonedState[coords.y + Random.roundedBetween(-1, 1)];
+          if (!row) {
+            break;
+          }
+
+          // Abbrechen, wenn Feld nicht existiert oder nicht leer ist
+          const tile = row[coords.x + Random.roundedBetween(-1, 1)];
+          if (!tile || tile.type !== TileContents.Empty) {
+            break;
+          }
+
+          // Unkraut als Feldinhalt festlegen
           tile.type = TileContents.Weed;
-        });
+        }
 
         return clonedState;
       }
     );
 
+    // Timer für nächsten Unkrautszyklus starten
     const timeout = setTimeout(() => {
       this.updateWeed();
     }, Random.between(values.weed.spawning.min, values.weed.spawning.max) / this._speedMultiplier);
@@ -273,79 +307,100 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   private updateLightning(): void {
-    const randomRow = Math.floor(Math.random() * 8);
-    const randomCol = Math.floor(Math.random() * 8);
+    const lightningRow = Random.roundedBetween(0, 7);
+    const lightningCol = Random.roundedBetween(0, 7);
 
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
         const clonedState = cloneDeep(oldState);
 
         let plantDestroyed = false;
-        for (let rowIndex = -1; rowIndex <= 1; rowIndex++) {
-          if (randomRow + rowIndex >= 0 && randomRow + rowIndex <= 7) {
-            for (let colIndex = -1; colIndex <= 1; colIndex++) {
-              if (randomCol + colIndex >= 0 && randomCol + colIndex <= 7) {
-                if (clonedState[randomRow + rowIndex][randomCol + colIndex].type === TileContents.Plant) {
-                  plantDestroyed = true;
-                }
-                clonedState[randomRow + rowIndex][randomCol + colIndex].type = TileContents.Empty;
-              }
+        outerLoop: for (let rowIndex = -1; rowIndex <= 1; rowIndex++) {
+          if (!GridUtils.rowExists(lightningRow + rowIndex)) {
+            continue;
+          }
+
+          for (let colIndex = -1; colIndex <= 1; colIndex++) {
+            if (!GridUtils.colExists(lightningCol + colIndex)) {
+              continue;
+            }
+
+            // Referenz zu Feld speichern
+            const tile = clonedState[lightningRow + rowIndex][lightningCol + colIndex];
+
+            if (tile.type === TileContents.Plant) {
+              plantDestroyed = true;
+              break;
+            }
+
+            // Feld leeren
+            tile.type = TileContents.Empty;
+
+            // Weitere Durchgänge verhindern, um Leistung zu sparen
+            if (plantDestroyed) {
+              break outerLoop;
             }
           }
         }
 
+        // Koordinaten des Blitzes für GameOver Animation speichern
         if (plantDestroyed) {
-          this._lastRemovedPlant = new Coordinates(randomRow, randomCol);
+          this._lastRemovedPlant = new Coordinates(lightningRow, lightningCol);
         }
 
-        clonedState[randomRow][randomCol].type = TileContents.Lightning;
+        // Blitz anzeigen
+        clonedState[lightningRow][lightningCol].type = TileContents.Lightning;
 
         return clonedState;
       }
     );
 
-    const clearTimeout = setTimeout(() => {
-      this.update(
-        (oldState: GridStoreContent): GridStoreContent => {
-          const clonedState = cloneDeep(oldState);
-          clonedState[randomRow][randomCol].type = TileContents.Empty;
-          return clonedState;
-        }
-      );
-    }, 1400);
-    this.timers.push(clearTimeout);
+    {
+      // Nach 1.4 Sekunden Blitz entfernen
+      const timeout = setTimeout(() => {
+        this.update(
+          (oldState: GridStoreContent): GridStoreContent => {
+            const clonedState = cloneDeep(oldState);
 
-    const repeatTimeout = setTimeout(() => {
-      this.updateLightning();
-    }, Random.between(values.lightning.spawning.min, values.lightning.spawning.max) / this._speedMultiplier);
-    this.timers.push(repeatTimeout);
-  }
+            clonedState[lightningRow][lightningCol].type = TileContents.Empty;
 
-  public isValidField(x: number, y: number): boolean {
-    if (x < 0) return false;
-    if (x > 7) return false;
-    if (y < 0) return false;
-    if (y > 7) return false;
-    return true;
+            return clonedState;
+          }
+        );
+      }, 1400);
+      this.timers.push(timeout);
+    }
+
+    {
+      const timeout = setTimeout(() => {
+        this.updateLightning();
+      }, Random.between(values.lightning.spawning.min, values.lightning.spawning.max) / this._speedMultiplier);
+      this.timers.push(timeout);
+    }
   }
 
   // Gibt ein Array mit allen Feldern zurück
   private get allTiles(): TileData[] {
-    let result: TileData[] = [];
-    this.content.forEach(row => {
-      result = result.concat(row);
-    });
-    return cloneDeep(result);
+    const tiles: TileData[] = [];
+
+    // Den Inhalt aller Reihen zu einem Array hinzufügen
+    for (const row of this.content) {
+      tiles.push(...row);
+    }
+
+    return cloneDeep(tiles);
   }
 
   // Gibt die Anzahl der selbst platzierten Pflanzen an
   public get friendlyPlants(): number {
     let amount = 0;
-    this.allTiles.forEach(tile => {
+
+    for (const tile of this.allTiles) {
       if (tile.type === TileContents.Plant) {
         amount++;
       }
-    });
+    }
+
     return amount;
   }
 

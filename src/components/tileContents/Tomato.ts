@@ -1,13 +1,13 @@
-import Component from '../../../lib/Component';
 import { Template } from '../../../lib/Types';
-import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
+import Component from '../../../lib/Component';
 import Coordinates from '../../../lib/helpers/Coordinates';
+import PropsContext from '../../../lib/PropsContext';
+import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
 import tomato0 from '../../assets/plants/tomato_0.png';
 import tomato1 from '../../assets/plants/tomato_1.png';
 import tomato2 from '../../assets/plants/tomato_2.png';
 import tomato3 from '../../assets/plants/tomato_3.png';
-import PropsContext from '../../../lib/PropsContext';
 
 export type TomatoProps = {
   age: 0 | 1 | 2 | 3;

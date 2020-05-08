@@ -22,6 +22,7 @@ export default abstract class Store<S> {
   }
 
   public get content(): S {
+    // Content klonen um zu verhindern, dass der Store-Inhalt manipuliert wird
     return cloneDeep(this._content);
   }
 
@@ -30,25 +31,31 @@ export default abstract class Store<S> {
   }
 
   public reset(): void {
+    // Store Inhalt auf Kopie des Startwerts zurücksetzen
     this._content = cloneDeep(this._initialState);
   }
 
   protected update(mutator: (oldState: S) => S): void {
+    // mutator-Funktion ausführen und zurückgegebenen Wert speichern
     this._content = mutator(this._content);
+
     this.callListeners();
   }
 
   public subscribe(callback: ListenerCallback<S>): number {
+    // Listener Funktion Referenz speichern
     const id = this._listeners.length;
     this._listeners[id] = callback;
     return id;
   }
 
   public unsubscribe(id: number): void {
+    // Listener Funktion Referenz löschen
     this._listeners[id] = null;
   }
 
   private callListeners(): void {
+    // Alle registrierten Listener Funktionen ausführen
     this._listeners.forEach(listener => {
       if (listener) {
         listener(this._content);

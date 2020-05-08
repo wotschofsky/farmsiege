@@ -4,14 +4,15 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 
 import BaseButton, { BaseButtonProps } from './BaseButton';
-import keyboardUpSprite from '../../assets/inputs/keyboard_up.png';
-import keyboardUpPressedSprite from '../../assets/inputs/keyboard_up_pressed.png';
-import keyboardLeftSprite from '../../assets/inputs/keyboard_left.png';
-import keyboardLeftPressedSprite from '../../assets/inputs/keyboard_left_pressed.png';
-import keyboardDownSprite from '../../assets/inputs/keyboard_down.png';
+
 import keyboardDownPressedSprite from '../../assets/inputs/keyboard_down_pressed.png';
-import keyboardRightSprite from '../../assets/inputs/keyboard_right.png';
+import keyboardDownSprite from '../../assets/inputs/keyboard_down.png';
+import keyboardLeftPressedSprite from '../../assets/inputs/keyboard_left_pressed.png';
+import keyboardLeftSprite from '../../assets/inputs/keyboard_left.png';
 import keyboardRightPressedSprite from '../../assets/inputs/keyboard_right_pressed.png';
+import keyboardRightSprite from '../../assets/inputs/keyboard_right.png';
+import keyboardUpPressedSprite from '../../assets/inputs/keyboard_up_pressed.png';
+import keyboardUpSprite from '../../assets/inputs/keyboard_up.png';
 
 export type ArrowButtonsProps = {
   pressed: ('up' | 'left' | 'down' | 'right')[];
@@ -21,6 +22,7 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
   private readonly buttonSize = 64;
 
   template: Template = [
+    // Pfeiltaste Oben
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, 0),
@@ -30,6 +32,8 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
         spritePressed: keyboardUpPressedSprite
       })
     },
+
+    // Pfeiltaste Links
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(0, this.buttonSize),
@@ -39,6 +43,8 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
         spritePressed: keyboardLeftPressedSprite
       })
     },
+
+    // Pfeiltaste Unten
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, this.buttonSize),
@@ -48,6 +54,8 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
         spritePressed: keyboardDownPressedSprite
       })
     },
+
+    // Pfeiltaste Rechts
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(2 * this.buttonSize, this.buttonSize),

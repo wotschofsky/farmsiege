@@ -4,7 +4,7 @@ import Coordinates from '../../lib/helpers/Coordinates';
 
 import Bullets from '../overlays/Bullets';
 import CharacterContainer from '../components/CharacterContainer';
-import Grid from '../components/Grid';
+import Grid from '../components/grid/Grid';
 import Rabbits from '../overlays/Rabbits';
 
 export type GameScreenProps = {};

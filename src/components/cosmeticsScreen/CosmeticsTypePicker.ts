@@ -17,6 +17,7 @@ export type CosmeticsTypePickerProps = {
 
 export default class CosmeticsTypePicker extends Component<CosmeticsTypePickerProps> {
   protected template: Template = [
+    // Pants
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -35,6 +36,7 @@ export default class CosmeticsTypePicker extends Component<CosmeticsTypePickerPr
       })
     },
 
+    // Shirts
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(96, 0),
@@ -53,6 +55,7 @@ export default class CosmeticsTypePicker extends Component<CosmeticsTypePickerPr
       })
     },
 
+    // Hats
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(192, 0),

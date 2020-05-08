@@ -1,20 +1,22 @@
+import { Directions } from '../../lib/Enums';
 import { Template } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import PropsContext from '../../lib/PropsContext';
-import Rabbit, { RabbitProps } from '../components/animals/Rabbit';
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
-import MovablesStore from '../store/MovablesStore';
-import CharacterStore from '../store/CharacterStore';
-import GridStore from '../store/GridStore';
-import GridUtils from '../utils/Grid';
-import EffectsStore from '../store/EffectsStore';
-import StatsStore from '../store/StatsStore';
-import TileContents from '../TileContents';
-import { Directions } from '../../lib/Enums';
 
-import values from '../values.json';
+import CharacterStore from '../store/CharacterStore';
+import EffectsStore from '../store/EffectsStore';
+import GridStore, { TileData } from '../store/GridStore';
+import MovablesStore from '../store/MovablesStore';
 import RabbitData from '../store/models/RabbitData';
+import StatsStore from '../store/StatsStore';
+
+import Rabbit, { RabbitProps } from '../components/animals/Rabbit';
+
+import GridUtils from '../utils/Grid';
+import TileContents from '../TileContents';
+import values from '../values.json';
 
 export type RabbitsProps = {};
 
@@ -27,16 +29,14 @@ export default class Rabbits extends Component<RabbitsProps> {
     const statsStore = <StatsStore>this.stores.score;
 
     movablesStore.setRabbitTargets((row: number, direction: Directions, currentColumn: number): number => {
-      // console.log(currentColumn)
+      // Ausgangspunkt für Berechnung bestimmen
       let offset = Math.max(0, Math.round(currentColumn));
       if (direction === Directions.Left) {
         offset = Math.max(0, 8 - offset);
       }
 
-      // x-y-Raster in Array mit bestimmeter Reihe umwandeln
-      let contentRow = gridStore.content.map(column => {
-        return column[row];
-      });
+      // Referenz zur Reihe des Hasen speichern
+      let contentRow: TileData[] = gridStore.content[row];
 
       // Bei Bedarf Startpunkt ändern
       if (direction === Directions.Right) {
@@ -45,10 +45,14 @@ export default class Rabbits extends Component<RabbitsProps> {
         contentRow = contentRow.reverse().slice(offset);
       }
 
+      // Standardziel auf der anderen Seite des Spielfeldes setzen
       let computedTarget = direction === Directions.Right ? 12 : -4;
 
+      // Alle Felder in der ausgewählten Reihe überprüfen
       for (const index in contentRow) {
+        // Testen, ob auf dem aktuellen Feld eine Pflanze ist
         if (contentRow[index].type === TileContents.Plant) {
+          // Abhängig von der Richtung des Hasen Zielspalte festlegen
           if (direction === Directions.Right) {
             computedTarget = parseInt(index) + offset;
           } else {
@@ -61,20 +65,27 @@ export default class Rabbits extends Component<RabbitsProps> {
       return computedTarget;
     });
 
+    // Hasen bewegen und ggf. entfernen
     movablesStore.updateRabbits(timeDifference);
 
+    // Kollision mit Geschossen erkennen
     movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
+      // Punkte hinzufügen & Effekte anzeigen
+      statsStore.addScore(values.scores.rabbit);
       effectsStore.showSmoke(x + 96, y + 256);
       effectsStore.showScoreEffect(x + 128, y + 320, values.scores.rabbit);
-      statsStore.addScore(values.scores.rabbit);
     });
 
     movablesStore.directStillRabbits.forEach(rabbit => {
+      // Sobald ein Hase eine Pflanze aufgefressen hat
       if (rabbit.timeLeft === 0) {
+        // Pflanze entfernen
         const coords = GridUtils.coordsToField(
           new Coordinates(rabbit.x - 288 + (rabbit.direction === Directions.Right ? 128 : 0), rabbit.y + 108)
         );
-        gridStore.removePlant(coords.x, coords.y);
+        gridStore.removeContent(coords.x, coords.y);
+
+        // Timer des Hasen auf die Zeit zum Auffressen einer Pflanze zurücksetzen
         rabbit.resetTimer();
       }
     });
@@ -90,9 +101,7 @@ export default class Rabbits extends Component<RabbitsProps> {
         return {
           list: movablesStore.content.rabbits,
           component: (): Rabbit => new Rabbit(),
-          position: (data: RabbitData): Coordinates => {
-            return new Coordinates(data.x, data.y);
-          },
+          position: (data: RabbitData): Coordinates => new Coordinates(data.x, data.y),
           props: (data: RabbitData): RabbitProps => ({
             direction: data.direction,
             moving: data.x !== data.targetX

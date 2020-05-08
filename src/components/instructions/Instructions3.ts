@@ -1,15 +1,18 @@
-import Component from '../../../lib/Component';
-import { Template } from '../../../lib/Types';
-import Coordinates from '../../../lib/helpers/Coordinates';
-import Text, { TextProps } from '../../../lib/components/native/Text';
-import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
+import { Template } from '../../../lib/Types';
+import Character, { CharacterProps } from '../character/Character';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
+import Text, { TextProps } from '../../../lib/components/native/Text';
+
+import { HoldableItems } from '../../store/CharacterStore';
 
 import ControllerBButton, { ControllerBButtonProps } from '../inputButtons/ControllerBButton';
 import KeyboardSpaceButton, { KeyboardSpaceButtonProps } from '../inputButtons/KeyboardSpaceButton';
 import ScoreEffect, { ScoreEffectProps } from '../ScoreEffect';
-import Tomato, { TomatoProps } from '../plants/Tomato';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
+
 import values from '../../values.json';
 
 export type Instructions3Props = {};
@@ -22,12 +25,13 @@ export default class Instructions3 extends Component<Instructions3Props> {
   }
 
   private get showPlant(): boolean {
-    return this.timer % 2000 < 1000;
+    const time = this.timer % 2000;
+    return time < 1000;
   }
 
   private get buttonPressed(): boolean {
-    const currentTimer = this.timer % 2000;
-    return currentTimer >= 1000 && currentTimer < 1250;
+    const time = this.timer % 2000;
+    return time >= 1000 && time < 1250;
   }
 
   private get showScore(): boolean {
@@ -35,6 +39,19 @@ export default class Instructions3 extends Component<Instructions3Props> {
   }
 
   protected template: Template = [
+    // Anweisung
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(0, 0),
+      props: (): TextProps => ({
+        text: 'Harvest crops!',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
+      })
+    },
+
+    // Animation
     {
       component: new Tomato(),
       position: (): Coordinates => new Coordinates(200, 100),
@@ -47,7 +64,8 @@ export default class Instructions3 extends Component<Instructions3Props> {
       component: new Character(),
       position: (): Coordinates => new Coordinates(125, 0),
       props: (): CharacterProps => ({
-        direction: Directions.Right
+        direction: Directions.Right,
+        heldItem: HoldableItems.Shovel
       })
     },
     {
@@ -58,16 +76,8 @@ export default class Instructions3 extends Component<Instructions3Props> {
       }),
       show: (): boolean => this.showScore
     },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(0, 0),
-      props: (): TextProps => ({
-        text: 'Harvest crops!',
-        color: '#fff',
-        font: 'Heartbit',
-        size: 40
-      })
-    },
+
+    // Buttons
     {
       component: new KeyboardSpaceButton(),
       position: (): Coordinates => new Coordinates(373, 75),

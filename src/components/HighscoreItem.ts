@@ -12,6 +12,7 @@ export type HighscoreItemProps = {
 
 export default class HighscoreItem extends Component<HighscoreItemProps> {
   protected template: Template = [
+    // Platzierung
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -24,6 +25,8 @@ export default class HighscoreItem extends Component<HighscoreItemProps> {
         };
       }
     },
+
+    // Username
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(64, 0),
@@ -36,6 +39,8 @@ export default class HighscoreItem extends Component<HighscoreItemProps> {
         };
       }
     },
+
+    // Score
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(384, 0),

@@ -73,6 +73,10 @@ Easing Function Cheat Sheet \
 03.04.2020 \
 https://easings.net/
 
+Canvas Reverse Mask \
+04.04.2020 \
+https://stackoverflow.com/a/6271865
+
 Keyboard/Controller Key Sprites \
 08.04.2020 \
 https://hyohnoo.itch.io/keyboard-controller-keys
@@ -96,6 +100,10 @@ https://zeit.co/docs/configuration#routes/headers
 Canvas textBaseline \
 14.04.2020 \
 https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/textBaseline
+
+Canvas Clipping \
+15.04.2020 \
+https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/clip
 
 Gravatar Image Requests \
 15.04.2020 \

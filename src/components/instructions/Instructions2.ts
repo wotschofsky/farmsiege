@@ -1,14 +1,16 @@
-import Component from '../../../lib/Component';
-import { Template } from '../../../lib/Types';
-import Coordinates from '../../../lib/helpers/Coordinates';
-import Text, { TextProps } from '../../../lib/components/native/Text';
-import Character, { CharacterProps } from '../character/Character';
 import { Directions } from '../../../lib/Enums';
+import { Template } from '../../../lib/Types';
+import Character, { CharacterProps } from '../character/Character';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
+import Text, { TextProps } from '../../../lib/components/native/Text';
 
-import Tomato, { TomatoProps } from '../plants/Tomato';
-import KeyboardVButton, { KeyboardVButtonProps } from '../inputButtons/KeyboardVButton';
+import { HoldableItems } from '../../store/CharacterStore';
+
 import ControllerAButton, { ControllerAButtonProps } from '../inputButtons/ControllerAButton';
+import KeyboardVButton, { KeyboardVButtonProps } from '../inputButtons/KeyboardVButton';
+import Tomato, { TomatoProps } from '../tileContents/Tomato';
 
 export type Instructions2Props = {};
 
@@ -20,15 +22,29 @@ export default class Instructions2 extends Component<Instructions2Props> {
   }
 
   private get showPlant(): boolean {
-    return this.timer % 2000 > 1000;
+    const time = this.timer % 2000;
+    return time > 1000;
   }
 
   private get buttonPressed(): boolean {
-    const currentTimer = this.timer % 2000;
-    return currentTimer > 1000 && currentTimer < 1250;
+    const time = this.timer % 2000;
+    return time > 1000 && time < 1250;
   }
 
   protected template: Template = [
+    // Anweisung
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(0, 0),
+      props: (): TextProps => ({
+        text: 'Plant crops!',
+        color: '#fff',
+        font: 'Heartbit',
+        size: 40
+      })
+    },
+
+    // Animation
     {
       component: new Tomato(),
       position: (): Coordinates => new Coordinates(200, 100),
@@ -41,19 +57,12 @@ export default class Instructions2 extends Component<Instructions2Props> {
       component: new Character(),
       position: (): Coordinates => new Coordinates(125, 0),
       props: (): CharacterProps => ({
-        direction: Directions.Right
+        direction: Directions.Right,
+        heldItem: HoldableItems.None
       })
     },
-    {
-      component: new Text(),
-      position: (): Coordinates => new Coordinates(0, 0),
-      props: (): TextProps => ({
-        text: 'Plant crops!',
-        color: '#fff',
-        font: 'Heartbit',
-        size: 40
-      })
-    },
+
+    // Buttons
     {
       component: new KeyboardVButton(),
       position: (): Coordinates => new Coordinates(425, 75),

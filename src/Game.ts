@@ -2,46 +2,54 @@ import { Template } from '../lib/Types';
 import Component from '../lib/Component';
 import Coordinates from '../lib/helpers/Coordinates';
 import load from 'load-script';
+import PropsContext from '../lib/PropsContext';
+
+import CharacterStore from './store/CharacterStore';
+import CosmeticsStore from './store/CosmeticsStore';
+import EffectsStore from './store/EffectsStore';
+import GridStore from './store/GridStore';
+import MiscStore from './store/MiscStore';
+import MovablesStore from './store/MovablesStore';
+import ScreensStore, { ScreensStoreContent, Screens } from './store/ScreensStore';
+import SettingsStore, { SettingsStoreContent } from './store/SettingsStore';
+import StatsStore from './store/StatsStore';
 
 import Background from './components/surroundings/Background';
-import soundtrackMoonBase from './assets/soundtrack/moon_base.mp3';
-import soundtrackThermal from './assets/soundtrack/thermal.mp3';
+import Foreground from './components/surroundings/Foreground';
 import MuteButton from './components/MuteButton';
+import ScoreCounter from './components/ScoreCounter';
 
+import CosmeticsScreen from './screens/CosmeticsScreen';
+import CreditsScreen from './screens/CreditsScreen';
 import GameOverScreen from './screens/GameOverScreen';
 import GameScreen from './screens/GameScreen';
 import HelpScreen from './screens/HelpScreen';
 import StartScreen from './screens/StartScreen';
-import CosmeticsScreen from './screens/CosmeticsScreen';
-import CreditsScreen from './screens/CreditsScreen';
 
-import CharacterStore from './store/CharacterStore';
-import CosmeticsStore from './store/CosmeticsStore';
 import Effects from './overlays/Effects';
-import EffectsStore from './store/EffectsStore';
-import GridStore from './store/GridStore';
-import MovablesStore from './store/MovablesStore';
-import PropsContext from '../lib/PropsContext';
-import StatsStore from './store/StatsStore';
-import ScreensStore, { ScreensStoreContent, Screens } from './store/ScreensStore';
-import SettingsStore, { SettingsStoreContent } from './store/SettingsStore';
-import Foreground from './components/surroundings/Foreground';
-import ScoreCounter from './components/ScoreCounter';
 import GameOverEffect from './overlays/GameOverEffect';
-import MiscStore from './store/MiscStore';
 import SplashScreen, { SplashScreenProps } from './overlays/SplashScreen';
 
-class Game extends Component<{}> {
-  private activeScreen: Screens;
+import soundtrackMoonBase from './assets/soundtrack/moon_base.mp3';
+import soundtrackThermal from './assets/soundtrack/thermal.mp3';
+
+export type GameProps = {};
+
+class Game extends Component<GameProps> {
+  private activeScreen: Screens = Screens.Start;
 
   protected onInit(): void {
+    this.initStores();
+
     const settingsStore = <SettingsStore>this.stores.settings;
     const screensStore = <ScreensStore>this.stores.screens;
 
+    // Musik abspielen
     const audio = new Audio(soundtrackMoonBase);
     audio.loop = true;
     audio.volume = settingsStore.content.volume * 0.8;
     audio.autoplay = true;
+
     const playPromise = audio.play();
     // Ensure IE Compatibility
     if (playPromise) {
@@ -59,10 +67,12 @@ class Game extends Component<{}> {
       });
     }
 
+    // Bei Lautstärkeänderung Musik anpassen
     settingsStore.subscribe((state: SettingsStoreContent) => {
       audio.volume = state.volume * 0.8;
     });
 
+    // Musik bei Spielanfang / -ende wechseln
     screensStore.subscribe((state: ScreensStoreContent) => {
       switch (state.active) {
         case Screens.Game:
@@ -73,12 +83,14 @@ class Game extends Component<{}> {
       }
     });
 
+    // ReCaptcha Skript laden
     load(
       `https://www.google.com/recaptcha/api.js?render=${'6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW'}`,
       (err: Error) => {
         if (err) {
           console.error(err);
         } else {
+          // Wenn geladen, in MiscStore speichern
           grecaptcha.ready(async () => {
             const miscStore = <MiscStore>this.stores.misc;
             miscStore.setRecaptchaLoaded();
@@ -88,49 +100,15 @@ class Game extends Component<{}> {
     );
   }
 
-  public constructor() {
-    super();
-
-    this.activeScreen = Screens.Start;
-
-    const characterStore = new CharacterStore();
-    this.registerStore(characterStore);
-
-    const cosmeticsStore = new CosmeticsStore();
-    this.registerStore(cosmeticsStore);
-
-    const gridStore = new GridStore();
-    this.registerStore(gridStore);
-
-    const movablesStore = new MovablesStore();
-    this.registerStore(movablesStore);
-
-    const effectsStore = new EffectsStore();
-    this.registerStore(effectsStore);
-
-    const statsStore = new StatsStore();
-    this.registerStore(statsStore);
-
-    const screensStore = new ScreensStore();
-    this.registerStore(screensStore);
-
-    const settingsStore = new SettingsStore();
-    this.registerStore(settingsStore);
-
-    const miscStore = new MiscStore();
-    this.registerStore(miscStore);
-  }
-
   protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
-    const screensStore = <ScreensStore>this.stores.screens;
-    this.activeScreen = screensStore.content.active;
-
+    const characterStore = <CharacterStore>this.stores.character;
+    const effectsStore = <EffectsStore>this.stores.effects;
     const gridStore = <GridStore>this.stores.grid;
     const movablesStore = <MovablesStore>this.stores.movables;
-    const effectsStore = <EffectsStore>this.stores.effects;
-
-    const characterStore = <CharacterStore>this.stores.character;
+    const screensStore = <ScreensStore>this.stores.screens;
     const statsStore = <StatsStore>this.stores.score;
+
+    this.activeScreen = screensStore.content.active;
 
     statsStore.increaseDuration(timeDifference);
     characterStore.updateTimer(timeDifference);
@@ -140,7 +118,12 @@ class Game extends Component<{}> {
       miscStore.fetchHighscores();
       gridStore.stop();
 
-      effectsStore.showGameOverAnimation(new Coordinates(1000, 800), async () => {
+      const center: Coordinates = new Coordinates(
+        gridStore.lastRemovedPlant.x * 128 + 64 + 288,
+        gridStore.lastRemovedPlant.y * 128 + 64 + 176
+      );
+
+      effectsStore.showGameOverAnimation(center, async () => {
         movablesStore.stop();
         movablesStore.reset();
         gridStore.reset();
@@ -228,6 +211,24 @@ class Game extends Component<{}> {
       }
     }
   ];
+
+  private initStores(): void {
+    const stores = [
+      new CharacterStore(),
+      new CosmeticsStore(),
+      new GridStore(),
+      new MovablesStore(),
+      new EffectsStore(),
+      new StatsStore(),
+      new ScreensStore(),
+      new SettingsStore(),
+      new MiscStore()
+    ];
+
+    for (const store of stores) {
+      this.registerStore(store);
+    }
+  }
 }
 
 export default Game;

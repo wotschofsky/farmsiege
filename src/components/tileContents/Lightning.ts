@@ -1,9 +1,9 @@
-import Component from '../../lib/Component';
-import { Template } from '../../lib/Types';
-import AnimatedSprite, { AnimatedSpriteProps } from '../../lib/components/native/AnimatedSprite';
-import Coordinates from '../../lib/helpers/Coordinates';
+import { Template } from '../../../lib/Types';
+import AnimatedSprite, { AnimatedSpriteProps } from '../../../lib/components/native/AnimatedSprite';
+import Component from '../../../lib/Component';
+import Coordinates from '../../../lib/helpers/Coordinates';
 
-import lightning from '../assets/lightning.png';
+import lightning from '../../assets/lightning.png';
 
 export type LightningProps = {};
 

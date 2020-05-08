@@ -1,11 +1,10 @@
-import Component from '../../../../lib/Component';
 import { Template } from '../../../../lib/Types';
-import Sprite, { SpriteProps } from '../../../../lib/components/native/Sprite';
+import Component from '../../../../lib/Component';
 import Coordinates from '../../../../lib/helpers/Coordinates';
+import Sprite, { SpriteProps } from '../../../../lib/components/native/Sprite';
 
 import tree1 from '../../../assets/trees/tree_1.png';
 import tree2 from '../../../assets/trees/tree_2.png';
-import tree3 from '../../../assets/trees/tree_3.png';
 
 export type TreesLeftProps = {}
 

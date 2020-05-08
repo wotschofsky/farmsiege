@@ -6,8 +6,9 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 
 import { HoldableItems } from '../../store/CharacterStore';
+
 import ArrowButtons, { ArrowButtonsProps } from '../inputButtons/KeyboardArrowButtons';
-import ControllerStick, { ControllerStickProps } from '../inputButtons/ContollerStick';
+import ControllerStick, { ControllerStickProps } from '../inputButtons/ControllerStick';
 import WASDButtons, { WASDButtonsProps } from '../inputButtons/KeyboardWASDButtons';
 
 export type Instructions1Props = {};
@@ -16,28 +17,30 @@ export default class Instructions1 extends Component<Instructions1Props> {
   private movingDirection = Directions.Right;
   private positionX = 300;
   private positionY = 100;
+  private readonly turningPointBottom = 25;
   private readonly turningPointLeft = 250;
   private readonly turningPointRight = 400;
   private readonly turningPointTop = -120;
-  private readonly turningPointBottom = 25;
   private readonly movementSpeed = 375;
 
   onTick(ctx: PropsContext<Instructions1>, timeDifference: number): void {
+    const movedDistance = this.movementSpeed * (timeDifference / 1000);
     switch (this.movingDirection) {
       case Directions.Right:
-        this.positionX += this.movementSpeed * (timeDifference / 1000);
+        this.positionX += movedDistance;
         break;
       case Directions.Left:
-        this.positionX -= this.movementSpeed * (timeDifference / 1000);
+        this.positionX -= movedDistance;
         break;
       case Directions.Up:
-        this.positionY -= this.movementSpeed * (timeDifference / 1000);
+        this.positionY -= movedDistance;
         break;
       case Directions.Down:
-        this.positionY += this.movementSpeed * (timeDifference / 1000);
+        this.positionY += movedDistance;
         break;
     }
 
+    // Richtung ändern, wenn einer der Ränder erreicht wurde
     if (this.positionX > this.turningPointRight) {
       this.positionX = this.turningPointRight;
       this.movingDirection = Directions.Up;
@@ -68,6 +71,8 @@ export default class Instructions1 extends Component<Instructions1Props> {
         heldItem: HoldableItems.None
       })
     },
+
+    // Buttons
     {
       component: new ArrowButtons(),
       position: (): Coordinates => new Coordinates(0, -20),

@@ -4,8 +4,8 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import Pattern, { PatternProps } from '../../../lib/components/native/Pattern';
 import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
-import sky from '../../assets/sky/sky.png';
 import grass from '../../assets/grass.png';
+import sky from '../../assets/sky/sky.png';
 
 export type BackgroundProps = {};
 

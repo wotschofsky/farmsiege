@@ -4,14 +4,15 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 
 import BaseButton, { BaseButtonProps } from './BaseButton';
-import keyboardWSprite from '../../assets/inputs/keyboard_w.png';
-import keyboardWPressedSprite from '../../assets/inputs/keyboard_w_pressed.png';
-import keyboardASprite from '../../assets/inputs/keyboard_a.png';
+
 import keyboardAPressedSprite from '../../assets/inputs/keyboard_a_pressed.png';
-import keyboardSSprite from '../../assets/inputs/keyboard_s.png';
-import keyboardSPressedSprite from '../../assets/inputs/keyboard_s_pressed.png';
-import keyboardDSprite from '../../assets/inputs/keyboard_d.png';
+import keyboardASprite from '../../assets/inputs/keyboard_a.png';
 import keyboardDPressedSprite from '../../assets/inputs/keyboard_d_pressed.png';
+import keyboardDSprite from '../../assets/inputs/keyboard_d.png';
+import keyboardSPressedSprite from '../../assets/inputs/keyboard_s_pressed.png';
+import keyboardSSprite from '../../assets/inputs/keyboard_s.png';
+import keyboardWPressedSprite from '../../assets/inputs/keyboard_w_pressed.png';
+import keyboardWSprite from '../../assets/inputs/keyboard_w.png';
 
 export type WASDButtonsProps = {
   pressed: ('w' | 'a' | 's' | 'd')[];
@@ -21,6 +22,7 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
   private readonly buttonSize = 64;
 
   template: Template = [
+    // Taste W
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, 0),
@@ -30,6 +32,8 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
         spritePressed: keyboardWPressedSprite
       })
     },
+
+    // Taste A
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(0, this.buttonSize),
@@ -39,6 +43,8 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
         spritePressed: keyboardAPressedSprite
       })
     },
+
+    // Taste S
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, this.buttonSize),
@@ -48,6 +54,8 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
         spritePressed: keyboardSPressedSprite
       })
     },
+
+    // Taste D
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(2 * this.buttonSize, this.buttonSize),

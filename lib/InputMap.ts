@@ -1,5 +1,6 @@
 import keyCodeToCodes from 'keycode-to-codes';
 
+// Verfügbare Stick-Richtungen am Controller als Enum exportieren
 export enum GamepadStickDirections {
   LeftStickLeft = 'LeftStickLeft',
   LeftStickRight = 'LeftStickRight',
@@ -11,6 +12,7 @@ export enum GamepadStickDirections {
   RightStickDown = 'RightStickDown'
 }
 
+// Verfügbare Knöpfe am Controller als Enum exportieren
 export enum GamepadButtons {
   ButtonA = 'ButtonA',
   ButtonB = 'ButtonB',
@@ -28,6 +30,7 @@ export enum GamepadButtons {
   DpadDown = 'DpadDown',
   DpadLeft = 'DpadLeft',
   DpadRight = 'DpadRight',
+  // Wo auch immer dieser Knopf ist...?
   Button16 = 'Button16'
 }
 
@@ -39,50 +42,100 @@ export type InputMapConfig = {
   };
 };
 
+const gamepadButtonsMapping = {
+  [GamepadButtons.ButtonA]: 0,
+  [GamepadButtons.ButtonB]: 1,
+  [GamepadButtons.ButtonX]: 2,
+  [GamepadButtons.ButtonY]: 3,
+  [GamepadButtons.BumperLeft]: 4,
+  [GamepadButtons.BumperRight]: 5,
+  [GamepadButtons.TriggerLeft]: 6,
+  [GamepadButtons.TriggerRight]: 7,
+  [GamepadButtons.ButtonBack]: 8,
+  [GamepadButtons.ButtonStart]: 9,
+  [GamepadButtons.StickLeft]: 10,
+  [GamepadButtons.StickRight]: 11,
+  [GamepadButtons.DpadUp]: 12,
+  [GamepadButtons.DpadDown]: 13,
+  [GamepadButtons.DpadLeft]: 14,
+  [GamepadButtons.DpadRight]: 15,
+  [GamepadButtons.Button16]: 16
+};
+
+const gamepadStickMapping: { [key: string]: { axis: 0 | 1 | 2 | 3; type: 'positive' | 'negative' } } = {
+  [GamepadStickDirections.LeftStickLeft]: {
+    axis: 0,
+    type: 'negative'
+  },
+  [GamepadStickDirections.LeftStickRight]: {
+    axis: 0,
+    type: 'positive'
+  },
+  [GamepadStickDirections.LeftStickUp]: {
+    axis: 1,
+    type: 'negative'
+  },
+  [GamepadStickDirections.LeftStickDown]: {
+    axis: 1,
+    type: 'positive'
+  },
+  [GamepadStickDirections.RightStickLeft]: {
+    axis: 2,
+    type: 'negative'
+  },
+  [GamepadStickDirections.RightStickRight]: {
+    axis: 2,
+    type: 'positive'
+  },
+  [GamepadStickDirections.RightStickUp]: {
+    axis: 3,
+    type: 'negative'
+  },
+  [GamepadStickDirections.RightStickDown]: {
+    axis: 3,
+    type: 'positive'
+  }
+};
+
 export default class InputMap {
   private readonly analogDeadzone = 0.2;
 
   private activeKeys: string[] = [];
   private template: InputMapConfig;
   private usedKeys: string[] = [];
-  private disabled: boolean = false;
+  private disabled = false;
 
   public constructor(template: InputMapConfig) {
     this.template = template;
 
     for (const key in this.template) {
+      // Alle verwendeten Tastencodes als Array speichern
       this.usedKeys = [...this.usedKeys, ...this.template[key].keys];
     }
 
+    // Tastencode speichern, wenn eine Taste gedrückt wird
     window.addEventListener('keydown', event => {
       if (this.disabled) {
         return;
       }
 
-      if (event.code) {
-        if (this.usedKeys.includes(event.code)) {
-          event.preventDefault();
-        }
+      event.preventDefault();
 
-        if (!this.activeKeys.includes(event.code)) {
-          this.activeKeys.push(event.code);
-        }
+      let code: string;
+      if (event.code) {
+        code = event.code;
       } else {
         // MS Edge Fallback
-        const code = keyCodeToCodes(event.keyCode)[0];
+        code = keyCodeToCodes(event.keyCode)[0];
+      }
 
-        if (code) {
-          if (this.usedKeys.includes(code)) {
-            event.preventDefault();
-          }
-
-          if (!this.activeKeys.includes(code)) {
-            this.activeKeys.push(code);
-          }
-        }
+      if (this.usedKeys.includes(code)) {
+        // Taste zu Array von gedrückten Tasten hinzufügen
+        this.activeKeys.push(code);
       }
     });
 
+    // Tastencode aus Liste entfernen, wenn eine Taste losgelassen wird
     window.addEventListener('keyup', event => {
       if (this.disabled) {
         return;
@@ -90,163 +143,93 @@ export default class InputMap {
 
       event.preventDefault();
 
+      let code: string;
       if (event.code) {
-        this.activeKeys = this.activeKeys.filter(key => {
-          return key !== event.code;
-        });
+        code = event.code;
       } else {
         // MS Edge Fallback
-        const code = keyCodeToCodes(event.keyCode)[0];
-
-        if (code) {
-          this.activeKeys = this.activeKeys.filter(key => {
-            return key !== code;
-          });
-        }
+        code = keyCodeToCodes(event.keyCode)[0];
       }
+
+      this.removeActiveKey(code);
     });
 
+    // Gedrückte Tasten zurücksetzen, wenn der Nutzer ein anderes Fenster/Tab fokussiert
     window.addEventListener('blur', () => {
       this.activeKeys = [];
     });
   }
 
   public removeActiveKey(code: string): void {
-    this.activeKeys = this.activeKeys.filter(key => {
-      return key !== code;
-    });
+    // Tastencode aus dem Array der gedrückten Tasten entfernen
+    this.activeKeys = this.activeKeys.filter(key => key !== code);
   }
 
+  // Wird ausgeführt, um zu ermitteln, welche Inputs aktiv sind
   public get pressed(): { [key: string]: number } {
+    // Wenn die Gamepad API verfügbar ist, Gamepads laden
+    let gamepads: (Gamepad | null)[] = [];
+    if ('getGamepads' in navigator) {
+      // Snapshot aller verbundenen Gamepads speichern
+      gamepads = navigator.getGamepads();
+    }
+
+    // Objekt, in welchem die Ergebnisse der Tastendrucke gespeichert werden
     const mappedKeys: { [key: string]: number } = {};
+
     for (const key in this.template) {
+      // Fallback value = nicht gedrückt
       let value = 0;
-      this.template[key].keys.forEach(code => {
+
+      // Alle möglichen Eingabemethoden überprüfen
+      codesLoop: for (const code of this.template[key].keys) {
         if (this.activeKeys.includes(code)) {
           value = 1;
 
+          // Wenn singlePress konfiguriert wurde, die entsprechende Taste von den gedrückten entfernen
           if (this.template[key].singlePress) {
             this.removeActiveKey(code);
           }
         }
 
-        if (code in GamepadButtons && 'getGamepads' in navigator) {
-          for (const gamepad of navigator.getGamepads()) {
+        if (code in GamepadButtons) {
+          for (const gamepad of gamepads) {
             if (gamepad) {
-              if (code === GamepadButtons.ButtonA && gamepad.buttons[0].pressed) {
-                value = 1;
-              }
+              // Index des entsprechenden Button im gamepad.buttons array aus gamepadButtonsMapping auslesen
+              const buttonIndex = gamepadButtonsMapping[<GamepadButtons>code];
 
-              if (code === GamepadButtons.ButtonB && gamepad.buttons[1].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.ButtonX && gamepad.buttons[2].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.ButtonY && gamepad.buttons[3].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.BumperLeft && gamepad.buttons[4].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.BumperRight && gamepad.buttons[5].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.TriggerLeft && gamepad.buttons[6].value > this.analogDeadzone) {
-                value = gamepad.buttons[6].value;
-              }
-
-              if (code === GamepadButtons.TriggerRight && gamepad.buttons[7].value > this.analogDeadzone) {
-                value = gamepad.buttons[7].value;
-              }
-
-              if (code === GamepadButtons.ButtonBack && gamepad.buttons[8].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.ButtonStart && gamepad.buttons[9].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.StickLeft && gamepad.buttons[10].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.StickRight && gamepad.buttons[11].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.DpadUp && gamepad.buttons[12].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.DpadDown && gamepad.buttons[13].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.DpadLeft && gamepad.buttons[14].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.DpadRight && gamepad.buttons[15].pressed) {
-                value = 1;
-              }
-
-              if (code === GamepadButtons.Button16 && gamepad.buttons[16].pressed) {
-                value = 1;
-              }
+              // Wert von Button Objekt übertragen
+              // Entspricht bei digitalen Inputs 0 oder 1
+              // Bei Analogen 0-1
+              value = gamepad.buttons[buttonIndex].value;
             }
           }
         }
 
-        if (code in GamepadStickDirections && 'getGamepads' in navigator) {
-          for (const gamepad of navigator.getGamepads()) {
+        if (code in GamepadStickDirections) {
+          for (const gamepad of gamepads) {
             if (gamepad) {
               const { axes } = gamepad;
-              switch (code) {
-                case GamepadStickDirections.LeftStickLeft:
-                  if (axes[0] < -this.analogDeadzone) {
-                    value = Math.abs(axes[0]);
+
+              // Konfiguration für Stick auslesen & Referenz zur Controllerstickachse speichern
+              const stickMapping = gamepadStickMapping[<GamepadStickDirections>code];
+
+              // Die Stickachsen haben im unberührten Zustand einen Wert von 0
+              // Ansonsten einen beliebigen Wert zwischen -1 und 1 abhängig von Position und Richtung
+              const relevantAxis = axes[stickMapping.axis];
+
+              switch (stickMapping.type) {
+                case 'positive':
+                  // Testen, ob der Controller Stick außerhalb der Deadzone ist
+                  if (relevantAxis > this.analogDeadzone) {
+                    // Wert des Sticks übertragen
+                    value = relevantAxis;
                   }
                   break;
-                case GamepadStickDirections.LeftStickRight:
-                  if (axes[0] > this.analogDeadzone) {
-                    value = Math.abs(axes[0]);
-                  }
-                  break;
-                case GamepadStickDirections.LeftStickUp:
-                  if (axes[1] < -this.analogDeadzone) {
-                    value = Math.abs(axes[1]);
-                  }
-                  break;
-                case GamepadStickDirections.LeftStickDown:
-                  if (axes[1] > this.analogDeadzone) {
-                    value = Math.abs(axes[1]);
-                  }
-                  break;
-                case GamepadStickDirections.RightStickLeft:
-                  if (axes[2] < -this.analogDeadzone) {
-                    value = Math.abs(axes[2]);
-                  }
-                  break;
-                case GamepadStickDirections.RightStickRight:
-                  if (axes[2] > this.analogDeadzone) {
-                    value = Math.abs(axes[2]);
-                  }
-                  break;
-                case GamepadStickDirections.RightStickUp:
-                  if (axes[3] < -this.analogDeadzone) {
-                    value = Math.abs(axes[3]);
-                  }
-                  break;
-                case GamepadStickDirections.RightStickDown:
-                  if (axes[3] > this.analogDeadzone) {
-                    value = Math.abs(axes[3]);
+                case 'negative':
+                  if (relevantAxis < -this.analogDeadzone) {
+                    // Absoluten Wert des Sticks übertragen
+                    value = Math.abs(relevantAxis);
                   }
                   break;
               }
@@ -254,11 +237,19 @@ export default class InputMap {
           }
         }
 
-        mappedKeys[key] = value;
-      });
+        // Wert übertragen & verhindern, dass der Wert kleiner wird
+        mappedKeys[key] = Math.max(mappedKeys[key] ?? 0, value);
 
+        // Abbrechen, wenn bereits der Maximalwert erreicht wurde um Leistung zu sparen
+        if (mappedKeys[key] === 1) {
+          break codesLoop;
+        }
+      }
+
+      // Wenn overrides konfiguriert sind, diese keys überschreiben und auf 0 setzen
       const overridesKey = this.template[key].overrides;
-      if (mappedKeys[key] > 0 && overridesKey && overridesKey.length > 0) {
+      // Testen, ob die Taste gedrückt wurde
+      if (mappedKeys[key] > 0 && overridesKey) {
         for (const key of overridesKey) {
           mappedKeys[key] = 0;
         }
