@@ -83,7 +83,7 @@ export default class Rabbits extends Component<RabbitsProps> {
         const coords = GridUtils.coordsToField(
           new Coordinates(rabbit.x - 288 + (rabbit.direction === Directions.Right ? 128 : 0), rabbit.y + 108)
         );
-        gridStore.removePlant(coords.x, coords.y);
+        gridStore.removeContent(coords.x, coords.y);
 
         // Timer des Hasen auf die Zeit zum Auffressen einer Pflanze zurücksetzen
         rabbit.resetTimer();
