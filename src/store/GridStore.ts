@@ -267,9 +267,16 @@ export default class GridStore extends Store<GridStoreContent> {
 
         // Wenn Bedingung erfüllt wird an zufälliger Stelle neues Unkraut platzieren
         if (Math.random() < values.weed.newChance) {
-          const row = Random.roundedBetween(0, 7);
-          const col = Random.roundedBetween(0, 7);
-          clonedState[row][col].type = TileContents.Weed;
+          // Bis zu 10 mal versuchen eine leere Stelle zu finden und Unkraut zu platzieren
+          for (let i = 0; i < 10; i++) {
+            const row = Random.roundedBetween(0, 7);
+            const col = Random.roundedBetween(0, 7);
+
+            if (clonedState[row][col].type === TileContents.Empty) {
+              clonedState[row][col].type = TileContents.Weed;
+              break;
+            }
+          }
         }
 
         for (const coords of foundWeed) {
