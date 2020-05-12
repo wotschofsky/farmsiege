@@ -2,6 +2,8 @@ import admin from 'firebase-admin';
 import qs from 'querystring';
 import fetch from 'node-fetch';
 import { NowRequest, NowResponse } from '@now/node';
+import { compose, Next } from 'compose-middleware';
+import { check, validationResult } from 'express-validation';
 
 admin.initializeApp({
   credential: admin.credential.cert({
@@ -27,30 +29,74 @@ const rejectRequest = (res: NowResponse): void => {
   });
 };
 
-module.exports = async (req: NowRequest, res: NowResponse): Promise<void> => {
-  if (req.method !== 'POST') {
-    res.status(405).json({
-      success: false,
-      message: 'Method not allowed'
-    });
-    return;
-  }
-
-  const query = qs.stringify({
-    secret: process.env.RECAPTCHA_SECRET,
-    response: req.body.recaptcha
-  });
-
-  const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?${query}`, {
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded'
+module.exports = compose([
+  // Überprüfen, ob der Endpoint mit der POST Methode aufgerufen wurde
+  (req: NowRequest, res: NowResponse, next: Next): void => {
+    if (req.method !== 'POST') {
+      res.status(405).json({
+        success: false,
+        message: 'Method not allowed'
+      });
+    } else {
+      next();
     }
-  });
-  const json = await response.json();
+  },
 
-  if (json.success && json.score >= 0.5) {
+  // Gesendete Daten validieren
+  check('name').isString(),
+  check('score').isNumber(),
+  (req: NowRequest, res: NowResponse, next: Next): void => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      res.status(400).json({
+        success: false,
+        errors: errors.array()
+      });
+    } else {
+      next();
+    }
+  },
+
+  // ReCaptcha validieren
+  async (req: NowRequest, res: NowResponse, next: Next): Promise<void> => {
+    // Query Parameter String erstellen
+    const query = qs.stringify({
+      secret: process.env.RECAPTCHA_SECRET,
+      response: req.body.recaptcha
+    });
+
     try {
+      // Anfrage an ReCaptcha API schicken, um response zu validieren
+      const response = await fetch(`https://www.google.com/recaptcha/api/siteverify?${query}`, {
+        headers: {
+          'Content-type': 'application/x-www-form-urlencoded'
+        }
+      });
+
+      // Antwort in JSON umwandeln
+      const json = await response.json();
+
+      // Testen, ob ein Mindestwert erreicht wurde
+      if (json.success && json.score >= 0.5) {
+        next();
+      } else {
+        res.status(400).json({
+          success: false,
+          message: 'ReCaptcha invalid'
+        });
+      }
+    } catch (err) {
+      rejectRequest(res);
+    }
+  },
+
+  // Highscore in der Datenbank speichern
+  async (req: NowRequest, res: NowResponse): Promise<void> => {
+    try {
+      // Referenz zur Collection in der Datenbank speichern
       const highscoresRef = db.ref('highscores');
+
+      // Highscore speichern
       highscoresRef
         .push({
           name: req.body.name.trim(),
@@ -65,7 +111,5 @@ module.exports = async (req: NowRequest, res: NowResponse): Promise<void> => {
       console.error(err);
       rejectRequest(res);
     }
-  } else {
-    rejectRequest(res);
   }
-};
+]);

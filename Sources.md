@@ -129,6 +129,10 @@ Firebase Database Saving Data \
 23.04.2020 \
 https://firebase.google.com/docs/database/admin/save-data
 
+ReCaptcha v3 Docs \
+23.04.2020 \
+https://developers.google.com/recaptcha/docs/v3
+
 Canvas measureText \
 25.04.2020 \
 https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/measureText
@@ -140,3 +144,11 @@ https://www.npmjs.com/package/keycode-to-codes
 core-js Docs \
 28.04.2020 \
 https://www.npmjs.com/package/core-js
+
+compose-middleware Docs \
+12.05.2020 \
+https://www.npmjs.com/package/compose-middleware
+
+express-validator Docs \
+12.05.2020 \
+https://express-validator.github.io/docs/
