@@ -53,7 +53,7 @@ module.exports = async (req: NowRequest, res: NowResponse): Promise<void> => {
       const highscoresRef = db.ref('highscores');
       highscoresRef
         .push({
-          name: req.body.name,
+          name: req.body.name.trim(),
           score: req.body.score
         })
         .then(() => {
