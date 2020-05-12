@@ -44,7 +44,7 @@ module.exports = compose([
 
   // Gesendete Daten validieren
   check('name').isString(),
-  check('score').isNumber(),
+  check('score').isNumeric(),
   (req: NowRequest, res: NowResponse, next: Next): void => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
