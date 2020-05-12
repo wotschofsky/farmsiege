@@ -55,7 +55,7 @@ export default class Instructions2 extends Component<Instructions2Props> {
     },
     {
       component: new Character(),
-      position: (): Coordinates => new Coordinates(125, 0),
+      position: (): Coordinates => new Coordinates(100, 0),
       props: (): CharacterProps => ({
         direction: Directions.Right,
         heldItem: HoldableItems.None

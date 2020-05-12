@@ -62,7 +62,7 @@ export default class Instructions3 extends Component<Instructions3Props> {
     },
     {
       component: new Character(),
-      position: (): Coordinates => new Coordinates(125, 0),
+      position: (): Coordinates => new Coordinates(100, 0),
       props: (): CharacterProps => ({
         direction: Directions.Right,
         heldItem: HoldableItems.Shovel

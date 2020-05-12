@@ -36,7 +36,7 @@ export default class Instructions4 extends Component<Instructions4Props> {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): TextProps => ({
-        text: 'Note: You only grown plants give you points!',
+        text: 'Only fully grown plants give you points!',
         color: '#fff',
         font: 'Heartbit',
         size: 40
@@ -54,7 +54,7 @@ export default class Instructions4 extends Component<Instructions4Props> {
     },
     {
       component: new Character(),
-      position: (): Coordinates => new Coordinates(125, 0),
+      position: (): Coordinates => new Coordinates(100, 0),
       props: (): CharacterProps => ({
         direction: Directions.Right,
         heldItem: HoldableItems.Shovel
