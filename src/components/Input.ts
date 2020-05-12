@@ -123,6 +123,8 @@ export default class Input extends Component<InputProps> {
       props: (ctx: PropsContext<InputProps>): EventListenerProps => ({
         size: new Dimensions(ctx.props.width, 48),
         onKeypress: (event: KeyboardEvent): void => {
+          event.preventDefault();
+
           switch (event.key) {
             case 'Enter':
               this.onEnterCallback(this.text);
@@ -142,6 +144,7 @@ export default class Input extends Component<InputProps> {
         // Zusätzliches Keydown Event, da Backspace nicht in allen Browsern von onKeypress übermittelt wird
         onKeydown: (event: KeyboardEvent): void => {
           if (event.key === 'Backspace') {
+            event.preventDefault();
             this.text = this.text.slice(0, this.text.length - 1);
           }
         }
