@@ -193,8 +193,4 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
   public get stillRabbits(): RabbitData[] {
     return this.content.rabbits.filter(rabbit => rabbit.targetReached);
   }
-
-  public get directStillRabbits(): RabbitData[] {
-    return this.directContent.rabbits.filter(rabbit => rabbit.targetReached);
-  }
 }
