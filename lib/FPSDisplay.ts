@@ -8,7 +8,7 @@ export default class FPSDisplay {
   public constructor() {
     this.history = [];
     this.shownValue = 0;
-    this.lastUpdate = Date.now();
+    this.lastUpdate = window.performance.now();
   }
 
   public render(
@@ -19,7 +19,7 @@ export default class FPSDisplay {
   ): void {
     const fps = Math.round(1000 / timeDifference);
     this.history.push(fps);
-    if (Date.now() - this.lastUpdate >= 1000) {
+    if (window.performance.now() - this.lastUpdate >= 1000) {
       // Durchschnitt der FPS Werte der letzten Sekunde berechnen
       this.shownValue = Math.round(this.history.reduce((a, b) => a + b, 0) / this.history.length);
 
@@ -30,7 +30,7 @@ export default class FPSDisplay {
 
       // Verlauf zurücksetzen
       this.history = [];
-      this.lastUpdate = Date.now();
+      this.lastUpdate = window.performance.now();
     }
 
     // Konfiguration speichern

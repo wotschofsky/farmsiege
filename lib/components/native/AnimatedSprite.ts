@@ -17,7 +17,7 @@ export default class AnimatedSprite extends Component<AnimatedSpriteProps> {
 
   private currentIndex = 0;
   private length = 1;
-  private nextUpdate = Date.now();
+  private nextUpdate = window.performance.now();
 
   public render(context: RenderingContext, position: Coordinates, props: AnimatedSpriteProps): void {
     // Abbrechen, wenn kein Sprite angegeben ist

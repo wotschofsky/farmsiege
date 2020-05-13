@@ -25,7 +25,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
   private nextShotAvailableAt = 0;
 
   private get nextShotAvailable(): boolean {
-    return this.nextShotAvailableAt <= Date.now();
+    return this.nextShotAvailableAt <= window.performance.now();
   }
 
   protected onInit(): void {
@@ -183,7 +183,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         }
 
         // Neuen Timestamp speichern
-        this.nextShotAvailableAt = Date.now() + 1200;
+        this.nextShotAvailableAt = window.performance.now() + 1200;
       }
     }
   }

@@ -62,8 +62,8 @@ class Canvas {
     });
 
     // Renderprozess starten
-    this.lastFrameOn = Date.now();
-    this.frameStart = Date.now();
+    this.lastFrameOn = window.performance.now();
+    this.frameStart = window.performance.now();
     this.render();
   }
 
@@ -82,7 +82,7 @@ class Canvas {
   }
 
   private render(): void {
-    this.frameStart = Date.now();
+    this.frameStart = window.performance.now();
     const timeDifference = this.frameStart - this.lastFrameOn;
     this.lastFrameOn = this.frameStart;
 
