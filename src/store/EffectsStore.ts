@@ -6,6 +6,8 @@ import Store from '../../lib/store/Store';
 import EffectData from './effects/EffectData';
 import ScoreEffectData from './effects/ScoreEffectData';
 
+import values from '../values.json';
+
 type EffectsStoreContent = {
   smoke: EffectData[];
   scores: ScoreEffectData[];
@@ -60,7 +62,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
       clonedState.gameOver.active = true;
       clonedState.gameOver.center = center;
 
-      setTimeout(callback, 1200);
+      setTimeout(callback, values.animations.gameOver.duration + 250);
 
       return clonedState;
     });
@@ -89,7 +91,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
       });
 
       // gameOver Timer zurücksetzen
-      if (clonedState.gameOver.timer > 1500) {
+      if (clonedState.gameOver.timer > values.animations.gameOver.duration + 500) {
         clonedState.gameOver.active = false;
         clonedState.gameOver.timer = 0;
       }
@@ -104,19 +106,18 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
   }
 
   public get endAnimationProgress(): number {
-    const animationDuration = 1000;
+    const { duration: animationDuration, pauseOffset, endFirstSegment, endSecondSegment } = values.animations.gameOver;
+
     const { timer } = this.content.gameOver;
 
     if (timer >= animationDuration) {
       return 1;
     }
 
-    const pauseOffset = 0.92;
-
-    if (timer <= animationDuration * 0.5) {
+    if (timer <= animationDuration * endFirstSegment) {
       // Großteil der Animation in der ersten kurzen Phase abspielen
-      return eases.expoOut(timer / (animationDuration * 0.5)) * pauseOffset;
-    } else if (timer < animationDuration * 0.75) {
+      return eases.expoOut(timer / (animationDuration * endFirstSegment)) * pauseOffset;
+    } else if (timer < animationDuration * endSecondSegment) {
       // Pausieren
       return pauseOffset;
     } else if (timer < animationDuration * 1) {

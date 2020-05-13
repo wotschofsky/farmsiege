@@ -76,5 +76,13 @@
     "weed": 2,
     "plant": 15,
     "mole": 50
+  },
+  "animations": {
+    "gameOver": {
+      "duration": 1000,
+      "pauseOffset": 0.92,
+      "endFirstSegment": 0.5,
+      "endSecondSegment": 0.75
+    }
   }
 }
