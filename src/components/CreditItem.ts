@@ -45,10 +45,10 @@ export default class CreditItem extends Component<CreditItemProps> {
     },
     {
       component: new Text(),
-      position: (): Coordinates => new Coordinates(40, 4),
+      position: (): Coordinates => new Coordinates(40, 12),
       props: (ctx: PropsContext<CreditItemProps>): TextProps => ({
         text: ctx.props.label,
-        baseline: 'hanging',
+        baseline: 'middle',
         color: '#fff',
         font: 'Heartbit',
         size: 40
