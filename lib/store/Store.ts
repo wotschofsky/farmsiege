@@ -26,10 +26,6 @@ export default abstract class Store<S> {
     return cloneDeep(this._content);
   }
 
-  public get directContent(): S {
-    return this._content;
-  }
-
   public reset(): void {
     // Store Inhalt auf Kopie des Startwerts zurücksetzen
     this._content = cloneDeep(this._initialState);
