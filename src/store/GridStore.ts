@@ -15,7 +15,9 @@ export type TileData = {
 
 export type RowData = [TileData, TileData, TileData, TileData, TileData, TileData, TileData, TileData];
 
-export type GridStoreContent = [RowData, RowData, RowData, RowData, RowData, RowData, RowData, RowData];
+export type GridData = [RowData, RowData, RowData, RowData, RowData, RowData, RowData, RowData];
+
+export type GridStoreContent = GridData;
 
 const initialTile: TileData = {
   type: TileContents.Empty,

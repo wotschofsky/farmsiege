@@ -75,7 +75,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
     // Eingaben auslesen
     const inputs = this.inputMap.pressed;
 
-    if (!effectsStore.directContent.gameOver.active) {
+    if (!effectsStore.content.gameOver.active) {
       let moveX = 0;
       let moveY = 0;
       if (inputs.up) {

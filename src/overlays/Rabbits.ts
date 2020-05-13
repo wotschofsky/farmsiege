@@ -76,7 +76,7 @@ export default class Rabbits extends Component<RabbitsProps> {
       effectsStore.showScoreEffect(x + 128, y + 320, values.scores.rabbit);
     });
 
-    movablesStore.directStillRabbits.forEach(rabbit => {
+    movablesStore.stillRabbits.forEach(rabbit => {
       // Sobald ein Hase eine Pflanze aufgefressen hat
       if (rabbit.timeLeft === 0) {
         // Pflanze entfernen

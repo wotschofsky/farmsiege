@@ -105,7 +105,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
 
   public get endAnimationProgress(): number {
     const animationDuration = 1000;
-    const timer = this.directContent.gameOver.timer;
+    const { timer } = this.content.gameOver;
 
     if (timer >= animationDuration) {
       return 1;
