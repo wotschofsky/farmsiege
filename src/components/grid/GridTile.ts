@@ -134,7 +134,8 @@ export default class GridTile extends Component<GridTileProps> {
         }
 
         const characterStore = <CharacterStore>this.stores.character;
-        return ctx.props.column === characterStore.content.fieldX && ctx.props.row === characterStore.content.fieldY;
+        const characterStoreContent = characterStore.content;
+        return ctx.props.column === characterStoreContent.fieldX && ctx.props.row === characterStoreContent.fieldY;
       }
     }
   ];

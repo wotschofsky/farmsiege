@@ -68,6 +68,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
   protected onTick(ctx: PropsContext<CharacterContainerProps>, timeDifference: number): void {
     const characterStore = <CharacterStore>this.stores.character;
+    const characterStoreContent = characterStore.content;
     const effectsStore = <EffectsStore>this.stores.effects;
     const gridStore = <GridStore>this.stores.grid;
     const statsStore = <StatsStore>this.stores.score;
@@ -94,13 +95,13 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       characterStore.move(moveX, moveY);
 
       if (inputs.use) {
-        const field = gridStore.content[characterStore.content.fieldY][characterStore.content.fieldX];
+        const field = gridStore.content[characterStoreContent.fieldY][characterStoreContent.fieldX];
         let isGrownPlant = false;
         if (field.type === TileContents.Plant && field.data.age >= 15000) {
           isGrownPlant = true;
         }
 
-        gridStore.removeContent(characterStore.content.fieldX, characterStore.content.fieldY, removedContent => {
+        gridStore.removeContent(characterStoreContent.fieldX, characterStoreContent.fieldY, removedContent => {
           // Ermitteln, was Entfernt wurde und den entsprechenden Gegenstand anzeigen und Punkte hinzufügen
           let addedScore = 0;
           switch (removedContent) {
@@ -132,8 +133,8 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
             // Punkteanimation anzeigen
             effectsStore.showScoreEffect(
-              characterStore.content.fieldX * 128 + 288 + 32,
-              characterStore.content.fieldY * 128 + 176 + 64,
+              characterStoreContent.fieldX * 128 + 288 + 32,
+              characterStoreContent.fieldY * 128 + 176 + 64,
               addedScore
             );
           }
@@ -142,7 +143,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
       if (inputs.place) {
         characterStore.heldItem = HoldableItems.None;
-        gridStore.placePlant(characterStore.content.fieldX, characterStore.content.fieldY);
+        gridStore.placePlant(characterStoreContent.fieldX, characterStoreContent.fieldY);
       }
 
       if (inputs.fire && this.nextShotAvailable) {
