@@ -151,6 +151,6 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
   }
 
   public get hammerPosition(): number {
-    return this.directContent.hammerTimer / this.hammerAnimationDuration;
+    return this.content.hammerTimer / this.hammerAnimationDuration;
   }
 }

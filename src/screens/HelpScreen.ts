@@ -31,7 +31,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
 
   private get currentPage(): number {
     const miscStore = <MiscStore>this.stores.misc;
-    return miscStore.directContent.instructionsPage;
+    return miscStore.content.instructionsPage;
   }
 
   private set currentPage(value: number) {
@@ -42,7 +42,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
   private goBack(): void {
     if (this.currentPage === 1) {
       const screensStore = <ScreensStore>this.stores.screens;
-      screensStore.directContent.onReturn();
+      screensStore.content.onReturn();
       return;
     }
     this.currentPage--;
@@ -51,7 +51,7 @@ export default class HelpScreen extends Component<HelpScreenProps> {
   private continue(): void {
     if (this.currentPage === this.totalPages) {
       const screensStore = <ScreensStore>this.stores.screens;
-      screensStore.directContent.onReturn();
+      screensStore.content.onReturn();
       return;
     }
     this.currentPage++;

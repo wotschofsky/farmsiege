@@ -10,11 +10,10 @@ export default class GameOverEffect extends Component<GameOverEffectProps> {
   public render(context: RenderingContext): void {
     // Abbrechen, wenn der Effekt nicht aktiv ist
     const effectsStore = <EffectsStore>this.stores.effects;
-    if (!effectsStore.directContent.gameOver.active) {
+    const effectData = effectsStore.content.gameOver;
+    if (!effectData.active) {
       return;
     }
-
-    const effectData = effectsStore.directContent.gameOver;
 
     // Create a canvas that we will use as a mask
     const maskCanvas = document.createElement('canvas');

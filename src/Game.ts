@@ -105,7 +105,7 @@ class Game extends Component<GameProps> {
     statsStore.increaseDuration(timeDifference);
     characterStore.updateTimer(timeDifference);
 
-    if (gridStore.friendlyPlants === 0 && !effectsStore.directContent.gameOver.active) {
+    if (gridStore.friendlyPlants === 0 && !effectsStore.content.gameOver.active) {
       const miscStore = <MiscStore>this.stores.misc;
       miscStore.fetchHighscores();
       gridStore.stop();
