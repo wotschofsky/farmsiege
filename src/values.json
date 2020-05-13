@@ -79,9 +79,9 @@
   },
   "animations": {
     "gameOver": {
-      "duration": 1000,
-      "pauseOffset": 0.92,
-      "endFirstSegment": 0.5,
+      "duration": 1300,
+      "pauseOffset": 0.9,
+      "endFirstSegment": 0.4,
       "endSecondSegment": 0.75
     }
   }
