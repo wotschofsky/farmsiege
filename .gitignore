@@ -1,11 +1,11 @@
 node_modules
 dist/
-src/assets/sources
 firebase-debug.log
 yarn-error.log
 
 src/assets/soundtrack/**
 !src/assets/soundtrack/**.mp3
+src/assets/sources/3rdparty
 
 .now
 .env
