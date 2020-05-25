@@ -15,7 +15,7 @@
       "@rollup/plugin-json": "^4.0.1",
       "@types/clone-deep": "^4.0.1",
       "@types/core-js": "^2.5.2",
-      "@types/eases": "^1.0.0",
+      "@types/eases": "^1.0.1",
       "@types/grecaptcha": "^3.0.1",
       "@types/js-cookie": "^2.2.4",
       "@types/node": "^13.13.2",
