@@ -2896,10 +2896,10 @@ jws@^4.0.0:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
 
-keycode-to-codes@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/keycode-to-codes/-/keycode-to-codes-1.0.0.tgz#e1c9f1843f47ff4f814b19ad3b6fe0afa0d543d0"
-  integrity sha512-EWBg6fIMOhhPumVs7tEJ0qM0UhtVdLEpQpK2+x2EMSy/1MOeN1C6NDq24bf4k8gxQsHqsdEbIlmrvpshPxv/ng==
+keycode-to-codes@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/keycode-to-codes/-/keycode-to-codes-1.0.2.tgz#2e320267a5cf8fb4ad130592fcbb2b689d9eb03c"
+  integrity sha512-KN+WdmmUpUz3kyFZvwwAnxKzYvXCxXylLl0OvF3nBG3fEygRC8CsQsNmZaJKDv/mvuOe91Xja23yfFWA5gQ7iw==
 
 kind-of@^6.0.2:
   version "6.0.3"
