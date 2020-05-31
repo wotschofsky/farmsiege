@@ -96,10 +96,13 @@ module.exports = compose([
       // Referenz zur Collection in der Datenbank speichern
       const highscoresRef = db.ref('highscores');
 
+      // Leerzeichen um Namen herum entfernen
+      const trimmedName = req.body.name.trim();
+
       // Highscore speichern
       highscoresRef
         .push({
-          name: req.body.name.trim(),
+          name: trimmedName,
           score: req.body.score
         })
         .then(() => {
