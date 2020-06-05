@@ -19,54 +19,13 @@ export type GridData = [RowData, RowData, RowData, RowData, RowData, RowData, Ro
 
 export type GridStoreContent = GridData;
 
-const initialTile: TileData = {
-  type: TileContents.Empty,
-  data: {}
-};
-
-const generateInitialGrid = (): GridStoreContent => {
-  const grid: RowData[] = [];
-  for (let i = 0; i < 8; i++) {
-    // Reihe erstellen
-    const row: TileData[] = [];
-    for (let j = 0; j < 8; j++) {
-      const tile = cloneDeep(initialTile);
-      row.push(tile);
-    }
-    grid.push(<RowData>row);
-  }
-
-  let plantsPlaced = 0;
-  do {
-    // Koordinaten zufällig auswählen
-    const row = Random.roundedBetween(0, 7);
-    const col = Random.roundedBetween(0, 7);
-
-    // Verhindern, dass ein Feld doppelt verwendet wird
-    if (grid[row][col].type === TileContents.Plant) {
-      continue;
-    }
-
-    // Feld befüllen
-    grid[row][col].type = TileContents.Plant;
-    grid[row][col].data = {
-      age: Math.random() * values.plant.age.maxStart
-    };
-
-    // Anzahl inkrementieren
-    plantsPlaced++;
-  } while (plantsPlaced < values.plant.startAmount);
-
-  return <GridStoreContent>grid;
-};
-
 export default class GridStore extends Store<GridStoreContent> {
   private timers: NodeJS.Timeout[];
   private _speedMultiplier: number;
   private _lastRemovedPlant: Coordinates;
 
   public constructor() {
-    const initialGrid = generateInitialGrid();
+    const initialGrid = GridUtils.generateInitialGrid();
     super('grid', initialGrid);
 
     this.timers = [];
@@ -74,7 +33,7 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   public reset(): void {
-    this.update(generateInitialGrid);
+    this.update(GridUtils.generateInitialGrid);
   }
 
   public set speedMultiplier(value: number) {

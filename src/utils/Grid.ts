@@ -1,5 +1,11 @@
 import Coordinates from '../../lib/helpers/Coordinates';
 
+import { GridData, RowData, TileData } from '../store/GridStore';
+import Random from './Random';
+import TileContents from '../TileContents';
+
+import values from '../values.json';
+
 export default class GridUtils {
   public static coordsToField(position: Coordinates): Coordinates {
     return new Coordinates(Math.round(position.x / 128), Math.round(position.y / 128));
@@ -23,5 +29,49 @@ export default class GridUtils {
 
   public static isValidField(x: number, y: number): boolean {
     return this.rowExists(x) && this.colExists(y);
+  }
+
+  public static get initialTile(): TileData {
+    const initialTile = {
+      type: TileContents.Empty,
+      data: {}
+    };
+    return initialTile;
+  }
+
+  public static generateInitialGrid(): GridData {
+    const grid: RowData[] = [];
+    for (let i = 0; i < 8; i++) {
+      // Reihe erstellen
+      const row: TileData[] = [];
+      for (let j = 0; j < 8; j++) {
+        const tile = GridUtils.initialTile;
+        row.push(tile);
+      }
+      grid.push(<RowData>row);
+    }
+
+    let plantsPlaced = 0;
+    do {
+      // Koordinaten zufällig auswählen
+      const row = Random.roundedBetween(0, 7);
+      const col = Random.roundedBetween(0, 7);
+
+      // Verhindern, dass ein Feld doppelt verwendet wird
+      if (grid[row][col].type === TileContents.Plant) {
+        continue;
+      }
+
+      // Feld befüllen
+      grid[row][col].type = TileContents.Plant;
+      grid[row][col].data = {
+        age: Math.random() * values.plant.age.maxStart
+      };
+
+      // Anzahl inkrementieren
+      plantsPlaced++;
+    } while (plantsPlaced < values.plant.startAmount);
+
+    return <GridData>grid;
   }
 }
