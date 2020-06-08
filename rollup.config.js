@@ -3,7 +3,6 @@ import { terser } from 'rollup-plugin-terser';
 import babel from 'rollup-plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
-import htmlTemplate from 'rollup-plugin-generate-html-template';
 import json from '@rollup/plugin-json';
 import livereload from 'rollup-plugin-livereload';
 import obfuscatorPlugin from 'rollup-plugin-javascript-obfuscator';
@@ -38,15 +37,8 @@ if (!process.env.PRODUCTION) {
   allowedDomains.push('localhost');
 }
 
-export default {
+const sharedConfig = {
   input: 'src/main.ts',
-  output: [
-    {
-      file: 'dist/bundle.js',
-      format: 'iife',
-      sourcemap: !process.env.PRODUCTION ? 'inline' : false
-    }
-  ],
   plugins: [
     url({
       limit: 100 * 1024, // inline files < 10k, copy files > 10k
@@ -56,24 +48,17 @@ export default {
       fileName: 'assets/[dirname][hash][extname]'
     }),
     json(),
-    typescript({
-      exclude: ['api/**'],
-      noEmitOnError: false
-    }),
     commonjs(),
-    babel({
-      // exclude: 'node_modules/**'
-    }),
     resolve(),
-    htmlTemplate({
-      template: 'src/index.html',
-      target: 'dist/index.html'
-    }),
     copy({
       targets: [
         {
           src: 'static/*',
           dest: 'dist/assets/'
+        },
+        {
+          src: 'src/index.html',
+          dest: 'dist/'
         }
       ]
     }),
@@ -87,3 +72,39 @@ export default {
     ...devConfig
   ]
 };
+
+export default [
+  {
+    ...sharedConfig,
+    output: {
+      file: 'dist/bundle.es5.js',
+      format: 'iife',
+      sourcemap: !process.env.PRODUCTION ? 'inline' : false
+    },
+    plugins: [
+      ...sharedConfig.plugins,
+      typescript({
+        exclude: ['api/**'],
+        noEmitOnError: false,
+        target: 'es5'
+      }),
+      babel()
+    ]
+  },
+  {
+    ...sharedConfig,
+    output: {
+      file: 'dist/bundle.es6.js',
+      format: 'es',
+      sourcemap: !process.env.PRODUCTION ? 'inline' : false
+    },
+    plugins: [
+      ...sharedConfig.plugins,
+      typescript({
+        exclude: ['api/**'],
+        noEmitOnError: false,
+        target: 'es6'
+      })
+    ]
+  }
+];
