@@ -1,0 +1,35 @@
+@font-face {
+  font-family: 'Heartbit';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/HeartbitXX.ttf') format('truetype');
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  padding-top: 2rem;
+  width: 80%;
+  max-width: 110vh;
+  height: auto;
+  margin: auto;
+}
+
+footer {
+  text-align: center;
+  margin: 2rem 0;
+}
+
+@media(min-width: 480px) {
+  footer {
+    font-size: 125%;
+  }
+}
+
+:link,
+:visited {
+  color: #3A7D8C;
+}
