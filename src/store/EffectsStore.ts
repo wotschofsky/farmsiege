@@ -2,6 +2,7 @@ import cloneDeep from 'clone-deep';
 import Coordinates from '../../lib/helpers/Coordinates';
 import eases from 'eases';
 import Store from '../../lib/store/Store';
+import Timer from 'better-timer';
 
 import EffectData from './effects/EffectData';
 import ScoreEffectData from './effects/ScoreEffectData';
@@ -62,7 +63,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
       clonedState.gameOver.active = true;
       clonedState.gameOver.center = center;
 
-      setTimeout(callback, values.animations.gameOver.duration + 250);
+      new Timer(values.animations.gameOver.duration + 250, callback);
 
       return clonedState;
     });

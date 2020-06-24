@@ -2,6 +2,7 @@ import { Directions } from '../../lib/Enums';
 import cloneDeep from 'clone-deep';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Store from '../../lib/store/Store';
+import Timer from 'better-timer';
 
 import BulletData from './models/BulletData';
 import RabbitData from './models/RabbitData';
@@ -16,7 +17,7 @@ type MovablesStoreContent = {
 };
 
 export default class MovablesStore extends Store<MovablesStoreContent> {
-  private timers: NodeJS.Timeout[];
+  private timers: Timer[];
   private _speedMultiplier: number;
 
   public constructor() {
@@ -33,18 +34,18 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
   }
 
   public start(): void {
-    const timeout = setTimeout(
-      this.spawnRabbits.bind(this),
-      Random.between(values.rabbits.grace.min, values.rabbits.grace.max)
+    const timer = new Timer(
+      Random.between(values.rabbits.grace.min, values.rabbits.grace.max),
+      this.spawnRabbits.bind(this)
     );
-    this.timers.push(timeout);
+    this.timers.push(timer);
   }
 
   public stop(): void {
     // Timer löschen, um zu verhindern, dass diese Code ausführen, nachdem das Spiel vorbei ist2
-    this.timers.forEach(timer => {
-      clearTimeout(timer);
-    });
+    for (const timer of this.timers) {
+      timer.cancel();
+    }
     this.timers = [];
   }
 
@@ -160,11 +161,11 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
     );
 
     // Timer für nächsten Hasenzyklus starten
-    const timeout = setTimeout(
-      this.spawnRabbits.bind(this),
-      Random.between(values.rabbits.spawning.min, values.rabbits.spawning.max) / this._speedMultiplier
+    const timer = new Timer(
+      Random.between(values.rabbits.spawning.min, values.rabbits.spawning.max) / this._speedMultiplier,
+      this.spawnRabbits.bind(this)
     );
-    this.timers.push(timeout);
+    this.timers.push(timer);
   }
 
   public detectHit(bullets: BulletData[], callback: (x: number, y: number) => void): void {

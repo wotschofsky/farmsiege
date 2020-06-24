@@ -1,6 +1,7 @@
 import cloneDeep from 'clone-deep';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Store from '../../lib/store/Store';
+import Timer from 'better-timer';
 
 import GridUtils from '../utils/Grid';
 import Random from '../utils/Random';
@@ -20,7 +21,7 @@ export type GridData = [RowData, RowData, RowData, RowData, RowData, RowData, Ro
 export type GridStoreContent = GridData;
 
 export default class GridStore extends Store<GridStoreContent> {
-  private timers: NodeJS.Timeout[];
+  private timers: Timer[];
   private _speedMultiplier: number;
   private _lastRemovedPlant: Coordinates;
 
@@ -48,34 +49,28 @@ export default class GridStore extends Store<GridStoreContent> {
     this.growPlants();
 
     {
-      const timeout = setTimeout(
-        this.updateMole.bind(this),
-        Random.between(values.mole.grace.min, values.mole.grace.max)
-      );
-      this.timers.push(timeout);
+      const duration = Random.between(values.mole.grace.min, values.mole.grace.max);
+      const timer = new Timer(duration, this.updateMole.bind(this));
+      this.timers.push(timer);
     }
 
     {
-      const timeout = setTimeout(
-        this.updateWeed.bind(this),
-        Random.between(values.weed.grace.min, values.weed.grace.max)
-      );
-      this.timers.push(timeout);
+      const duration = Random.between(values.weed.grace.min, values.weed.grace.max);
+      const timer = new Timer(duration, this.updateWeed.bind(this));
+      this.timers.push(timer);
     }
 
     {
-      const timeout = setTimeout(
-        this.updateLightning.bind(this),
-        Random.between(values.lightning.grace.min, values.lightning.grace.max)
-      );
-      this.timers.push(timeout);
+      const duration = Random.between(values.lightning.grace.min, values.lightning.grace.max);
+      const timer = new Timer(duration, this.updateLightning.bind(this));
+      this.timers.push(timer);
     }
   }
 
   public stop(): void {
     // Timer löschen, um zu verhindern, dass diese Code ausführen, nachdem das Spiel vorbei ist
     for (const timer of this.timers) {
-      clearTimeout(timer);
+      timer.cancel();
     }
     this.timers = [];
   }
@@ -147,8 +142,8 @@ export default class GridStore extends Store<GridStoreContent> {
     );
 
     // Timer für nächsten Pflanzenzyklus starten
-    const timeout = setTimeout(this.growPlants.bind(this), 100);
-    this.timers.push(timeout);
+    const timer = new Timer(100, this.growPlants.bind(this));
+    this.timers.push(timer);
   }
 
   private updateMole(): void {
@@ -204,17 +199,17 @@ export default class GridStore extends Store<GridStoreContent> {
     );
 
     // Timer für nächsten Maulwurfszyklus starten
-    const timeout = setTimeout(
-      this.updateMole.bind(this),
-      Random.between(values.mole.spawning.min, values.mole.spawning.max) / this._speedMultiplier
+    const timer = new Timer(
+      Random.between(values.mole.spawning.min, values.mole.spawning.max) / this._speedMultiplier,
+      this.updateMole.bind(this)
     );
-    this.timers.push(timeout);
+    this.timers.push(timer);
   }
 
   private updateWeed(): void {
     this.update(
       (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState = cloneDeep(oldState);
+        const clonedState: GridStoreContent = cloneDeep(oldState);
 
         const foundWeed: Coordinates[] = [];
         clonedState.forEach((row, rowIndex) => {
@@ -267,11 +262,11 @@ export default class GridStore extends Store<GridStoreContent> {
     );
 
     // Timer für nächsten Unkrautszyklus starten
-    const timeout = setTimeout(
-      this.updateWeed.bind(this),
-      Random.between(values.weed.spawning.min, values.weed.spawning.max) / this._speedMultiplier
+    const timer = new Timer(
+      Random.between(values.weed.spawning.min, values.weed.spawning.max) / this._speedMultiplier,
+      this.updateWeed.bind(this)
     );
-    this.timers.push(timeout);
+    this.timers.push(timer);
   }
 
   private updateLightning(): void {
@@ -319,7 +314,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
     {
       // Nach 1.4 Sekunden Blitz entfernen
-      const timeout = setTimeout(() => {
+      const timer = new Timer(1400, () => {
         this.update(
           (oldState: GridStoreContent): GridStoreContent => {
             const clonedState = cloneDeep(oldState);
@@ -329,16 +324,16 @@ export default class GridStore extends Store<GridStoreContent> {
             return clonedState;
           }
         );
-      }, 1400);
-      this.timers.push(timeout);
+      });
+      this.timers.push(timer);
     }
 
     {
-      const timeout = setTimeout(
-        this.updateLightning.bind(this),
-        Random.between(values.lightning.spawning.min, values.lightning.spawning.max) / this._speedMultiplier
+      const timer = new Timer(
+        Random.between(values.lightning.spawning.min, values.lightning.spawning.max) / this._speedMultiplier,
+        this.updateLightning.bind(this)
       );
-      this.timers.push(timeout);
+      this.timers.push(timer);
     }
   }
 
