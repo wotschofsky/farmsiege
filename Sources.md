@@ -152,3 +152,7 @@ https://www.npmjs.com/package/compose-middleware
 express-validator Docs \
 12.05.2020 \
 https://express-validator.github.io/docs/
+
+Babel Preset Env Docs \
+25.06.2020 \
+https://babeljs.io/docs/en/babel-preset-env

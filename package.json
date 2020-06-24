@@ -29,11 +29,13 @@
       "js-cookie": "^2.2.1",
       "keycode-to-codes": "^1.0.2",
       "load-script": "^1.0.0",
-      "node-fetch": "^2.6.0"
+      "node-fetch": "^2.6.0",
+      "regenerator-runtime": "^0.13.5"
    },
    "devDependencies": {
       "@babel/core": "^7.6.4",
       "@babel/preset-env": "^7.6.3",
+      "@rollup/plugin-babel": "^5.0.3",
       "@rollup/plugin-commonjs": "^11.0.2",
       "@rollup/plugin-node-resolve": "^7.1.1",
       "@rollup/plugin-typescript": "^4.1.2",
@@ -44,7 +46,6 @@
       "eslint-plugin-prettier": "^3.1.2",
       "prettier": "^1.19.1",
       "rollup": "^1.24.0",
-      "rollup-plugin-babel": "^4.3.3",
       "rollup-plugin-copy": "^3.1.0",
       "rollup-plugin-eslint": "^7.0.0",
       "rollup-plugin-javascript-obfuscator": "^1.0.4",
