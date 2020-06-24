@@ -1,6 +1,6 @@
 // import { eslint } from 'rollup-plugin-eslint';
 import { terser } from 'rollup-plugin-terser';
-import babel from 'rollup-plugin-babel';
+import babel from '@rollup/plugin-babel';
 import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
