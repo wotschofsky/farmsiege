@@ -32,7 +32,7 @@ if (!process.env.PRODUCTION) {
   ];
 }
 
-const allowedDomains = ['.felisk.io', '.feliskio.now.sh'];
+const allowedDomains = ['.felisk.io', '.feliskio.now.sh', '.feliskio.vercel.app'];
 if (!process.env.PRODUCTION) {
   allowedDomains.push('localhost');
 }
