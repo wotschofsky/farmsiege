@@ -8,6 +8,6 @@ export default class Random {
   }
 
   public static randomBoolean(): boolean {
-    return Math.round(Math.random()) === 1;
+    return Math.random() >= 0.5;
   }
 }
