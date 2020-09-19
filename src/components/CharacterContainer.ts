@@ -126,8 +126,6 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           }
 
           if (addedScore > 0) {
-            const effectsStore = <EffectsStore>this.stores.effects;
-
             // Punkte hinzufügen
             statsStore.addScore(addedScore);
 
