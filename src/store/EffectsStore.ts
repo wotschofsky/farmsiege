@@ -21,7 +21,7 @@ type EffectsStoreContent = {
 
 export default class EffectsStore extends Store<EffectsStoreContent> {
   public constructor() {
-    super('effects', {
+    super({
       smoke: [],
       scores: [],
       gameOver: {

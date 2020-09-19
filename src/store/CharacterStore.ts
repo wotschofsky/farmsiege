@@ -31,7 +31,7 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
   private readonly hammerAnimationDuration = 100;
 
   public constructor() {
-    super('character', {
+    super({
       bullets: [],
       posX: 512 - 32 * values.character.size,
       posY: 512,

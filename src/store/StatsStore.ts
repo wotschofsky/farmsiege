@@ -11,7 +11,7 @@ export type StatsStoreContent = {
 
 export default class StatsStore extends Store<StatsStoreContent> {
   public constructor() {
-    super('score', {
+    super({
       score: 0,
       scoreSubmitted: false,
       duration: 0

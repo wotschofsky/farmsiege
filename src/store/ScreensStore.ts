@@ -18,7 +18,7 @@ export type ScreensStoreContent = {
 
 export default class ScreensStore extends Store<ScreensStoreContent> {
   public constructor() {
-    super('screens', {
+    super({
       active: Screens.Start,
       onReturn: (): void => {}
     });

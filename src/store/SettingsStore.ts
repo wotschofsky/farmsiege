@@ -21,7 +21,7 @@ export default class SettingsStore extends Store<SettingsStoreContent> {
       volume = <VolumeValues>cookieValue;
     }
 
-    super('settings', {
+    super({
       volume: volume
     });
   }

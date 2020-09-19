@@ -13,7 +13,7 @@ type MiscStoreContent = {
 
 export default class MiscStore extends Store<MiscStoreContent> {
   public constructor() {
-    super('misc', {
+    super({
       highscores: [],
       instructionsPage: 1,
       instructionsMode: 'manual',

@@ -6,19 +6,13 @@ type ListenerCallback<S> = (state: S) => void;
 
 export default abstract class Store<S> {
   private _content: S;
-  private _name: string;
   private _initialState: S;
   private _listeners: (ListenerCallback<S> | null)[];
 
-  public constructor(name: string, initialState: S) {
-    this._name = name;
+  public constructor(initialState: S) {
     this._content = cloneDeep(initialState);
     this._initialState = cloneDeep(initialState);
     this._listeners = [];
-  }
-
-  public get name(): string {
-    return this._name;
   }
 
   public get content(): S {

@@ -27,7 +27,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
   public constructor() {
     const initialGrid = GridUtils.generateInitialGrid();
-    super('grid', initialGrid);
+    super(initialGrid);
 
     this.timers = [];
     this._speedMultiplier = 1;

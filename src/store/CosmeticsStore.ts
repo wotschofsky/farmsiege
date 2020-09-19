@@ -113,7 +113,7 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
   public constructor() {
     // Zufällige Konfiguration generieren
-    super('cosmetics', {
+    super({
       hat: Math.floor(Math.random() * hatsData.length),
       shirt: Math.floor(Math.random() * shirtsData.length),
       pants: Math.floor(Math.random() * pantsData.length),

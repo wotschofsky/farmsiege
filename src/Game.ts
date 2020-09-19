@@ -3,6 +3,7 @@ import Component from '../lib/Component';
 import Coordinates from '../lib/helpers/Coordinates';
 import load from 'load-script';
 import PropsContext from '../lib/PropsContext';
+import Store from '../lib/store/Store';
 
 import CharacterStore from './store/CharacterStore';
 import CosmeticsStore from './store/CosmeticsStore';
@@ -205,20 +206,21 @@ class Game extends Component<GameProps> {
   ];
 
   private initStores(): void {
-    const stores = [
-      new CharacterStore(),
-      new CosmeticsStore(),
-      new GridStore(),
-      new MovablesStore(),
-      new EffectsStore(),
-      new StatsStore(),
-      new ScreensStore(),
-      new SettingsStore(),
-      new MiscStore()
-    ];
+    const stores: Record<string, Store<any>> = {
+      character: new CharacterStore(),
+      cosmetics: new CosmeticsStore(),
+      grid: new GridStore(),
+      movables: new MovablesStore(),
+      effects: new EffectsStore(),
+      score: new StatsStore(),
+      screens: new ScreensStore(),
+      settings: new SettingsStore(),
+      misc: new MiscStore()
+    };
 
-    for (const store of stores) {
-      this.registerStore(store.name, store);
+    for (const name in stores) {
+      const store = stores[name];
+      this.registerStore(name, store);
     }
   }
 }
