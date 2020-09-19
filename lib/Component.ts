@@ -22,13 +22,13 @@ export default abstract class Component<P> {
     this._template = tmp;
   }
 
-  public registerStore(store: Store<any>): void {
+  public registerStore(name: string, store: Store<any>): void {
     // Store in dieser Klasse verlinken
-    this._stores[store.name] = store;
+    this._stores[name] = store;
 
     // Bei allen Sub-Components registerStore ausführen
     this._template.forEach(el => {
-      el.component.registerStore(store);
+      el.component.registerStore(name, store);
     });
   }
 

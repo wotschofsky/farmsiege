@@ -218,7 +218,7 @@ class Game extends Component<GameProps> {
     ];
 
     for (const store of stores) {
-      this.registerStore(store);
+      this.registerStore(store.name, store);
     }
   }
 }
