@@ -4,8 +4,8 @@ import Coordinates from '../../lib/helpers/Coordinates';
 import PropsContext from '../../lib/PropsContext';
 import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 
-import logoDefenseSprite from '../assets/ui/logo/logo_defense.png';
-import logoGardenSprite from '../assets/ui/logo/logo_garden.png';
+import logoFarmSprite from '../assets/ui/logo/logo_farm.png';
+import logoSiegeSprite from '../assets/ui/logo/logo_siege.png';
 
 export type LogoProps = {
   progress?: number;
@@ -27,9 +27,9 @@ export default class Logo extends Component<LogoProps> {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
       props: (): SpriteProps => ({
-        source: logoGardenSprite,
-        width: 712,
-        height: 148
+        source: logoFarmSprite,
+        width: 600,
+        height: 152.5
       }),
       show: (ctx: PropsContext<LogoProps> | undefined): boolean => {
         if (!ctx) return false;
@@ -41,9 +41,9 @@ export default class Logo extends Component<LogoProps> {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 148),
       props: (): SpriteProps => ({
-        source: logoDefenseSprite,
-        width: 712,
-        height: 148
+        source: logoSiegeSprite,
+        width: 600,
+        height: 152.5
       }),
       show: (ctx: PropsContext<LogoProps> | undefined): boolean => {
         if (!ctx) return false;

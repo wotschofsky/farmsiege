@@ -118,7 +118,7 @@ export default class StartScreen extends Component<StartScreenProps> {
   protected template: Template = [
     {
       component: new Logo(),
-      position: (): Coordinates => new Coordinates(444, 150)
+      position: (): Coordinates => new Coordinates(500, 120)
     },
 
     {

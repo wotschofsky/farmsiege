@@ -54,7 +54,7 @@ export default class SplashScreen extends Component<SplashScreenProps> {
     // Logo
     {
       component: new Logo(),
-      position: (): Coordinates => new Coordinates(444, 150),
+      position: (): Coordinates => new Coordinates(500, 120),
       props: (): LogoProps => ({
         progress: this.logoProgress
       }),
