@@ -41,7 +41,7 @@ const sharedConfig = {
   input: 'src/main.ts',
   plugins: [
     url({
-      limit: 100 * 1024, // inline files < 10k, copy files > 10k
+      limit: 150 * 1024, // inline files < 10k, copy files > 10k
       // limit: Infinity,
       include: ['**/*.png', '**/*.mp3'],
       emitFiles: true, // defaults to true,
