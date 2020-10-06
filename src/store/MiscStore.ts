@@ -2,6 +2,8 @@ import cloneDeep from 'clone-deep';
 import Store from '../../lib/store/Store';
 
 import { ScoreData } from '../components/Highscores';
+import Random from '../utils/Random';
+import tips from '../tips.json';
 
 type MiscStoreContent = {
   highscores: ScoreData[];
@@ -9,6 +11,7 @@ type MiscStoreContent = {
   instructionsMode: 'manual' | 'beforeGame';
   splashScreenShowing: boolean;
   recaptchaLoaded: boolean;
+  displayedTip: string;
 };
 
 export default class MiscStore extends Store<MiscStoreContent> {
@@ -18,7 +21,8 @@ export default class MiscStore extends Store<MiscStoreContent> {
       instructionsPage: 1,
       instructionsMode: 'manual',
       splashScreenShowing: true,
-      recaptchaLoaded: false
+      recaptchaLoaded: false,
+      displayedTip: Random.randomElement(tips)
     });
   }
 
@@ -94,6 +98,23 @@ export default class MiscStore extends Store<MiscStoreContent> {
       const clonedState = cloneDeep(oldState);
 
       clonedState.recaptchaLoaded = true;
+
+      return clonedState;
+    });
+  }
+
+  public updateTip(): void {
+    this.update((oldState: MiscStoreContent) => {
+      const clonedState = cloneDeep(oldState);
+
+      const oldTip = clonedState.displayedTip;
+      let newTip: string;
+      do {
+        newTip = Random.randomElement(tips);
+        // Vermeiden, dass der selbe Tipp zweimal hintereinander angezeigt wird
+      } while (newTip === oldTip);
+
+      clonedState.displayedTip = newTip;
 
       return clonedState;
     });

@@ -184,6 +184,21 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
         width: 300,
         height: 200
       })
+    },
+    {
+      component: new Text(),
+      position: (): Coordinates => new Coordinates(800, 1150),
+      props: (): TextProps => {
+        const miscStore = <MiscStore>this.stores.misc;
+
+        return {
+          text: `Tip: ${miscStore.content.displayedTip}`,
+          align: 'center',
+          color: '#fff',
+          font: 'Heartbit',
+          size: 48
+        };
+      }
     }
   ];
 }

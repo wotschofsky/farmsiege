@@ -109,6 +109,7 @@ class Game extends Component<GameProps> {
     if (gridStore.friendlyPlants === 0 && !effectsStore.content.gameOver.active) {
       const miscStore = <MiscStore>this.stores.misc;
       miscStore.fetchHighscores();
+      miscStore.updateTip();
       gridStore.stop();
 
       const center: Coordinates = new Coordinates(

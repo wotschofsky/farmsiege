@@ -10,4 +10,10 @@ export default class Random {
   public static randomBoolean(): boolean {
     return Math.random() >= 0.5;
   }
+
+  public static randomElement<T>(array: T[]): T {
+    const maxIndex = array.length - 1;
+    const index = this.roundedBetween(0, maxIndex);
+    return array[index];
+  }
 }
