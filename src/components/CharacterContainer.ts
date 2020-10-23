@@ -97,7 +97,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       if (inputs.use) {
         const field = gridStore.content[characterStoreContent.fieldY][characterStoreContent.fieldX];
         let isGrownPlant = false;
-        if (field.type === TileContents.Plant && field.data.age >= 15000) {
+        if (field.type === TileContents.Plant && field.data.age >= values.plant.age.fullyGrown) {
           isGrownPlant = true;
         }
 
