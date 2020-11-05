@@ -26,6 +26,7 @@ export type GridTileProps = {
   row: number;
   column: number;
   tileData: TileData;
+  playerPosition: Coordinates;
 };
 
 export default class GridTile extends Component<GridTileProps> {
@@ -133,9 +134,7 @@ export default class GridTile extends Component<GridTileProps> {
           return false;
         }
 
-        const characterStore = <CharacterStore>this.stores.character;
-        const characterStoreContent = characterStore.content;
-        return ctx.props.column === characterStoreContent.fieldX && ctx.props.row === characterStoreContent.fieldY;
+        return ctx.props.column === ctx.props.playerPosition.x && ctx.props.row === ctx.props.playerPosition.y;
       }
     }
   ];

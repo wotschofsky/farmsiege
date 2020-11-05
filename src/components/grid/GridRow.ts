@@ -8,6 +8,7 @@ import { RowData } from '../../store/GridStore';
 export type GridRowProps = {
   index: number;
   rowData: RowData;
+  playerPosition: Coordinates;
 };
 
 export default class GridRow extends Component<GridRowProps> {
@@ -18,7 +19,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 0,
-        tileData: ctx.props.rowData[0]
+        tileData: ctx.props.rowData[0],
+        playerPosition: ctx.props.playerPosition
       })
     },
     {
@@ -27,7 +29,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 1,
-        tileData: ctx.props.rowData[1]
+        tileData: ctx.props.rowData[1],
+        playerPosition: ctx.props.playerPosition
       })
     },
     {
@@ -36,7 +39,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 2,
-        tileData: ctx.props.rowData[2]
+        tileData: ctx.props.rowData[2],
+        playerPosition: ctx.props.playerPosition
       })
     },
     {
@@ -45,7 +49,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 3,
-        tileData: ctx.props.rowData[3]
+        tileData: ctx.props.rowData[3],
+        playerPosition: ctx.props.playerPosition
       })
     },
     {
@@ -54,7 +59,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 4,
-        tileData: ctx.props.rowData[4]
+        tileData: ctx.props.rowData[4],
+        playerPosition: ctx.props.playerPosition
       })
     },
     {
@@ -63,7 +69,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 5,
-        tileData: ctx.props.rowData[5]
+        tileData: ctx.props.rowData[5],
+        playerPosition: ctx.props.playerPosition
       })
     },
     {
@@ -72,7 +79,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 6,
-        tileData: ctx.props.rowData[6]
+        tileData: ctx.props.rowData[6],
+        playerPosition: ctx.props.playerPosition
       })
     },
     {
@@ -81,7 +89,8 @@ export default class GridRow extends Component<GridRowProps> {
       props: (ctx: PropsContext<GridRowProps>): GridTileProps => ({
         row: ctx.props.index,
         column: 7,
-        tileData: ctx.props.rowData[7]
+        tileData: ctx.props.rowData[7],
+        playerPosition: ctx.props.playerPosition
       })
     }
   ];

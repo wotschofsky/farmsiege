@@ -2,6 +2,7 @@ import { Template } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 
+import CharacterStore from '../store/CharacterStore';
 import GridStore from '../store/GridStore';
 
 import Bullets from '../overlays/Bullets';
@@ -18,9 +19,15 @@ export default class GameScreen extends Component<GameScreenProps> {
       position: (): Coordinates => new Coordinates(288, 176),
       props: (): GridProps => {
         const gridStore = <GridStore>this.stores.grid;
+        const characterStore = <CharacterStore>this.stores.character;
+
+        const characterStoreContent = characterStore.content;
+        const playerPosition = new Coordinates(characterStoreContent.fieldX, characterStoreContent.fieldY);
+        console.log(playerPosition)
 
         return {
-          grid: gridStore.content
+          grid: gridStore.content,
+          playerPosition
         };
       }
     },
