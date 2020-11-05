@@ -7,6 +7,7 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import Text, { TextProps } from '../../lib/components/native/Text';
 
 import Logo, { LogoProps } from '../components/Logo';
+import branding from '../assets/branding.png';
 
 export type SplashScreenProps = {
   finishedCallback: () => void;
@@ -70,7 +71,7 @@ export default class SplashScreen extends Component<SplashScreenProps> {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(600, 800 - 30),
       props: (): SpriteProps => ({
-        source: 'https://www.gravatar.com/avatar/70f77192f7f326cfd0d8c9f22e52af7d?d=404&r=g&s=64',
+        source: branding,
         width: 64,
         height: 64
       }),
