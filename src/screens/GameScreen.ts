@@ -23,7 +23,6 @@ export default class GameScreen extends Component<GameScreenProps> {
 
         const characterStoreContent = characterStore.content;
         const playerPosition = new Coordinates(characterStoreContent.fieldX, characterStoreContent.fieldY);
-        console.log(playerPosition)
 
         return {
           grid: gridStore.content,
