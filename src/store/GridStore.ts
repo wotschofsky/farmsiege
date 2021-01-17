@@ -302,7 +302,7 @@ export default class GridStore extends Store<GridStoreContent> {
 
         // Koordinaten des Blitzes für GameOver Animation speichern
         if (plantDestroyed) {
-          this._lastRemovedPlant = new Coordinates(lightningRow, lightningCol);
+          this._lastRemovedPlant = new Coordinates(lightningCol, lightningRow);
         }
 
         // Blitz anzeigen
