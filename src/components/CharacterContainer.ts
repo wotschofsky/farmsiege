@@ -7,6 +7,7 @@ import PropsContext from '../../lib/PropsContext';
 import CharacterStore, { HoldableItems } from '../store/CharacterStore';
 import EffectsStore from '../store/EffectsStore';
 import GridStore from '../store/GridStore';
+import MovablesStore from '../store/MovablesStore';
 import ScreensStore, { ScreensStoreContent, Screens } from '../store/ScreensStore';
 import SettingsStore from '../store/SettingsStore';
 import StatsStore from '../store/StatsStore';
@@ -69,6 +70,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
   protected onTick(ctx: PropsContext<CharacterContainerProps>, timeDifference: number): void {
     const characterStore = <CharacterStore>this.stores.character;
     const characterStoreContent = characterStore.content;
+    const movablesStore = <MovablesStore>this.stores.movables;
     const effectsStore = <EffectsStore>this.stores.effects;
     const gridStore = <GridStore>this.stores.grid;
     const statsStore = <StatsStore>this.stores.score;
@@ -182,6 +184,14 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
         // Neuen Timestamp speichern
         this.nextShotAvailableAt = window.performance.now() + 1200;
+
+        // Kollision mit Geschossen erkennen
+        movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
+          // Punkte hinzufügen & Effekte anzeigen
+          statsStore.addScore(values.scores.rabbit);
+          effectsStore.showSmoke(x + 96, y + 256);
+          effectsStore.showScoreEffect(x + 128, y + 320, values.scores.rabbit);
+        });
       }
     }
   }
