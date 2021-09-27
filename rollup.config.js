@@ -54,7 +54,7 @@ const sharedConfig = {
       targets: [
         {
           src: 'static/*',
-          dest: 'dist/assets/'
+          dest: 'dist/'
         },
         {
           src: 'src/index.html',
