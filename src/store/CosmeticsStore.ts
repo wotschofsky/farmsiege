@@ -99,7 +99,8 @@ export const pantsData: PantsData[] = [
   }
 ];
 
-export type SkinColors = 1 | 2 | 3 | 4 | 5;
+const SKIN_COLORS = [1, 2, 3, 4, 5] as const;
+export type SkinColors = typeof SKIN_COLORS[number];
 
 export type CosmeticsStoreContent = {
   hat: Hats;
@@ -146,20 +147,20 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
     }
 
     // Ein Cosmetics Item nicht verfügbar ist
-    if (!data.hat || !hatsData.find(val => val.id === data.hat)) {
+    if (!('hat' in data) || !hatsData.find((val) => val.id === data.hat)) {
       return;
     }
 
-    if (!data.shirt || !shirtsData.find(val => val.id === data.shirt)) {
+    if (!('shirt' in data) || !shirtsData.find((val) => val.id === data.shirt)) {
       return;
     }
 
-    if (!data.pants || !pantsData.find(val => val.id === data.pants)) {
+    if (!('pants' in data) || !pantsData.find((val) => val.id === data.pants)) {
       return;
     }
 
     // Die Hautfarbe nicht verfügbar ist
-    if (!data.skinColor || data.skinColor < 0 || data.skinColor > 5) {
+    if (!('skinColor' in data) || !SKIN_COLORS.includes(data.skinColor)) {
       return;
     }
 
