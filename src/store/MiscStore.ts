@@ -16,11 +16,13 @@ type MiscStoreContent = {
 
 export default class MiscStore extends Store<MiscStoreContent> {
   public constructor() {
+    const searchParams = new URLSearchParams(window.location.search);
+
     super({
       highscores: [],
       instructionsPage: 1,
       instructionsMode: 'manual',
-      splashScreenShowing: true,
+      splashScreenShowing: !searchParams.has('skipSplash'),
       recaptchaLoaded: false,
       displayedTip: Random.randomElement(tips)
     });
