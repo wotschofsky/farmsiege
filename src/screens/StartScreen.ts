@@ -1,5 +1,3 @@
-import Cookie from 'js-cookie';
-
 import { Template } from '../../lib/Types';
 import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
@@ -9,6 +7,7 @@ import Sprite, { SpriteProps } from '../../lib/components/native/Sprite';
 import Text, { TextProps } from '../../lib/components/native/Text';
 
 import CharacterStore from '../store/CharacterStore';
+import CookieJSON from '../utils/CookieJSON';
 import EffectsStore from '../store/EffectsStore';
 import GridStore from '../store/GridStore';
 import MovablesStore from '../store/MovablesStore';
@@ -38,7 +37,7 @@ export default class StartScreen extends Component<StartScreenProps> {
     const statsStore = <StatsStore>this.stores.score;
     const screensStore = <ScreensStore>this.stores.screens;
 
-    if (Cookie.getJSON('helpShown')) {
+    if (CookieJSON.get('helpShown')) {
       gridStore.start();
       movablesStore.start();
       statsStore.reset();
@@ -48,7 +47,7 @@ export default class StartScreen extends Component<StartScreenProps> {
       screensStore.setScreen(Screens.Help);
       screensStore.setOnReturn(() => {
         if (miscStore.content.instructionsPage !== 1) {
-          Cookie.set('helpShown', 'true', { expires: 365 });
+          CookieJSON.set('helpShown', true, { expires: 365 });
 
           gridStore.start();
           movablesStore.start();
@@ -81,7 +80,7 @@ export default class StartScreen extends Component<StartScreenProps> {
     screensStore.setScreen(Screens.Help);
     screensStore.setOnReturn(() => {
       if (miscStore.content.instructionsPage !== 1) {
-        Cookie.set('helpShown', 'true', { expires: 365 });
+        CookieJSON.set('helpShown', true, { expires: 365 });
       }
 
       screensStore.setScreen(Screens.Start);

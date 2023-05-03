@@ -1,6 +1,7 @@
 import cloneDeep from 'clone-deep';
-import Cookie from 'js-cookie';
 import Store from '../../lib/store/Store';
+
+import CookieJSON from '../utils/CookieJSON';
 
 import copHatSprite from '../assets/character/hats/cop_hat.png';
 import crownSprite from '../assets/character/hats/crown.png';
@@ -133,12 +134,12 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
   public saveConfiguration(): void {
     const data = this.content;
-    Cookie.set(this.cookieName, data, { expires: 365 });
+    CookieJSON.set(this.cookieName, data, { expires: 365 });
   }
 
   public retrieveConfiguration(): CosmeticsStoreContent | void {
     // Cookie Daten auslesen
-    const data = <CosmeticsStoreContent | undefined>Cookie.getJSON(this.cookieName);
+    const data = <CosmeticsStoreContent | undefined>CookieJSON.get(this.cookieName);
 
     // Abbrechen wenn...
     // Cookie nicht vorhanden ist
