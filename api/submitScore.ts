@@ -23,13 +23,7 @@ admin.initializeApp({
 });
 const db = admin.database();
 
-const rejectRequest = (res: NowResponse): void => {
-  res.status(500).json({
-    success: false
-  });
-};
-
-module.exports = compose([
+export default compose([
   // Überprüfen, ob der Endpoint mit der POST Methode aufgerufen wurde
   (req: NowRequest, res: NowResponse, next: Next): void => {
     if (req.method !== 'POST') {
@@ -86,7 +80,10 @@ module.exports = compose([
         });
       }
     } catch (err) {
-      rejectRequest(res);
+      console.error(err);
+      res.status(500).json({
+        success: false
+      });
     }
   },
 
@@ -112,7 +109,9 @@ module.exports = compose([
         });
     } catch (err) {
       console.error(err);
-      rejectRequest(res);
+      res.status(500).json({
+        success: false
+      });
     }
   }
 ]);
