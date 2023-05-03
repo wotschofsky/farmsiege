@@ -1,6 +1,5 @@
 import admin from 'firebase-admin';
 import qs from 'querystring';
-import fetch from 'node-fetch';
 import { NowRequest, NowResponse } from '@now/node';
 import { compose, Next } from 'compose-middleware';
 import { check, validationResult } from 'express-validator';
