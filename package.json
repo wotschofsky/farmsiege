@@ -1,6 +1,7 @@
 {
    "name": "garden-defense",
    "version": "1.0.0",
+   "type": "module",
    "description": "A browser score-chaser about defending your garden",
    "main": "index.js",
    "author": "Felix Wotschofsky <hello@felisk.io>",
