@@ -1,6 +1,6 @@
 import admin from 'firebase-admin';
 import qs from 'querystring';
-import { NowRequest, NowResponse } from '@now/node';
+import { VercelRequest, VercelResponse } from '@vercel/node';
 import { compose, Next } from 'compose-middleware';
 import { check, validationResult } from 'express-validator';
 
@@ -24,7 +24,7 @@ const db = admin.database();
 
 export default compose([
   // Überprüfen, ob der Endpoint mit der POST Methode aufgerufen wurde
-  (req: NowRequest, res: NowResponse, next: Next): void => {
+  (req: VercelRequest, res: VercelResponse, next: Next): void => {
     if (req.method !== 'POST') {
       res.status(405).json({
         success: false,
@@ -38,7 +38,7 @@ export default compose([
   // Gesendete Daten validieren
   check('name').isString(),
   check('score').isNumeric(),
-  (req: NowRequest, res: NowResponse, next: Next): void => {
+  (req: VercelRequest, res: VercelResponse, next: Next): void => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       res.status(400).json({
@@ -51,7 +51,7 @@ export default compose([
   },
 
   // ReCaptcha validieren
-  async (req: NowRequest, res: NowResponse, next: Next): Promise<void> => {
+  async (req: VercelRequest, res: VercelResponse, next: Next): Promise<void> => {
     // Query Parameter String erstellen
     const query = qs.stringify({
       secret: process.env.RECAPTCHA_SECRET,
@@ -87,7 +87,7 @@ export default compose([
   },
 
   // Highscore in der Datenbank speichern
-  async (req: NowRequest, res: NowResponse): Promise<void> => {
+  async (req: VercelRequest, res: VercelResponse): Promise<void> => {
     try {
       // Referenz zur Collection in der Datenbank speichern
       const highscoresRef = db.ref('highscores');
