@@ -5,7 +5,7 @@ import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import livereload from 'rollup-plugin-livereload';
-import obfuscatorPlugin from 'rollup-plugin-javascript-obfuscator';
+import obfuscatorPlugin from 'rollup-plugin-obfuscator';
 import resolve from '@rollup/plugin-node-resolve';
 import serve from 'rollup-plugin-serve';
 import typescript from '@rollup/plugin-typescript';
@@ -64,10 +64,13 @@ const sharedConfig = {
     }),
     terser(),
     obfuscatorPlugin({
-      sourceMap: !process.env.PRODUCTION,
-      compact: true,
-      selfDefending: true,
-      domainLock: allowedDomains
+      global: true,
+      options: {
+        sourceMap: !process.env.PRODUCTION,
+        compact: true,
+        selfDefending: true,
+        domainLock: allowedDomains
+      }
     }),
     ...devConfig
   ]
