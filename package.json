@@ -5,7 +5,7 @@
   "description": "A browser score-chaser about defending your garden",
   "main": "index.js",
   "author": "Felix Wotschofsky <hello@felisk.io>",
-  "license": "MIT",
+  "license": "AGPL-3.0-only",
   "scripts": {
     "dev": "rimraf dist/ && rollup --config --watch",
     "build": "rimraf dist/ && rollup --config --environment PRODUCTION",
