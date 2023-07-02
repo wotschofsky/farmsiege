@@ -24,7 +24,7 @@ export type CharacterProps = {
 
 export default class Character extends Component<CharacterProps> {
   protected template: Template = [
-    // Körper
+    // Base Body
     {
       component: new CharacterBase(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -47,7 +47,7 @@ export default class Character extends Component<CharacterProps> {
       position: (): Coordinates => new Coordinates(0, -48 * values.character.size)
     },
 
-    // Haltbare Gegenstände
+    // Held Items
     {
       component: new Gun(),
       position: (): Coordinates => new Coordinates(0, 120 * values.character.size),

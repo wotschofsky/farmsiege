@@ -73,12 +73,12 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
     this.update(oldState => {
       const clonedState = cloneDeep(oldState);
 
-      // Timer bei allen Effekten updaten
+      // Update timer for all effects
       clonedState.smoke.forEach(smoke => {
-        smoke.reduceRemainingTime(timeDifference);
+        smoke.increaseTimer(timeDifference);
       });
 
-      // Abgelaufene Effekte entfernen
+      // Remove expired effects
       clonedState.smoke = clonedState.smoke.filter(smoke => {
         return !smoke.expired;
       });
@@ -91,13 +91,13 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
         return !score.expired;
       });
 
-      // gameOver Timer zurücksetzen
+      // Reset gameOver timer
       if (clonedState.gameOver.timer > values.animations.gameOver.duration + 500) {
         clonedState.gameOver.active = false;
         clonedState.gameOver.timer = 0;
       }
 
-      // Timer für gameOver erhöhen, wenn Animation aktiv ist
+      // Increase timer for gameOver if animation is active
       if (clonedState.gameOver.active) {
         clonedState.gameOver.timer += timeDifference;
       }
@@ -116,16 +116,16 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
     }
 
     if (timer <= animationDuration * endFirstSegment) {
-      // Großteil der Animation in der ersten kurzen Phase abspielen
+      // Play majority of the animation in the first short phase
       return eases.expoOut(timer / (animationDuration * endFirstSegment)) * pauseOffset;
     } else if (timer < animationDuration * endSecondSegment) {
-      // Pausieren
+      // Pause
       return pauseOffset;
     } else if (timer < animationDuration * 1) {
-      // Letzten Sichtbaren Bereich schnell schließen
+      // Quickly close the last visible area
       return pauseOffset + eases.expoInOut(1 - (animationDuration - timer) / 250) * (1 - pauseOffset);
     } else {
-      // Wenn die Animation abgeschlossen ist
+      // If the animation is completed
       return 1;
     }
   }

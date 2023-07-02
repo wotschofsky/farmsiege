@@ -70,7 +70,7 @@ export default class RabbitData {
     let rabbitHit = false;
 
     for (const bullet of bullets) {
-      // Testen ob der Hase auf je der x- & y-Achse höchstens 50px entfernt ist
+      // Check if the rabbit is at most 50px away on both the x-axis and y-axis
       if (Math.abs(this._x + 128 - bullet.x) <= 50 && Math.abs(this._y + 256 - bullet.y) <= 50) {
         rabbitHit = true;
         break;

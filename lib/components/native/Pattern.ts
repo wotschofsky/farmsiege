@@ -16,24 +16,24 @@ export default class Pattern extends Component<PatternProps> {
   private imageElement: HTMLImageElement | null = null;
 
   public render(context: RenderingContext, position: Coordinates, props: PatternProps): void {
-    // Abbrechen, wenn kein Sprite angegeben ist
+    // Abort if no source is specified
     if (!props.source) {
       return;
     }
 
-    // Sprite laden, wenn sich die Source geändert hat
+    // Load the sprite if the source has changed
     if (this.currentSource !== props.source) {
       this.imageElement = document.createElement('img');
       this.imageElement.src = props.source;
 
-      // Source als Referenz für nächsten Renderzyklus speichern
+      // Save the source as a reference for the next render cycle
       this.currentSource = props.source;
     }
 
-    // Verhindern, dass Sprite skaliert und unscharf wird
+    // Prevent the sprite from being scaled and blurred
     context.renderContext.imageSmoothingEnabled = false;
 
-    // Anzahl Reihen & Spalten, die in die angegebenen Maße passen errechnen
+    // Calculate the number of rows and columns that fit within the specified dimensions
     const amountRows = Math.ceil(props.height / props.tileHeight);
     const amountCols = Math.ceil(props.width / props.tileWidth);
 
@@ -43,7 +43,7 @@ export default class Pattern extends Component<PatternProps> {
         const offsetY = props.tileWidth * row;
 
         context.renderContext.drawImage(
-          <HTMLImageElement>this.imageElement,
+          this.imageElement as HTMLImageElement,
           (position.x + context.parentX + offsetX) * context.scaleFactor,
           (position.y + context.parentY + offsetY) * context.scaleFactor,
           props.tileWidth * context.scaleFactor,

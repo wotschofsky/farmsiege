@@ -39,7 +39,7 @@ export default class CharacterBase extends Component<CharacterBaseProps> {
   }
 
   protected template: Template = [
-    // Körper
+    // Base Body
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -50,7 +50,7 @@ export default class CharacterBase extends Component<CharacterBaseProps> {
       })
     },
 
-    // Augen
+    // Eyes
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),

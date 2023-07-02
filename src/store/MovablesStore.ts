@@ -42,7 +42,7 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
   }
 
   public stop(): void {
-    // Timer löschen, um zu verhindern, dass diese Code ausführen, nachdem das Spiel vorbei ist2
+    // Delete timers to prevent this code from running after the game is over
     for (const timer of this.timers) {
       timer.cancel();
     }
@@ -54,11 +54,11 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       (oldState: MovablesStoreContent): MovablesStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        // Nicht mehr sichtbare Hasen entfernen
+        // Remove rabbits that are no longer visible
         clonedState.rabbits = clonedState.rabbits.filter(data => {
           let outsideScreen = false;
 
-          // Verschiedene x Werte basierend auf der Laufrichtung wählen
+          // Choose different x values based on the direction of movement
           if (data.direction === Directions.Left && data.x <= -256) {
             outsideScreen = true;
           } else if (data.direction === Directions.Right && data.x >= 1600) {
@@ -69,14 +69,14 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
         });
 
         for (const rabbit of clonedState.rabbits) {
-          // Ermitteln, ob der Hase schon sein Ziel erreicht hat
+          // Check if the rabbit has reached its target
           if (!rabbit.targetReached) {
-            // Hase in Laufrichtung bewegen
+            // Move the rabbit in the direction of movement
             const speed = rabbit.direction === Directions.Left ? values.rabbits.speed : -values.rabbits.speed;
             const relativeX = timeDifference * speed;
             rabbit.move(relativeX);
           } else {
-            // Timer des Hasen updaten
+            // Update the rabbit's timer
             rabbit.reduceTimeLeft(timeDifference);
           }
         }
@@ -92,15 +92,15 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
         const clonedState = cloneDeep(oldState);
 
         for (const rabbit of clonedState.rabbits) {
-          // Feld basierend auf Koordinaten des Hasen berechnen
+          // Calculate the field based on the coordinates of the rabbit
           const { x: currentColumn, y: rabbitRow } = GridUtils.coordsToExactField(
             new Coordinates(rabbit.x - 128, rabbit.y + 96)
           );
 
-          // Callback Funktion aufrufen und Rückgabewert
+          // Call the callback function and store the return value
           const targetCol = callback(rabbitRow, rabbit.direction, currentColumn);
 
-          // Spalte in Koordinaten umrechnen und beim Hasen speichern
+          // Convert the column to coordinates and store it in the rabbit
           rabbit.targetX = targetCol * 128 + 288 - 128;
         }
 
@@ -114,30 +114,29 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       (oldState: MovablesStoreContent): MovablesStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        // Menge an neuen Hasen errechnen
+        // Calculate the number of new rabbits
         const rabbitAmount = Random.roundedBetween(values.rabbits.amount.min, values.rabbits.amount.max);
 
-        // Reihen, in den Hasen gespawnt werden ermitteln
+        // Determine the rows in which rabbits will spawn
         const rabbitRows: number[] = [];
         for (let i = 0; i < rabbitAmount; i++) {
           let row: number;
           do {
             row = Random.roundedBetween(0, 7);
-            // Verhindern, dass zwei Hasen in der selben Reihe spawnen
+            // Prevent two rabbits from spawning in the same row
           } while (rabbitRows.includes(row));
           rabbitRows.push(row);
         }
 
-        // Richtung aller Hasen zufällig auswählen
+        // Choose the direction randomly
         const direction = Random.randomBoolean() ? Directions.Left : Directions.Right;
 
-        // Für jede
         const mappedRabbits: RabbitData[] = rabbitRows.map(
           (row): RabbitData => {
-            // Zufälligen Offset-Wert generieren
+            // Generate a random offset value
             const offset = Random.between(0, 256);
 
-            // Koordinaten berechnen
+            // Calculate the coordinates
             let x: number;
             switch (direction) {
               case Directions.Left:
@@ -153,14 +152,14 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
           }
         );
 
-        // Neue Hasen zu den bereits exisitieren hinzufügen
+        // Add new rabbits to the existing ones
         clonedState.rabbits = clonedState.rabbits.concat(mappedRabbits);
 
         return clonedState;
       }
     );
 
-    // Timer für nächsten Hasenzyklus starten
+    // Start the timer for the next rabbit cycle
     const timer = new Timer(
       Random.between(values.rabbits.spawning.min, values.rabbits.spawning.max) / this._speedMultiplier,
       this.spawnRabbits.bind(this)
@@ -173,12 +172,12 @@ export default class MovablesStore extends Store<MovablesStoreContent> {
       (oldState: MovablesStoreContent): MovablesStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        // Getroffene Hasen entfernen
+        // Remove hit rabbits
         clonedState.rabbits = clonedState.rabbits.filter(rabbit => {
-          // Testen, ob der Hase getroffen wurde
+          // Test if the rabbit was hit
           const rabbitHit = rabbit.detectHit(bullets);
 
-          // Bei einem Treffer Callback ausführen
+          // Execute the callback on a hit
           if (rabbitHit) {
             callback(rabbit.x, rabbit.y);
           }

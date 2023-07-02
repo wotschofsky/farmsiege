@@ -1,6 +1,6 @@
 import cloneDeep from 'clone-deep';
 
-// Stores sind globale Speicher, welche für eine Komponente und deren Unterkomponenten initialisiert wird und von denen aus zugänglich ist
+// Stores are global storage that is initialized for a component and its sub-components, and is accessible from them
 
 type ListenerCallback<S> = (state: S) => void;
 
@@ -16,36 +16,36 @@ export default abstract class Store<S> {
   }
 
   public get content(): S {
-    // Content klonen um zu verhindern, dass der Store-Inhalt manipuliert wird
+    // Clone the content to prevent manipulation of the store content
     return cloneDeep(this._content);
   }
 
   public reset(): void {
-    // Store Inhalt auf Kopie des Startwerts zurücksetzen
+    // Reset store content to a copy of the initial state
     this._content = cloneDeep(this._initialState);
   }
 
   protected update(mutator: (oldState: S) => S): void {
-    // mutator-Funktion ausführen und zurückgegebenen Wert speichern
+    // Execute the mutator function and store the returned value
     this._content = mutator(this._content);
 
     this.callListeners();
   }
 
   public subscribe(callback: ListenerCallback<S>): number {
-    // Listener Funktion Referenz speichern
+    // Store the reference to the listener function
     const id = this._listeners.length;
     this._listeners[id] = callback;
     return id;
   }
 
   public unsubscribe(id: number): void {
-    // Listener Funktion Referenz löschen
+    // Delete the reference to the listener function
     this._listeners[id] = null;
   }
 
   private callListeners(): void {
-    // Alle registrierten Listener Funktionen ausführen
+    // Execute all registered listener functions
     this._listeners.forEach(listener => {
       if (listener) {
         listener(this._content);

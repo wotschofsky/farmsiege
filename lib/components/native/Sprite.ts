@@ -13,21 +13,21 @@ export default class Sprite extends Component<SpriteProps> {
   private imageElement: HTMLImageElement | null = null;
 
   public render(context: RenderingContext, position: Coordinates, props: SpriteProps): void {
-    // Abbrechen, wenn kein Sprite angegeben ist
+    // Abort if no sprite is specified
     if (!props.source) {
       return;
     }
 
-    // Sprite laden, wenn sich die Source geändert hat
+    // Load the sprite if the source has changed
     if (this.currentSource !== props.source) {
       this.imageElement = document.createElement('img');
       this.imageElement.src = props.source;
 
-      // Source als Referenz für nächsten Renderzyklus speichern
+      // Save the source as a reference for the next render cycle
       this.currentSource = props.source;
     }
 
-    // Verhindern, dass Sprite skaliert und unscharf wird
+    // Prevent the sprite from being scaled and blurred
     context.renderContext.imageSmoothingEnabled = false;
 
     context.renderContext.drawImage(

@@ -22,7 +22,7 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
   private readonly buttonSize = 64;
 
   template: Template = [
-    // Pfeiltaste Oben
+    // Arrow key up
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, 0),
@@ -33,7 +33,7 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
       })
     },
 
-    // Pfeiltaste Links
+    // Arrow key left
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(0, this.buttonSize),
@@ -44,7 +44,7 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
       })
     },
 
-    // Pfeiltaste Unten
+    // Arrow key down
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, this.buttonSize),
@@ -55,7 +55,7 @@ export default class ArrowButtons extends Component<ArrowButtonsProps> {
       })
     },
 
-    // Pfeiltaste Rechts
+    // Arrow key right
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(2 * this.buttonSize, this.buttonSize),

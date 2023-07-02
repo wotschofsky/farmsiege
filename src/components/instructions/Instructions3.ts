@@ -39,7 +39,7 @@ export default class Instructions3 extends Component<Instructions3Props> {
   }
 
   protected template: Template = [
-    // Anweisung
+    // Instructions
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),

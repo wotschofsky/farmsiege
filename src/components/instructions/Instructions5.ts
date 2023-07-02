@@ -35,7 +35,7 @@ export default class Instructions5 extends Component<Instructions5Props> {
   }
 
   protected template: Template = [
-    // Anweisung
+    // Instructions
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),

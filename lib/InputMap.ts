@@ -1,6 +1,6 @@
 import keyCodeToCodes from 'keycode-to-codes';
 
-// Verfügbare Stick-Richtungen am Controller als Enum exportieren
+// Export available stick directions on the controller as Enum
 export enum GamepadStickDirections {
   LeftStickLeft = 'LeftStickLeft',
   LeftStickRight = 'LeftStickRight',
@@ -12,7 +12,7 @@ export enum GamepadStickDirections {
   RightStickDown = 'RightStickDown'
 }
 
-// Verfügbare Knöpfe am Controller als Enum exportieren
+// Export available buttons on the controller as Enum
 export enum GamepadButtons {
   ButtonA = 'ButtonA',
   ButtonB = 'ButtonB',
@@ -30,7 +30,7 @@ export enum GamepadButtons {
   DpadDown = 'DpadDown',
   DpadLeft = 'DpadLeft',
   DpadRight = 'DpadRight',
-  // Wo auch immer dieser Knopf ist...?
+  // Wherever this button is...?
   Button16 = 'Button16'
 }
 
@@ -109,11 +109,11 @@ export default class InputMap {
     this.template = template;
 
     for (const key in this.template) {
-      // Alle verwendeten Tastencodes als Array speichern
+      // Store all used keycodes as array
       this.usedKeys = [...this.usedKeys, ...this.template[key].keys];
     }
 
-    // Tastencode speichern, wenn eine Taste gedrückt wird
+    // Save key code when a key is pressed
     window.addEventListener('keydown', event => {
       if (this.disabled) {
         return;
@@ -130,12 +130,12 @@ export default class InputMap {
       }
 
       if (this.usedKeys.includes(code)) {
-        // Taste zu Array von gedrückten Tasten hinzufügen
+        // Add key to array of pressed keys
         this.activeKeys.push(code);
       }
     });
 
-    // Tastencode aus Liste entfernen, wenn eine Taste losgelassen wird
+    // Remove key code from list when a key is released
     window.addEventListener('keyup', event => {
       if (this.disabled) {
         return;
@@ -154,39 +154,39 @@ export default class InputMap {
       this.removeActiveKey(code);
     });
 
-    // Gedrückte Tasten zurücksetzen, wenn der Nutzer ein anderes Fenster/Tab fokussiert
+    // Reset pressed keys when the user focuses on another window/tab
     window.addEventListener('blur', () => {
       this.activeKeys = [];
     });
   }
 
   public removeActiveKey(code: string): void {
-    // Tastencode aus dem Array der gedrückten Tasten entfernen
+    // Remove key code from the array of pressed keys
     this.activeKeys = this.activeKeys.filter(key => key !== code);
   }
 
-  // Wird ausgeführt, um zu ermitteln, welche Inputs aktiv sind
+  // Executed to determine which inputs are active
   public get pressed(): { [key: string]: number } {
-    // Wenn die Gamepad API verfügbar ist, Gamepads laden
+    // If the Gamepad API is available, load gamepads
     let gamepads: (Gamepad | null)[] = [];
     if ('getGamepads' in navigator) {
-      // Snapshot aller verbundenen Gamepads speichern
+      // Save snapshot of all connected gamepads
       gamepads = navigator.getGamepads();
     }
 
-    // Objekt, in welchem die Ergebnisse der Tastendrucke gespeichert werden
+    // Object in which the results of the key presses are stored
     const mappedKeys: { [key: string]: number } = {};
 
     for (const key in this.template) {
-      // Fallback value = nicht gedrückt
+      // Fallback value = not pressed
       let value = 0;
 
-      // Alle möglichen Eingabemethoden überprüfen
+      // Check all possible input methods
       codesLoop: for (const code of this.template[key].keys) {
         if (this.activeKeys.includes(code)) {
           value = 1;
 
-          // Wenn singlePress konfiguriert wurde, die entsprechende Taste von den gedrückten entfernen
+          // If singlePress is configured, remove the corresponding key from the pressed ones
           if (this.template[key].singlePress) {
             this.removeActiveKey(code);
           }
@@ -195,12 +195,12 @@ export default class InputMap {
         if (code in GamepadButtons) {
           for (const gamepad of gamepads) {
             if (gamepad) {
-              // Index des entsprechenden Button im gamepad.buttons array aus gamepadButtonsMapping auslesen
+              // Read index of the corresponding button in the gamepad.buttons array from gamepadButtonsMapping
               const buttonIndex = gamepadButtonsMapping[<GamepadButtons>code];
 
-              // Wert von Button Objekt übertragen
-              // Entspricht bei digitalen Inputs 0 oder 1
-              // Bei Analogen 0-1
+              // Transfer value from Button object
+              // Corresponds to 0 or 1 for digital inputs
+              // Between 0-1 for analog inputs
               value = gamepad.buttons[buttonIndex].value;
             }
           }
@@ -211,24 +211,24 @@ export default class InputMap {
             if (gamepad) {
               const { axes } = gamepad;
 
-              // Konfiguration für Stick auslesen & Referenz zur Controllerstickachse speichern
+              // Read configuration for stick & save reference to the controller stick axis
               const stickMapping = gamepadStickMapping[<GamepadStickDirections>code];
 
-              // Die Stickachsen haben im unberührten Zustand einen Wert von 0
-              // Ansonsten einen beliebigen Wert zwischen -1 und 1 abhängig von Position und Richtung
+              // The stick axes have a value of 0 when not touched
+              // Otherwise a random value between -1 and 1 depending on position and direction
               const relevantAxis = axes[stickMapping.axis];
 
               switch (stickMapping.type) {
                 case 'positive':
-                  // Testen, ob der Controller Stick außerhalb der Deadzone ist
+                  // Test if the controller stick is outside the deadzone
                   if (relevantAxis > this.analogDeadzone) {
-                    // Wert des Sticks übertragen
+                    // Transfer stick value
                     value = relevantAxis;
                   }
                   break;
                 case 'negative':
                   if (relevantAxis < -this.analogDeadzone) {
-                    // Absoluten Wert des Sticks übertragen
+                    // Transfer the absolute value of the stick
                     value = Math.abs(relevantAxis);
                   }
                   break;
@@ -237,18 +237,18 @@ export default class InputMap {
           }
         }
 
-        // Wert übertragen & verhindern, dass der Wert kleiner wird
+        // Transfer value & prevent the value from getting smaller
         mappedKeys[key] = Math.max(mappedKeys[key] ?? 0, value);
 
-        // Abbrechen, wenn bereits der Maximalwert erreicht wurde um Leistung zu sparen
+        // Break if the maximum value has already been reached to save power
         if (mappedKeys[key] === 1) {
           break codesLoop;
         }
       }
 
-      // Wenn overrides konfiguriert sind, diese keys überschreiben und auf 0 setzen
+      // If overrides are configured, overwrite these keys and set to 0
       const overridesKey = this.template[key].overrides;
-      // Testen, ob die Taste gedrückt wurde
+      // Test if the key has been pressed
       if (mappedKeys[key] > 0 && overridesKey) {
         for (const key of overridesKey) {
           mappedKeys[key] = 0;

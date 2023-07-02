@@ -8,7 +8,7 @@ export type GameOverEffectProps = {};
 export default class GameOverEffect extends Component<GameOverEffectProps> {
   // Based on https://stackoverflow.com/a/6271865
   public render(context: RenderingContext): void {
-    // Abbrechen, wenn der Effekt nicht aktiv ist
+    // Abort if the effect is not active
     const effectsStore = <EffectsStore>this.stores.effects;
     const effectData = effectsStore.content.gameOver;
     if (!effectData.active) {
@@ -23,29 +23,29 @@ export default class GameOverEffect extends Component<GameOverEffectProps> {
     const maskCtx = maskCanvas.getContext('2d');
 
     if (maskCtx) {
-      // Gesamten Bildschirm Schwarz färben
+      // Fill the entire screen with black
       maskCtx.fillStyle = '#000';
       maskCtx.fillRect(0, 0, maskCanvas.width, maskCanvas.height);
 
-      // Maskierungsmodus festlegen
+      // Set the masking mode
       maskCtx.globalCompositeOperation = 'xor';
 
-      // Sichtbaren Bereich festlegen
+      // Set the visible area
       const distanceToCorner = Math.max(
-        // Abstand nach links oben
+        // Distance to top-left
         Math.sqrt(effectData.center.x ** 2 + effectData.center.y ** 2),
-        // Abstand nach rechts oben
+        // Distance to top-right
         Math.sqrt((1600 - effectData.center.x) ** 2 + effectData.center.y ** 2),
-        // Abstand nach links unten
+        // Distance to bottom-left
         Math.sqrt(effectData.center.x ** 2 + (1200 - effectData.center.y) ** 2),
-        // Abstand nach rechts unten
+        // Distance to bottom-right
         Math.sqrt((1600 - effectData.center.x) ** 2 + (1200 - effectData.center.y) ** 2)
       );
 
       const effectsStore = <EffectsStore>this.stores.effects;
       const { center } = effectsStore.content.gameOver;
 
-      // Kreis zeichnen
+      // Draw a circle
       maskCtx.arc(
         (center.x + context.parentX) * context.scaleFactor,
         (center.y + context.parentY) * context.scaleFactor,
@@ -55,7 +55,7 @@ export default class GameOverEffect extends Component<GameOverEffectProps> {
       );
       maskCtx.fill();
 
-      // Overlay auf Hauptcanvas übertragen
+      // Transfer the overlay to the main canvas
       context.renderContext.drawImage(maskCanvas, 0, 0);
     }
   }

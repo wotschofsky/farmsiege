@@ -12,7 +12,7 @@ export type RectangleProps = {
 
 export default class Rectangle extends Component<RectangleProps> {
   public render(context: RenderingContext, position: Coordinates, props: RectangleProps): void {
-    // Fläche füllen
+    // Fill the area
     context.renderContext.fillStyle = props.color;
     context.renderContext.fillRect(
       (position.x + context.parentX) * context.scaleFactor,
@@ -21,7 +21,7 @@ export default class Rectangle extends Component<RectangleProps> {
       props.height * context.scaleFactor
     );
 
-    // Umrandung zeichnen
+    // Draw the border
     context.renderContext.beginPath();
     context.renderContext.rect(
       (position.x + context.parentX) * context.scaleFactor,

@@ -43,7 +43,7 @@ export default class EventListener extends Component<EventListenerProps> {
   }
 
   private getMouseEventPosition(event: MouseEvent): Coordinates {
-    // Maße des Canvas Elements errechnen
+    // Calculate the position of the mouse event relative to the canvas element
     const rect = this.renderContext.canvas.getBoundingClientRect();
 
     const position = new Coordinates(
@@ -55,10 +55,10 @@ export default class EventListener extends Component<EventListenerProps> {
   }
 
   public propagateEvent(type: EventTypes, event: Event): void {
-    // EventListener Funktionen ausführen
+    // Execute the corresponding event listener function
     switch (type) {
       case EventTypes.Click:
-        // Überprüfen, ob das Event innerhalb des Bereichs ist
+        // Check if the event is within the boundaries
         const position = this.getMouseEventPosition(<MouseEvent>event);
         if (this.clickListener && this.isWithinBoundaries(position)) {
           this.clickListener(<MouseEvent>event);
@@ -83,18 +83,18 @@ export default class EventListener extends Component<EventListenerProps> {
   }
 
   public render(context: RenderingContext, position: Coordinates, props: EventListenerProps): void {
-    // EventListener Funktionen speichern
+    // Save the event listener functions
     this.clickListener = props.onClick || null;
     this.keypressListener = props.onKeypress || null;
     this.keydownListener = props.onKeydown || null;
     this.keyupListener = props.onKeyup || null;
 
-    // Daten für Verwendung außerhalb des Renderprozesses übertragen
+    // Transfer data for use outside the rendering process
     this.position = position;
     this.dimensions = props.size;
     this.renderContext = context;
 
-    // Option zur Visualisierung des EventListeners mit grüner Box
+    // Option to visualize the event listener with a green box
     if (props.visualize) {
       context.renderContext.beginPath();
       context.renderContext.rect(

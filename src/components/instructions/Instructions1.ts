@@ -40,7 +40,7 @@ export default class Instructions1 extends Component<Instructions1Props> {
         break;
     }
 
-    // Richtung ändern, wenn einer der Ränder erreicht wurde
+    // Change direction if one of the edges has been reached
     if (this.positionX > this.turningPointRight) {
       this.positionX = this.turningPointRight;
       this.movingDirection = Directions.Up;

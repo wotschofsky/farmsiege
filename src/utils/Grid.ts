@@ -28,7 +28,7 @@ export default class GridUtils {
   }
 
   public static isValidField(x: number, y: number): boolean {
-    return this.rowExists(x) && this.colExists(y);
+    return this.rowExists(y) && this.colExists(x);
   }
 
   public static get initialTile(): TileData {
@@ -42,7 +42,7 @@ export default class GridUtils {
   public static generateInitialGrid(): GridData {
     const grid: RowData[] = [];
     for (let i = 0; i < 8; i++) {
-      // Reihe erstellen
+      // Create row
       const row: TileData[] = [];
       for (let j = 0; j < 8; j++) {
         const tile = GridUtils.initialTile;
@@ -53,22 +53,22 @@ export default class GridUtils {
 
     let plantsPlaced = 0;
     do {
-      // Koordinaten zufällig auswählen
+      // Choose random coordinates
       const row = Random.roundedBetween(0, 7);
       const col = Random.roundedBetween(0, 7);
 
-      // Verhindern, dass ein Feld doppelt verwendet wird
+      // Avoid using the same field twice
       if (grid[row][col].type === TileContents.Plant) {
         continue;
       }
 
-      // Feld befüllen
+      // Fill the field
       grid[row][col].type = TileContents.Plant;
       grid[row][col].data = {
         age: Math.random() * values.plant.age.maxStart
       };
 
-      // Anzahl inkrementieren
+      // Increment the count
       plantsPlaced++;
     } while (plantsPlaced < values.plant.startAmount);
 

@@ -13,11 +13,11 @@ export default class BulletData {
   }
 
   public update(timeDifference: number): void {
-    // Projektil basierend auf der Richtung verschieben
+    // Move the bullet based on the direction
     this._x += Math.cos(this._direction) * timeDifference * 3;
     this._y += Math.sin(this._direction) * timeDifference * 3;
 
-    // Alter erhöhen
+    // Increase age
     this._age += timeDifference;
   }
 

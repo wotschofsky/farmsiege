@@ -49,7 +49,7 @@ export default class Instructions8 extends Component<Instructions8Props> {
   }
 
   protected template: Template = [
-    // Anweisung
+    // Instructions
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),

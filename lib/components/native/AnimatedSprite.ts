@@ -20,26 +20,26 @@ export default class AnimatedSprite extends Component<AnimatedSpriteProps> {
   private nextUpdate = window.performance.now();
 
   public render(context: RenderingContext, position: Coordinates, props: AnimatedSpriteProps): void {
-    // Abbrechen, wenn kein Sprite angegeben ist
+    // Abort if no sprite is specified
     if (!props.source) {
       return;
     }
 
-    // Sprite laden, wenn sich die Source geändert hat
+    // Load sprite if the source has changed
     if (this.currentSource !== props.source) {
       this.imageElement = <HTMLImageElement>document.createElement('img');
       this.imageElement.src = props.source;
 
       this.imageElement.addEventListener('load', () => {
-        // Anzahl an Sprites errechnen
+        // Calculate number of sprites
         this.length = (<HTMLImageElement>this.imageElement).naturalWidth / props.spriteWidth;
       });
 
-      // Source als Referenz für nächsten Renderzyklus speichern
+      // Save source as a reference for the next render cycle
       this.currentSource = props.source;
     }
 
-    // Verhindern, dass Sprite skaliert und unscharf wird
+    // Prevent sprite from being scaled and blurred
     context.renderContext.imageSmoothingEnabled = false;
 
     context.renderContext.drawImage(
@@ -54,17 +54,17 @@ export default class AnimatedSprite extends Component<AnimatedSpriteProps> {
       props.height * context.scaleFactor
     );
 
-    // Wenn nächster Frame angezeigt werden soll...
+    // If the next frame should be displayed...
     while (this.nextUpdate <= context.frameStart) {
       if (this.currentIndex + 1 === this.length) {
-        // Index zurücksetzen, wenn alle Sprites angezeigt wurden
+        // Reset index if all sprites have been displayed
         this.currentIndex = 0;
       } else {
-        // Index inkrementieren
+        // Increment index
         this.currentIndex++;
       }
 
-      // Timestamp für nächsten Sprite errechnen
+      // Calculate timestamp for the next sprite
       this.nextUpdate = this.nextUpdate + props.interval;
     }
   }

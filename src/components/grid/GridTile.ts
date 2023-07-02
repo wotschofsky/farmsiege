@@ -33,7 +33,7 @@ export default class GridTile extends Component<GridTileProps> {
   private readonly tileSize = 128;
 
   protected template: Template = [
-    // Basissprite
+    // Base sprite
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -44,7 +44,7 @@ export default class GridTile extends Component<GridTileProps> {
       })
     },
 
-    // Schwarzes Overlay für Schachbrettmuster
+    // Dark overlay for checkerboard pattern
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -63,7 +63,7 @@ export default class GridTile extends Component<GridTileProps> {
       }
     },
 
-    // Feldinhalt
+    // Tile contents
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -120,7 +120,7 @@ export default class GridTile extends Component<GridTileProps> {
       }
     },
 
-    // Weißés Overlay, das anzeigt, dass das Feld ausgewählt ist
+    // Light overlay to indicate selected tile
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(0, 0),

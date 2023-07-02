@@ -14,6 +14,7 @@ export default abstract class Component<P> {
   protected onTick(ctx: PropsContext<P>, timeDifference: number): void {
     return;
   }
+
   protected onInit(): void {
     return;
   }
@@ -23,17 +24,17 @@ export default abstract class Component<P> {
   }
 
   public registerStore(name: string, store: Store<any>): void {
-    // Store in dieser Klasse verlinken
+    // Link the store to this class
     this._stores[name] = store;
 
-    // Bei allen Sub-Components registerStore ausführen
+    // Call registerStore on all sub-components
     this._template.forEach(el => {
       el.component.registerStore(name, store);
     });
   }
 
   public propagateEvent(type: EventTypes, event: Event): void {
-    // Event an alle Sub-Components weitergeben
+    // Propagate the event to all sub-components
     this._template.forEach(el => {
       if (typeof el.show === 'function' && !el.show()) return;
       el.component.propagateEvent(type, event);
@@ -45,7 +46,7 @@ export default abstract class Component<P> {
   }
 
   public render(context: RenderingContext, position: Coordinates, props: P): void {
-    // Beim ersten Ausführen onInit Methode ausführen
+    // Execute onInit method on the first render
     if (!this.initialized) {
       this.onInit();
       this.initialized = true;
@@ -53,10 +54,10 @@ export default abstract class Component<P> {
 
     const propsContext = new PropsContext<P>(props);
 
-    // Platzhalter- oder ersetzte onTick Methode ausführen
+    // Execute onTick method to perform actions on each tick
     this.onTick(propsContext, context.timeDifference);
 
-    // Template rendern
+    // Render the template
     this._template.forEach((el): void => {
       RenderUtils.renderTemplateItem(el, context, position, propsContext);
     });

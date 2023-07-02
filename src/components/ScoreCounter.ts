@@ -10,7 +10,7 @@ export type ScoreCounterProps = {};
 
 export default class ScoreCounter extends Component<ScoreCounterProps> {
   protected template: Template = [
-    // Hintergrund
+    // Background
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(-75, 0),
@@ -21,7 +21,7 @@ export default class ScoreCounter extends Component<ScoreCounterProps> {
       })
     },
 
-    // Anzeige
+    // Score
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(2, 30),

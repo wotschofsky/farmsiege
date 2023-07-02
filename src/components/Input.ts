@@ -34,7 +34,7 @@ export default class Input extends Component<InputProps> {
   }
 
   private get limitReached(): boolean {
-    // true wenn Text nicht mehr in das Feld passt oder das fixe Limit erreicht hat
+    // true if text no longer fits in the field or has reached the fixed limit
     return this.textWidth > this.inputWidth - 32 || this.text.length >= this.maxLength;
   }
 
@@ -48,7 +48,7 @@ export default class Input extends Component<InputProps> {
   }
 
   protected template: Template = [
-    // Hintergrund
+    // Background
     {
       component: new Rectangle(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -59,7 +59,7 @@ export default class Input extends Component<InputProps> {
       })
     },
 
-    // Eingegebener Text
+    // Entered text
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(8, 24),
@@ -91,7 +91,7 @@ export default class Input extends Component<InputProps> {
       }
     },
 
-    // Berechnet Textbreite in Pixel
+    // Calculate text width in pixels
     {
       component: new TextWidthCalculator(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -136,12 +136,12 @@ export default class Input extends Component<InputProps> {
               return;
           }
 
-          // Tastendruck
+          // Key press
           if (!this.limitReached) {
             this.text += event.key;
           }
         },
-        // Zusätzliches Keydown Event, da Backspace nicht in allen Browsern von onKeypress übermittelt wird
+        // Additional Keydown event since Backspace is not passed to onKeypress in all browsers
         onKeydown: (event: KeyboardEvent): void => {
           if (event.key === 'Backspace') {
             event.preventDefault();

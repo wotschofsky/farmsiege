@@ -33,18 +33,18 @@ class Canvas {
     this.grid = config.grid;
     this.showFPS = config.showFPS || false;
 
-    // FPSDisplay initialisieren
+    // Initialize FPSDisplay
     this.fpsDisplay = new FPSDisplay();
 
     this.context = <CanvasRenderingContext2D>this.canvas.getContext('2d');
 
-    // Auflösung anpassen
+    // Adjust to screen resolution
     this.adjustToScreen();
 
-    // Auflösung anpassen, wenn sich die Fenstergröße ändert
+    // Adjust to screen resolution when the window size changes
     window.addEventListener('resize', this.adjustToScreen.bind(this));
 
-    // EventListener erstellen und Events an Root-Component weiterleiten
+    // Create event listeners and propagate events to the root component
     this.canvas.addEventListener('click', event => {
       this.root.propagateEvent(EventTypes.Click, event);
     });
@@ -61,23 +61,23 @@ class Canvas {
       this.root.propagateEvent(EventTypes.Keyup, event);
     });
 
-    // Renderprozess starten
+    // Start the rendering process
     this.lastFrameOn = window.performance.now();
     this.frameStart = window.performance.now();
     this.render();
   }
 
   private adjustToScreen(): void {
-    // Maße des Canvas Elements im Browser errechnen
+    // Calculate the dimensions of the canvas element in the browser
     const rect = this.canvas.getBoundingClientRect();
 
-    // Seitenverhältnis errechnen
+    // Calculate the aspect ratio
     const aspectRatio = this.grid.width / this.grid.height;
 
     this.canvas.width = rect.width * window.devicePixelRatio;
     this.canvas.height = this.canvas.width * (1 / aspectRatio);
 
-    // Skalierungsfaktor berechnen
+    // Calculate the scaling factor
     this.scaleFactor = (rect.width / this.grid.width) * window.devicePixelRatio;
   }
 
@@ -102,16 +102,16 @@ class Canvas {
       {}
     );
 
-    // Wenn aktiviert, FPSDisplay rendern
+    // Render FPSDisplay if enabled
     if (this.showFPS) {
       this.fpsDisplay.render(this.canvas, this.context, timeDifference, this.scaleFactor);
     }
 
-    // Fallback, wenn window.requestAnimationFrame nicht verfügbar ist
+    // Fallback if window.requestAnimationFrame is not available
     const requestAnimationFrame =
       window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
 
-    // Beim nächtsten Renderzyklus des Browsers Spiel neu rendern
+    // Request the next render cycle of the browser
     requestAnimationFrame(this.render.bind(this));
   }
 }

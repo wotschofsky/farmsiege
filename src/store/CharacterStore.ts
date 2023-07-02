@@ -26,7 +26,7 @@ export type CharacterStoreContent = {
   hammerTimer: number;
 };
 
-// Store, der die exakte Position des Charakters enthält und daraus das aktive Feld errechnet
+// Store that contains the exact position of the character and calculates the active field from it
 export default class CharacterStore extends Store<CharacterStoreContent> {
   private readonly hammerAnimationDuration = 100;
 
@@ -46,17 +46,17 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
   public move(x: number, y: number): void {
     this.update(
       (oldState: CharacterStoreContent): CharacterStoreContent => {
-        // Neue Position berechnen
+        // Calculate new position
         let newX = oldState.posX + x;
         let newY = oldState.posY + y;
 
-        // Verhindern, dass der Spieler das Spielfeld verlässt
+        // Prevent the player from leaving the game field
         newX = Math.max(newX, 0);
         newX = Math.min(newX, 1024 - 96);
         newY = Math.max(newY, 0);
         newY = Math.min(newY, 1024 - 96);
 
-        // Position auf dem Raster ausrechnen
+        // Calculate position on the grid
         const gridPosition = GridUtils.coordsToField(new Coordinates(newX, newY));
 
         return {
@@ -82,7 +82,7 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
           let direction: number;
           let xOffset: number;
 
-          // Winkel zufällig innerhalb eines Rahmens berechnen
+          // Calculate angle randomly within a range
           if (clonedState.direction === Directions.Right) {
             direction =
               Math.PI * (-0.5 * values.guns.pumpgun.spread) + Math.random() * Math.PI * values.guns.pumpgun.spread;
@@ -93,10 +93,10 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
             xOffset = -156;
           }
 
-          // BulletData Objekt erstellen
+          // Create BulletData object
           const bullet = new BulletData(oldState.posX + 320 + xOffset, oldState.posY + 196, direction);
 
-          // Objekt zum Array hinzufügen
+          // Add object to the array
           clonedState.bullets.push(bullet);
         }
 
@@ -110,20 +110,20 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
       (oldState: CharacterStoreContent): CharacterStoreContent => {
         const clonedState = cloneDeep(oldState);
 
-        // Projektile, die das Ende des Lebenszyklus erreicht haben entfernen
+        // Remove projectiles that have reached the end of their lifespan
         clonedState.bullets = clonedState.bullets.filter((bullet: BulletData): boolean => !bullet.endOfLifeReached);
 
-        // Timer in allen Projektilen erhöhen
+        // Update timer in all projectiles
         for (const bullet of clonedState.bullets) {
           bullet.update(timeDifference);
         }
 
-        // hammerTimer zurücksetzen, wenn Animation fertig ist
+        // Reset hammerTimer when animation is finished
         if (clonedState.hammerTimer > this.hammerAnimationDuration) {
           clonedState.hammerTimer = 0;
         }
 
-        // Timer erhöhen, wenn Animation läuft
+        // Increase timer if animation is running
         if (clonedState.hammerTimer > 0) {
           clonedState.hammerTimer += timeDifference;
         }
@@ -140,7 +140,7 @@ export default class CharacterStore extends Store<CharacterStoreContent> {
 
         clonedState.heldItem = value;
 
-        // Wenn Hammer ausgewählt wird, Animation starten
+        // Start hammer animation if hammer is selected
         if (value === HoldableItems.Hammer) {
           clonedState.hammerTimer = 1;
         }

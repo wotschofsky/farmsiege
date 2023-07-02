@@ -12,7 +12,7 @@ export type HighscoreItemProps = {
 
 export default class HighscoreItem extends Component<HighscoreItemProps> {
   protected template: Template = [
-    // Platzierung
+    // Position
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),

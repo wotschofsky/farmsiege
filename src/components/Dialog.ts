@@ -21,7 +21,7 @@ export type DialogProps = {
 
 export default class Dialog extends Component<DialogProps> {
   protected template: Template = [
-    // Kante Links
+    // Corner Top Left
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -32,7 +32,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Kante Oben
+    // Border Top
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(16, 0),
@@ -43,7 +43,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Ecke Rechts Oben
+    // Corner Top Right
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(ctx.props.width - 16, 0),
@@ -54,7 +54,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Kante Links
+    // Border Left
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(0, 16),
@@ -65,7 +65,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Kante Rechts
+    // Border Right
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(ctx.props.width - 16, 16),
@@ -76,7 +76,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Ecke Unten Links
+    // Corner Bottom Left
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(0, ctx.props.height - 16),
@@ -87,7 +87,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Kante Unten
+    // Border Bottom
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates => new Coordinates(16, ctx.props.height - 16),
@@ -98,7 +98,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Ecke Unten Rechts
+    // Corner Bottom Right
     {
       component: new Sprite(),
       position: (ctx: PropsContext<DialogProps>): Coordinates =>
@@ -110,7 +110,7 @@ export default class Dialog extends Component<DialogProps> {
       })
     },
 
-    // Hintergrund
+    // Background
     {
       component: new Sprite(),
       position: (): Coordinates => new Coordinates(16, 16),

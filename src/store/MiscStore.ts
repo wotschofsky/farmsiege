@@ -47,6 +47,7 @@ export default class MiscStore extends Store<MiscStoreContent> {
       return clonedState;
     });
   }
+
   public setInstructionsMode(newMode: 'manual' | 'beforeGame'): void {
     this.update((oldState: MiscStoreContent) => {
       const clonedState = cloneDeep(oldState);
@@ -58,24 +59,24 @@ export default class MiscStore extends Store<MiscStoreContent> {
   }
 
   public async fetchHighscores(): Promise<void> {
-    // HTTP Anfrage an Highscore Server schicken
+    // Send HTTP request to the highscore server
     const response = await fetch(
       'https://garden-defense.firebaseio.com/highscores.json?orderBy="score"&limitToLast=10'
     );
 
-    // Antwort im JSON Format extrahieren
+    // Extract the response in JSON format
     const json = await response.json();
 
-    // Antwort im Objektformat in Array umwandeln
+    // Convert the response from object format to an array
     const scores: ScoreData[] = [];
     for (const score in json) {
       scores.push(json[score]);
     }
 
-    // Ergebnisse sortieren
+    // Sort the scores
     const sorted = scores.sort((a: ScoreData, b: ScoreData): number => b.score - a.score);
 
-    // Highscores im Store speichern
+    // Save the highscores in the store
     this.update((oldState: MiscStoreContent) => {
       const clonedState = cloneDeep(oldState);
 
@@ -113,7 +114,7 @@ export default class MiscStore extends Store<MiscStoreContent> {
       let newTip: string;
       do {
         newTip = Random.randomElement(tips);
-        // Vermeiden, dass der selbe Tipp zweimal hintereinander angezeigt wird
+        // Avoid displaying the same tip twice in a row
       } while (newTip === oldTip);
 
       clonedState.displayedTip = newTip;

@@ -4,11 +4,11 @@ import Dimensions from '../lib/helpers/Dimensions';
 
 class Main {
   public constructor() {
-    // Spiel initialisieren
+    // Initialize the game
     new Canvas({
       el: <HTMLCanvasElement>document.getElementById('canvas'),
       grid: new Dimensions(1600, 1200),
-      // Eigene Root-Component
+      // Use the custom root component
       root: new Game(),
       showFPS: true
     });

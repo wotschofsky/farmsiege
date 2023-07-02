@@ -14,7 +14,7 @@ type EffectsProps = {};
 
 export default class Effects extends Component<EffectsProps> {
   protected template: Template = [
-    // Raucheffekte
+    // Smoke effects
     {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),
@@ -30,7 +30,7 @@ export default class Effects extends Component<EffectsProps> {
       }
     },
 
-    // Punkteeffekte
+    // Score effects
     {
       component: new Repeating(),
       position: (): Coordinates => new Coordinates(0, 0),

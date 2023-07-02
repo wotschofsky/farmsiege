@@ -22,7 +22,7 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
   private readonly buttonSize = 64;
 
   template: Template = [
-    // Taste W
+    // W key
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, 0),
@@ -33,7 +33,7 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
       })
     },
 
-    // Taste A
+    // A key
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(0, this.buttonSize),
@@ -44,7 +44,7 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
       })
     },
 
-    // Taste S
+    // S key
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(this.buttonSize, this.buttonSize),
@@ -55,7 +55,7 @@ export default class WASDButtons extends Component<WASDButtonsProps> {
       })
     },
 
-    // Taste D
+    // D key
     {
       component: new BaseButton(),
       position: (): Coordinates => new Coordinates(2 * this.buttonSize, this.buttonSize),

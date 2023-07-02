@@ -114,7 +114,7 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
   cookieName = 'cosmetics';
 
   public constructor() {
-    // Zufällige Konfiguration generieren
+    // Generate random configuration
     super({
       hat: Math.floor(Math.random() * hatsData.length),
       shirt: Math.floor(Math.random() * shirtsData.length),
@@ -124,10 +124,10 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
 
     const cookieData = this.retrieveConfiguration();
     if (cookieData) {
-      // Wenn Konfiguration als Cookie gespeichert ist, diese laden
+      // If configuration is saved as a cookie, load it
       this.update(() => cookieData);
     } else {
-      // Sonst zufällige Konfiguration als Cookie speichern
+      // Otherwise, save random configuration as a cookie
       this.saveConfiguration();
     }
   }
@@ -138,16 +138,16 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
   }
 
   public retrieveConfiguration(): CosmeticsStoreContent | void {
-    // Cookie Daten auslesen
+    // Retrieve cookie data
     const data = <CosmeticsStoreContent | undefined>CookieJSON.get(this.cookieName);
 
-    // Abbrechen wenn...
-    // Cookie nicht vorhanden ist
+    // Abort if...
+    // Cookie doesn't exist
     if (!data) {
       return;
     }
 
-    // Ein Cosmetics Item nicht verfügbar ist
+    // A cosmetics item is not available
     if (!('hat' in data) || !hatsData.find((val) => val.id === data.hat)) {
       return;
     }
@@ -160,16 +160,16 @@ export default class CosmeticsStore extends Store<CosmeticsStoreContent> {
       return;
     }
 
-    // Die Hautfarbe nicht verfügbar ist
+    // Skin color is not available
     if (!('skinColor' in data) || !SKIN_COLORS.includes(data.skinColor)) {
       return;
     }
 
-    // Sonst validierte Cookiedaten zurückgeben
+    // Otherwise, return validated cookie data
     return data;
   }
 
-  // Gesamte Daten für Cosmetics Item mit ID heraussuchen
+  // Retrieve complete data for active hat with ID
   public get activeHat(): HatData {
     const storeHat = this.content.hat;
     return <HatData>hatsData.find((hat): boolean => {

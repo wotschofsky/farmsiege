@@ -29,30 +29,30 @@ export default class Rabbits extends Component<RabbitsProps> {
     const statsStore = <StatsStore>this.stores.score;
 
     movablesStore.setRabbitTargets((row: number, direction: Directions, currentColumn: number): number => {
-      // Ausgangspunkt für Berechnung bestimmen
+      // Determine starting point for calculation
       let offset = Math.max(0, Math.round(currentColumn));
       if (direction === Directions.Left) {
         offset = Math.max(0, 8 - offset);
       }
 
-      // Referenz zur Reihe des Hasen speichern
+      // Save reference to the rabbit's row
       let contentRow: TileData[] = gridStore.content[row];
 
-      // Bei Bedarf Startpunkt ändern
+      // Modify starting point if needed
       if (direction === Directions.Right) {
         contentRow = contentRow.slice(offset);
       } else {
         contentRow = contentRow.reverse().slice(offset);
       }
 
-      // Standardziel auf der anderen Seite des Spielfeldes setzen
+      // Set default target on the other side of the playing field
       let computedTarget = direction === Directions.Right ? 12 : -4;
 
-      // Alle Felder in der ausgewählten Reihe überprüfen
+      // Check all fields in the selected row
       for (const index in contentRow) {
-        // Testen, ob auf dem aktuellen Feld eine Pflanze ist
+        // Check if there is a plant on the current field
         if (contentRow[index].type === TileContents.Plant) {
-          // Abhängig von der Richtung des Hasen Zielspalte festlegen
+          // Set target column based on the rabbit's direction
           if (direction === Directions.Right) {
             computedTarget = parseInt(index) + offset;
           } else {
@@ -65,27 +65,27 @@ export default class Rabbits extends Component<RabbitsProps> {
       return computedTarget;
     });
 
-    // Hasen bewegen und ggf. entfernen
+    // Move rabbits and remove if necessary
     movablesStore.updateRabbits(timeDifference);
 
-    // Kollision mit Geschossen erkennen
+    // Detect collision with bullets
     movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
-      // Punkte hinzufügen & Effekte anzeigen
+      // Add points and display effects
       statsStore.addScore(values.scores.rabbit);
       effectsStore.showSmoke(x + 96, y + 256);
       effectsStore.showScoreEffect(x + 128, y + 320, values.scores.rabbit);
     });
 
     movablesStore.stillRabbits.forEach(rabbit => {
-      // Sobald ein Hase eine Pflanze aufgefressen hat
+      // Once a rabbit has eaten a plant
       if (rabbit.timeLeft === 0) {
-        // Pflanze entfernen
+        // Remove plant
         const coords = GridUtils.coordsToField(
           new Coordinates(rabbit.x - 288 + (rabbit.direction === Directions.Right ? 128 : 0), rabbit.y + 108)
         );
         gridStore.removeContent(coords.x, coords.y);
 
-        // Timer des Hasen auf die Zeit zum Auffressen einer Pflanze zurücksetzen
+        // Reset rabbit's timer to the time it takes to eat a plant
         rabbit.resetTimer();
       }
     });

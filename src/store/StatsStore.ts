@@ -50,7 +50,7 @@ export default class StatsStore extends Store<StatsStoreContent> {
     });
   }
 
-  // Berechnet die Geschwindigkeit basierend auf der aktuellen Spieldauer
+  // Calculate the game speed based on the current duration
   public get gameSpeed(): number {
     return Math.min(
       values.gameSpeed.max,

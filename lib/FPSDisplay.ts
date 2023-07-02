@@ -1,5 +1,3 @@
-// Klasse um eine FPS-Anzeige im rechten oberen Eck zu rendern
-
 export default class FPSDisplay {
   private history: number[];
   private shownValue: number;
@@ -20,23 +18,23 @@ export default class FPSDisplay {
     const fps = Math.round(1000 / timeDifference);
     this.history.push(fps);
     if (window.performance.now() - this.lastUpdate >= 1000) {
-      // Durchschnitt der FPS Werte der letzten Sekunde berechnen
+      // Calculate average FPS value for the past second
       this.shownValue = Math.round(this.history.reduce((a, b) => a + b, 0) / this.history.length);
 
-      // Anfangswert ersetzen
+      // Replace initial value if it is Infinity
       if (this.shownValue === Infinity) {
         this.shownValue = 0;
       }
 
-      // Verlauf zurücksetzen
+      // Reset the history and update time
       this.history = [];
       this.lastUpdate = window.performance.now();
     }
 
-    // Konfiguration speichern
+    // Save the current configuration
     context.save();
 
-    // FPS Anzeige rendern
+    // Render the FPS display
     context.font = `${scaleFactor * 16}px Arial`;
     context.fillStyle = 'rgba(0, 0, 0, 0.5)';
     context.fillRect(canvas.width - scaleFactor * 40, scaleFactor * 5, scaleFactor * 35, scaleFactor * 20);
@@ -46,7 +44,7 @@ export default class FPSDisplay {
 
     context.fillText(this.shownValue.toString(), canvas.width - scaleFactor * 8, scaleFactor * 8);
 
-    // Konfiguration wiederherstellen
+    // Restore the configuration
     context.restore();
   }
 }

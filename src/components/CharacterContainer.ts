@@ -75,7 +75,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
     const gridStore = <GridStore>this.stores.grid;
     const statsStore = <StatsStore>this.stores.score;
 
-    // Eingaben auslesen
+    // Read inputs
     const inputs = this.inputMap.pressed;
 
     if (!effectsStore.content.gameOver.active) {
@@ -104,7 +104,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
         }
 
         gridStore.removeContent(characterStoreContent.fieldX, characterStoreContent.fieldY, removedContent => {
-          // Ermitteln, was Entfernt wurde und den entsprechenden Gegenstand anzeigen und Punkte hinzufügen
+          // Determine what was removed and display the corresponding item and add points
           let addedScore = 0;
           switch (removedContent) {
             case TileContents.Mole:
@@ -128,10 +128,10 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           }
 
           if (addedScore > 0) {
-            // Punkte hinzufügen
+            // Add score
             statsStore.addScore(addedScore);
 
-            // Punkteanimation anzeigen
+            // Trigger scoring animation
             effectsStore.showScoreEffect(
               characterStoreContent.fieldX * 128 + 288 + 32,
               characterStoreContent.fieldY * 128 + 176 + 64,
@@ -149,8 +149,8 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       if (inputs.fire && this.nextShotAvailable) {
         characterStore.fireGun();
 
-        // Controller vibrieren lassen
-        // Testen ob die Gamepad API vom Browser unterstützt wird
+        // Vibrate gamepad
+        // Test if the gamepad API is supported by the browser
         if ('getGamepads' in navigator) {
           const allGamepads = navigator.getGamepads();
           for (const gamepad of allGamepads) {
@@ -158,7 +158,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
               continue;
             }
 
-            // Testen ob und welche API für haptisches Feedback verfügbar ist
+            // Test if and which API for haptic feedback is available
             if ('hapticActuators' in gamepad) {
               for (const actuator of gamepad.hapticActuators) {
                 actuator.pulse(0.7, 100);
@@ -174,7 +174,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           }
         }
 
-        // Soundeffekt abspielen
+        // Play sound effect
         const settingsStore = <SettingsStore>this.stores.settings;
         if (settingsStore.content.volume > 0) {
           const audio = new Audio(shotgunSound);
@@ -182,12 +182,12 @@ export default class CharacterContainer extends Component<CharacterContainerProp
           audio.play();
         }
 
-        // Neuen Timestamp speichern
+        // Store updated timestamp
         this.nextShotAvailableAt = window.performance.now() + 1200;
 
-        // Kollision mit Geschossen erkennen
+        // Detect collision with bullets
         movablesStore.detectHit(characterStore.content.bullets, (x: number, y: number) => {
-          // Punkte hinzufügen & Effekte anzeigen
+          // Add score & show effects
           statsStore.addScore(values.scores.rabbit);
           effectsStore.showSmoke(x + 96, y + 256);
           effectsStore.showScoreEffect(x + 128, y + 320, values.scores.rabbit);

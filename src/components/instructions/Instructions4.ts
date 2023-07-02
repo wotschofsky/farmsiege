@@ -31,7 +31,7 @@ export default class Instructions4 extends Component<Instructions4Props> {
   }
 
   protected template: Template = [
-    // Anweisung
+    // Instructions
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),

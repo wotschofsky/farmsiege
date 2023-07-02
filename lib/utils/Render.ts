@@ -10,7 +10,7 @@ export default class RenderUtils {
     position: Coordinates,
     propsContext: PropsContext<any>
   ): void {
-    // Abbrechen, wenn Component nicht angezeigt werden soll
+    // Abort if the component should not be shown
     if (typeof item.show === 'function' && !item.show(propsContext)) {
       return;
     }
@@ -19,7 +19,7 @@ export default class RenderUtils {
     let computedParentY = context.parentY + position.y;
 
     if (item.transform) {
-      // Konfiguration Speichern
+      // Save the configuration
       context.renderContext.save();
 
       const transformConfig = item.transform(propsContext);
@@ -27,13 +27,13 @@ export default class RenderUtils {
       if (transformConfig.rotate) {
         const { center } = transformConfig.rotate;
 
-        // Ursprung verschieben an den Drehpunkt verschieben
+        // Translate to the rotation center
         context.renderContext.translate(
           context.scaleFactor * (computedParentX + center.x),
           context.scaleFactor * (computedParentY + center.y)
         );
 
-        // Parent-Koordinaten an neues Koordinatensystem anpassen
+        // Adjust parent coordinates to the new coordinate system
         computedParentX = -center.x;
         computedParentY = -center.y;
 
@@ -59,7 +59,7 @@ export default class RenderUtils {
       }
     }
 
-    // TemplateItem rendern
+    // Render the template item
     item.component.render(
       new RenderingContext(
         context.grid,
@@ -76,7 +76,7 @@ export default class RenderUtils {
     );
 
     if (item.transform) {
-      // Konfiguration wiederherstellen
+      // Restore the configuration
       context.renderContext.restore();
     }
   }

@@ -29,7 +29,7 @@ export default class EffectData {
     return this.age > this.maxAge;
   }
 
-  // Berechnet Verschiebung in Y Richtung im Verlauf des Effektdauer
+  // Calculate the vertical offset based on the progress of the effect's duration
   public get verticalOffset(): number {
     return eases.quadOut(this.age / this.maxAge) * this.offsetMultiplier;
   }

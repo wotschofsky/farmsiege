@@ -36,7 +36,7 @@ export default class CosmeticsPicker extends Component<CosmeticsPickerProps> {
     }
   }
 
-  // Berechnet X Position des linkesten Elements
+  // Calculate x position of the leftmost element
   private calculateXOffset(count: number): number {
     return -(128 * count) / 2 + 300;
   }
@@ -66,7 +66,7 @@ export default class CosmeticsPicker extends Component<CosmeticsPickerProps> {
             data.sprite ? 0 : 28
           ),
         props: (data: ShirtData): SpriteProps => ({
-          // xIconSprite als Sprite für Option "None"
+          // Use xIconSprite as sprite for option "None"
           source: data.sprite || xIconSprite,
           width: data.sprite ? 128 : 72,
           height: data.sprite ? 128 : 72
@@ -88,7 +88,7 @@ export default class CosmeticsPicker extends Component<CosmeticsPickerProps> {
           onClick: (): void => {
             const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
 
-            // Änderung im CosmeticsStore speichern
+            // Save changes in CosmeticsStore
             switch (this.active) {
               case 'hat':
                 cosmeticsStore.setHat((<HatData>data).id);

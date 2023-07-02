@@ -32,7 +32,7 @@ export default class Instructions2 extends Component<Instructions2Props> {
   }
 
   protected template: Template = [
-    // Anweisung
+    // Instructions
     {
       component: new Text(),
       position: (): Coordinates => new Coordinates(0, 0),
