@@ -5,7 +5,6 @@ import commonjs from '@rollup/plugin-commonjs';
 import copy from 'rollup-plugin-copy';
 import json from '@rollup/plugin-json';
 import livereload from 'rollup-plugin-livereload';
-import obfuscatorPlugin from 'rollup-plugin-obfuscator';
 import resolve from '@rollup/plugin-node-resolve';
 import serve from 'rollup-plugin-serve';
 import typescript from '@rollup/plugin-typescript';
@@ -30,11 +29,6 @@ if (!process.env.PRODUCTION) {
     //   exclude: ['node_modules/**', 'api/', '**/**.png', '**/**.mp3']
     // })
   ];
-}
-
-const allowedDomains = ['.felisk.io', '.feliskio.now.sh', '.feliskio.vercel.app'];
-if (!process.env.PRODUCTION) {
-  allowedDomains.push('localhost');
 }
 
 const sharedConfig = {
@@ -63,15 +57,6 @@ const sharedConfig = {
       ]
     }),
     terser(),
-    obfuscatorPlugin({
-      global: true,
-      options: {
-        sourceMap: !process.env.PRODUCTION,
-        compact: true,
-        selfDefending: true,
-        domainLock: allowedDomains
-      }
-    }),
     ...devConfig
   ]
 };
