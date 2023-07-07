@@ -60,18 +60,14 @@ export default class MiscStore extends Store<MiscStoreContent> {
 
   public async fetchHighscores(): Promise<void> {
     // Send HTTP request to the highscore server
-    const response = await fetch(
-      'https://garden-defense.firebaseio.com/highscores.json?orderBy="score"&limitToLast=10'
-    );
+    const response = await fetch('/api/highscores');
+
+    if (!response.ok) {
+      return
+    }
 
     // Extract the response in JSON format
-    const json = await response.json();
-
-    // Convert the response from object format to an array
-    const scores: ScoreData[] = [];
-    for (const score in json) {
-      scores.push(json[score]);
-    }
+    const scores: ScoreData[] = await response.json();
 
     // Sort the scores
     const sorted = scores.sort((a: ScoreData, b: ScoreData): number => b.score - a.score);
