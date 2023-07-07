@@ -75,7 +75,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
 
       // Update timer for all effects
       clonedState.smoke.forEach(smoke => {
-        smoke.increaseTimer(timeDifference);
+        smoke.reduceRemainingTime(timeDifference);
       });
 
       // Remove expired effects
