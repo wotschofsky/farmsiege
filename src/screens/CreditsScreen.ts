@@ -111,8 +111,8 @@ export default class CreditsScreen extends Component<CreditsScreenProps> {
       props: (): RepeatingProps => ({
         list: this.credits,
         component: (): CreditItem => new CreditItem(),
-        position: (data: CreditData, index: number): Coordinates => new Coordinates(0, index * 40),
-        props: (data: CreditData, index: number): CreditItemProps => ({
+        position: (_data: CreditData, index: number): Coordinates => new Coordinates(0, index * 40),
+        props: (data: CreditData, _index: number): CreditItemProps => ({
           label: data.label,
           url: data.url
         })

@@ -23,7 +23,7 @@ export default class Instructions1 extends Component<Instructions1Props> {
   private readonly turningPointTop = -120;
   private readonly movementSpeed = 375;
 
-  onTick(ctx: PropsContext<Instructions1>, timeDifference: number): void {
+  onTick(_ctx: PropsContext<Instructions1>, timeDifference: number): void {
     const movedDistance = this.movementSpeed * (timeDifference / 1000);
     switch (this.movingDirection) {
       case Directions.Right:

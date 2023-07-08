@@ -20,7 +20,7 @@ export type Instructions3Props = {};
 export default class Instructions3 extends Component<Instructions3Props> {
   private timer = 0;
 
-  onTick(ctx: PropsContext<Instructions3>, timeDifference: number): void {
+  onTick(_ctx: PropsContext<Instructions3>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 

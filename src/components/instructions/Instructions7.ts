@@ -25,7 +25,7 @@ export default class Instructions7 extends Component<Instructions7Props> {
   private bullets: BulletData[] = [];
   private nextGunFire = 1500;
 
-  protected onTick(ctx: PropsContext<Instructions7>, timeDifference: number): void {
+  protected onTick(_ctx: PropsContext<Instructions7>, timeDifference: number): void {
     this.timer += timeDifference;
 
     this.bullets = this.bullets.filter(bullet => bullet.age < 65);

@@ -15,7 +15,7 @@ export default class Clouds extends Component<CloudProps> {
   private pos2 = 1000;
   private pos3 = 400;
 
-  protected onTick(ctx: PropsContext<CloudProps>, timeDifference: number): void {
+  protected onTick(_ctx: PropsContext<CloudProps>, timeDifference: number): void {
     // Move clouds to the right and reset them to the left if necessary
     this.pos1 = this.pos1 > 500 + 1600 ? -610 / 1.5 : this.pos1 + (timeDifference / 1000) * 50;
     this.pos2 = this.pos2 > 500 + 1600 ? -580 / 1.5 : this.pos2 + (timeDifference / 1000) * 50;

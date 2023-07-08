@@ -3,9 +3,9 @@ import Component from '../../lib/Component';
 import Coordinates from '../../lib/helpers/Coordinates';
 import Repeating, { RepeatingProps } from '../../lib/components/logical/Repeating';
 
+import EffectData from '../store/effects/EffectData';
 import EffectsStore from '../store/EffectsStore';
 import ScoreEffectData from '../store/effects/ScoreEffectData';
-import SmokeData from '../store/effects/SmokeData';
 
 import ScoreEffect, { ScoreEffectProps } from '../components/ScoreEffect';
 import Smoke from '../components/Smoke';
@@ -24,7 +24,7 @@ export default class Effects extends Component<EffectsProps> {
         return {
           list: effectsStore.content.smoke,
           component: (): Smoke => new Smoke(),
-          position: (data: SmokeData): Coordinates => data.position,
+          position: (data: EffectData): Coordinates => data.position,
           props: (): {} => ({})
         };
       }

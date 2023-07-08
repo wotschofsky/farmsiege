@@ -24,7 +24,7 @@ export default class EventListener extends Component<EventListenerProps> {
 
   private position: Coordinates;
   private dimensions: Dimensions;
-  private renderContext: RenderingContext;
+  private renderContext?: RenderingContext;
 
   constructor() {
     super();
@@ -34,6 +34,10 @@ export default class EventListener extends Component<EventListenerProps> {
   }
 
   private isWithinBoundaries(position: Coordinates): boolean {
+    if (!this.renderContext) {
+      throw new Error('renderContext is not set');
+    }
+
     return (
       position.x < this.position.x + this.dimensions.width + this.renderContext.parentX &&
       position.y < this.position.y + this.dimensions.height + this.renderContext.parentY &&
@@ -43,6 +47,10 @@ export default class EventListener extends Component<EventListenerProps> {
   }
 
   private getMouseEventPosition(event: MouseEvent): Coordinates {
+    if (!this.renderContext) {
+      throw new Error('renderContext is not set');
+    }
+
     // Calculate the position of the mouse event relative to the canvas element
     const rect = this.renderContext.canvas.getBoundingClientRect();
 

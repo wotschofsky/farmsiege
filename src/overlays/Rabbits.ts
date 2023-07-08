@@ -21,7 +21,7 @@ import values from '../values.json';
 export type RabbitsProps = {};
 
 export default class Rabbits extends Component<RabbitsProps> {
-  protected onTick(ctx: PropsContext<RabbitsProps>, timeDifference: number): void {
+  protected onTick(_ctx: PropsContext<RabbitsProps>, timeDifference: number): void {
     const characterStore = <CharacterStore>this.stores.character;
     const effectsStore = <EffectsStore>this.stores.effects;
     const gridStore = <GridStore>this.stores.grid;

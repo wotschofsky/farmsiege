@@ -81,7 +81,7 @@ export default class CosmeticsPicker extends Component<CosmeticsPickerProps> {
       props: (): RepeatingProps => ({
         list: this.activeList,
         component: (): EventListener => new EventListener(),
-        position: (data: HatData | ShirtData | PantsData, index: number): Coordinates =>
+        position: (_data: HatData | ShirtData | PantsData, index: number): Coordinates =>
           new Coordinates(index * 128 + this.calculateXOffset(this.activeList.length), 0),
         props: (data: HatData | ShirtData | PantsData): EventListenerProps => ({
           size: new Dimensions(128, 128),

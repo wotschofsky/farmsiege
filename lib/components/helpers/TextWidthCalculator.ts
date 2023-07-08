@@ -13,7 +13,7 @@ export type TextWidthCalculatorProps = {
 };
 
 export default class TextWidthCalculator extends Component<TextWidthCalculatorProps> {
-  public render(context: RenderingContext, position: Coordinates, props: TextWidthCalculatorProps): void {
+  public render(context: RenderingContext, _position: Coordinates, props: TextWidthCalculatorProps): void {
     context.renderContext.font = `${props.size || 16}px ${props.font || 'Arial'}`;
     const metrics = context.renderContext.measureText(props.text);
     props.callback(metrics.width);

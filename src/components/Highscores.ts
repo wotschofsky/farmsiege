@@ -27,7 +27,7 @@ export default class Highscores extends Component<HighscoresProps> {
       props: (): RepeatingProps => ({
         list: this.scores,
         component: (): HighscoreItem => new HighscoreItem(),
-        position: (data: ScoreData, index: number): Coordinates => new Coordinates(0, index * 36),
+        position: (_data: ScoreData, index: number): Coordinates => new Coordinates(0, index * 36),
         props: (data: ScoreData, index: number): HighscoreItemProps => ({
           position: index + 1,
           name: data.name,

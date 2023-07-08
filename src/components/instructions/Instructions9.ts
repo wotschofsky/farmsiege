@@ -12,7 +12,7 @@ export type Instructions9Props = {};
 export default class Instructions9 extends Component<Instructions9Props> {
   private timer = 0;
 
-  protected onTick(ctx: PropsContext<Instructions9>, timeDifference: number): void {
+  protected onTick(_ctx: PropsContext<Instructions9>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 

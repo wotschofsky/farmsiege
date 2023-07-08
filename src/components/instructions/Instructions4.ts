@@ -16,7 +16,7 @@ export type Instructions4Props = {};
 export default class Instructions4 extends Component<Instructions4Props> {
   private timer = 0;
 
-  onTick(ctx: PropsContext<Instructions4>, timeDifference: number): void {
+  onTick(_ctx: PropsContext<Instructions4>, timeDifference: number): void {
     this.timer += timeDifference;
   }
 

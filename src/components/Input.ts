@@ -21,8 +21,8 @@ export default class Input extends Component<InputProps> {
   private timer = 0;
   private text = '';
   private textWidth = 0;
-  private inputWidth: number;
-  private maxLength: number;
+  private inputWidth = 0;
+  private maxLength = Infinity;
   private onEnterCallback: OnEnterCallback = () => {};
 
   protected onTick(ctx: PropsContext<InputProps>, timeDifference: number): void {

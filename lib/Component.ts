@@ -7,11 +7,13 @@ import RenderUtils from './utils/Render';
 import Store from './store/Store';
 
 export default abstract class Component<P> {
-  private _template: Template = [];
+  protected template: Template = [];
   private initialized = false;
   private _stores: { [key: string]: Store<any> } = {};
 
   protected onTick(ctx: PropsContext<P>, timeDifference: number): void {
+    ctx;
+    timeDifference;
     return;
   }
 
@@ -19,23 +21,19 @@ export default abstract class Component<P> {
     return;
   }
 
-  protected set template(tmp: Template) {
-    this._template = tmp;
-  }
-
   public registerStore(name: string, store: Store<any>): void {
     // Link the store to this class
     this._stores[name] = store;
 
     // Call registerStore on all sub-components
-    this._template.forEach(el => {
+    this.template.forEach(el => {
       el.component.registerStore(name, store);
     });
   }
 
   public propagateEvent(type: EventTypes, event: Event): void {
     // Propagate the event to all sub-components
-    this._template.forEach(el => {
+    this.template.forEach(el => {
       if (typeof el.show === 'function' && !el.show()) return;
       el.component.propagateEvent(type, event);
     });
@@ -58,7 +56,7 @@ export default abstract class Component<P> {
     this.onTick(propsContext, context.timeDifference);
 
     // Render the template
-    this._template.forEach((el): void => {
+    this.template.forEach((el): void => {
       RenderUtils.renderTemplateItem(el, context, position, propsContext);
     });
   }

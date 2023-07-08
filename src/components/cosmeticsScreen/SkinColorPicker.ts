@@ -23,12 +23,12 @@ export default class SkinColorPicker extends Component<SkinColorPickerProps> {
         return {
           list: colors,
           component: (): EventListener => new EventListener(),
-          position: (color: string, index: number): Coordinates => new Coordinates(index * (this.tileSize + 8), 0),
-          props: (color: string, index: SkinColors): EventListenerProps => ({
+          position: (_color: string, index: number): Coordinates => new Coordinates(index * (this.tileSize + 8), 0),
+          props: (_color: string, index: number): EventListenerProps => ({
             size: new Dimensions(this.tileSize, this.tileSize),
             onClick: () => {
               const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-              cosmeticsStore.setSkinColor(index + 1);
+              cosmeticsStore.setSkinColor(index + 1 as SkinColors);
             }
           })
         };
@@ -41,7 +41,7 @@ export default class SkinColorPicker extends Component<SkinColorPickerProps> {
         return {
           list: colors,
           component: (): Rectangle => new Rectangle(),
-          position: (color: string, index: number): Coordinates => new Coordinates(index * (this.tileSize + 8), 0),
+          position: (_color: string, index: number): Coordinates => new Coordinates(index * (this.tileSize + 8), 0),
           props: (color: string): RectangleProps => ({
             color: color,
             width: this.tileSize,

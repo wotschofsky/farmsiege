@@ -81,7 +81,7 @@ class Game extends Component<GameProps> {
     // Load ReCaptcha script
     load(
       `https://www.google.com/recaptcha/api.js?render=${'6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW'}`,
-      (err: Error) => {
+      (err) => {
         if (err) {
           console.error(err);
         } else {
@@ -93,7 +93,7 @@ class Game extends Component<GameProps> {
     );
   }
 
-  protected onTick(ctx: PropsContext<{}>, timeDifference: number): void {
+  protected onTick(_ctx: PropsContext<{}>, timeDifference: number): void {
     const characterStore = <CharacterStore>this.stores.character;
     const effectsStore = <EffectsStore>this.stores.effects;
     const gridStore = <GridStore>this.stores.grid;
@@ -113,8 +113,8 @@ class Game extends Component<GameProps> {
       gridStore.stop();
 
       const center: Coordinates = new Coordinates(
-        gridStore.lastRemovedPlant.x * 128 + 64 + 288,
-        gridStore.lastRemovedPlant.y * 128 + 64 + 176
+        (gridStore.lastRemovedPlant?.x || 3.5) * 128 + 64 + 288,
+        (gridStore.lastRemovedPlant?.y || 3.5) * 128 + 64 + 176
       );
 
       effectsStore.showGameOverAnimation(center, async () => {

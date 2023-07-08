@@ -23,7 +23,7 @@ export type GridStoreContent = GridData;
 export default class GridStore extends Store<GridStoreContent> {
   private timers: Timer[];
   private _speedMultiplier: number;
-  private _lastRemovedPlant: Coordinates;
+  private _lastRemovedPlant?: Coordinates;
 
   public constructor() {
     const initialGrid = GridUtils.generateInitialGrid();
@@ -362,7 +362,7 @@ export default class GridStore extends Store<GridStoreContent> {
     return amount;
   }
 
-  public get lastRemovedPlant(): Coordinates {
+  public get lastRemovedPlant(): Coordinates | undefined {
     return this._lastRemovedPlant;
   }
 }

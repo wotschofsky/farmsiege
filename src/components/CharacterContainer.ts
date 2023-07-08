@@ -22,7 +22,7 @@ import values from '../values.json';
 export type CharacterContainerProps = {};
 
 export default class CharacterContainer extends Component<CharacterContainerProps> {
-  private inputMap: InputMap;
+  private inputMap?: InputMap;
   private nextShotAvailableAt = 0;
 
   private get nextShotAvailable(): boolean {
@@ -59,6 +59,10 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
     const screensStore = <ScreensStore>this.stores.screens;
     screensStore.subscribe((state: ScreensStoreContent) => {
+      if (!this.inputMap) {
+        return;
+      }
+
       if (state.active === Screens.Game) {
         this.inputMap.enable();
       } else {
@@ -67,7 +71,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
     });
   }
 
-  protected onTick(ctx: PropsContext<CharacterContainerProps>, timeDifference: number): void {
+  protected onTick(_ctx: PropsContext<CharacterContainerProps>, timeDifference: number): void {
     const characterStore = <CharacterStore>this.stores.character;
     const characterStoreContent = characterStore.content;
     const movablesStore = <MovablesStore>this.stores.movables;
@@ -76,7 +80,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
     const statsStore = <StatsStore>this.stores.score;
 
     // Read inputs
-    const inputs = this.inputMap.pressed;
+    const inputs = this.inputMap!.pressed;
 
     if (!effectsStore.content.gameOver.active) {
       let moveX = 0;
@@ -99,7 +103,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       if (inputs.use) {
         const field = gridStore.content[characterStoreContent.fieldY][characterStoreContent.fieldX];
         let isGrownPlant = false;
-        if (field.type === TileContents.Plant && field.data.age >= values.plant.age.fullyGrown) {
+        if (field.type === TileContents.Plant && field.data.age as number >= values.plant.age.fullyGrown) {
           isGrownPlant = true;
         }
 
@@ -161,10 +165,11 @@ export default class CharacterContainer extends Component<CharacterContainerProp
             // Test if and which API for haptic feedback is available
             if ('hapticActuators' in gamepad) {
               for (const actuator of gamepad.hapticActuators) {
+                // @ts-ignore
                 actuator.pulse(0.7, 100);
               }
             } else if ('vibrationActuator' in gamepad) {
-              (<Gamepad>gamepad).vibrationActuator.playEffect('dual-rumble', {
+              (<Gamepad>gamepad).vibrationActuator?.playEffect('dual-rumble', {
                 startDelay: 0,
                 duration: 100,
                 weakMagnitude: 0.7,
