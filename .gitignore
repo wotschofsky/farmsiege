@@ -1,13 +1,6 @@
 .DS_Store
-node_modules
-dist/
-firebase-debug.log
-yarn-error.log
-
-src/assets/soundtrack/**
-!src/assets/soundtrack/**.mp3
-src/assets/sources/3rdparty
-
-.now
 .env
-api/firebase-private-key.txt
+.now
+dist/
+node_modules
+yarn-error.log
