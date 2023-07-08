@@ -80,7 +80,7 @@ class Game extends Component<GameProps> {
 
     // Load ReCaptcha script
     load(
-      `https://www.google.com/recaptcha/api.js?render=${'6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW'}`,
+      `https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_SITE_KEY}`,
       (err) => {
         if (err) {
           console.error(err);

@@ -60,7 +60,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     statsStore.setScoreSubmitted(true);
 
     try {
-      const recaptchaToken = await grecaptcha.execute('6Ld27OwUAAAAAHRFNi9oKmJx2jQCj81Z6iuJjUQW', {
+      const recaptchaToken = await grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, {
         action: 'highscore'
       });
 
