@@ -46,7 +46,7 @@ export default abstract class Store<S> {
 
   private callListeners(): void {
     // Execute all registered listener functions
-    this._listeners.forEach(listener => {
+    this._listeners.forEach((listener) => {
       if (listener) {
         listener(this._content);
       }

@@ -114,7 +114,7 @@ export default class InputMap {
     }
 
     // Save key code when a key is pressed
-    window.addEventListener('keydown', event => {
+    window.addEventListener('keydown', (event) => {
       if (this.disabled) {
         return;
       }
@@ -136,7 +136,7 @@ export default class InputMap {
     });
 
     // Remove key code from list when a key is released
-    window.addEventListener('keyup', event => {
+    window.addEventListener('keyup', (event) => {
       if (this.disabled) {
         return;
       }
@@ -162,7 +162,7 @@ export default class InputMap {
 
   public removeActiveKey(code: string): void {
     // Remove key code from the array of pressed keys
-    this.activeKeys = this.activeKeys.filter(key => key !== code);
+    this.activeKeys = this.activeKeys.filter((key) => key !== code);
   }
 
   // Executed to determine which inputs are active

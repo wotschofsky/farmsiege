@@ -103,11 +103,11 @@ export default class CharacterContainer extends Component<CharacterContainerProp
       if (inputs.use) {
         const field = gridStore.content[characterStoreContent.fieldY][characterStoreContent.fieldX];
         let isGrownPlant = false;
-        if (field.type === TileContents.Plant && field.data.age as number >= values.plant.age.fullyGrown) {
+        if (field.type === TileContents.Plant && (field.data.age as number) >= values.plant.age.fullyGrown) {
           isGrownPlant = true;
         }
 
-        gridStore.removeContent(characterStoreContent.fieldX, characterStoreContent.fieldY, removedContent => {
+        gridStore.removeContent(characterStoreContent.fieldX, characterStoreContent.fieldY, (removedContent) => {
           // Determine what was removed and display the corresponding item and add points
           let addedScore = 0;
           switch (removedContent) {

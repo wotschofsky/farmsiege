@@ -33,7 +33,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
   }
 
   public showSmoke(x: number, y: number): void {
-    this.update(oldState => {
+    this.update((oldState) => {
       const clonedState = cloneDeep(oldState);
 
       const position = new Coordinates(x, y);
@@ -45,7 +45,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
   }
 
   public showScoreEffect(x: number, y: number, value: number): void {
-    this.update(oldState => {
+    this.update((oldState) => {
       const clonedState = cloneDeep(oldState);
 
       const position = new Coordinates(x, y);
@@ -57,7 +57,7 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
   }
 
   public showGameOverAnimation(center: Coordinates, callback: () => void): void {
-    this.update(oldState => {
+    this.update((oldState) => {
       const clonedState = cloneDeep(oldState);
 
       clonedState.gameOver.active = true;
@@ -70,24 +70,24 @@ export default class EffectsStore extends Store<EffectsStoreContent> {
   }
 
   public updateEffects(timeDifference: number): void {
-    this.update(oldState => {
+    this.update((oldState) => {
       const clonedState = cloneDeep(oldState);
 
       // Update timer for all effects
-      clonedState.smoke.forEach(smoke => {
+      clonedState.smoke.forEach((smoke) => {
         smoke.reduceRemainingTime(timeDifference);
       });
 
       // Remove expired effects
-      clonedState.smoke = clonedState.smoke.filter(smoke => {
+      clonedState.smoke = clonedState.smoke.filter((smoke) => {
         return !smoke.expired;
       });
 
-      clonedState.scores.forEach(score => {
+      clonedState.scores.forEach((score) => {
         score.increaseTimer(timeDifference);
       });
 
-      clonedState.scores = clonedState.scores.filter(score => {
+      clonedState.scores = clonedState.scores.filter((score) => {
         return !score.expired;
       });
 

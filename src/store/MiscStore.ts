@@ -63,7 +63,7 @@ export default class MiscStore extends Store<MiscStoreContent> {
     const response = await fetch('/api/highscores');
 
     if (!response.ok) {
-      return
+      return;
     }
 
     // Extract the response in JSON format

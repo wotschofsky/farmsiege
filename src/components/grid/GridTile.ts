@@ -79,9 +79,9 @@ export default class GridTile extends Component<GridTileProps> {
             break;
           case TileContents.Plant:
             sprite = tomato0;
-            if (contentData.age as number >= (values.plant.age.fullyGrown * 1) / 3) sprite = tomato1;
-            if (contentData.age as number >= (values.plant.age.fullyGrown * 2) / 3) sprite = tomato2;
-            if (contentData.age as number >= values.plant.age.fullyGrown) sprite = tomato3;
+            if ((contentData.age as number) >= (values.plant.age.fullyGrown * 1) / 3) sprite = tomato1;
+            if ((contentData.age as number) >= (values.plant.age.fullyGrown * 2) / 3) sprite = tomato2;
+            if ((contentData.age as number) >= values.plant.age.fullyGrown) sprite = tomato3;
             break;
           case TileContents.Weed:
             sprite = weed;

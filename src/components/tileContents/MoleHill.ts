@@ -4,8 +4,8 @@ import Coordinates from '../../../lib/helpers/Coordinates';
 import PropsContext from '../../../lib/PropsContext';
 import Sprite, { SpriteProps } from '../../../lib/components/native/Sprite';
 
-import molehillSprite from '../../assets/molehill.png'
-import moleSprite from '../../assets/mole.png'
+import molehillSprite from '../../assets/molehill.png';
+import moleSprite from '../../assets/mole.png';
 
 export type MolehillProps = {
   moleVisible?: boolean;

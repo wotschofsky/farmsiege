@@ -23,7 +23,7 @@ footer {
   margin: 2rem 0;
 }
 
-@media(min-width: 480px) {
+@media (min-width: 480px) {
   footer {
     font-size: 125%;
   }
@@ -31,5 +31,5 @@ footer {
 
 :link,
 :visited {
-  color: #3A7D8C;
+  color: #3a7d8c;
 }

@@ -19,15 +19,13 @@ export default class StatsStore extends Store<StatsStoreContent> {
   }
 
   public addScore(amount: number): void {
-    this.update(
-      (oldState: StatsStoreContent): StatsStoreContent => {
-        const clonedState = cloneDeep(oldState);
+    this.update((oldState: StatsStoreContent): StatsStoreContent => {
+      const clonedState = cloneDeep(oldState);
 
-        clonedState.score += amount;
+      clonedState.score += amount;
 
-        return clonedState;
-      }
-    );
+      return clonedState;
+    });
   }
 
   public increaseDuration(amount: number): void {

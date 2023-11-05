@@ -1,42 +1,44 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Farm Siege</title>
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="stylesheet" href="/src/styles.css" />
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Farm Siege</title>
-  <link rel="shortcut icon" href="./favicon.ico"/>
-  <link rel="icon" type="image/png" href="./favicon.png"/>
-  <link rel="stylesheet" href="/src/styles.css" />
+    <script type="module" src="/src/main.ts" defer></script>
 
-  <script type="module" src="/src/main.ts" defer></script>
+    <!-- Matomo -->
+    <script type="text/javascript">
+      var _paq = window._paq || [];
+      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      _paq.push(['enableHeartBeatTimer', 10]);
+      (function () {
+        var u = 'https://analytics.wsky.dev/';
+        _paq.push(['setTrackerUrl', u + 'accumulator.php']);
+        _paq.push(['setSiteId', '4']);
+        var d = document,
+          g = d.createElement('script'),
+          s = d.getElementsByTagName('script')[0];
+        g.type = 'text/javascript';
+        g.async = true;
+        g.defer = true;
+        g.src = u + 'accumulator.js';
+        s.parentNode.insertBefore(g, s);
+      })();
+    </script>
+    <!-- End Matomo Code -->
+  </head>
 
-  <!-- Matomo -->
-  <script type="text/javascript">
-    var _paq = window._paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    _paq.push(['enableHeartBeatTimer', 10]);
-    (function() {
-      var u = "https://analytics.wsky.dev/";
-      _paq.push(['setTrackerUrl', u + 'accumulator.php']);
-      _paq.push(['setSiteId', '4']);
-      var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
-      g.type = 'text/javascript'; g.async = true; g.defer = true; g.src = u + 'accumulator.js'; s.parentNode.insertBefore(g, s);
-    })();
-  </script>
-  <!-- End Matomo Code -->
-</head>
-
-<body>
-  <div class="container">
-    <canvas id="canvas" style="width: 100%; height: auto;"></canvas>
-    <footer>
-      Handcrafted with ❤️ by <a href="https://wotschofsky.com">Felix Wotschofsky</a>
-    </footer>
-  </div>
-</body>
-
+  <body>
+    <div class="container">
+      <canvas id="canvas" style="width: 100%; height: auto"></canvas>
+      <footer>Handcrafted with ❤️ by <a href="https://wotschofsky.com">Felix Wotschofsky</a></footer>
+    </div>
+  </body>
 </html>

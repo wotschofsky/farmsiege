@@ -28,7 +28,7 @@ export default class Instructions7 extends Component<Instructions7Props> {
   protected onTick(_ctx: PropsContext<Instructions7>, timeDifference: number): void {
     this.timer += timeDifference;
 
-    this.bullets = this.bullets.filter(bullet => bullet.age < 65);
+    this.bullets = this.bullets.filter((bullet) => bullet.age < 65);
 
     for (const bullet of this.bullets) {
       bullet.update(timeDifference);

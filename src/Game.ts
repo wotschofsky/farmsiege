@@ -79,18 +79,15 @@ class Game extends Component<GameProps> {
     });
 
     // Load ReCaptcha script
-    load(
-      `https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_SITE_KEY}`,
-      (err) => {
-        if (err) {
-          console.error(err);
-        } else {
-          // When loaded, save in MiscStore
-          const miscStore = <MiscStore>this.stores.misc;
-          grecaptcha.ready(miscStore.setRecaptchaLoaded.bind(miscStore));
-        }
+    load(`https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_SITE_KEY}`, (err) => {
+      if (err) {
+        console.error(err);
+      } else {
+        // When loaded, save in MiscStore
+        const miscStore = <MiscStore>this.stores.misc;
+        grecaptcha.ready(miscStore.setRecaptchaLoaded.bind(miscStore));
       }
-    );
+    });
   }
 
   protected onTick(_ctx: PropsContext<{}>, timeDifference: number): void {

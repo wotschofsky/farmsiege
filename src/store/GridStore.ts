@@ -80,29 +80,27 @@ export default class GridStore extends Store<GridStoreContent> {
       return;
     }
 
-    this.update(
-      (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState = cloneDeep(oldState);
+    this.update((oldState: GridStoreContent): GridStoreContent => {
+      const clonedState = cloneDeep(oldState);
 
-        // Copy tile content type
-        const tileContent = clonedState[y][x].type;
+      // Copy tile content type
+      const tileContent = clonedState[y][x].type;
 
-        // Clear tile content
-        clonedState[y][x].type = TileContents.Empty;
+      // Clear tile content
+      clonedState[y][x].type = TileContents.Empty;
 
-        // If it was a plant, save coordinates for game over animation
-        if (tileContent === TileContents.Plant) {
-          this._lastRemovedPlant = new Coordinates(x, y);
-        }
-
-        // Execute callback
-        if (tileContent !== TileContents.Empty && callback) {
-          callback(tileContent);
-        }
-
-        return clonedState;
+      // If it was a plant, save coordinates for game over animation
+      if (tileContent === TileContents.Plant) {
+        this._lastRemovedPlant = new Coordinates(x, y);
       }
-    );
+
+      // Execute callback
+      if (tileContent !== TileContents.Empty && callback) {
+        callback(tileContent);
+      }
+
+      return clonedState;
+    });
   }
 
   public placePlant(x: number, y: number): void {
@@ -110,36 +108,32 @@ export default class GridStore extends Store<GridStoreContent> {
       return;
     }
 
-    this.update(
-      (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState = cloneDeep(oldState);
+    this.update((oldState: GridStoreContent): GridStoreContent => {
+      const clonedState = cloneDeep(oldState);
 
-        clonedState[y][x].type = TileContents.Plant;
-        clonedState[y][x].data = {
-          age: 0
-        };
+      clonedState[y][x].type = TileContents.Plant;
+      clonedState[y][x].data = {
+        age: 0
+      };
 
-        return clonedState;
-      }
-    );
+      return clonedState;
+    });
   }
 
   private growPlants(): void {
-    this.update(
-      (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState = cloneDeep(oldState);
+    this.update((oldState: GridStoreContent): GridStoreContent => {
+      const clonedState = cloneDeep(oldState);
 
-        for (const row of clonedState) {
-          for (const tile of row) {
-            if (tile.type === TileContents.Plant) {
-              (<number>tile.data.age) += 100;
-            }
+      for (const row of clonedState) {
+        for (const tile of row) {
+          if (tile.type === TileContents.Plant) {
+            (<number>tile.data.age) += 100;
           }
         }
-
-        return clonedState;
       }
-    );
+
+      return clonedState;
+    });
 
     // Start timer for next plant cycle
     const timer = new Timer(100, this.growPlants.bind(this));
@@ -147,56 +141,54 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   private updateMole(): void {
-    this.update(
-      (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState = cloneDeep(oldState);
+    this.update((oldState: GridStoreContent): GridStoreContent => {
+      const clonedState = cloneDeep(oldState);
 
-        // Check if there is already a mole in the game
-        let moleActive = false;
-        let molePosition = new Coordinates(0, 0);
+      // Check if there is already a mole in the game
+      let moleActive = false;
+      let molePosition = new Coordinates(0, 0);
 
-        rowsLoop: for (let rowIndex = 0; rowIndex < clonedState.length; rowIndex++) {
-          for (let columnIndex = 0; columnIndex < clonedState[rowIndex].length; columnIndex++) {
-            // Save reference to tile
-            const tile = clonedState[rowIndex][columnIndex];
+      rowsLoop: for (let rowIndex = 0; rowIndex < clonedState.length; rowIndex++) {
+        for (let columnIndex = 0; columnIndex < clonedState[rowIndex].length; columnIndex++) {
+          // Save reference to tile
+          const tile = clonedState[rowIndex][columnIndex];
 
-            // Check if there is a mole on the tile
-            if (tile.type === TileContents.Mole) {
-              moleActive = true;
-              molePosition = new Coordinates(columnIndex, rowIndex);
+          // Check if there is a mole on the tile
+          if (tile.type === TileContents.Mole) {
+            moleActive = true;
+            molePosition = new Coordinates(columnIndex, rowIndex);
 
-              // Prevent further iterations
-              break rowsLoop;
-            }
+            // Prevent further iterations
+            break rowsLoop;
           }
         }
-
-        // New position
-        const row = Random.roundedBetween(0, 7);
-        const col = Random.roundedBetween(0, 7);
-
-        if (moleActive) {
-          // Move mole and leave molehill behind
-          clonedState[row][col].type = TileContents.Mole;
-          clonedState[molePosition.y][molePosition.x].type = TileContents.Molehill;
-        } else {
-          // Cancel if minimum value for new mole is not met
-          if (Math.random() > values.mole.newChance) {
-            return clonedState;
-          }
-
-          // Save coordinates of potential plant for game over animation
-          if (clonedState[row][col].type === TileContents.Plant) {
-            this._lastRemovedPlant = new Coordinates(col, row);
-          }
-
-          // Let mole appear
-          clonedState[row][col].type = TileContents.Mole;
-        }
-
-        return clonedState;
       }
-    );
+
+      // New position
+      const row = Random.roundedBetween(0, 7);
+      const col = Random.roundedBetween(0, 7);
+
+      if (moleActive) {
+        // Move mole and leave molehill behind
+        clonedState[row][col].type = TileContents.Mole;
+        clonedState[molePosition.y][molePosition.x].type = TileContents.Molehill;
+      } else {
+        // Cancel if minimum value for new mole is not met
+        if (Math.random() > values.mole.newChance) {
+          return clonedState;
+        }
+
+        // Save coordinates of potential plant for game over animation
+        if (clonedState[row][col].type === TileContents.Plant) {
+          this._lastRemovedPlant = new Coordinates(col, row);
+        }
+
+        // Let mole appear
+        clonedState[row][col].type = TileContents.Mole;
+      }
+
+      return clonedState;
+    });
 
     // Start timer for next mole cycle
     const timer = new Timer(
@@ -207,59 +199,57 @@ export default class GridStore extends Store<GridStoreContent> {
   }
 
   private updateWeed(): void {
-    this.update(
-      (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState: GridStoreContent = cloneDeep(oldState);
+    this.update((oldState: GridStoreContent): GridStoreContent => {
+      const clonedState: GridStoreContent = cloneDeep(oldState);
 
-        const foundWeed: Coordinates[] = [];
-        clonedState.forEach((row, rowIndex) => {
-          row.forEach((tile, columnIndex) => {
-            // Check if there is weed on the tile
-            if (tile.type === TileContents.Weed) {
-              foundWeed.push(new Coordinates(columnIndex, rowIndex));
-            }
-          });
+      const foundWeed: Coordinates[] = [];
+      clonedState.forEach((row, rowIndex) => {
+        row.forEach((tile, columnIndex) => {
+          // Check if there is weed on the tile
+          if (tile.type === TileContents.Weed) {
+            foundWeed.push(new Coordinates(columnIndex, rowIndex));
+          }
         });
+      });
 
-        // Place new weed at a random position if condition is met
-        if (Math.random() < values.weed.newChance) {
-          // Try up to 10 times to find an empty spot and place weed
-          for (let i = 0; i < 10; i++) {
-            const row = Random.roundedBetween(0, 7);
-            const col = Random.roundedBetween(0, 7);
+      // Place new weed at a random position if condition is met
+      if (Math.random() < values.weed.newChance) {
+        // Try up to 10 times to find an empty spot and place weed
+        for (let i = 0; i < 10; i++) {
+          const row = Random.roundedBetween(0, 7);
+          const col = Random.roundedBetween(0, 7);
 
-            if (clonedState[row][col].type === TileContents.Empty) {
-              clonedState[row][col].type = TileContents.Weed;
-              break;
-            }
+          if (clonedState[row][col].type === TileContents.Empty) {
+            clonedState[row][col].type = TileContents.Weed;
+            break;
           }
         }
-
-        for (const coords of foundWeed) {
-          // Weed spreading probability decreases with the number of weed
-          if (Math.random() > 1 / Math.sqrt(foundWeed.length)) {
-            break;
-          }
-
-          // Cancel if row doesn't exist
-          const row = clonedState[coords.y + Random.roundedBetween(-1, 1)];
-          if (!row) {
-            break;
-          }
-
-          // Cancel if tile doesn't exist or is not empty
-          const tile = row[coords.x + Random.roundedBetween(-1, 1)];
-          if (!tile || tile.type !== TileContents.Empty) {
-            break;
-          }
-
-          // Set tile as weed
-          tile.type = TileContents.Weed;
-        }
-
-        return clonedState;
       }
-    );
+
+      for (const coords of foundWeed) {
+        // Weed spreading probability decreases with the number of weed
+        if (Math.random() > 1 / Math.sqrt(foundWeed.length)) {
+          break;
+        }
+
+        // Cancel if row doesn't exist
+        const row = clonedState[coords.y + Random.roundedBetween(-1, 1)];
+        if (!row) {
+          break;
+        }
+
+        // Cancel if tile doesn't exist or is not empty
+        const tile = row[coords.x + Random.roundedBetween(-1, 1)];
+        if (!tile || tile.type !== TileContents.Empty) {
+          break;
+        }
+
+        // Set tile as weed
+        tile.type = TileContents.Weed;
+      }
+
+      return clonedState;
+    });
 
     // Start timer for next weed cycle
     const timer = new Timer(
@@ -273,57 +263,53 @@ export default class GridStore extends Store<GridStoreContent> {
     const lightningRow = Random.roundedBetween(0, 7);
     const lightningCol = Random.roundedBetween(0, 7);
 
-    this.update(
-      (oldState: GridStoreContent): GridStoreContent => {
-        const clonedState = cloneDeep(oldState);
+    this.update((oldState: GridStoreContent): GridStoreContent => {
+      const clonedState = cloneDeep(oldState);
 
-        let plantDestroyed = false;
-        for (let rowIndex = -1; rowIndex <= 1; rowIndex++) {
-          if (!GridUtils.rowExists(lightningRow + rowIndex)) {
+      let plantDestroyed = false;
+      for (let rowIndex = -1; rowIndex <= 1; rowIndex++) {
+        if (!GridUtils.rowExists(lightningRow + rowIndex)) {
+          continue;
+        }
+
+        for (let colIndex = -1; colIndex <= 1; colIndex++) {
+          if (!GridUtils.colExists(lightningCol + colIndex)) {
             continue;
           }
 
-          for (let colIndex = -1; colIndex <= 1; colIndex++) {
-            if (!GridUtils.colExists(lightningCol + colIndex)) {
-              continue;
-            }
+          // Save reference to tile
+          const tile = clonedState[lightningRow + rowIndex][lightningCol + colIndex];
 
-            // Save reference to tile
-            const tile = clonedState[lightningRow + rowIndex][lightningCol + colIndex];
-
-            if (tile.type === TileContents.Plant) {
-              plantDestroyed = true;
-            }
-
-            // Clear tile
-            tile.type = TileContents.Empty;
+          if (tile.type === TileContents.Plant) {
+            plantDestroyed = true;
           }
+
+          // Clear tile
+          tile.type = TileContents.Empty;
         }
-
-        // Save coordinates of lightning for game over animation
-        if (plantDestroyed) {
-          this._lastRemovedPlant = new Coordinates(lightningCol, lightningRow);
-        }
-
-        // Show lightning
-        clonedState[lightningRow][lightningCol].type = TileContents.Lightning;
-
-        return clonedState;
       }
-    );
+
+      // Save coordinates of lightning for game over animation
+      if (plantDestroyed) {
+        this._lastRemovedPlant = new Coordinates(lightningCol, lightningRow);
+      }
+
+      // Show lightning
+      clonedState[lightningRow][lightningCol].type = TileContents.Lightning;
+
+      return clonedState;
+    });
 
     {
       // Remove lightning after 1.4 seconds
       const timer = new Timer(1400, () => {
-        this.update(
-          (oldState: GridStoreContent): GridStoreContent => {
-            const clonedState = cloneDeep(oldState);
+        this.update((oldState: GridStoreContent): GridStoreContent => {
+          const clonedState = cloneDeep(oldState);
 
-            clonedState[lightningRow][lightningCol].type = TileContents.Empty;
+          clonedState[lightningRow][lightningCol].type = TileContents.Empty;
 
-            return clonedState;
-          }
-        );
+          return clonedState;
+        });
       });
       this.timers.push(timer);
     }

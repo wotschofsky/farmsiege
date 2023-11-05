@@ -26,14 +26,14 @@ export default abstract class Component<P> {
     this._stores[name] = store;
 
     // Call registerStore on all sub-components
-    this.template.forEach(el => {
+    this.template.forEach((el) => {
       el.component.registerStore(name, store);
     });
   }
 
   public propagateEvent(type: EventTypes, event: Event): void {
     // Propagate the event to all sub-components
-    this.template.forEach(el => {
+    this.template.forEach((el) => {
       if (typeof el.show === 'function' && !el.show()) return;
       el.component.propagateEvent(type, event);
     });

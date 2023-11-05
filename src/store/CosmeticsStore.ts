@@ -101,7 +101,7 @@ export const pantsData: PantsData[] = [
 ];
 
 const SKIN_COLORS = [1, 2, 3, 4, 5] as const;
-export type SkinColors = typeof SKIN_COLORS[number];
+export type SkinColors = (typeof SKIN_COLORS)[number];
 
 export type CosmeticsStoreContent = {
   hat: Hats;

@@ -6,7 +6,7 @@ import Sprite, { SpriteProps } from '../../../../lib/components/native/Sprite';
 import tree1 from '../../../assets/trees/tree_1.png';
 import tree2 from '../../../assets/trees/tree_2.png';
 
-export type TreesRightProps = {}
+export type TreesRightProps = {};
 
 export default class TreesRight extends Component<TreesRightProps> {
   protected template: Template = [

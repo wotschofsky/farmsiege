@@ -28,7 +28,7 @@ export default class SkinColorPicker extends Component<SkinColorPickerProps> {
             size: new Dimensions(this.tileSize, this.tileSize),
             onClick: () => {
               const cosmeticsStore = <CosmeticsStore>this.stores.cosmetics;
-              cosmeticsStore.setSkinColor(index + 1 as SkinColors);
+              cosmeticsStore.setSkinColor((index + 1) as SkinColors);
             }
           })
         };
