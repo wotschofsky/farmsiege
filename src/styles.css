@@ -8,6 +8,7 @@
 body {
   margin: 0;
   font-family: Arial, Helvetica, sans-serif;
+  text-align: center;
 }
 
 .container {
@@ -18,8 +19,14 @@ body {
   margin: auto;
 }
 
+noscript {
+  display: block;
+  padding: 10rem 0;
+  font-weight: bold;
+  font-size: 125%;
+}
+
 footer {
-  text-align: center;
   margin: 2rem 0;
 }
 
