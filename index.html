@@ -32,28 +32,8 @@
     <script type="module" src="/src/main.ts" defer></script>
     <link rel="stylesheet" href="/src/styles.css" />
 
-    <!-- Matomo -->
-    <script type="text/javascript">
-      var _paq = window._paq || [];
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-      _paq.push(['trackPageView']);
-      _paq.push(['enableLinkTracking']);
-      _paq.push(['enableHeartBeatTimer', 10]);
-      (function () {
-        var u = 'https://analytics.wsky.dev/';
-        _paq.push(['setTrackerUrl', u + 'accumulator.php']);
-        _paq.push(['setSiteId', '4']);
-        var d = document,
-          g = d.createElement('script'),
-          s = d.getElementsByTagName('script')[0];
-        g.type = 'text/javascript';
-        g.async = true;
-        g.defer = true;
-        g.src = u + 'accumulator.js';
-        s.parentNode.insertBefore(g, s);
-      })();
-    </script>
-    <!-- End Matomo Code -->
+    <!-- Analytics -->
+    <script defer data-domain="farmsiege.wsky.dev" src="https://insights.wsky.dev/js/script.outbound-links.js"></script>
   </head>
 
   <body>
