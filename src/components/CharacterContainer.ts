@@ -164,7 +164,7 @@ export default class CharacterContainer extends Component<CharacterContainerProp
 
             // Test if and which API for haptic feedback is available
             if ('hapticActuators' in gamepad) {
-              for (const actuator of gamepad.hapticActuators) {
+              for (const actuator of (gamepad as any).hapticActuators) {
                 // @ts-ignore
                 actuator.pulse(0.7, 100);
               }

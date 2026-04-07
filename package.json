@@ -15,13 +15,13 @@
   "dependencies": {
     "better-timer": "^2.0.4",
     "clone-deep": "^4.0.1",
-    "core-js": "^3.41.0",
+    "core-js": "^3.49.0",
     "eases": "^1.0.8",
     "js-cookie": "^3.0.5",
     "keycode-to-codes": "^2.0.5",
     "load-script": "^2.0.0",
     "regenerator-runtime": "^0.14.1",
-    "zod": "^3.24.2"
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/clone-deep": "^4.0.4",
@@ -29,14 +29,14 @@
     "@types/eases": "^1.0.4",
     "@types/grecaptcha": "^3.0.9",
     "@types/js-cookie": "^3.0.6",
-    "@types/node": "^22.13.13",
-    "@typescript-eslint/eslint-plugin": "^8.28.0",
-    "@typescript-eslint/parser": "^8.28.0",
-    "eslint-config-prettier": "^10.1.1",
-    "eslint-plugin-prettier": "^5.2.5",
-    "prettier": "^3.5.3",
-    "rimraf": "^6.0.1",
-    "typescript": "^5.8.2",
-    "vite": "^6.4.1"
+    "@types/node": "^25.5.2",
+    "@typescript-eslint/eslint-plugin": "^8.58.0",
+    "@typescript-eslint/parser": "^8.58.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
+    "rimraf": "^6.1.3",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.5"
   }
 }
