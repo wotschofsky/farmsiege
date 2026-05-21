@@ -17,7 +17,7 @@
     "clone-deep": "^4.0.1",
     "core-js": "^3.49.0",
     "eases": "^1.0.8",
-    "js-cookie": "^3.0.5",
+    "js-cookie": "^3.0.7",
     "keycode-to-codes": "^2.0.5",
     "load-script": "^2.0.0",
     "regenerator-runtime": "^0.14.1",
