@@ -110,8 +110,8 @@ class Game extends Component<GameProps> {
       gridStore.stop();
 
       const center: Coordinates = new Coordinates(
-        (gridStore.lastRemovedPlant?.x || 3.5) * 128 + 64 + 288,
-        (gridStore.lastRemovedPlant?.y || 3.5) * 128 + 64 + 176
+        (gridStore.lastRemovedPlant?.x ?? 3.5) * 128 + 64 + 288,
+        (gridStore.lastRemovedPlant?.y ?? 3.5) * 128 + 64 + 176
       );
 
       effectsStore.showGameOverAnimation(center, async () => {

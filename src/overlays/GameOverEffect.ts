@@ -49,7 +49,7 @@ export default class GameOverEffect extends Component<GameOverEffectProps> {
       maskCtx.arc(
         (center.x + context.parentX) * context.scaleFactor,
         (center.y + context.parentY) * context.scaleFactor,
-        distanceToCorner * (1 - effectsStore.endAnimationProgress),
+        distanceToCorner * context.scaleFactor * (1 - effectsStore.endAnimationProgress),
         0,
         2 * Math.PI
       );
