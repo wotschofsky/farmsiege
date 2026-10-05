@@ -2,12 +2,13 @@ import * as T from 'three';
 import {FarmGame,indexAt,position,GROW_TIME,SPACING} from './logic.js';
 import {FarmWorld} from './world.js';
 import {FarmAudio} from './audio.js';
+import {MouseCapture} from './mouse.js';
 const $=id=>document.getElementById(id);
 const safeStore={get(key,fallback){try{const v=localStorage.getItem(key);return v===null?fallback:JSON.parse(v);}catch{return fallback;}},set(key,value){try{localStorage.setItem(key,JSON.stringify(value));}catch{}}};
 const settings={sensitivity:1,muted:false,quality:true,hints:true,...safeStore.get('farmsiege3d-settings',{})};
 const audio=new FarmAudio();audio.muted=settings.muted;
 let world,game=new FarmGame(),state='menu',mode='survival',tool=0,target=-1,lastUse=-100,shotAt=-100,yaw=0,pitch=-0.42,movePhase=0,noticeUntil=0,popUntil=0,lastFrame=performance.now(),clock=0,lastBird=0,everLocked=false,dialog='';
-let keys=new Set(),drag=null,joystick={x:0,y:0,pointer:null},touchLook=null;
+let keys=new Set(),mouse=null,joystick={x:0,y:0,pointer:null},touchLook=null;
 const aim=new T.Vector3(),floorPoint=new T.Vector3(),ray=new T.Raycaster();
 const player=new T.Vector3(0,1.68,12.6),mapCtx=$('map').getContext('2d');
 const isTouch=matchMedia('(pointer:coarse)').matches;
@@ -19,7 +20,7 @@ function notice(text,warn=false,duration=3){$('notice').textContent=text;$('noti
 function pop(score){if(!score)return;$('score-pop').textContent=`+${score}`;$('score-pop').classList.add('show');popUntil=clock+0.9;}
 function saveSettings(){safeStore.set('farmsiege3d-settings',settings);}
 function setTool(i){tool=i;world?.setTool(i);document.querySelectorAll('[data-tool]').forEach(b=>b.classList.toggle('active',Number(b.dataset.tool)===i));}
-function releasePointer(){if(document.pointerLockElement)document.exitPointerLock();keys.clear();drag=null;touchLook=null;joystick.x=joystick.y=0;$('joystick-knob').style.transform='';}
+function releasePointer(){mouse?.release();$('mouse-capture').hidden=true;keys.clear();touchLook=null;joystick.x=joystick.y=0;$('joystick-knob').style.transform='';}
 function openDialog(name){
   if(state==='playing'){state='paused';releasePointer();}
   dialog=name;$('modal').hidden=false;for(const id of ['how','settings','paused','gameover'])$(id).hidden=id!==name;
@@ -28,9 +29,11 @@ function openDialog(name){
   const focusable=$(name).querySelector('button,input');focusable?.focus({preventScroll:true});
 }
 function closeDialog(){if(state==='paused')resume();else{$('modal').hidden=true;dialog='';}}
-async function capture(){
+function capture(){
   if(isTouch||!world)return;
-  try{await world.renderer.domElement.requestPointerLock();}catch{notice('Drag to look. Click to use your tool.',false,4);}
+  $('mouse-capture').hidden=false;
+  $('capture-message').textContent='Click to capture the mouse. Move it freely to look around; Esc releases it.';
+  mouse.request();
 }
 function start(){
   audio.start();game=new FarmGame();game.reset(mode==='relaxed');state='playing';target=-1;lastUse=shotAt=-100;player.set(0,1.68,12.6);yaw=0;pitch=-0.48;everLocked=false;movePhase=0;
@@ -59,11 +62,11 @@ function processEvents(){
   }
 }
 function shoot(){
-  if(state!=='playing'||game.time-shotAt<1.2)return;
+  if(state!=='playing'||(!isTouch&&!mouse?.locked)||game.time-shotAt<1.2)return;
   shotAt=game.time;world.recoil=1;world.camera.getWorldDirection(aim);game.shoot(player,aim);audio.play('shot');$('crosshair').classList.add('shot');setTimeout(()=>$('crosshair').classList.remove('shot'),120);processEvents();
 }
 function use(context=false){
-  if(state!=='playing')return;
+  if(state!=='playing'||(!isTouch&&!mouse?.locked))return;
   if(tool===3&&!context){shoot();return;}
   if(game.time-lastUse<0.2)return;lastUse=game.time;
   if(target<0){notice('Aim down at a nearby plot to work the soil.',false,1.5);return;}
@@ -105,18 +108,32 @@ function move(dt){
 }
 function tick(now){
   const dt=Math.min(.05,(now-lastFrame)/1000);lastFrame=now;clock+=dt;let moving=false;
-  if(state==='playing'){moving=move(dt);game.tick(dt);processEvents();findTarget();updateHud();if(clock-lastBird>8){audio.play('bird');lastBird=clock;}}
+  if(state==='playing'&&(isTouch||mouse?.locked)){moving=move(dt);game.tick(dt);processEvents();findTarget();updateHud();if(clock-lastBird>8){audio.play('bird');lastBird=clock;}}
   else if(state==='menu')world.menuCamera(clock);
   world.sync(game,clock,state!=='menu');world.update(dt,clock,moving);
   if(clock>noticeUntil)$('notice').classList.remove('show');if(clock>popUntil)$('score-pop').classList.remove('show');requestAnimationFrame(tick);
 }
 function fatal(error){console.error(error);$('loading').hidden=true;$('fatal').hidden=false;$('header').hidden=true;$('menu').hidden=true;$('fatal-message').textContent='The 3D renderer could not start. Enable hardware acceleration and use a browser with WebGL 2 support.';}
-try{world=new FarmWorld($('scene'));preview();world.sync(game,0,false);world.quality(settings.quality);setTool(0);$('loading').hidden=true;requestAnimationFrame(tick);}catch(error){fatal(error);}
+try{
+  world=new FarmWorld($('scene'));
+  mouse=new MouseCapture($('scene'),document,{
+    onChange(locked){
+      if(locked){everLocked=true;$('mouse-capture').hidden=true;keys.clear();}
+      else if(everLocked&&state==='playing'){state='paused';keys.clear();openDialog('paused');}
+    },
+    onError(){
+      if(state!=='playing')return;
+      $('mouse-capture').hidden=false;
+      $('capture-message').textContent=window.self!==window.top?'This preview may block mouse capture. Open the game in its own tab for first-person controls.':'Mouse capture was blocked. Click to try again, or open the game in its own tab.';
+    }
+  });
+  preview();world.sync(game,0,false);world.quality(settings.quality);setTool(0);$('loading').hidden=true;requestAnimationFrame(tick);
+}catch(error){fatal(error);}
 window.addEventListener('resize',()=>world?.resize());
 window.addEventListener('keydown',e=>{
   if(e.target instanceof HTMLInputElement)return;
   if(['Space','ArrowUp','ArrowDown','ArrowLeft','ArrowRight','Tab'].includes(e.code)&&state==='playing')e.preventDefault();
-  if(e.code==='Escape'){if(state==='playing'){state='paused';releasePointer();openDialog('paused');}else if(state==='paused'){if(dialog==='paused')resume();else openDialog('paused');}else if(dialog)closeDialog();return;}
+  if(e.code==='Escape'){if(state==='playing'){state='paused';releasePointer();openDialog('paused');}else if(state==='paused'){if(dialog!=='paused')openDialog('paused');}else if(dialog)closeDialog();return;}
   if(state!=='playing')return;keys.add(e.code);
   if(/^Digit[1-4]$/.test(e.code))setTool(Number(e.code.at(-1))-1);
   if(e.code==='KeyE'||e.code==='Space')use(true);
@@ -126,19 +143,17 @@ window.addEventListener('keydown',e=>{
 window.addEventListener('keyup',e=>keys.delete(e.code));
 window.addEventListener('blur',()=>{keys.clear();if(state==='playing'){state='paused';releasePointer();openDialog('paused');}});
 document.addEventListener('visibilitychange',()=>{if(document.hidden&&state==='playing'){state='paused';releasePointer();openDialog('paused');}});
-document.addEventListener('pointerlockchange',()=>{
-  if(document.pointerLockElement){everLocked=true;drag=null;}
-  else if(everLocked&&state==='playing'){state='paused';keys.clear();openDialog('paused');}
-});
-window.addEventListener('mousemove',e=>{if(state!=='playing')return;if(document.pointerLockElement){yaw-=e.movementX*.002*settings.sensitivity;pitch-=e.movementY*.002*settings.sensitivity;}else if(drag){const dx=e.clientX-drag.x,dy=e.clientY-drag.y;yaw-=dx*.003*settings.sensitivity;pitch-=dy*.003*settings.sensitivity;drag.x=e.clientX;drag.y=e.clientY;drag.distance+=Math.abs(dx)+Math.abs(dy);}});
-$('scene').addEventListener('pointerdown',e=>{if(state!=='playing')return;audio.start();if(e.pointerType==='touch'){touchLook={id:e.pointerId,x:e.clientX,y:e.clientY};$('scene').setPointerCapture(e.pointerId);}else if(document.pointerLockElement)use();else drag={x:e.clientX,y:e.clientY,distance:0};});
-window.addEventListener('pointerup',e=>{if(drag){if(drag.distance<5)use();drag=null;}if(touchLook?.id===e.pointerId)touchLook=null;});
+window.addEventListener('mousemove',e=>{if(state!=='playing'||!mouse?.locked)return;yaw-=e.movementX*.002*settings.sensitivity;pitch-=e.movementY*.002*settings.sensitivity;});
+$('scene').addEventListener('pointerdown',e=>{if(state!=='playing')return;audio.start();if(e.pointerType==='touch'){touchLook={id:e.pointerId,x:e.clientX,y:e.clientY};$('scene').setPointerCapture(e.pointerId);}else if(mouse?.locked)use();else capture();});
+window.addEventListener('pointerup',e=>{if(touchLook?.id===e.pointerId)touchLook=null;});
 $('scene').addEventListener('pointermove',e=>{if(!touchLook||state!=='playing'||touchLook.id!==e.pointerId)return;yaw-=(e.clientX-touchLook.x)*.004*settings.sensitivity;pitch-=(e.clientY-touchLook.y)*.004*settings.sensitivity;touchLook.x=e.clientX;touchLook.y=e.clientY;});
 $('scene').addEventListener('contextmenu',e=>e.preventDefault());
 window.addEventListener('wheel',e=>{if(state!=='playing')return;e.preventDefault();setTool((tool+(e.deltaY>0?1:3))%4);},{passive:false});
 document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(x=>x.classList.toggle('selected',x===b));$('mode-description').textContent=mode==='relaxed'?'A gentler siege. More time to find your feet.':'A growing harvest. An even faster siege.';}));
 document.querySelectorAll('[data-tool]').forEach(b=>b.addEventListener('click',()=>setTool(Number(b.dataset.tool))));
 $('start').addEventListener('click',start);$('retry').addEventListener('click',start);
+$('capture-btn').addEventListener('click',capture);
+$('open-game').href='https://farmsiege-first-person.wotschofsky.chatgpt.site';
 $('instructions-btn').addEventListener('click',()=>openDialog('how'));$('pause-guide').addEventListener('click',()=>openDialog('how'));
 $('guide-play').addEventListener('click',()=>state==='paused'?resume():start());$('modal-close').addEventListener('click',closeDialog);
 $('resume').addEventListener('click',resume);$('pause-btn').addEventListener('click',()=>openDialog('paused'));$('quit').addEventListener('click',home);$('return-home').addEventListener('click',home);

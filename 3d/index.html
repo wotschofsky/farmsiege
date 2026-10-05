@@ -20,7 +20,7 @@
 <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
 <symbol id="i-trophy" viewBox="0 0 24 24"><path d="M7 3h10v7c0 5-10 5-10 0V3ZM7 5H3v3c0 3 2 4 5 4m9-7h4v3c0 3-2 4-5 4M12 14v6m-5 1h10"/></symbol>
 </defs></svg>
-<canvas id="scene" aria-label="First person 3D farm"></canvas><div id="vignette"></div><div id="flash"></div>
+<canvas id="scene" tabindex="-1" aria-label="First person 3D farm"></canvas><div id="vignette"></div><div id="flash"></div>
 <div id="loading"><svg class="icon"><use href="#i-seed"/></svg><p>Growing your world<span class="dots">...</span></p></div>
 <div id="fatal" hidden><h1>This field needs WebGL</h1><p id="fatal-message">Enable hardware acceleration in your browser to play FarmSiege 3D.</p><button class="primary" onclick="location.reload()">Try again</button></div>
 <header id="header"><a class="brand" href="./" aria-label="FarmSiege home"><span class="brand-mark"><svg class="icon"><use href="#i-seed"/></svg></span><span>FARM<span class="brand-light">SIEGE</span><small>FIRST PERSON EDITION</small></span></a><div class="weather"><svg class="icon"><use href="#i-sun"/></svg><span>GOLDEN HOUR</span><i></i><span>18°</span></div><div class="top-actions"><button id="sound" class="icon-btn" title="Mute sound" aria-label="Mute sound"><svg class="icon"><use href="#i-sound"/></svg></button><button id="fullscreen" class="icon-btn" title="Fullscreen" aria-label="Fullscreen"><svg class="icon"><use href="#i-full"/></svg></button><button id="settings-btn" class="icon-btn" title="Settings" aria-label="Settings"><svg class="icon"><use href="#i-gear"/></svg></button></div></header>
@@ -33,6 +33,7 @@
   <footer class="menu-footer"><div class="features"><span><b>01</b> GROW</span><span><b>02</b> TEND</span><span><b>03</b> DEFEND</span></div><span class="original">A new take on <a href="https://github.com/wotschofsky/farmsiege" target="_blank" rel="noopener">the original FarmSiege ↗</a></span></footer>
 </main>
 <div id="hud" hidden>
+  <div id="mouse-capture" hidden><div class="capture-panel"><h2>Step into the field</h2><p id="capture-message">Click to capture the mouse. Esc releases it.</p><button id="capture-btn" class="primary">Capture mouse &amp; play<svg class="icon arrow"><use href="#i-arrow"/></svg></button><a id="open-game" target="_blank" rel="noopener">Open game in its own tab ↗</a><small>Your crops and the siege wait until the mouse is captured.</small></div></div>
   <div class="score-card"><div class="stat"><span class="stat-label">HARVEST SCORE</span><strong id="score">0000</strong></div><div class="stat crop-stat"><span class="stat-label">LIVING CROPS</span><strong><svg class="icon"><use href="#i-seed"/></svg><span id="crops">3</span><small>/ 64</small></strong></div></div>
   <div id="wave-status" class="wave-status"><span class="live-dot"></span><span id="wave-text">FIRST SIEGE IN 14s</span></div>
   <div class="field-map"><div class="map-title">THE FIELD <span id="timer">00:00</span></div><canvas id="map" width="160" height="160" aria-label="Farm map"></canvas><div class="map-legend"><i></i>Crops <i></i>Pests</div></div>

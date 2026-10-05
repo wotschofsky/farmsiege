@@ -14,7 +14,9 @@ npm run build
 npx serve dist
 ```
 
-Open the server URL. Serve over localhost or HTTPS for mouse pointer lock. The game also supports drag-to-look when pointer lock is unavailable, touch controls, and basic dual-stick gamepad movement.
+Open the server URL. Serve over localhost or HTTPS for mouse pointer lock. Starting, resuming, or clicking the field captures the desktop mouse so movement turns the camera without dragging. Esc releases the mouse and pauses; click the resume button to capture it again. The game also supports touch controls and basic dual-stick gamepad movement.
+
+If an embedded preview blocks pointer lock, open the game in its own browser tab using the on-screen link. Desktop gameplay waits for mouse capture, rather than continuing with drag controls. Both event-based Firefox pointer lock and promise-based APIs are supported.
 
 ## Controls
 
