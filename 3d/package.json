@@ -1,0 +1,1 @@
+{"name":"farmsiege-3d","version":"1.0.0","private":true,"type":"module","scripts":{"build":"node build.mjs","test":"node --test test/*.test.mjs"},"dependencies":{"three":"0.180.0"},"devDependencies":{"esbuild":"0.25.10"}}
