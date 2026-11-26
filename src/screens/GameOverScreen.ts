@@ -52,6 +52,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     if (
       score <= 0 ||
       name.trim().length < 1 ||
+      /^\.\.?$/.test(name.trim()) ||
       statsStore.content.scoreSubmitted ||
       !miscStore.content.turnstileLoaded
     ) {
@@ -63,17 +64,18 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     try {
       const turnstileToken = await executeTurnstile('highscore');
 
-      await fetch('/api/submitScore', {
+      const response = await fetch('/api/submitScore', {
         method: 'POST',
         body: JSON.stringify({
           score: score,
-          name: name.trim().slice(0, 22),
+          name: name.trim().slice(0, 20),
           turnstileToken
         }),
         headers: {
           'Content-Type': 'application/json'
         }
       });
+      if (!response.ok) throw new Error('Score submission failed');
     } catch {
       statsStore.setScoreSubmitted(false);
     }
@@ -118,7 +120,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       position: (): Coordinates => new Coordinates(550, 300),
       props: (): InputProps => ({
         width: 500,
-        maxLength: 22,
+        maxLength: 20,
         placeholder: 'Enter your name and press "enter"',
         onEnter: this.submitScore
       }),

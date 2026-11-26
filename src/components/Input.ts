@@ -137,7 +137,9 @@ export default class Input extends Component<InputProps> {
           }
 
           // Key press
-          if (!this.limitReached) {
+          // Only characters the server accepts in names (see api/submitScore.ts), and only single UTF-16 units
+          // so Backspace and the length limit never split a character
+          if (!this.limitReached && event.key.length === 1 && /^[\p{L}\p{M}\p{N} _.'-]$/u.test(event.key)) {
             this.text += event.key;
           }
         },

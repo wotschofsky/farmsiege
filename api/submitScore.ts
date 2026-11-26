@@ -20,7 +20,14 @@ const validateTurnstile = async (token: string) => {
 };
 
 const schema = z.object({
-  name: z.string().min(1).max(20),
+  // Names go into the Upstash command path, where the URL parser rewrites many characters
+  // (e.g. `../../../../flushall`, `..`, trailing control characters), so only allow a safe set
+  name: z
+    .string()
+    .max(20)
+    .trim()
+    .min(1)
+    .regex(/^(?!\.\.?$)[\p{L}\p{M}\p{N} _.'-]+$/u),
   score: z.number().int().min(0),
   turnstileToken: z.string()
 });
@@ -61,6 +68,7 @@ const handler = async (request: Request) => {
 
   if (!response.ok) {
     return new Response(JSON.stringify({ success: false }), {
+      status: 500,
       headers: {
         'Content-Type': 'application/json'
       }
