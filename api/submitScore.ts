@@ -20,7 +20,12 @@ const validateTurnstile = async (token: string) => {
 };
 
 const schema = z.object({
-  name: z.string().min(1).max(20),
+  // Names go into the Upstash command path, so `/` would allow e.g. `../../../../flushall`
+  name: z
+    .string()
+    .min(1)
+    .max(20)
+    .regex(/^[^/\\?#%]+$/),
   score: z.number().int().min(0),
   turnstileToken: z.string()
 });
@@ -61,6 +66,7 @@ const handler = async (request: Request) => {
 
   if (!response.ok) {
     return new Response(JSON.stringify({ success: false }), {
+      status: 500,
       headers: {
         'Content-Type': 'application/json'
       }
