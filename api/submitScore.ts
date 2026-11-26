@@ -8,24 +8,36 @@ if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN
   throw new Error('UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set');
 }
 
-const validateRecaptcha = async (token: string) => {
-  const response = await fetch(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${token}`,
-    {
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    }
-  );
+if (!process.env.TURNSTILE_SECRET_KEY) {
+  throw new Error('TURNSTILE_SECRET_KEY must be set');
+}
+
+const validateTurnstile = async (token: string, remoteip?: string) => {
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      secret: process.env.TURNSTILE_SECRET_KEY,
+      response: token,
+      ...(remoteip ? { remoteip } : {})
+    })
+  });
+
+  if (!response.ok) {
+    return false;
+  }
+
   const json = await response.json();
 
-  return json.success && json.score >= 0.5;
+  return Boolean(json.success) && (!json.action || json.action === 'highscore');
 };
 
 const schema = z.object({
   name: z.string().min(1).max(20),
   score: z.number().int().min(0),
-  recaptcha: z.string()
+  turnstileToken: z.string().min(1)
 });
 
 const handler = async (request: Request) => {
@@ -41,17 +53,21 @@ const handler = async (request: Request) => {
     });
   }
 
-  const { name, score, recaptcha } = bodyResult.data;
+  const { name, score, turnstileToken } = bodyResult.data;
+  const remoteip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || undefined;
 
-  const validRecaptcha = await validateRecaptcha(recaptcha);
-  if (!validRecaptcha) {
+  const validTurnstile = await validateTurnstile(turnstileToken, remoteip);
+  if (!validTurnstile) {
     return new Response(
       JSON.stringify({
         success: false,
-        message: 'Invalid recaptcha'
+        message: 'Invalid turnstile token'
       }),
       {
-        status: 400
+        status: 400,
+        headers: {
+          'Content-Type': 'application/json'
+        }
       }
     );
   }

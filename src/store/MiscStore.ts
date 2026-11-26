@@ -10,7 +10,7 @@ type MiscStoreContent = {
   instructionsPage: number;
   instructionsMode: 'manual' | 'beforeGame';
   splashScreenShowing: boolean;
-  recaptchaLoaded: boolean;
+  turnstileLoaded: boolean;
   displayedTip: string;
 };
 
@@ -23,7 +23,7 @@ export default class MiscStore extends Store<MiscStoreContent> {
       instructionsPage: 1,
       instructionsMode: 'manual',
       splashScreenShowing: !searchParams.has('skipSplash'),
-      recaptchaLoaded: false,
+      turnstileLoaded: false,
       displayedTip: Random.randomElement(tips)
     });
   }
@@ -92,11 +92,11 @@ export default class MiscStore extends Store<MiscStoreContent> {
     });
   }
 
-  public setRecaptchaLoaded(): void {
+  public setTurnstileLoaded(): void {
     this.update((oldState: MiscStoreContent) => {
       const clonedState = cloneDeep(oldState);
 
-      clonedState.recaptchaLoaded = true;
+      clonedState.turnstileLoaded = true;
 
       return clonedState;
     });
