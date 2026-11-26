@@ -20,12 +20,14 @@ const validateTurnstile = async (token: string) => {
 };
 
 const schema = z.object({
-  // Names go into the Upstash command path, so `/` would allow e.g. `../../../../flushall`
+  // Names go into the Upstash command path, where the URL parser rewrites many characters
+  // (e.g. `../../../../flushall`, `..`, trailing control characters), so only allow a safe set
   name: z
     .string()
-    .min(1)
     .max(20)
-    .regex(/^[^/\\?#%]+$/),
+    .trim()
+    .min(1)
+    .regex(/^(?!\.\.?$)[\p{L}\p{M}\p{N} _.'-]+$/u),
   score: z.number().int().min(0),
   turnstileToken: z.string()
 });

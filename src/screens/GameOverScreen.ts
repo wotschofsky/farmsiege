@@ -52,6 +52,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     if (
       score <= 0 ||
       name.trim().length < 1 ||
+      /^\.\.?$/.test(name.trim()) ||
       statsStore.content.scoreSubmitted ||
       !miscStore.content.turnstileLoaded
     ) {
