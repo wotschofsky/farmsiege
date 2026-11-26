@@ -137,7 +137,7 @@ export default class Input extends Component<InputProps> {
           }
 
           // Key press
-          // ponytail: these break the Upstash command path the name is sent in
+          // These break the Upstash command path the name is sent in
           if (!this.limitReached && !'/\\?#%'.includes(event.key)) {
             this.text += event.key;
           }
