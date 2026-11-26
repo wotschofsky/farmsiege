@@ -85,7 +85,7 @@ class Game extends Component<GameProps> {
       } else {
         // When loaded, save in MiscStore
         const miscStore = <MiscStore>this.stores.misc;
-        window.turnstile.ready(miscStore.setTurnstileLoaded.bind(miscStore));
+        miscStore.setTurnstileLoaded();
       }
     });
   }
