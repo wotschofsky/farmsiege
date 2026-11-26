@@ -8,24 +8,21 @@ if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN
   throw new Error('UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set');
 }
 
-const validateRecaptcha = async (token: string) => {
-  const response = await fetch(
-    `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.RECAPTCHA_SECRET}&response=${token}`,
-    {
-      headers: {
-        'Content-type': 'application/x-www-form-urlencoded'
-      }
-    }
-  );
+const validateTurnstile = async (token: string) => {
+  const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body: new URLSearchParams({ secret: process.env.TURNSTILE_SECRET_KEY ?? '', response: token })
+  });
   const json = await response.json();
 
-  return json.success && json.score >= 0.5;
+  // Test keys return an empty action
+  return json.success && (!json.action || json.action === 'highscore');
 };
 
 const schema = z.object({
   name: z.string().min(1).max(20),
   score: z.number().int().min(0),
-  recaptcha: z.string()
+  turnstileToken: z.string()
 });
 
 const handler = async (request: Request) => {
@@ -41,14 +38,14 @@ const handler = async (request: Request) => {
     });
   }
 
-  const { name, score, recaptcha } = bodyResult.data;
+  const { name, score, turnstileToken } = bodyResult.data;
 
-  const validRecaptcha = await validateRecaptcha(recaptcha);
-  if (!validRecaptcha) {
+  const validTurnstile = await validateTurnstile(turnstileToken);
+  if (!validTurnstile) {
     return new Response(
       JSON.stringify({
         success: false,
-        message: 'Invalid recaptcha'
+        message: 'Invalid turnstile token'
       }),
       {
         status: 400

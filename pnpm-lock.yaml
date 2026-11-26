@@ -45,9 +45,6 @@ importers:
       '@types/eases':
         specifier: ^1.0.4
         version: 1.0.4
-      '@types/grecaptcha':
-        specifier: ^3.0.9
-        version: 3.0.9
       '@types/js-cookie':
         specifier: ^3.0.6
         version: 3.0.6
@@ -249,9 +246,6 @@ packages:
 
   '@types/eases@1.0.4':
     resolution: {integrity: sha512-Rp44sjeyUE6s4KpaQtPR/d4AqE9ynJ25/OHKAZbNGqvPJOiyfArsjv7JLjpPywL11Wn6paHPna0WQyR5v2+IvQ==}
-
-  '@types/grecaptcha@3.0.9':
-    resolution: {integrity: sha512-fFxMtjAvXXMYTzDFK5NpcVB7WHnrHVLl00QzEGpuFxSAC789io6M+vjcn+g5FTEamIJtJr/IHkCDsqvJxeWDyw==}
 
   '@types/js-cookie@3.0.6':
     resolution: {integrity: sha512-wkw9yd1kEXOPnvEeEV1Go1MmxtBJL0RR79aOTAApecWFVu7w0NNXNqhcWgvw2YgZDYadliXkl14pa3WXw5jlCQ==}
@@ -1099,8 +1093,6 @@ snapshots:
   '@types/core-js@2.5.8': {}
 
   '@types/eases@1.0.4': {}
-
-  '@types/grecaptcha@3.0.9': {}
 
   '@types/js-cookie@3.0.6': {}
 

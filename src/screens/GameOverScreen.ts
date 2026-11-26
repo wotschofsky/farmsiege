@@ -18,6 +18,7 @@ import MovablesStore from '../store/MovablesStore';
 import playButtonSprite from '../assets/ui/play.png';
 import ScreensStore, { Screens } from '../store/ScreensStore';
 import StatsStore from '../store/StatsStore';
+import { executeTurnstile } from '../utils/Turnstile';
 
 export type GameOverScreenProps = {};
 
@@ -52,7 +53,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       score <= 0 ||
       name.trim().length < 1 ||
       statsStore.content.scoreSubmitted ||
-      !miscStore.content.recaptchaLoaded
+      !miscStore.content.turnstileLoaded
     ) {
       return;
     }
@@ -60,16 +61,14 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     statsStore.setScoreSubmitted(true);
 
     try {
-      const recaptchaToken = await grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, {
-        action: 'highscore'
-      });
+      const turnstileToken = await executeTurnstile('highscore');
 
       await fetch('/api/submitScore', {
         method: 'POST',
         body: JSON.stringify({
           score: score,
           name: name.trim().slice(0, 22),
-          recaptcha: recaptchaToken
+          turnstileToken
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -126,7 +125,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
       show: (): boolean => {
         const statsStore = <StatsStore>this.stores.score;
         const miscStore = <MiscStore>this.stores.misc;
-        return statsStore.content.score > 0 && !statsStore.content.scoreSubmitted && miscStore.content.recaptchaLoaded;
+        return statsStore.content.score > 0 && !statsStore.content.scoreSubmitted && miscStore.content.turnstileLoaded;
       }
     },
     {

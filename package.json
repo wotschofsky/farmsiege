@@ -27,7 +27,6 @@
     "@types/clone-deep": "^4.0.4",
     "@types/core-js": "^2.5.8",
     "@types/eases": "^1.0.4",
-    "@types/grecaptcha": "^3.0.9",
     "@types/js-cookie": "^3.0.6",
     "@types/node": "^25.5.2",
     "@typescript-eslint/eslint-plugin": "^8.58.0",

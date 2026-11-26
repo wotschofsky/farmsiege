@@ -78,14 +78,14 @@ class Game extends Component<GameProps> {
       }
     });
 
-    // Load ReCaptcha script
-    load(`https://www.google.com/recaptcha/api.js?render=${import.meta.env.VITE_RECAPTCHA_SITE_KEY}`, (err) => {
+    // Load Cloudflare Turnstile script
+    load('https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit', (err) => {
       if (err) {
         console.error(err);
       } else {
         // When loaded, save in MiscStore
         const miscStore = <MiscStore>this.stores.misc;
-        grecaptcha.ready(miscStore.setRecaptchaLoaded.bind(miscStore));
+        miscStore.setTurnstileLoaded();
       }
     });
   }
