@@ -4,7 +4,6 @@ interface TurnstileRenderOptions {
   appearance?: 'always' | 'execute' | 'interaction-only';
   callback?: (token: string) => void;
   'error-callback'?: (errorCode: string) => void;
-  'expired-callback'?: () => void;
   'timeout-callback'?: () => void;
 }
 

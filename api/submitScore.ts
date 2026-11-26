@@ -8,36 +8,21 @@ if (!process.env.UPSTASH_REDIS_REST_URL || !process.env.UPSTASH_REDIS_REST_TOKEN
   throw new Error('UPSTASH_REDIS_REST_URL and UPSTASH_REDIS_REST_TOKEN must be set');
 }
 
-if (!process.env.TURNSTILE_SECRET_KEY) {
-  throw new Error('TURNSTILE_SECRET_KEY must be set');
-}
-
-const validateTurnstile = async (token: string, remoteip?: string) => {
+const validateTurnstile = async (token: string) => {
   const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      secret: process.env.TURNSTILE_SECRET_KEY,
-      response: token,
-      ...(remoteip ? { remoteip } : {})
-    })
+    body: new URLSearchParams({ secret: process.env.TURNSTILE_SECRET_KEY ?? '', response: token })
   });
-
-  if (!response.ok) {
-    return false;
-  }
-
   const json = await response.json();
 
-  return Boolean(json.success) && (!json.action || json.action === 'highscore');
+  // Test keys return an empty action
+  return json.success && (!json.action || json.action === 'highscore');
 };
 
 const schema = z.object({
   name: z.string().min(1).max(20),
   score: z.number().int().min(0),
-  turnstileToken: z.string().min(1)
+  turnstileToken: z.string()
 });
 
 const handler = async (request: Request) => {
@@ -54,9 +39,8 @@ const handler = async (request: Request) => {
   }
 
   const { name, score, turnstileToken } = bodyResult.data;
-  const remoteip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || undefined;
 
-  const validTurnstile = await validateTurnstile(turnstileToken, remoteip);
+  const validTurnstile = await validateTurnstile(turnstileToken);
   if (!validTurnstile) {
     return new Response(
       JSON.stringify({
@@ -64,10 +48,7 @@ const handler = async (request: Request) => {
         message: 'Invalid turnstile token'
       }),
       {
-        status: 400,
-        headers: {
-          'Content-Type': 'application/json'
-        }
+        status: 400
       }
     );
   }

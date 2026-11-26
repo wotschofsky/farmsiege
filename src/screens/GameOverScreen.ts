@@ -63,7 +63,7 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
     try {
       const turnstileToken = await executeTurnstile('highscore');
 
-      const response = await fetch('/api/submitScore', {
+      await fetch('/api/submitScore', {
         method: 'POST',
         body: JSON.stringify({
           score: score,
@@ -74,14 +74,8 @@ export default class GameOverScreen extends Component<GameOverScreenProps> {
           'Content-Type': 'application/json'
         }
       });
-
-      if (!response.ok) {
-        statsStore.setScoreSubmitted(false);
-        return;
-      }
     } catch {
       statsStore.setScoreSubmitted(false);
-      return;
     }
 
     const highscores = miscStore.content.highscores;
